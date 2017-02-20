@@ -11,7 +11,8 @@
 @interface ZHProgressView()
 
 
-@property (nonatomic,strong) UIView *forgroundView;
+
+
 @property (nonatomic,strong) UILabel *progressLbl;
 @property (nonatomic,assign) CGFloat w;
 
@@ -25,6 +26,7 @@
         
         UIView *backgroundV = [self viewWithColor:[UIColor colorWithHexString:@"#e1e1e1"]];
         [self addSubview:backgroundV];
+        self.backgroundView = backgroundV;
         
         self.clipsToBounds = NO;
          self.w = 150;
@@ -34,21 +36,29 @@
         backgroundV.frame = CGRectMake(0, 0, _w, 10);
         backgroundV.layer.backgroundColor = [UIColor colorWithHexString:@"#e1e1e1"].CGColor;
 
-//        [backgroundV mas_makeConstraints:^(MASConstraintMaker *make) {
-//            
-//            make.edges.equalTo(self);
-//        }];
+        [backgroundV mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.edges.equalTo(self);
+        }];
         
+        
+        
+        //前景
         UIView *forgroundView = [self viewWithColor:[UIColor zh_themeColor]];
         [self addSubview:forgroundView];
         self.forgroundView = forgroundView;
         forgroundView.frame = CGRectMake(0, 0, _w, 10);
         forgroundView.layer.backgroundColor = [UIColor zh_themeColor].CGColor;
+        [forgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.edges.equalTo(self);
+            
+        }];
 
-        self.progressLbl = [UILabel labelWithFrame:CGRectMake(forgroundView.xx + 10, 0, 30, 10)
-                                      textAligment:NSTextAlignmentLeft
-                                   backgroundColor:[UIColor whiteColor] font:FONT(11) textColor:[UIColor zh_themeColor]];
-        [self addSubview:self.progressLbl];
+//        self.progressLbl = [UILabel labelWithFrame:CGRectMake(forgroundView.xx + 10, 0, 30, 10)
+//                                      textAligment:NSTextAlignmentLeft
+//                                   backgroundColor:[UIColor whiteColor] font:FONT(11) textColor:[UIColor zh_themeColor]];
+//        [self addSubview:self.progressLbl];
     }
     return self;
 
@@ -63,7 +73,12 @@
     
     self.forgroundView.width = progress*self.w;
     
-    self.progressLbl.text = [NSString stringWithFormat:@"%.f%%",progress*100];
+    if (self.progressLbl) {
+        
+        self.progressLbl.text = [NSString stringWithFormat:@"%.f%%",progress*100];
+
+        
+    }
     
 }
 

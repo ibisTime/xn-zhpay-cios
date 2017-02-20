@@ -34,6 +34,7 @@
     ZHChatUserCell *cell = [tableV dequeueReusableCellWithIdentifier:zhChatUserCellId];
     if (!cell) {
         cell = [[ZHChatUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhChatUserCellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     cell.referral = model;
     return cell;
@@ -62,27 +63,38 @@
     //
     
     NSString *str;
+    UIColor *backgroundColor = [UIColor whiteColor];
     if ([_referral.refeereLevel isEqualToString:@"-1"]  ) {
+        
         str = @"P1";
+        backgroundColor = [UIColor colorWithHexString:@"#fc8461"];
+        
     } else if([_referral.refeereLevel isEqualToString:@"1"]) {
     
         str = @"C1";
+        backgroundColor = [UIColor colorWithHexString:@"#73cb98"];
 
     } else if ([_referral.refeereLevel isEqualToString:@"-2"]) {
     
         str = @"P2";
+        backgroundColor = [UIColor colorWithHexString:@"#f95c63"];
+
+
 
     } if ([_referral.refeereLevel isEqualToString:@"2"]) {
     
         str = @"C2";
+        backgroundColor = [UIColor colorWithHexString:@"#60d4e5"];
+
 
     }
-    CGSize size2 = [str calculateStringSize:CGSizeMake(100, 30) font:FONT(10)];
-    self.typeLbl.x = self.nameLbl.xx + 8;
-    self.typeLbl.width = size2.width + 16;
-    self.typeLbl.text = str;
     
-    //    cell.typeLbl.attributedText = [cell attStrWithStr:@"直接推荐"];
+    self.layer.backgroundColor = backgroundColor.CGColor;
+//    CGSize size2 = [str calculateStringSize:CGSizeMake(100, 30) font:FONT(10)];
+//    self.typeLbl.x = self.nameLbl.xx + 8;
+//    self.typeLbl.width = size2.width + 16;
+//    self.typeLbl.text = str;
+    
     
     EMConversation *conversion = self.referral.conversion;
     if (conversion) {
@@ -145,7 +157,7 @@
         self.nameLbl = [UILabel labelWithFrame:CGRectMake(self.iconImageV.xx + 10, 20, 10, [FONT(15) lineHeight]) textAligment:NSTextAlignmentLeft
                                backgroundColor:[UIColor clearColor]
                                           font:[UIFont secondFont]
-                                     textColor:[UIColor zh_textColor]];
+                                     textColor:[UIColor whiteColor]];
         [self addSubview:self.nameLbl];
         
 //        [self.nameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -160,7 +172,7 @@
                                backgroundColor:[UIColor whiteColor]
                                           font:FONT(10)
                                      textColor:[UIColor zh_themeColor]];
-        [self addSubview:self.typeLbl];
+//        [self addSubview:self.typeLbl];
         self.typeLbl.layer.masksToBounds = YES;
         self.typeLbl.layer.cornerRadius = [FONT(15) lineHeight]/2.0;
         self.typeLbl.layer.borderWidth = 1;
@@ -175,9 +187,9 @@
         
         //时间
         self.timeLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentLeft
-                               backgroundColor:[UIColor whiteColor]
+                               backgroundColor:[UIColor clearColor]
                                           font:FONT(11)
-                                     textColor:[UIColor zh_textColor2]];
+                                     textColor:[UIColor whiteColor]];
         [self addSubview:self.timeLbl];
         
         [self.timeLbl mas_makeConstraints:^(MASConstraintMaker *make) {

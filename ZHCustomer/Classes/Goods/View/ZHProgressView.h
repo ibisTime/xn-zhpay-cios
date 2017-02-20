@@ -12,6 +12,9 @@
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
+@property (nonatomic,strong) UIView *forgroundView;
+@property (nonatomic,strong) UIView *backgroundView;
+
 @property (nonatomic,assign) CGFloat progress;
 
 @end

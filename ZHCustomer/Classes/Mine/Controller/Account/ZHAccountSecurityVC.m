@@ -12,6 +12,10 @@
 #import "ChatManager.h"
 #import "ZHRealNameAuthVC.h"
 #import "ZHChangeNickNameVC.h"
+#import "ZHAboutUsVC.h"
+#import "ZHMsgVC.h"
+#import "ZHBankCardListVC.h"
+
 
 #define LEFT_W 100
 @interface ZHAccountSecurityVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -34,14 +38,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"账户安全";
+    self.title = @"设置";
     UITableView *tableV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49 - 64) style:UITableViewStyleGrouped];
     [self.view addSubview:tableV];
     tableV.delegate = self;
     tableV.dataSource = self;
     tableV.backgroundColor = [UIColor zh_backgroundColor];
     
-    self.names = @[@"昵称",@"手机号",@"实名认证",@"修改登录密码",@"支付密码"];
+    self.names = @[@"昵称",@"手机号",@"实名认证",@"修改登录密码",@"支付密码",@"银行卡",@"系统公告",@"关于我们"];
     
     self.nameLbl.text = [ZHUser user].nickname;
     self.mobileLbl.text = [ZHUser user].mobile;
@@ -145,6 +149,28 @@
         }
         break;
             
+        case 5: { //银行卡
+            
+            ZHBankCardListVC *vc = [[ZHBankCardListVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+        break;
+            
+        case 6: {//系统公告
+            ZHMsgVC *vc = [[ZHMsgVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        break;
+            
+        case 7: {//关于我们
+            
+            ZHAboutUsVC *vc = [[ZHAboutUsVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+        break;
+            
     }
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -229,8 +255,8 @@
         [cell addSubview:self.realNameLbl];
     }
     
-    
     cell.textLabel.text = self.names[indexPath.row];
+    
     return cell;
 
     
