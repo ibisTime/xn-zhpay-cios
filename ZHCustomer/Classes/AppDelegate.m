@@ -44,12 +44,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    UIView *v = nil;
-
-    UIViewAutoresizing
-    
-    
-    
     //设置应用环境
     [AppConfig config].runEnv = RunEnvRelease;
     
