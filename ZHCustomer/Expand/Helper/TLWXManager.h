@@ -1,0 +1,21 @@
+//
+//  TLWXManager.h
+//  ZHCustomer
+//
+//  Created by  tianlei on 2017/1/9.
+//  Copyright © 2017年  tianlei. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "WXApi.h"
+
+@interface TLWXManager : NSObject<WXApiDelegate>
+
++ (instancetype)manager;
+
+- (void)registerApp;
++ (void)wxShareWebPageWith:(NSString *)title desc:(NSString *)desc url:(NSString *)url;
+@property (nonatomic, copy) void(^wxPay)(BOOL isSuccess,int errorCode);
+@property (nonatomic, copy) void(^wxShare)(BOOL isSuccess,int errorCode);
+
+@end

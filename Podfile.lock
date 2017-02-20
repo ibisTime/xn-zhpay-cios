@@ -1,0 +1,78 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - AMap3DMap (4.5.0):
+    - AMapFoundation (~> 1.3)
+  - AMapFoundation (1.3.2)
+  - AMapLocation (2.2.2):
+    - AMapFoundation (~> 1.3)
+  - AMapNavi (2.3.0):
+    - AMap3DMap (~> 4.2)
+    - AMapFoundation (~> 1.2)
+  - HappyDNS (0.3.10)
+  - IQKeyboardManager (4.0.8)
+  - Masonry (1.0.2)
+  - MBProgressHUD (1.0.0)
+  - MJExtension (3.0.13)
+  - MJRefresh (3.1.12)
+  - Qiniu (7.1.4):
+    - AFNetworking (~> 3)
+    - HappyDNS (~> 0.3)
+  - Realm (2.1.2):
+    - Realm/Headers (= 2.1.2)
+  - Realm/Headers (2.1.2)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+  - SVProgressHUD (2.1.2)
+  - UMengAnalytics-NO-IDFA (4.1.9)
+
+DEPENDENCIES:
+  - AFNetworking
+  - AMapLocation
+  - AMapNavi
+  - IQKeyboardManager
+  - Masonry
+  - MBProgressHUD
+  - MJExtension
+  - MJRefresh
+  - Qiniu
+  - Realm
+  - SDWebImage
+  - SVProgressHUD
+  - UMengAnalytics-NO-IDFA
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  AMap3DMap: ac2a5aa9c1d689ad67a07f5925e2bbeadaff3c37
+  AMapFoundation: 843dc27b2c02bc0bc2ef3346bb3dd0456cf64dbb
+  AMapLocation: e3390d00210f088a8ba5d6a04f135c2116a39581
+  AMapNavi: 4f48c7b34275f80f3d14eff669ac739e0e190c1b
+  HappyDNS: 06a9fed2796663fd87626dbf02552933265bf059
+  IQKeyboardManager: 1a8189fa153bf09044355ee0ad36826f6767e7f7
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  Qiniu: a4c962782035ee25b9da3e195181d8c384bb75be
+  Realm: efe855f4d977c8ce5a82d3116d9f1ff155a6550c
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+  UMengAnalytics-NO-IDFA: 985292af177111685325c90c321094172b95d2cb
+
+PODFILE CHECKSUM: 96fe6b87d9413604368eb0251d524f809f7147b7
+
+COCOAPODS: 1.2.0.beta.1

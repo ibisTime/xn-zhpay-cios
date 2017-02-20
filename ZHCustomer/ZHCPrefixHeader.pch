@@ -1,0 +1,44 @@
+//
+//  ZHCPrefixHeader.pch
+//  ZHCustomer
+//
+//  Created by  tianlei on 2016/12/23.
+//  Copyright © 2016年  tianlei. All rights reserved.
+//
+#ifdef __OBJC__
+
+#ifndef ZHCPrefixHeader_pch
+#define ZHCPrefixHeader_pch
+
+#import "TLBaseVC.h"
+#import "ZHUser.h"
+
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+#import "ZHCurrencyHelper.h"
+
+#import "ZHConst.h"
+
+
+#define GOODS_PLACEHOLDER_IMG @"mall_placeholder"
+
+#define DEBUG_XN
+#ifdef DEBUG_XN // 处于开发阶段
+
+#define TLLog(...) NSLog(__VA_ARGS__)
+#define IS_PRODUCATION YES
+
+#else // 处于发布阶段
+
+#define TLLog(...)
+#define IS_PRODUCATION NO
+
+
+#endif
+
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* ZHCPrefixHeader_pch */
+#endif
