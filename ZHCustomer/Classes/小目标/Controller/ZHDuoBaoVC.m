@@ -9,11 +9,14 @@
 #import "ZHDuoBaoVC.h"
 #import "ZHDuoBaoCell.h"
 #import "ZHAwardAnnounceView.h"
+#import "ZHDuoBaoDetailVC.h"
 
 @interface ZHDuoBaoVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray<ZHAwardAnnounceView *> *awardViewRooms;
 @end
+
+
 
 @implementation ZHDuoBaoVC
 
@@ -29,6 +32,40 @@
     
     //头部
     tableView.tableHeaderView = [self tableViewHeaderView];
+    
+    
+    //
+    TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
+    helper.code = @"808310";
+    helper.limit = 3;
+    helper.parameters[@"status"] = @"0";
+    helper.tableView = tableView;
+    
+    
+    //
+    __weak typeof(self) weakSelf = self;
+    [tableView addRefreshAction:^{
+        
+        [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            
+        } failure:^(NSError *error) {
+            
+        }];
+        
+    }];
+    
+
+    
+    
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    ZHDuoBaoDetailVC *detailVC = [[ZHDuoBaoDetailVC alloc] init];
+    [self.navigationController pushViewController:detailVC animated:YES];
+
 }
 
 - (UIView *)tableViewHeaderView {

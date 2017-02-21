@@ -40,7 +40,7 @@
     }
     
 
-            self.selectedIndex = 2;
+//            self.selectedIndex = 2;
 
     //消息变更
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMsgChange) name:kUnreadMsgChangeNotification object:nil];

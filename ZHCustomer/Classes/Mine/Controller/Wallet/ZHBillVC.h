@@ -7,10 +7,12 @@
 //
 
 #import "TLBaseVC.h"
+#import "ZHCurrencyModel.h"
 
 @interface ZHBillVC : TLBaseVC
 
+@property (nonatomic,strong) ZHCurrencyModel *currencyModel;
 //账户名称
-@property (nonatomic,copy) NSString *accountNumber;
+//@property (nonatomic,copy) NSString *accountNumber;
 
 @end

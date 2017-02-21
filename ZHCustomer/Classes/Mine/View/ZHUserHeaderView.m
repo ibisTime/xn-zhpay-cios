@@ -90,13 +90,16 @@
     return self;
     
 }
-- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
     if (self.tapAction) {
         self.tapAction();
     }
 
 }
+
+
 - (void)choosePhoto {
 
     if (self.changePhoto) {

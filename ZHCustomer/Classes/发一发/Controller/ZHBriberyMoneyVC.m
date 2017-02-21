@@ -29,6 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"发一发";
+    
+    //
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"玩法介绍" style:UIBarButtonItemStylePlain target:self action:@selector(introduce)];
+    
 
     //判断是否购买了汇赚宝
     TLNetworking *http = [TLNetworking new];
@@ -59,6 +63,12 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyHZBSuccess) name:@"HZBBuySuccess" object:nil];
     
+}
+
+#pragma mark- 评论
+- (void)introduce {
+
+
 }
 
 

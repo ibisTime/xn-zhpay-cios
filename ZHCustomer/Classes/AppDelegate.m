@@ -43,7 +43,9 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    
+//    NSLog(@"%s %s",__typeof__(CGPointMake(0, 1)),@encode(CGPoint));
+    
     //设置应用环境
     [AppConfig config].runEnv = RunEnvDev;
     

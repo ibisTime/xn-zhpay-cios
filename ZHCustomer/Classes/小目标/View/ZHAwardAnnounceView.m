@@ -39,12 +39,12 @@
             make.width.mas_equalTo(@27);
         }];
         
-        //
+        //  #lalala
         self.contentLbl = [UILabel labelWithFrame:CGRectZero
                                   textAligment:NSTextAlignmentCenter
                                backgroundColor:[UIColor whiteColor]
-                                          font:FONT(10)
-                                     textColor:[UIColor colorWithHexString:@"#lalala"]];
+                                          font:FONT(12)
+                                     textColor:[UIColor zh_textColor]];
         [self addSubview:self.contentLbl];
         [self.contentLbl mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.typeLbl.mas_right).offset(6);

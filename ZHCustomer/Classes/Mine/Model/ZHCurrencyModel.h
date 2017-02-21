@@ -28,7 +28,7 @@
 @property (nonatomic,copy) NSString *type;
 @property (nonatomic,copy) NSString *userId;
 
-
+- (NSString *)getTypeName;
 //accountNumber = A2017010321173200113;
 //amount = 0;
 //createDatetime = "Jan 3, 2017 9:17:32 PM";

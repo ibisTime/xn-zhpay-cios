@@ -11,6 +11,7 @@
 #import "TLWXManager.h"
 #import <WebKit/WebKit.h>
 #import "SVProgressHUD.h"
+#import "SGQRCodeTool.h"
 
 @interface ZHAdvDetailVC ()<WKNavigationDelegate>
 
@@ -70,23 +71,36 @@
 //    webV.delegate = self;
     self.title = @"分享领奖";
     
-    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+//    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+//    
+//    WKWebView *webV = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 95) configuration:config];
+//    [self.view addSubview:webV];
+//    webV.navigationDelegate = self;
+//    NSURL *url = [NSURL URLWithString:self.hzbModel.shareUrl];
+//    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
+//    [webV loadRequest:req];
+//    
+//
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    WKWebView *webV = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 95) configuration:config];
-    [self.view addSubview:webV];
-    webV.navigationDelegate = self;
-    NSURL *url = [NSURL URLWithString:self.hzbModel.shareUrl];
-    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
-    [webV loadRequest:req];
+    UIImageView *qrImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 69, 150, 150)];
+    qrImageView.centerX = self.view.centerX;
     
     
-    UIButton *shareBtn = [UIButton zhBtnWithFrame:CGRectMake(0, webV.yy + 25, SCREEN_WIDTH - 40, 45) title:@"分享领奖"];
+
+    
+    //
+    UIButton *shareBtn = [UIButton zhBtnWithFrame:CGRectMake(0, qrImageView.yy + 90, SCREEN_WIDTH - 40, 45) title:@"分享领奖"];
     [self.view addSubview:shareBtn];
     [self.view addSubview:shareBtn];
     shareBtn.centerX = SCREEN_WIDTH/2.0;
     [shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-    
 
+    
+    //二维码
+    UIImage *image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:self.hzbModel.shareUrl imageViewWidth:SCREEN_WIDTH];
+    
+    qrImageView.image = image;
     
 }
 

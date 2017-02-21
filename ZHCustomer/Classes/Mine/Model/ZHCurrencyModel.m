@@ -18,4 +18,18 @@
 
 @implementation ZHCurrencyModel
 
+- (NSString *)getTypeName {
+
+    NSDictionary *dict = @{
+                           kFRB : @"分润",
+                           kGXB : @"贡献奖励",
+                           kQBB : @"钱包币",
+                           kGWB : @"购物币",
+                           kHBYJ : @"红包业绩",
+                           kHBB : @"红包币"
+                           };
+    
+    return dict[self.currency];
+
+}
 @end

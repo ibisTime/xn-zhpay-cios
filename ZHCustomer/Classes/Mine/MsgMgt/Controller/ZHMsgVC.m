@@ -15,15 +15,22 @@
 
 @property (nonatomic,strong) NSMutableArray <ZHMsg *> *msgs;
 @property (nonatomic,strong) TLTableView *msgTV;
+@property (nonatomic,assign) BOOL isFirst;
+
 
 @end
 
+
 @implementation ZHMsgVC
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = @"系统消息";
+    
+    self.isFirst = YES;
+    
     TLTableView *msgTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
                                                        delegate:self
                                                      dataSource:self];
@@ -89,7 +96,14 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-    [self.msgTV beginRefreshing];
+    
+    if (self.isFirst) {
+        
+        self.isFirst = NO;
+
+        [self.msgTV beginRefreshing];
+
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

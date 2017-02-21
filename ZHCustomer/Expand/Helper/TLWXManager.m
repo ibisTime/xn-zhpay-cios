@@ -59,8 +59,9 @@
     
 }
 
-+ (void)wxShareWebPageWith:(NSString *)title desc:(NSString *)desc url:(NSString *)url {
-    
+
++ (void)wxShareWebPageWithScene:(int)scene title:(NSString *)title desc:(NSString *)desc url:(NSString *)url {
+
     if (![WXApi isWXAppInstalled]) {
         
         NSLog(@"您还没有安装微信");
@@ -81,8 +82,17 @@
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
     req.bText = NO;
     req.message = message;
-    req.scene = WXSceneTimeline;
+    req.scene = scene;
     [WXApi sendReq:req];
+
+
+}
+
++ (void)wxShareWebPageWith:(NSString *)title desc:(NSString *)desc url:(NSString *)url {
+    
+    
+    [self wxShareWebPageWithScene:WXSceneTimeline title:title desc:desc url:url];
+    
 
 }
 

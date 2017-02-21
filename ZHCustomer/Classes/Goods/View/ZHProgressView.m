@@ -38,7 +38,7 @@
 
         [backgroundV mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.edges.equalTo(self);
+            make.top.left.right.bottom.equalTo(self);
         }];
         
         
@@ -51,7 +51,7 @@
         forgroundView.layer.backgroundColor = [UIColor zh_themeColor].CGColor;
         [forgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.edges.equalTo(self);
+            make.top.left.right.bottom.equalTo(self);
             
         }];
 
@@ -71,7 +71,21 @@
 //    }
     _progress = progress;
     
-    self.forgroundView.width = progress*self.w;
+    [self.forgroundView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.left.bottom.equalTo(self);
+        make.width.equalTo(self.mas_width).multipliedBy(0.5);
+//        make.width.mas_equalTo(progress*self.w);
+
+    }];
+    
+//    [self.forgroundView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.width.mas_equalTo(progress*self.w);
+//        
+//    }];
+    
+//    self.forgroundView.width = progress*self.w;
     
     if (self.progressLbl) {
         

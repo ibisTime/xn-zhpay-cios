@@ -106,9 +106,9 @@
 
 - (void)lookBill {
 
-    ZHBillVC *billVC = [[ZHBillVC alloc] init];
-    billVC.accountNumber = self.currencyModel.accountNumber;
-    [UINavigationController pushViewControllerHiddenBottomBar:billVC];
+//    ZHBillVC *billVC = [[ZHBillVC alloc] init];
+//    billVC.accountNumber = self.currencyModel.accountNumber;
+//    [UINavigationController pushViewControllerHiddenBottomBar:billVC];
 
 }
 

@@ -8,12 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "WXApi.h"
+#import "WXApiObject.h"
 
 @interface TLWXManager : NSObject<WXApiDelegate>
 
 + (instancetype)manager;
 
 - (void)registerApp;
+
++ (void)wxShareWebPageWithScene:(int)scene title:(NSString *)title desc:(NSString *)desc url:(NSString *)url;
+
 + (void)wxShareWebPageWith:(NSString *)title desc:(NSString *)desc url:(NSString *)url;
 @property (nonatomic, copy) void(^wxPay)(BOOL isSuccess,int errorCode);
 @property (nonatomic, copy) void(^wxShare)(BOOL isSuccess,int errorCode);
