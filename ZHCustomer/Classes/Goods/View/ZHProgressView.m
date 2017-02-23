@@ -74,7 +74,7 @@
     [self.forgroundView mas_remakeConstraints:^(MASConstraintMaker *make) {
         
         make.top.left.bottom.equalTo(self);
-        make.width.equalTo(self.mas_width).multipliedBy(0.5);
+        make.width.equalTo(self.mas_width).multipliedBy(progress);
 //        make.width.mas_equalTo(progress*self.w);
 
     }];

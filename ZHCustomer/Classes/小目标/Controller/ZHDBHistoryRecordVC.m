@@ -1,43 +1,42 @@
 //
-//  ZHMineDBRecordVC.m
+//  ZHDBHistoryRecordVC.m
 //  ZHCustomer
 //
-//  Created by  tianlei on 2017/2/21.
+//  Created by  tianlei on 2017/2/22.
 //  Copyright © 2017年  tianlei. All rights reserved.
 //
 
-#import "ZHMineDBRecordVC.h"
+#import "ZHDBHistoryRecordVC.h"
+#import "ZHDBHistoryModel.h"
 #import "ZHDuoBaoCell.h"
 #import "ZHMineNumberVC.h"
-#import "ZHDBHistoryModel.h"
 
-@interface ZHMineDBRecordVC ()<UITableViewDelegate,UITableViewDataSource>
-
+@interface ZHDBHistoryRecordVC ()
 
 @property (nonatomic, strong) TLTableView *historyTableView;
-@property (nonatomic, strong) NSMutableArray <ZHDBHistoryModel *>*dbHistoryRooms;
+@property (nonatomic, strong) NSMutableArray <ZHDBModel *>*dbHistoryRooms;
 @property (nonatomic, assign) BOOL isFirst;
+
 
 @end
 
-@implementation ZHMineDBRecordVC
-
+@implementation ZHDBHistoryRecordVC
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
     if (self.isFirst) {
         
         [self.historyTableView beginRefreshing];
         self.isFirst = NO;
     }
-    
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.title = @"小目标记录";
+    self.title = @"往期揭晓";
     self.isFirst = YES;
+    
     
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) delegate:self dataSource:self];
     [self.view addSubview:tableView];
@@ -48,12 +47,15 @@
     
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808315";
-    //    0待开奖，1已中奖，2未中奖
-//    helper.parameters[@"status"] = @"1";
-    helper.parameters[@"userId"] = [ZHUser user].userId;
+    helper.code = @"808310";
+//    0待开奖，1已中奖，2未中奖
+    helper.parameters[@"status"] = @"1";
+    helper.parameters[@"templateCode"] = self.dbModel.templateCode;
+//    helper.parameters[@"jewelCode"] =  self.dbModel.code;
+    
+    
     helper.tableView = tableView;
-    [helper modelClass:[ZHDBHistoryModel class]];
+    [helper modelClass:[ZHDBModel class]];
     
     //
     __weak typeof(self) weakSelf = self;
@@ -64,9 +66,12 @@
             self.dbHistoryRooms = objs;
             [weakSelf.historyTableView reloadData_tl];
             
+            
         } failure:^(NSError *error) {
             
+            
         }];
+        
         
     }];
     
@@ -77,7 +82,10 @@
             self.dbHistoryRooms = objs;
             [weakSelf.historyTableView reloadData_tl];
             
+            
+            
         } failure:^(NSError *error) {
+            
             
         }];
         
@@ -90,11 +98,14 @@
 #pragma mark- tableView delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ZHMineNumberVC *mineNumVC = [[ZHMineNumberVC alloc] init] ;
-    mineNumVC.historyModel = self.dbHistoryRooms[indexPath.row];
-    mineNumVC.isMineHistory = YES;
-    [self.navigationController pushViewController:mineNumVC animated:YES];
+    ZHMineNumberVC *mineNumberVC = [[ZHMineNumberVC alloc] init];
+    mineNumberVC.isMineHistory = NO;
     
+    ZHDBHistoryModel *historyModel = [[ZHDBHistoryModel alloc] init];
+    historyModel.jewel = self.dbHistoryRooms[indexPath.row];
+    mineNumberVC.historyModel =  historyModel;
+    
+    [self.navigationController pushViewController:mineNumberVC animated:YES];
     
 }
 
@@ -118,12 +129,11 @@
     }
     
     cell.type = @"1";
-    cell.dbModel = self.dbHistoryRooms[indexPath.row].jewel;
+    cell.dbModel = self.dbHistoryRooms[indexPath.row];
     
     return cell;
     
     
 }
-
 
 @end

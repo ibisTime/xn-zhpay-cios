@@ -12,6 +12,10 @@
 #import "ZHDuoBaoInfoCell.h"
 #import "ZHDuoBaoRecordCell.h"
 #import "ZHIntroduceVC.h"
+#import "ZHPayVC.h"
+#import "ZHUserLoginVC.h"
+#import "ZHDBHistoryModel.h"
+#import "ZHDBHistoryRecordVC.h"
 
 
 @interface ZHDuoBaoDetailVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -30,18 +34,38 @@
 
 @property (nonatomic,strong) UIView *recordHeaderView;
 @property (nonatomic,strong) UILabel *timeLbl;
-
 @property (nonatomic,strong) UIView *buyToolView;
-
 @property (nonatomic,strong) UILabel *totalPriceLbl;
+@property (nonatomic, assign) BOOL isFirst;
+@property (nonatomic, assign) NSInteger start;
+
+
+
+
+@property (nonatomic, strong) NSMutableArray <ZHDBHistoryModel *>*dbHistoryRooms;
+
 
 @end
 
 
 @implementation ZHDuoBaoDetailVC
 
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    if (self.isFirst) {
+        
+       [self loadMoreRecorder];
+        self.isFirst = NO;
+        
+    }
+
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.isFirst = YES;
+    self.start = 1;
     
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
     [self.view addSubview:tableView];
@@ -50,13 +74,37 @@
     tableView.backgroundColor = [UIColor zh_backgroundColor];
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无商品"];
     
-    //底部工具栏
-//    ZHBuyToolView *buyToolView = [[ZHBuyToolView alloc] initWithFrame:CGRectMake(0, tableView.yy, SCREEN_WIDTH, 49)];
-//    buyToolView.type = ZHBuyTypeLookForTreasure;
+    //
+    __weak typeof(self) weakSelf = self;
+    [tableView addRefreshAction:^{
+       
+        TLNetworking *http = [TLNetworking new];
+        http.code = @"808312";
+        http.parameters[@"code"] = self.dbModel.code;
+        [http postWithSuccess:^(id responseObject) {
+            
+            self.dbModel = [ZHDBModel tl_objectWithDictionary:responseObject[@"data"]];
+            [weakSelf.detailTableView endRefreshHeader];
+            [weakSelf data];
+            
+        } failure:^(NSError *error) {
+            
+            [weakSelf.detailTableView endRefreshHeader];
+
+            
+        }];
+        
+    }];
     
+    
+    [tableView addLoadMoreAction:^{
+        
+        [self loadMoreRecorder];
+        
+    }];
+
     self.buyToolView.y = tableView.yy;
     [self.view addSubview:self.buyToolView];
-    
     
     //头部
     [self tableViewHeaderView];
@@ -69,30 +117,111 @@
     self.countChangeView.countChange = ^(NSUInteger count){
     
         //
-       weakself.totalPriceLbl.text = @"开始计算价格";
+       weakself.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:count];
     
     };
+    
     
     self.countChangeView.buyAllAction = ^(){
     
-        weakself.totalPriceLbl.text = @"买光";
-
+        NSInteger count = [weakself.dbModel getSurplusPeople];
+        weakself.countChangeView.count = count;
+        weakself.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:count];
+        
     };
     
     [self data];
+    self.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:1];
     
+
 }
+
+- (NSMutableArray<ZHDBHistoryModel *> *)dbHistoryRooms {
+
+    if (!_dbHistoryRooms) {
+        
+        _dbHistoryRooms = [[NSMutableArray alloc] init];
+        
+    }
+    return _dbHistoryRooms;
+
+}
+
+
+- (void)loadMoreRecorder {
+
+    __weak typeof(self) weakSelf = self;
+    
+#pragma mark- 获得参与记录
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"808315";
+    http.parameters[@"jewelCode"] = self.dbModel.code;
+    http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
+    http.parameters[@"limit"] = @"20";
+    [http postWithSuccess:^(id responseObject) {
+        
+        NSArray *arr = responseObject[@"data"][@"list"];
+        if (arr.count > 0) {
+           
+            [weakSelf.dbHistoryRooms addObjectsFromArray:[ZHDBHistoryModel tl_objectArrayWithDictionaryArray:arr]];
+            
+            weakSelf.timeLbl.text = [weakSelf.dbHistoryRooms[0].investDatetime convertToDetailDate];
+            
+
+            [weakSelf.detailTableView endRefreshFooter];
+            [weakSelf.detailTableView reloadData];
+            self.start ++;
+            
+        } else {
+        
+           [weakSelf.detailTableView endRefreshingWithNoMoreData_tl];
+
+        }
+        
+        
+    } failure:^(NSError *error) {
+        
+        [weakSelf.detailTableView endRefreshFooter];
+        [weakSelf.detailTableView reloadData];
+        
+        
+    }];
+
+}
+
 
 //-----//
 - (void)data {
 
-    self.bannerView.imgUrls = @[@"http://pic.35pic.com/normal/09/36/49/4499633_230627095337_2.jpg"];
-    self.priceLbl.text = @"1000分润";
-    self.numberLbl.text = @"期号：382409283094";
-    self.progressView.progress  = 0.433;
-    self.totalCountLbl.text = @"总需100人次";
-    self.surplusCountLbl.text = @"剩余 20";
+    self.bannerView.imgUrls = @[[self.dbModel.advPic convertImageUrl]];
     
+//  @[@"http://pic.35pic.com/normal/09/36/49/4499633_230627095337_2.jpg"];
+    
+    self.priceLbl.text = [self.dbModel getPriceDetail];
+    self.numberLbl.text = [NSString  stringWithFormat:@"期号: %@",self.dbModel.periods];
+    self.progressView.progress  = [self.dbModel getProgress];
+    self.totalCountLbl.text = [NSString stringWithFormat:@"总需 %@ 人次",self.dbModel.totalNum];
+    
+    
+    self.surplusCountLbl.text = [NSString stringWithFormat:@"剩余 %ld",[self.dbModel getSurplusPeople]];
+    
+    
+    
+    NSString *animStr = [NSString stringWithFormat:@"总需 %@ 人次",self.dbModel.totalNum];
+    self.totalCountLbl.attributedText = [self convertStrWithStr:animStr value:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]} range:NSMakeRange(3, [NSString stringWithFormat:@"%@",self.dbModel.totalNum].length)];
+    
+    self.surplusCountLbl.attributedText =  [self convertStrWithStr:[NSString stringWithFormat:@"剩余 %ld",[self.dbModel getSurplusPeople]] value:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]}
+                                                                                       range:NSMakeRange(3, [NSString stringWithFormat:@"%ld",[self.dbModel getSurplusPeople]].length)];
+
+}
+
+- (NSMutableAttributedString *)convertStrWithStr:(NSString *)str value:(NSDictionary <NSString *, id>*)keyAttrValue range:(NSRange )range {
+
+    
+    NSMutableAttributedString *attrstr = [[NSMutableAttributedString alloc] initWithString:str];
+    [attrstr addAttributes:keyAttrValue range:range];
+    
+    return attrstr;
 
 }
 
@@ -103,12 +232,66 @@
 
 }
 
-//购买行文
+#pragma mark- 购买行为
 - (void)buyAction {
 
-    self.totalPriceLbl.text = @"点击购买";
+    if (![ZHUser user].isLogin) {
+        
+        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        [self presentViewController:nav animated:YES completion:nil];
+        loginVC.loginSuccess = ^(){
+        };
+        return;
+    }
+    
+    
+    //mask
+    UIControl *maskCtrl = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [maskCtrl addTarget:self action:@selector(deleteMask:) forControlEvents:UIControlEventTouchUpInside];
+    maskCtrl.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.65];
+    [[UIApplication sharedApplication].keyWindow addSubview:maskCtrl];
+    
+    UIButton *readBtn = [UIButton zhBtnWithFrame:CGRectMake(20, SCREEN_HEIGHT - 85, SCREEN_WIDTH - 40, 45) title:@"我已阅读"];
+    [readBtn addTarget:self action:@selector(readed:) forControlEvents:UIControlEventTouchUpInside];
+    [maskCtrl addSubview:readBtn];
 
 }
+
+
+- (void)readed:(UIButton *)btn {
+
+    [(UIControl *)btn.nextResponder removeFromSuperview];
+    
+    ZHPayVC *payVC = [[ZHPayVC alloc] init];
+    
+    payVC.type = ZHPayVCTypeNewYYDB;
+    
+    self.dbModel.count = self.countChangeView.count;
+    payVC.dbModel = self.dbModel;
+    payVC.amoutAttr = self.totalPriceLbl.attributedText; //展示
+    payVC.orderAmount = @([self.dbModel.price longLongValue]*self.countChangeView.count);
+    payVC.paySucces = ^(){
+        
+        //刷新信息
+        
+        [self.detailTableView beginRefreshing];
+        
+    };
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+    
+    [self presentViewController:nav animated:YES completion:nil];
+
+
+}
+
+- (void)deleteMask:(UIControl *)ctrl {
+
+    [ctrl removeFromSuperview];
+
+}
+
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -121,10 +304,14 @@
             
         } else {
         
-        
+            ZHDBHistoryRecordVC *vc = [[ZHDBHistoryRecordVC alloc] init];
+            vc.dbModel = self.dbModel;
+            [self.navigationController pushViewController:vc animated:YES];
         }
 
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
 }
 
@@ -155,7 +342,7 @@
         [buyBtn addTarget:self action:@selector(buyAction) forControlEvents:UIControlEventTouchUpInside];
         
 //        //价格
-        UILabel *priceLbl = [UILabel labelWithFrame:CGRectMake(hintLbl.xx + 22, 0, SCREEN_WIDTH - hintLbl.xx - 22 - buyBtn.width, _buyToolView.height)
+        UILabel *priceLbl = [UILabel labelWithFrame:CGRectMake(hintLbl.xx + 0, 0, SCREEN_WIDTH - hintLbl.xx - 0 - buyBtn.width, _buyToolView.height)
                                       textAligment:NSTextAlignmentLeft
                                    backgroundColor:[UIColor clearColor]
                                               font:FONT(16)
@@ -164,6 +351,11 @@
         self.totalPriceLbl = priceLbl;
         
    
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - buyBtn.width, 1)];
+        line.backgroundColor = [UIColor zh_lineColor];
+        [_buyToolView addSubview:line];
+ 
         
 //        //约束
 //        [priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -211,9 +403,6 @@
                                           font:FONT(12)
                                      textColor:[UIColor colorWithHexString:@"#999999"]];
         [_recordHeaderView addSubview:self.timeLbl];
-        self.timeLbl.text = @"2017-33-23 :开始";
-
-        
         
         [self.timeLbl mas_makeConstraints:^(MASConstraintMaker *make) {
             
@@ -343,7 +532,7 @@
     
 }
 
-
+#pragma mark- dataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
     return 2;
@@ -353,8 +542,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return section == 0 ? 2 : 10;
+    return section == 0 ? 2 :  self.dbHistoryRooms.count;
 
+    
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -365,7 +555,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return indexPath.section == 0 ? 45 : 64;
+    return indexPath.section == 0 ? 45 : 67;
 }
 
 
@@ -392,6 +582,9 @@
         cell = [[ZHDuoBaoRecordCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhDuoBaoRecordCell];
         
     }
+    
+    cell.historyModel = self.dbHistoryRooms[indexPath.row];
+    
     return cell;
     
 

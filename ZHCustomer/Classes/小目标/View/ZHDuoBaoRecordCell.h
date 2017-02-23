@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZHDBHistoryModel.h"
 
 @interface ZHDuoBaoRecordCell : UITableViewCell
+
+@property (nonatomic,strong) ZHDBHistoryModel *historyModel;
 
 @end

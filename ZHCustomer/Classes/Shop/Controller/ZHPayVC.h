@@ -13,6 +13,7 @@
 #import "ZHPaySceneManager.h"
 #import "ZHHZBModel.h"
 #import "ZHTreasureModel.h"
+#import "ZHDBModel.h"
 
 typedef NS_ENUM(NSInteger,ZHPayVCType){
 
@@ -20,7 +21,8 @@ typedef NS_ENUM(NSInteger,ZHPayVCType){
     ZHPayVCTypeGoods, //商品购买
     ZHPayVCTypeMonthCard, //福利月卡
     ZHPayVCTypeHZB, //汇赚宝
-    ZHPayVCTypeYYDB //一元夺宝
+    ZHPayVCTypeYYDB, //一元夺宝
+    ZHPayVCTypeNewYYDB //2.0版本的一元夺宝
 
 };
 @interface ZHPayVC : TLBaseVC
@@ -53,6 +55,9 @@ typedef NS_ENUM(NSInteger,ZHPayVCType){
 
 //一元夺宝所需要的支付模型
 @property (nonatomic,strong) ZHTreasureModel *treasureModel;
+
+//2.0一元夺宝所需要的支付模型
+@property (nonatomic,strong) ZHDBModel *dbModel;
 
 
 @end

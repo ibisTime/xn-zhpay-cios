@@ -7,7 +7,13 @@
 //
 
 #import "TLBaseVC.h"
+#import "ZHDBHistoryModel.h"
 
 @interface ZHMineNumberVC : TLBaseVC
+
+@property (nonatomic, strong) ZHDBHistoryModel *historyModel;
+
+@property (nonatomic, assign) BOOL isMineHistory;
+
 
 @end

@@ -358,6 +358,9 @@
 		2EC2AE821E0CFEEB003EF503 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC2AE811E0CFEEA003EF503 /* libz.tbd */; };
 		2EC2AE841E0CFEF5003EF503 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC2AE831E0CFEF5003EF503 /* libstdc++.6.0.9.tbd */; };
 		2EC2AE861E0CFF00003EF503 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC2AE851E0CFF00003EF503 /* libsqlite3.tbd */; };
+		2EC6025C1E5D2C080066C197 /* ZHDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6025B1E5D2C080066C197 /* ZHDBModel.m */; };
+		2EC6025F1E5D61670066C197 /* ZHDBHistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6025E1E5D61670066C197 /* ZHDBHistoryModel.m */; };
+		2EC602621E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602611E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m */; };
 		2EC96AFF1E26295C0079165A /* ZHTreasureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC96AFE1E26295C0079165A /* ZHTreasureModel.m */; };
 		2EC96B031E271F780079165A /* ZHMineTreasureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC96B021E271F780079165A /* ZHMineTreasureModel.m */; };
 		2EC96B091E2721EC0079165A /* ZHMineTreasureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC96B081E2721EC0079165A /* ZHMineTreasureCell.m */; };
@@ -1079,6 +1082,12 @@
 		2EC2AE811E0CFEEA003EF503 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2EC2AE831E0CFEF5003EF503 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		2EC2AE851E0CFF00003EF503 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		2EC6025A1E5D2C080066C197 /* ZHDBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDBModel.h; sourceTree = "<group>"; };
+		2EC6025B1E5D2C080066C197 /* ZHDBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDBModel.m; sourceTree = "<group>"; };
+		2EC6025D1E5D61670066C197 /* ZHDBHistoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDBHistoryModel.h; sourceTree = "<group>"; };
+		2EC6025E1E5D61670066C197 /* ZHDBHistoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDBHistoryModel.m; sourceTree = "<group>"; };
+		2EC602601E5D7D4A0066C197 /* ZHDBHistoryRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDBHistoryRecordVC.h; sourceTree = "<group>"; };
+		2EC602611E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDBHistoryRecordVC.m; sourceTree = "<group>"; };
 		2EC96AFD1E26295C0079165A /* ZHTreasureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHTreasureModel.h; sourceTree = "<group>"; };
 		2EC96AFE1E26295C0079165A /* ZHTreasureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHTreasureModel.m; sourceTree = "<group>"; };
 		2EC96B011E271F780079165A /* ZHMineTreasureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMineTreasureModel.h; sourceTree = "<group>"; };
@@ -1820,6 +1829,8 @@
 				2E16D0141E5BD6D00029B0A5 /* ZHDuoBaoDetailVC.m */,
 				2E16D01F1E5C2C140029B0A5 /* ZHIntroduceVC.h */,
 				2E16D0201E5C2C140029B0A5 /* ZHIntroduceVC.m */,
+				2EC602601E5D7D4A0066C197 /* ZHDBHistoryRecordVC.h */,
+				2EC602611E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1827,6 +1838,10 @@
 		2E69088B1E5AD4DF003D3C69 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2EC6025A1E5D2C080066C197 /* ZHDBModel.h */,
+				2EC6025B1E5D2C080066C197 /* ZHDBModel.m */,
+				2EC6025D1E5D61670066C197 /* ZHDBHistoryModel.h */,
+				2EC6025E1E5D61670066C197 /* ZHDBHistoryModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3255,6 +3270,7 @@
 				2E6E48411E1A8A6300FD2CA7 /* ZHCategoryModel.m in Sources */,
 				2EF9DBFE1E1C95A8005E2943 /* ZHChatMerchantCell.m in Sources */,
 				2E1762A11E23286300CAE489 /* FCUUID.m in Sources */,
+				2EC6025C1E5D2C080066C197 /* ZHDBModel.m in Sources */,
 				2EC2AE6D1E0CF5B3003EF503 /* ZHUserRegistVC.m in Sources */,
 				2E11982F1E2F9E1400879365 /* ZHTreasureRecord.m in Sources */,
 				2E2265A31E4DACB200C7126E /* EaseSDKHelper.m in Sources */,
@@ -3383,6 +3399,7 @@
 				2E22655C1E4DACB100C7126E /* EMAudioRecorderUtil.m in Sources */,
 				2E16D02B1E5C4B870029B0A5 /* ZHCurrencyConvertView.m in Sources */,
 				2EC2AE6C1E0CF5B3003EF503 /* ZHUserLoginVC.m in Sources */,
+				2EC602621E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m in Sources */,
 				2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */,
 				2EC2ADCE1E0CF55A003EF503 /* PYPhoto.m in Sources */,
 				2E2265971E4DACB200C7126E /* PSTCollectionViewCell.m in Sources */,
@@ -3429,6 +3446,7 @@
 				2E22659B1E4DACB200C7126E /* PSTCollectionViewItemKey.m in Sources */,
 				2E6E47AA1E126B9800FD2CA7 /* ZHImmediateBuyVC.m in Sources */,
 				2E1762B41E23727800CAE489 /* ZHHZBListVC.m in Sources */,
+				2EC6025F1E5D61670066C197 /* ZHDBHistoryModel.m in Sources */,
 				2EC2AE451E0CF55A003EF503 /* TLNetworking.m in Sources */,
 				2EC2ADCB1E0CF55A003EF503 /* PYPhotosPreviewController.m in Sources */,
 				2E6E482B1E165ECB00FD2CA7 /* ZHShoppingListCategoryVC.m in Sources */,

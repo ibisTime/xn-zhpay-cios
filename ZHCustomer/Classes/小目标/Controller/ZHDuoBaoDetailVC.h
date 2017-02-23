@@ -7,7 +7,11 @@
 //
 
 #import "TLBaseVC.h"
+#import "ZHDBModel.h"
 
 @interface ZHDuoBaoDetailVC : TLBaseVC
+
+@property (nonatomic,strong) ZHDBModel *dbModel;
+
 
 @end

@@ -10,8 +10,7 @@
 
 @interface ZHAwardAnnounceView ()
 
-@property (nonatomic, strong) UILabel *typeLbl;
-@property (nonatomic, strong) UILabel *contentLbl;
+
 
 @end
 

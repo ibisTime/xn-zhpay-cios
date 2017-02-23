@@ -66,6 +66,7 @@
         return;
     }
 
+    //只能使用 --- 人民币 或者 ---分润----- 购买
     ZHPayVC *payVC = [[ZHPayVC alloc] init];
     payVC.type = ZHPayVCTypeHZB;
     payVC.paySucces = ^(){

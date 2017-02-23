@@ -29,6 +29,24 @@
 
 @implementation ZHDuoBaoCell
 
+- (void)setDbModel:(ZHDBModel *)dbModel {
+
+    _dbModel = dbModel;
+    
+    self.priceLbl.text = [_dbModel getPriceDetail];
+    
+    self.numberLbl.text = [NSString stringWithFormat:@"第 %@ 期",_dbModel.periods];
+    
+    self.progressView.progress = [_dbModel getProgress];
+    
+
+    self.accountView.bottomLbl.text = [NSString stringWithFormat:@"%@",_dbModel.totalNum];
+    self.surplusView.bottomLbl.text = [NSString stringWithFormat:@"%ld",[_dbModel getSurplusPeople]];
+    self.priceView.bottomLbl.text = [_dbModel.price convertToSimpleRealMoney];
+    
+
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -132,10 +150,13 @@
         }];
         
         
+        //
+        self.accountView.topLbl.text = @"总需人次";
+        self.surplusView.topLbl.text = @"剩余人次";
+        self.priceView.topLbl.text = @"单价";
     
         
     }
-    [self data];
     return self;
     
 }
@@ -143,20 +164,7 @@
 - (void)data {
 
     //
-    self.priceLbl.text = @"100分润";
-    self.numberLbl.text = @"第1213期";
-    self.progressView.progress = 0.99;
-    
-    
-    //
-    self.accountView.topLbl.text = @"总需人次";
-    self.surplusView.topLbl.text = @"剩余人次";
-    self.priceView.topLbl.text = @"单价";
-    
-    
-    self.accountView.bottomLbl.text = @"100";
-    self.surplusView.bottomLbl.text = @"90";
-    self.priceView.bottomLbl.text = @"20000";
+
 }
 
 

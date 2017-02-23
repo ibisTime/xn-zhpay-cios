@@ -43,4 +43,6 @@
 
 + (NSAttributedString *)QBBWithBouns:(CGRect)bouns;
 
++ (NSAttributedString *)totalRMBWithPrice:(NSNumber *)price count:(NSInteger)count;
+
 @end

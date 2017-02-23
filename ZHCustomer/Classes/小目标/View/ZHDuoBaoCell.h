@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZHDBModel.h"
 
 @interface ZHDuoBaoCell : UITableViewCell
 
 @property (nonatomic,strong) NSString *type;
+@property (nonatomic,strong) ZHDBModel *dbModel;
 
 @end

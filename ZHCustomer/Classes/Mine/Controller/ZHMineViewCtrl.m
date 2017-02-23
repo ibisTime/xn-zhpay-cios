@@ -20,6 +20,7 @@
 #import "ZHBillVC.h"
 #import "ZHMineDBRecordVC.h"
 #import "TLWXManager.h"
+#import "SGQRCodeTool.h"
 
 
 @interface ZHMineViewCtrl ()<UITableViewDataSource,UITableViewDelegate>
@@ -240,6 +241,18 @@
     
     [[UIApplication sharedApplication].keyWindow addSubview:maskCtrl];
     
+    //添加二维码
+    UIImageView *qrImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 69, 200, 200)];
+    qrImageView.layer.cornerRadius = 5;
+    qrImageView.clipsToBounds = YES;
+    qrImageView.center = self.view.center;
+    qrImageView.centerY = qrImageView.centerY - 40;
+    [maskCtrl addSubview:qrImageView];
+    
+    //二维码
+    UIImage *image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:@"我的号码" imageViewWidth:SCREEN_WIDTH];
+    qrImageView.image = image;
+    
     //分享界面
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 139 - 54, SCREEN_WIDTH, 139 + 54)];
     bgView.backgroundColor = [UIColor colorWithHexString:@"#dcdbdb"];
@@ -260,7 +273,6 @@
     }];
     
     //分享给好友
-    
     CGFloat w = 50;
     UIButton *shareFriendBtn = [[UIButton alloc] init];
     [shareFriendBtn setImage:[UIImage imageNamed:@"朋友圈"] forState:UIControlStateNormal];
