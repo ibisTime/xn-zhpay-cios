@@ -8,6 +8,8 @@
 
 #import "ZHBuyHZBVC.h"
 #import "ZHPayVC.h"
+#import "ZHNewPayVC.h"
+
 #import "ZHHZBModel.h"
 #import "ZHRealNameAuthVC.h"
 
@@ -67,8 +69,11 @@
     }
 
     //只能使用 --- 人民币 或者 ---分润----- 购买
-    ZHPayVC *payVC = [[ZHPayVC alloc] init];
-    payVC.type = ZHPayVCTypeHZB;
+//    ZHPayVC *payVC = [[ZHPayVC alloc] init];
+//    payVC.type = ZHPayVCTypeHZB;
+    
+    ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
+    payVC.type = ZHPayViewCtrlTypeHZB;
     payVC.paySucces = ^(){
         
 //        [self.navigationController popViewControllerAnimated:YES];

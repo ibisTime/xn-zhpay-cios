@@ -95,7 +95,7 @@
     //未登录
     UINavigationController *mineNav = tabBarController.viewControllers[4];
     UINavigationController *chatNav = tabBarController.viewControllers[3];
-//    UINavigationController *shakeItOfNav = tabBarController.viewControllers[2];
+    UINavigationController *sendToSendNav = tabBarController.viewControllers[1];
 
 
     if ([mineNav isEqual:viewController]) {
@@ -123,12 +123,25 @@
         [self presentViewController:nav animated:YES completion:nil];
         return NO;
         
+    } else if([sendToSendNav isEqual:viewController]) {
+        
+        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        loginVC.loginSuccess = ^(){
+            
+            self.selectedIndex = 1;
+            
+        };
+        [self presentViewController:nav animated:YES completion:nil];
+        
+    
+        return NO;
     } else {
     
         return YES;
     }
 
-    
+
 }
 
 - (void)addChildVCWithTitle:(NSString *)title

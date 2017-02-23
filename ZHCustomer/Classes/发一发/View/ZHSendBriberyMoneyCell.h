@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ZHBriberyMoney;
 
 @interface ZHSendBriberyMoneyCell : UITableViewCell
+
+@property (nonatomic, strong) ZHBriberyMoney *briberMoney;
 
 @end

@@ -10,6 +10,7 @@
 #import "ZHBuyHZBVC.h"
 #import "ZHBusinessCardView.h"
 #import "ZHHZBModel.h"
+#import "ZHBriberyMoneyVC.h"
 
 #import <Photos/Photos.h>
 #import "SGAlertView.h"
@@ -104,7 +105,7 @@
 
 - (void)setUpUI {
 
-    UIScrollView *bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
+    UIScrollView *bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 65)];
     [self.view addSubview:bgScrollView];
 //    bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     //
@@ -129,7 +130,21 @@
     
     numTf.text = [NSString stringWithFormat:@"%@ 次",self.HZBModel.totalRockNum];
 
+    //发红包Btn
+    UIButton *sendBtn = [UIButton zhBtnWithFrame:CGRectMake(20,bgScrollView.yy , SCREEN_WIDTH - 40, 45) title:@"发定向红包"];
+    [self.view addSubview:sendBtn];
+    [sendBtn addTarget:self action:@selector(sendBriberyMoney) forControlEvents:UIControlEventTouchUpInside];
+    
 }
+
+- (void)sendBriberyMoney {
+
+    ZHBriberyMoneyVC *vc = [[ZHBriberyMoneyVC alloc] init];
+    vc.displayType = ZHBriberyMoneyVCTypeSecondUI;
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
 
 - (TLTextField *)tfByframe:(CGRect)frame
                  leftTitle:(NSString *)leftTitle

@@ -77,6 +77,7 @@
     message.title = title;
     message.description = desc;
     message.mediaObject = webObj;
+    [message setThumbImage:[UIImage imageNamed:@"zh_icon"]];
     
     //
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];

@@ -13,6 +13,8 @@
 #import "ZHDuoBaoRecordCell.h"
 #import "ZHIntroduceVC.h"
 #import "ZHPayVC.h"
+#import "ZHNewPayVC.h"
+
 #import "ZHUserLoginVC.h"
 #import "ZHDBHistoryModel.h"
 #import "ZHDBHistoryRecordVC.h"
@@ -263,9 +265,11 @@
 
     [(UIControl *)btn.nextResponder removeFromSuperview];
     
-    ZHPayVC *payVC = [[ZHPayVC alloc] init];
-    
-    payVC.type = ZHPayVCTypeNewYYDB;
+//    ZHPayVC *payVC = [[ZHPayVC alloc] init];
+//    payVC.type = ZHPayVCTypeNewYYDB;
+
+    ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
+    payVC.type = ZHPayViewCtrlTypeNewYYDB;
     
     self.dbModel.count = self.countChangeView.count;
     payVC.dbModel = self.dbModel;

@@ -80,7 +80,6 @@
 
 - (void)buySuccess {
 
-
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     http.code = @"808406";
@@ -177,7 +176,6 @@
     }
     
     //
-    
     UIScrollView *bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
     [self.view addSubview:bgScrollView];
     bgScrollView.backgroundColor = [UIColor zh_backgroundColor];
@@ -186,9 +184,7 @@
     UIView *headerV = [self headerView];
     [bgScrollView addSubview:headerV];
     
-    
 
-    
     UIView *lastV;
     for (NSInteger i = 0; i < contents.count; i++) {
         
@@ -210,6 +206,7 @@
         }
         
     }
+    
     
     UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(LEFT_MARGIN, lastV.yy + 30, SCREEN_WIDTH - LEFT_MARGIN * 2, 45) title:@"签到领奖"];
     [bgScrollView addSubview:btn];

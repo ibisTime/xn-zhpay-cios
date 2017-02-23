@@ -7,6 +7,7 @@
 //
 
 #import "ZHSendBriberyMoneyCell.h"
+#import "ZHBriberyMoney.h"
 
 @interface ZHSendBriberyMoneyCell()
 
@@ -20,6 +21,42 @@
 @end
 
 @implementation ZHSendBriberyMoneyCell
+
+
+- (void)setBriberMoney:(ZHBriberyMoney *)briberMoney {
+
+    _briberMoney = briberMoney;
+    
+    //待领取背景 已领取背景
+    ZHBriberyMoneyStatus status = _briberMoney.status;
+    NSString *receiverText;
+    if (status == ZHBriberyMoneyStatusUnSend) {
+        
+        self.bgImageV.image = [UIImage imageNamed:@"未发送背景"];
+        receiverText = @"未发送";
+
+
+    } else if(status == ZHBriberyMoneyStatusUnReceive) {
+    
+        self.bgImageV.image = [UIImage imageNamed:@"待领取背景"];
+        receiverText = @"已发送,未领取";
+
+    } else if (status == ZHBriberyMoneyStatusReceiverd ) { //已领取
+    
+        self.bgImageV.image = [UIImage imageNamed:@"已领取背景"];
+        receiverText = [NSString stringWithFormat:@"领取人:%@",_briberMoney.receiver];
+
+    } else if (status == ZHBriberyMoneyStatusOutOfDate) { //过期
+        
+    
+    }
+    
+    self.receiverPeopleLbl.text = receiverText;
+    self.nameLbl.text = _briberMoney.advTitle;
+    self.numberLbl.text = [NSString stringWithFormat:@"红包编号%@",_briberMoney.code];
+        
+}
+
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 
@@ -76,7 +113,6 @@
         
     }
     
-    [self data];
     
     return self;
 
@@ -84,15 +120,11 @@
 
 - (void)data {
 
-    //待领取背景 已领取背景
-    self.bgImageV.image = [UIImage imageNamed:@"未发送背景"];
-    self.nameLbl.text = @"一元红包，小小信息";
-    self.numberLbl.text = @"红包编号：200032";
-    self.receiverPeopleLbl.text = @"领取人：SB";
 
-    
 
 }
+
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

@@ -21,7 +21,7 @@
 #import "ZHMineDBRecordVC.h"
 #import "TLWXManager.h"
 #import "SGQRCodeTool.h"
-
+#import "ZHBriberyMoneyVC.h"
 
 @interface ZHMineViewCtrl ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -447,6 +447,7 @@
     item01.action = ^(){
         //
         ZHHZBVC *vc = [ZHHZBVC new];
+    
         [weakself.navigationController pushViewController:vc animated:YES];
         
     };
@@ -456,6 +457,9 @@
     item02.text = @"发一发";
     item02.action = ^(){
         
+        ZHBriberyMoneyVC *vc = [[ZHBriberyMoneyVC alloc] init];
+        vc.displayType = ZHBriberyMoneyVCTypeSecondUI;
+        [self.navigationController pushViewController:vc animated:YES];
       
     };
     

@@ -83,8 +83,10 @@
 //
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIImageView *qrImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 69, 150, 150)];
+    UIImageView *qrImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 80, 190, 190)];
     qrImageView.centerX = self.view.centerX;
+    
+    [self.view addSubview:qrImageView];
     
     
 

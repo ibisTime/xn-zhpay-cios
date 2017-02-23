@@ -9,12 +9,15 @@
 #import "ZHBriberyMoneyVC.h"
 #import "ZHBuyHZBVC.h"
 #import "ZHSendBriberyMoneyCell.h"
+#import "ZHBriberyMoney.h"
+#import "TLWXManager.h"
 
 @interface ZHBriberyMoneyVC ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) UIImageView *bgImageV;
 @property (nonatomic, strong) TLTableView *briberyMoneyTableV;
-@property (nonatomic,strong) NSMutableArray *briberyMoneyRooms;
+@property (nonatomic,strong) NSMutableArray <ZHBriberyMoney *>*briberyMoneyRooms;
+@property (nonatomic, assign) BOOL isFirst;
 
 @end
 
@@ -26,43 +29,82 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+//    if ([self.displayType isEqualToString:@"goFromHZB"] && self.isFirst) {
+//        [self.briberyMoneyTableV beginRefreshing];
+//    }
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"发一发";
+    self.isFirst = YES;
     
-    //
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"玩法介绍" style:UIBarButtonItemStylePlain target:self action:@selector(introduce)];
+    if ((self.displayType == ZHBriberyMoneyVCTypeSecondUI) || (self.displayType == ZHBriberyMoneyVCTypeFirstUI)) {
+        
+        if (self.displayType == ZHBriberyMoneyVCTypeSecondUI) {
+        
+          self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史记录" style:UIBarButtonItemStylePlain target:self action:@selector(history)];
     
-
-    //判断是否购买了汇赚宝
-    TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
-    http.code = @"808456";
-    http.parameters[@"userId"] = [ZHUser user].userId;
-    http.parameters[@"token"] = [ZHUser user].token;
-    [http postWithSuccess:^(id responseObject) {
-        
-        
-        
-        NSDictionary *data = responseObject[@"data"];
-        if (data.allKeys.count > 0) { //已经购买了汇转吧
-//            [self.bgImageV removeFromSuperview];
-
-            [self hasHZBUI];
-     
-        } else { //还没有股份
+        } else {
             
-            [self.view addSubview:self.bgImageV];
-
+          self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"玩法介绍" style:UIBarButtonItemStylePlain target:self action:@selector(introduce)];
+        
         }
+
         
-    } failure:^(NSError *error) {
+        //判断是否购买了汇赚宝
+        TLNetworking *http = [TLNetworking new];
+        http.showView = self.view;
+        http.code = @"808456";
+        http.parameters[@"userId"] = [ZHUser user].userId;
+        http.parameters[@"token"] = [ZHUser user].token;
+        [http postWithSuccess:^(id responseObject) {
+            
+            NSDictionary *data = responseObject[@"data"];
+            if (data.allKeys.count > 0) { //已经购买了汇转吧
+                //            [self.bgImageV removeFromSuperview];
+                
+                [self hasHZBUI];
+                [self.briberyMoneyTableV beginRefreshing];
+                
+            } else { //还没有股份
+                
+                [self.view addSubview:self.bgImageV];
+                
+            }
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
+    
+    } else if(self.displayType == ZHBriberyMoneyVCTypeHistory){
+    
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史记录" style:UIBarButtonItemStylePlain target:self action:@selector(history)];
         
+        //肯定有汇赚包
+        [self hasHZBUI];
         
-    }];
+        [self.briberyMoneyTableV beginRefreshing];
+        
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyHZBSuccess) name:@"HZBBuySuccess" object:nil];
     
+}
+
+
+#pragma mark- 汇赚宝 进入, 查看历史记录选项
+- (void)history {
+
+    ZHBriberyMoneyVC *historyVC = [[ZHBriberyMoneyVC alloc] init];
+    historyVC.displayType = ZHBriberyMoneyVCTypeHistory;
+    [self.navigationController pushViewController:historyVC animated:YES];
+
 }
 
 #pragma mark- 评论
@@ -86,18 +128,48 @@
 
 - (void)hasHZBUI {
 
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:[UIScreen mainScreen].bounds delegate:self dataSource:self];
     [self.view addSubview:tableView];
+    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+
+    }];
+    
     tableView.rowHeight = 113;
     self.briberyMoneyTableV = tableView;
-    tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无商品"];
+    tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无红包"];
     
     //// 0 已提交 1.审批通过 2.审批不通过 3.已上架 4.已下架
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808020";
-    helper.parameters[@"status"] = @"3";
+    helper.code = @"808475";
+    helper.parameters[@"owner"] = [ZHUser user].userId;
+    
+    if (self.displayType == ZHBriberyMoneyVCTypeHistory) {
+        
+        //历史记录
+        
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+       
+        NSDateComponents *comps = nil;
+        comps = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+        NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+        [adcomps setDay:-1];
+        NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:[NSDate date] options:0];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"yyyy-MM-dd";
+        NSString *dateStr = [dateFormatter stringFromDate:newdate];
+        
+        helper.parameters[@"createDatetimeStart"] = dateStr;
+        
+    }
+    
     helper.tableView = self.briberyMoneyTableV;
-//    [helper modelClass:[ZHGoodsModel class]];
+    [helper modelClass:[ZHBriberyMoney class]];
+    
     
     //
     __weak typeof(self) weakSelf = self;
@@ -142,13 +214,20 @@
 #pragma mark- TableView --- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    [TLWXManager manager].wxShare = ^(BOOL isSuccess,int errorCode){
     
+        
+    };
+    //
+    [TLWXManager wxShareWebPageWithScene:WXSceneSession title:@"我在喊你领红包! 速度速度!" desc:@"正汇钱包,领取红包" url:@"http://www.weibo.com"];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 5;
+    return self.briberyMoneyRooms.count;
     
 }
 
@@ -162,8 +241,10 @@
         cell = [[ZHSendBriberyMoneyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhGoodsCellId];
         
     }
-    return cell;
     
+    cell.briberMoney = self.briberyMoneyRooms[indexPath.row];
+    
+    return cell;
     
 }
 

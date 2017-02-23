@@ -16,8 +16,6 @@
 #import "ZHHBConvertFRVC.h"
 
 
-
-
 @interface ZHBillVC ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic,strong) NSMutableArray <ZHBillModel *>*bills;
@@ -122,6 +120,7 @@
     currencyConvertView.moneyLbl.text = [self.currencyModel.amount convertToRealMoney];
     
     BOOL hiddenLeft = NO;
+    BOOL hiddenRight = NO;
     NSString *leftTitle = @"";
     NSString *rightTitle = @"";
 
@@ -140,7 +139,10 @@
     
         hiddenLeft = YES;
         rightTitle = @"消费";
-        self.rightAciton = ^(){ [TLAlert alertWithHUDText:@"取消费"]; };
+        hiddenRight = YES;
+        self.rightAciton = ^(){
+            [TLAlert alertWithHUDText:@"去消费"];
+        };
     
     } else if ([self.currencyModel.currency isEqualToString:kHBB]) {//红包币转分润
     
@@ -156,7 +158,8 @@
             
             vc.success = ^(){
                 
-                
+                [weakSelf.billTV beginRefreshing];
+
             };
             
             [weakself.navigationController pushViewController:vc animated:YES];
@@ -176,6 +179,8 @@
             ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
             vc.success = ^(){
                 
+                [weakSelf.billTV beginRefreshing];
+
             };
             vc.title = @"转分润";
             vc.type = ZHCurrencyConvertHBYJToFR;
@@ -189,6 +194,7 @@
     }
     
     currencyConvertView.leftBtn.hidden = hiddenLeft;
+    currencyConvertView.rightBtn.hidden = hiddenRight;
     [currencyConvertView.leftBtn setTitle:leftTitle forState:UIControlStateNormal];
     [currencyConvertView.rightBtn setTitle:rightTitle forState:UIControlStateNormal];
 
@@ -236,6 +242,8 @@
     //只可能 红包业绩转贡献
     ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
     vc.success = ^(){
+        
+        [self.billTV beginRefreshing];
         
     };
     

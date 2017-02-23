@@ -9,16 +9,36 @@
 #import "ZHMineNumberVC.h"
 #import "ZHDuoBaoCell.h"
 #import "ZHDuoBaoDetailVC.h"
+#import "ZHDBNumberModel.h"
+#import "ZHNumberCell.h"
+#import "MJRefresh.h"
 
-@interface ZHMineNumberVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface ZHMineNumberVC ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
+
+@property (nonatomic, strong) NSMutableArray <ZHDBNumberModel *>*numberRoom;
+
+@property (nonatomic, assign) NSInteger start;
+
 
 @end
 
 @implementation ZHMineNumberVC
 
+- (NSMutableArray<ZHDBNumberModel *> *)numberRoom {
+
+    if (!_numberRoom) {
+        
+        _numberRoom = [[NSMutableArray alloc] init];
+    }
+
+    return _numberRoom;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.start = 1;
     self.view.backgroundColor = [UIColor whiteColor];
     
     TLTableView *mineNumberTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 140)
@@ -40,53 +60,106 @@
             [self.view addSubview:shareBtn];
         }
 
-        
     }
+
+    //号码列表
+    UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
+    fl.itemSize = CGSizeMake(SCREEN_WIDTH/4.0, 30) ;
+    fl.minimumLineSpacing = 0;
+    fl.minimumInteritemSpacing = 0;
     
-    //查询号码列表
-    UIScrollView *numListTableView = [[UIScrollView alloc] initWithFrame:CGRectMake(10, mineNumberTableView.yy + 10, SCREEN_WIDTH - 20, 100)];
-    [self.view addSubview:numListTableView];
+    UICollectionView *numberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, mineNumberTableView.yy + 10, SCREEN_WIDTH, 280) collectionViewLayout:fl];
+    [self.view addSubview:numberCollectionView];
+    numberCollectionView.delegate = self;
+    numberCollectionView.dataSource = self;
+    numberCollectionView.backgroundColor = [UIColor zh_backgroundColor];
+    
+    [numberCollectionView registerClass:[ZHNumberCell class] forCellWithReuseIdentifier:@"collectionViewId"];
+    
+    __weak typeof(self) weakSelf = self;
+    __weak UICollectionView *weakCollectioView = numberCollectionView;
+    numberCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        
+        TLNetworking *http = [TLNetworking new];
+
+        http.code = @"808318";
+        http.parameters[@"jewelCode"] = self.historyModel.jewel.code;
+        http.parameters[@"start"] = @"1";
+        http.parameters[@"limit"] = @"40";
+        //    http.parameters[@" "]
+        [http postWithSuccess:^(id responseObject) {
+            
+            self.start = 2;
+            self.numberRoom = [ZHDBNumberModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+            [weakCollectioView.mj_header endRefreshing];
+
+            [weakCollectioView reloadData];
+
+        } failure:^(NSError *error) {
+            [weakCollectioView.mj_header endRefreshing];
+
+            
+        }];
+        
+    }];
+    
+    numberCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        
+        
+        TLNetworking *http = [TLNetworking new];
+        http.code = @"808318";
+        http.parameters[@"jewelCode"] = self.historyModel.jewel.code;
+        http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
+        http.parameters[@"limit"] = @"40";
+        [http postWithSuccess:^(id responseObject) {
+            
+            NSArray *arr = responseObject[@"data"][@"list"];
+            if (arr.count > 0) {
+                [weakCollectioView.mj_footer endRefreshing];
+
+                NSArray *objs = [ZHDBNumberModel tl_objectArrayWithDictionaryArray:arr]
+                ;
+                [weakSelf.numberRoom addObjectsFromArray:objs];
+                
+                [weakCollectioView reloadData];
+                
+                self.start ++;
+            } else {
+                
+                [weakCollectioView.mj_footer endRefreshingWithNoMoreData];
+                
+            
+            }
+            
+
+        } failure:^(NSError *error) {
+            
+            [weakCollectioView.mj_footer endRefreshing];
+
+        }];
+        
+    }];
+    
+ 
+    [weakCollectioView.mj_header beginRefreshing];
     
     
-    //查询中奖号码列表
+    //中奖号码
     if ([self.historyModel.jewel.status isEqual:@1]) {
-       
-        CGFloat y = numListTableView.yy;
+        
+        CGFloat y = numberCollectionView.yy + 10;
         UILabel *hintLbl = [[UILabel alloc] initWithFrame:CGRectMake(10, y, SCREEN_WIDTH - 20, 20)];
         hintLbl.textColor = [UIColor zh_textColor];
         [self.view addSubview:hintLbl];
         hintLbl.text = @"中奖号码:";
         hintLbl.font = FONT(13);
-
+        
         UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(10, hintLbl.yy, SCREEN_WIDTH - 20, 30)];
         [self.view addSubview:lbl];
         lbl.font = FONT(13);
         lbl.textColor = [UIColor zh_themeColor];
         lbl.text = self.historyModel.jewel.winUser;
     }
-
- 
-
-    __weak typeof(self) weakSelf = self;
-    TLPageDataHelper *pageDataHelper = [[TLPageDataHelper alloc] init];
-    pageDataHelper.code = @"802015";
-    pageDataHelper.tableView = mineNumberTableView;
-    pageDataHelper.parameters[@"token"] = [ZHUser user].token;
-    pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
-    
-    //[pageDataHelper modelClass:[ZHBankCard class]];
-    [mineNumberTableView addRefreshAction:^{
-        
-        [pageDataHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
-            
-        } failure:^(NSError *error) {
-            
-        }];
-        
-    }];
-    //
-    
-    
 }
 
 #pragma mark- 追加
@@ -98,6 +171,22 @@
     [self.navigationController pushViewController:detailVC animated:YES];
     
 
+}
+
+#pragma mark- collectionView
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+
+     return  self.numberRoom.count;
+    
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    ZHNumberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewId" forIndexPath:indexPath];
+    cell.textLbl.text = self.numberRoom[indexPath.row].number;
+    return cell;
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

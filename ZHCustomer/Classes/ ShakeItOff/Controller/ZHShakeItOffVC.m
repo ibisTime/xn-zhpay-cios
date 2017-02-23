@@ -382,6 +382,11 @@
     imageV.image = [UIImage imageNamed:@"摇一摇before"];
     
     self.bgImageView = imageV;
+    imageV.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(action)];
+    [imageV addGestureRecognizer:tap];
+    
     
 //    UIImageView *iconImageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
 //    iconImageV.image = [UIImage imageNamed:@"zh_icon"];

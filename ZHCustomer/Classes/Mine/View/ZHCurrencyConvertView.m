@@ -26,7 +26,7 @@
         //钱数
         self.moneyLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentLeft backgroundColor:[UIColor whiteColor]
                                            font:[UIFont secondFont]
-                                      textColor:[UIColor zh_textColor]];
+                                      textColor:[UIColor zh_themeColor]];
         [self addSubview:self.moneyLbl];
         
         //
