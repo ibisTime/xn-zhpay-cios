@@ -62,9 +62,6 @@
     [super viewDidLoad];
     self.title = @"我的汇赚宝";
     
-    
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buySuccess) name:@"HZBBuySuccess" object:nil];
     
     //没有购买的进行购买
@@ -82,7 +79,6 @@
     http.parameters[@"token"] = [ZHUser user].token;
     [http postWithSuccess:^(id responseObject) {
     
-        
         NSDictionary *data = responseObject[@"data"];
         if (data.allKeys.count > 0) {
             

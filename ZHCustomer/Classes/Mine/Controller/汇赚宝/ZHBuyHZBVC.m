@@ -16,6 +16,7 @@
 @interface ZHBuyHZBVC ()
 
 @property (nonatomic,strong) ZHHZBModel *HZBModel;
+@property (nonatomic, strong) UILabel *priceLbl;
 
 
 @end
@@ -37,16 +38,16 @@
         NSDictionary *dict = responseObject[@"data"][0];
         self.HZBModel = [ZHHZBModel tl_objectWithDictionary:dict];
         [self setUpUI];
+        
+        self.priceLbl.text = [NSString stringWithFormat:@"价格: %@ 元",[self.HZBModel.price convertToRealMoney]];
+        
     } failure:^(NSError *error) {
         
         
     }];
 
-    
-    
-
- 
 }
+
 
 #pragma mark-
 - (void)buy {
@@ -71,7 +72,6 @@
     //只能使用 --- 人民币 或者 ---分润----- 购买
 //    ZHPayVC *payVC = [[ZHPayVC alloc] init];
 //    payVC.type = ZHPayVCTypeHZB;
-    
     ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
     payVC.type = ZHPayViewCtrlTypeHZB;
     payVC.paySucces = ^(){
@@ -96,8 +96,34 @@
     treeView.image = [UIImage imageNamed:@"hzb_tree"];
     [self.view addSubview:treeView];
     
+    //价格lbl
+    UILabel *priceLbl = [UILabel labelWithFrame:CGRectZero
+                                   textAligment:NSTextAlignmentLeft
+                                backgroundColor:[UIColor clearColor]
+                                           font:FONT(13)
+                                      textColor:[UIColor zh_textColor]];
+    [treeView addSubview:priceLbl];
+    self.priceLbl = priceLbl;
+    [priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.equalTo(self.view.mas_left).offset(20);
+        make.top.equalTo(treeView.mas_bottom).offset(10);
+        
+        
+    }];
+    
+    //
     UIButton *buyBtn = [UIButton zhBtnWithFrame:CGRectMake(20, treeView.yy + 30, SCREEN_WIDTH - 40, 45) title:@"购买"];
     [self.view addSubview:buyBtn];
+    [buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.equalTo(self.view.mas_left).offset(20);
+        make.top.equalTo(priceLbl.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.height.mas_equalTo(45);
+        
+    }];
+    
     [buyBtn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
 }
 

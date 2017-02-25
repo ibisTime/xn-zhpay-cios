@@ -53,7 +53,7 @@
 
     if (!_buyAllBtn) {
         _buyAllBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_buyAllBtn setTitle:@"包尾" forState:UIControlStateNormal];
+        [_buyAllBtn setTitle:@"Max" forState:UIControlStateNormal];
         _buyAllBtn.layer.masksToBounds = YES;
         _buyAllBtn.layer.cornerRadius = 10;
         _buyAllBtn.layer.borderColor = [UIColor zh_themeColor].CGColor;
@@ -179,6 +179,10 @@
 
 - (void)buyAll {
 
+    if (self.maxCount != 0) {
+        self.count = self.maxCount;
+    }
+    
     if (self.buyAllAction) {
         self.buyAllAction();
     }
@@ -202,6 +206,10 @@
 
 - (void)add {
 
+    if (self.maxCount != 0 && self.count >= self.maxCount) {
+        return;
+    }
+    
     self.count ++;
     self.countLbl.text = [NSString stringWithFormat:@"%ld",self.count];
     if (self.countChange) {

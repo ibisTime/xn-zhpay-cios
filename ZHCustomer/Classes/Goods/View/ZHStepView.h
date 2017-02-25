@@ -24,4 +24,8 @@ typedef NS_ENUM(NSInteger,ZHStepViewType){
 @property (nonatomic,copy)  void(^countChange)(NSUInteger count);
 @property (nonatomic,copy)  void(^buyAllAction)();
 
+//所能达到的最大数量
+@property (nonatomic, assign) NSInteger maxCount;
+
+
 @end

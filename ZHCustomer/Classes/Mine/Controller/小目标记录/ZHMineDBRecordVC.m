@@ -116,7 +116,8 @@
         
     }
     
-    cell.type = @"1";
+    cell.type = [NSString stringWithFormat:@"%ld",indexPath.row%3];
+
     cell.dbModel = self.dbHistoryRooms[indexPath.row].jewel;
     
     return cell;

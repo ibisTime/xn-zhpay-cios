@@ -171,7 +171,7 @@
 - (void)setType:(NSString *)type {
 
     UIColor *textColor ;
-    if ([type isEqualToString:@"1"]) {
+    if ([type isEqualToString:@"0"]) {
         self.bgImageV.image = [UIImage imageNamed:@"orangeBg"];
         self.progressView.backgroundView.backgroundColor = [UIColor colorWithHexString:@"#fec878"];
             self.progressView.forgroundView.backgroundColor = [UIColor colorWithHexString:@"#fb9f18"];
@@ -179,14 +179,14 @@
         textColor = [UIColor colorWithHexString:@"#974b05"];
 
         
-    } else if ([type isEqualToString:@"2"]) {
+    } else if ([type isEqualToString:@"1"]) {
         self.bgImageV.image = [UIImage imageNamed:@"yellowBg"];
         self.progressView.backgroundView.backgroundColor = [UIColor colorWithHexString:@"#f5e586"];
           self.progressView.forgroundView.backgroundColor = [UIColor colorWithHexString:@"#e9c905"];
         textColor = [UIColor colorWithHexString:@"#974b05"];
 
         
-    } else if ([type isEqualToString:@"3"]) {
+    } else if ([type isEqualToString:@"2"]) {
         self.bgImageV.image = [UIImage imageNamed:@"greenBg"];
         self.progressView.backgroundView.backgroundColor = [UIColor colorWithHexString:@"#8be9a1"];
              self.progressView.forgroundView.backgroundColor = [UIColor colorWithHexString:@"#10c060"];

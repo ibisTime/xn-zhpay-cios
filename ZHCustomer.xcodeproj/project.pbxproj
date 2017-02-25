@@ -143,6 +143,7 @@
 		2E2267501E50A8CF00C7126E /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E22674F1E50A8CF00C7126E /* CoreMotion.framework */; };
 		2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2267521E50A91000C7126E /* TLAlipayManager.m */; };
 		2E2267571E50B26000C7126E /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2267561E50B26000C7126E /* AppConfig.m */; };
+		2E2308701E6181D400322ED8 /* ZHShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E23086F1E6181D400322ED8 /* ZHShareView.m */; };
 		2E3817E81E2A1F5200F6158C /* ZHLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3817E71E2A1F5200F6158C /* ZHLocationManager.m */; };
 		2E4E8BC31E20D9BB00AC022A /* ZHReferralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E8BC21E20D9BB00AC022A /* ZHReferralModel.m */; };
 		2E4E8BC61E20F1E100AC022A /* ZHMonthCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E8BC51E20F1E100AC022A /* ZHMonthCardModel.m */; };
@@ -682,6 +683,8 @@
 		2E2267521E50A91000C7126E /* TLAlipayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLAlipayManager.m; sourceTree = "<group>"; };
 		2E2267551E50B26000C7126E /* AppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
 		2E2267561E50B26000C7126E /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
+		2E23086E1E6181D400322ED8 /* ZHShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShareView.h; sourceTree = "<group>"; };
+		2E23086F1E6181D400322ED8 /* ZHShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShareView.m; sourceTree = "<group>"; };
 		2E3817E61E2A1F5200F6158C /* ZHLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHLocationManager.h; sourceTree = "<group>"; };
 		2E3817E71E2A1F5200F6158C /* ZHLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHLocationManager.m; sourceTree = "<group>"; };
 		2E4E8BC11E20D9BB00AC022A /* ZHReferralModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHReferralModel.h; sourceTree = "<group>"; };
@@ -2071,6 +2074,8 @@
 			children = (
 				2E6E48261E164DE300FD2CA7 /* ZHSegmentView.h */,
 				2E6E48271E164DE300FD2CA7 /* ZHSegmentView.m */,
+				2E23086E1E6181D400322ED8 /* ZHShareView.h */,
+				2E23086F1E6181D400322ED8 /* ZHShareView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3485,6 +3490,7 @@
 				2EC2AE4D1E0CF55A003EF503 /* TLDatePicker.m in Sources */,
 				2EB13E851E24E17800076EF8 /* ZHGoodsCategoryVC.m in Sources */,
 				2E5945501E28687E00331BAF /* SGGenerateQRCodeVC.m in Sources */,
+				2E2308701E6181D400322ED8 /* ZHShareView.m in Sources */,
 				2EBCF5051E4860CC003A3A5E /* AppDelegate+JPush.m in Sources */,
 				2E2265B31E4DACB200C7126E /* FixFopen.c in Sources */,
 				2E22655D1E4DACB100C7126E /* EMCDDeviceManager+Media.m in Sources */,

@@ -112,6 +112,25 @@
     //连续定位，时间较短，可能首次经度低
     [self.sysLocationManager startUpdatingLocation];
     
+    
+    CLAuthorizationStatus authStatus = [CLLocationManager authorizationStatus];
+    if (authStatus == kCLAuthorizationStatusDenied) { //定位权限不可用可用
+        
+        [TLAlert alertWithTitle:nil Message:@"您的定位服务不可用,无法参加该活动" confirmMsg:@"设置" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
+            
+        } confirm:^(UIAlertAction *action) {
+            
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+            
+        }];
+        
+        return;
+        
+    }
+    
     //单次定位 精度较高,定位时间较长
 //    [self.sysLocationManager requestLocation];
     

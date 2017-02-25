@@ -30,7 +30,6 @@
 + (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(NSDictionary *)parameters
                        success:( void (^)(id responseObject))success
-                   abnormality:(void (^)(NSString *msg))abnormality
                        failure: (void (^)(NSError *error))failure;
 
 

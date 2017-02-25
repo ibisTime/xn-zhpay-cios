@@ -74,6 +74,9 @@
             } else { //还没有股份
                 
                 [self.view addSubview:self.bgImageV];
+                [self.bgImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.edges.equalTo(self.view);
+                }];
                 
             }
             
@@ -84,7 +87,7 @@
     
     } else if(self.displayType == ZHBriberyMoneyVCTypeHistory){
     
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史记录" style:UIBarButtonItemStylePlain target:self action:@selector(history)];
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史记录" style:UIBarButtonItemStylePlain target:self action:@selector(history)];
         
         //肯定有汇赚包
         [self hasHZBUI];
@@ -142,7 +145,7 @@
     self.briberyMoneyTableV = tableView;
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无红包"];
     
-    //// 0 已提交 1.审批通过 2.审批不通过 3.已上架 4.已下架
+    //// 0=待转发 1=待领取 2=已领取 3=已失效
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808475";
     helper.parameters[@"owner"] = [ZHUser user].userId;
@@ -269,6 +272,7 @@
     if (!_bgImageV) {
         
         _bgImageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
+        
         _bgImageV.contentMode = UIViewContentModeScaleAspectFill;
         _bgImageV.image = [UIImage imageNamed:@"发一发背景"];
         _bgImageV.userInteractionEnabled = YES;

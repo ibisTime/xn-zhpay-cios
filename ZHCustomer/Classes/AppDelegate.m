@@ -29,7 +29,7 @@
 #import "ZHCartManager.h"
 #import "AppConfig.h"
 #import "TLRealmPlayground.h"
-
+#import <CoreLocation/CoreLocation.h>
 //#ifdef NSFoundationVersionNumber_iOS_9_x_Max
 //#import <UserNotifications/UserNotifications.h>
 //#endif
@@ -38,13 +38,22 @@
 
 @interface AppDelegate ()<WXApiDelegate>
 
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
 @end
 
 @implementation AppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-//    NSLog(@"%s %s",__typeof__(CGPointMake(0, 1)),@encode(CGPoint));
+//@"%7B%22biz_no%22%3A%22ZM201702253000000292900673309391%22%2C%22passed%22%3A%22true%22%7D".stringByRemovingPercentEncoding;
+//    
+   
+//  NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    self.locationManager = [[CLLocationManager alloc] init];
+    [self.locationManager requestWhenInUseAuthorization];
+    
     
     //设置应用环境
     [AppConfig config].runEnv = RunEnvDev;
@@ -182,7 +191,56 @@ void UncaughtExceptionHandler(NSException *exception){
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
-    NSLog(@"%@--%@",url,options);
+    
+
+    if ([url.host isEqualToString:@"certi.back"]) {
+        
+        TLNetworking *http = [TLNetworking new];
+        http.showView = [UIApplication sharedApplication].keyWindow;
+        http.code = @"805192";
+        http.parameters[@"userId"] = [ZHUser user].userId;
+        http.parameters[@"bizNo"] = [ZHUser user].tempBizNo;
+        [http postWithSuccess:^(id responseObject) {
+            
+//            [TLAlert alertWithHUDText:@"实名认证成功"];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoChange object:nil];
+//            
+//            [[ZHUser user] updateUserInfo];
+//    
+//            [ZHUser user].realName = [ZHUser user].tempRealName;
+//            [ZHUser user].idNo = [ZHUser user].tempIdNo;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"realNameSuccess" object:nil];
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
+        
+
+//        NSString *str =  [url query];
+//        NSArray <NSString *>*arr =  [str componentsSeparatedByString:@"&"];
+//        
+//       __block NSString *bizNoStr;
+//        [arr enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            
+//            if ([obj hasPrefix:@"biz_content="]) {
+//                
+//                bizNoStr = [obj substringWithRange:NSMakeRange(12, obj.length - 12)];
+//                
+//                NSString *newStr = [bizNoStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        
+//              
+//                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[newStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+//                NSLog(@"%@",dict);
+//                
+//            }
+//        }];
+
+        
+        return YES;
+    }
+    
     if ([url.host isEqualToString:@"safepay"]) {
         
         //跳转支付宝钱包进行支付，处理支付结果
@@ -238,6 +296,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 
+
 - (void)application:(UIApplication *)application
 didReceiveLocalNotification:(UILocalNotification *)notification {
     
@@ -259,11 +318,16 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
   completionHandler:(void (^)())completionHandler {
     
     
-    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 
+    [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logout"] parameters:@{@"userId" : [ZHUser user].userId , @"token" : [ZHUser user].token} success:^(id responseObject) {
+        
+        
+    }  failure:^(NSError *error) {
+        
+    }];
     TLLog(@"应用退出");
 
 }

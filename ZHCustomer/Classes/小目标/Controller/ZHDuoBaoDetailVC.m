@@ -28,6 +28,8 @@
 @property (nonatomic, strong) UILabel *numberLbl;
 
 @property (nonatomic, strong) ZHProgressView *progressView;
+
+@property (nonatomic, strong) UILabel *maxNumLbl; //最大 数目
 @property (nonatomic, strong) UILabel *totalCountLbl; //总需
 @property (nonatomic, strong) UILabel *surplusCountLbl; //剩余
 @property (nonatomic, strong) ZHStepView *countChangeView; //剩余
@@ -116,6 +118,7 @@
                                                
     //
     __weak typeof(self) weakself = self;
+    
     self.countChangeView.countChange = ^(NSUInteger count){
     
         //
@@ -123,12 +126,11 @@
     
     };
     
-    
     self.countChangeView.buyAllAction = ^(){
     
-        NSInteger count = [weakself.dbModel getSurplusPeople];
-        weakself.countChangeView.count = count;
-        weakself.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:count];
+//        NSInteger count = [weakself.dbModel getSurplusPeople];
+//        weakself.countChangeView.count = count;
+        weakself.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:[weakSelf.dbModel.maxInvestNum integerValue]];
         
     };
     
@@ -199,18 +201,25 @@
     
 //  @[@"http://pic.35pic.com/normal/09/36/49/4499633_230627095337_2.jpg"];
     
+    self.countChangeView.maxCount = [self.dbModel.maxInvestNum integerValue];
     self.priceLbl.text = [self.dbModel getPriceDetail];
     self.numberLbl.text = [NSString  stringWithFormat:@"期号: %@",self.dbModel.periods];
     self.progressView.progress  = [self.dbModel getProgress];
-    self.totalCountLbl.text = [NSString stringWithFormat:@"总需 %@ 人次",self.dbModel.totalNum];
-    
-    
-    self.surplusCountLbl.text = [NSString stringWithFormat:@"剩余 %ld",[self.dbModel getSurplusPeople]];
+//    self.totalCountLbl.text = [NSString stringWithFormat:@"总需 %@ 人次",self.dbModel.totalNum];
+//    
+//    
+//    self.surplusCountLbl.text = [NSString stringWithFormat:@"剩余 %ld",[self.dbModel getSurplusPeople]];
     
     
     
     NSString *animStr = [NSString stringWithFormat:@"总需 %@ 人次",self.dbModel.totalNum];
     self.totalCountLbl.attributedText = [self convertStrWithStr:animStr value:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]} range:NSMakeRange(3, [NSString stringWithFormat:@"%@",self.dbModel.totalNum].length)];
+    
+    //单人最大投资
+    NSString *maxStr = [NSString stringWithFormat:@"%@",self.dbModel.maxInvestNum];
+    
+    self.maxNumLbl.attributedText = [self convertStrWithStr:[NSString stringWithFormat:@"单人最大投资 %@ 次",maxStr] value:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]}
+                                                      range:NSMakeRange(7, maxStr.length)];
     
     self.surplusCountLbl.attributedText =  [self convertStrWithStr:[NSString stringWithFormat:@"剩余 %ld",[self.dbModel getSurplusPeople]] value:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]}
                                                                                        range:NSMakeRange(3, [NSString stringWithFormat:@"%ld",[self.dbModel getSurplusPeople]].length)];
@@ -280,6 +289,9 @@
         //刷新信息
         
         [self.detailTableView beginRefreshing];
+//        [self.detailTableView ];
+        [self loadMoreRecorder];
+
         
     };
     
@@ -433,6 +445,7 @@
     
 }
 
+#pragma mark- 头部
 - (void)tableViewHeaderView {
 
     UIView *headerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 400)];
@@ -464,6 +477,8 @@
         
     }];
     
+    //描述语
+    
     //期号
     self.numberLbl = [UILabel labelWithFrame:CGRectZero
                                textAligment:NSTextAlignmentLeft
@@ -472,8 +487,23 @@
                                   textColor:[UIColor colorWithHexString:@"#999999"]];
     [headerBgView addSubview:self.numberLbl];
     [self.numberLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
         make.left.equalTo(self.priceLbl.mas_left);
         make.top.equalTo(self.priceLbl.mas_bottom).offset(20);
+        
+    }];
+    
+    //单人最大投资
+    self.maxNumLbl = [UILabel labelWithFrame:CGRectZero
+                                textAligment:NSTextAlignmentRight
+                             backgroundColor:[UIColor whiteColor]
+                                        font:FONT(13)
+                                   textColor:[UIColor colorWithHexString:@"#999999"]];
+    [headerBgView addSubview:self.maxNumLbl];
+    [self.maxNumLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.right.equalTo(headerBgView.mas_right).offset(-15);
+        make.top.equalTo(self.numberLbl.mas_top);
         
     }];
     

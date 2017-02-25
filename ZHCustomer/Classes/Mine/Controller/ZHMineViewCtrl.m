@@ -23,6 +23,8 @@
 #import "SGQRCodeTool.h"
 #import "ZHBriberyMoneyVC.h"
 
+#import "ZHShareView.h"
+
 @interface ZHMineViewCtrl ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) NSArray <ZHSettingGroup *>*groups;
@@ -63,6 +65,7 @@
     [self setUptableViewHeader];
     
     //刷新信息
+    __weak typeof(self) weakSelf = self;
     [tableV addRefreshAction:^{
         
         TLNetworking *http = [TLNetworking new];
@@ -72,7 +75,7 @@
         http.parameters[@"userId"] = [ZHUser user].userId;
         [http postWithSuccess:^(id responseObject) {
             
-            [self.mineTableView endRefreshHeader];
+            [weakSelf.mineTableView endRefreshHeader];
 
             self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
             
@@ -90,7 +93,7 @@
         } failure:^(NSError *error) {
             
             [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
-            [self.mineTableView endRefreshHeader];
+            [weakSelf.mineTableView endRefreshHeader];
             
         }];
         
@@ -164,10 +167,17 @@
 
 }
 
+#pragma mark- 前往钱包
 - (void)goWalletDetailWithCode:(NSString *)code {
 
+    
     ZHBillVC *vc = [[ZHBillVC alloc] init];
     vc.currencyModel = self.currencyDict[code];
+    
+    if (!vc.currencyModel) {
+        [TLAlert alertWithHUDText:@"请刷新重新获取账户信息"];
+        return;
+    }
 //    vc.accountNumber = self.currencyDict[code].accountNumber; //账单编号
     [self.navigationController pushViewController:vc animated:YES];
     
@@ -233,126 +243,20 @@
 
 #pragma mark- 分享出去
 - (void)shareToWX {
+    
+    
+    ZHShareView *shareView = [[ZHShareView alloc] init];
+    shareView.title = @"test";
+    shareView.content = @"test";
+    shareView.shareUrl = @"www.baidu.com";
 
-    UIControl *maskCtrl = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    [maskCtrl addTarget:self action:@selector(cancleShare:) forControlEvents:UIControlEventTouchUpInside];
-    maskCtrl.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.65];
-//    [UIColor colorWithWhite:0.2 alpha:0.5];
+    [shareView show];
     
-    [[UIApplication sharedApplication].keyWindow addSubview:maskCtrl];
+    return;
     
-    //添加二维码
-    UIImageView *qrImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 69, 200, 200)];
-    qrImageView.layer.cornerRadius = 5;
-    qrImageView.clipsToBounds = YES;
-    qrImageView.center = self.view.center;
-    qrImageView.centerY = qrImageView.centerY - 40;
-    [maskCtrl addSubview:qrImageView];
-    
-    //二维码
-    UIImage *image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:@"我的号码" imageViewWidth:SCREEN_WIDTH];
-    qrImageView.image = image;
-    
-    //分享界面
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 139 - 54, SCREEN_WIDTH, 139 + 54)];
-    bgView.backgroundColor = [UIColor colorWithHexString:@"#dcdbdb"];
-    
-    [maskCtrl addSubview:bgView];
-    
-    //
-    UILabel *hintLbl = [UILabel labelWithFrame:CGRectZero
-                                  textAligment:NSTextAlignmentLeft
-                               backgroundColor:[UIColor clearColor]
-                                          font:FONT(14)
-                                     textColor:[UIColor zh_textColor]];
-    [bgView addSubview:hintLbl];
-    hintLbl.text = @"分享到";
-    [hintLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(bgView.mas_left).offset(15);
-        make.top.equalTo(bgView.mas_top).offset(16);
-    }];
-    
-    //分享给好友
-    CGFloat w = 50;
-    UIButton *shareFriendBtn = [[UIButton alloc] init];
-    [shareFriendBtn setImage:[UIImage imageNamed:@"朋友圈"] forState:UIControlStateNormal];
-    [bgView addSubview:shareFriendBtn];
-    [shareFriendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(hintLbl.mas_bottom).offset(23);
-        make.left.equalTo(bgView.mas_left).offset(15);
-        make.width.mas_equalTo(w);
-        make.height.mas_equalTo(w);
-
-    }];
-    
-    //微信
-    UIButton *shareWXZoneBtn = [[UIButton alloc] init];
-    [shareWXZoneBtn setImage:[UIImage imageNamed:@"微信"] forState:UIControlStateNormal];
-    [bgView addSubview:shareWXZoneBtn];
-    [shareWXZoneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(hintLbl.mas_bottom).offset(23);
-        make.left.equalTo(shareFriendBtn.mas_right).offset(15);
-        make.width.mas_equalTo(w);
-        make.height.mas_equalTo(w);
-        
-    }];
-    
-    //
-    UIButton *cancleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 139, SCREEN_WIDTH, 54)];
-    [cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
-    
-    [bgView addSubview:cancleBtn];
-    cancleBtn.backgroundColor = [UIColor whiteColor];
-    [cancleBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
-    [cancleBtn addTarget:self action:@selector(cancleShare:) forControlEvents:UIControlEventTouchUpInside];
-    
-    shareFriendBtn.tag = 100;
-    shareWXZoneBtn.tag = 101;
-    [shareFriendBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-    [shareWXZoneBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
-    
-
-}
-
-- (void)share:(UIButton *)btn {
-
-    [TLWXManager manager].wxShare = ^(BOOL isSuccess,int errorCode){
-    
-        if (isSuccess) {
-            [TLAlert alertWithHUDText:@"分享成功"];
-
-            [(UIControl *)[[btn nextResponder] nextResponder] removeFromSuperview];
-            
-        } else {
-            [TLAlert alertWithHUDText:@"分享失败"];
-
-        }
-        
-    };
-    
-    [TLWXManager wxShareWebPageWithScene:btn.tag == 100 ? WXSceneTimeline : WXSceneSession title:@"注册" desc:@"注册有奖" url:@"www.baidu.com"];
-
 }
 
 
-- (void)cancleShare:(UIControl *)ctrl {
-
-    //
-    if ([ctrl isMemberOfClass:[UIButton class]]) {
-        
-        [(UIControl *)[[ctrl nextResponder] nextResponder] removeFromSuperview];
-        
-    } else {
-        
-        [ctrl removeFromSuperview];
-
-    
-    }
-    
-
-}
 
 
 #pragma mark- 头部信息
@@ -381,7 +285,7 @@
 
     //钱包
     
-    NSArray *typeNames =  @[@"贡献值",@"分润",@"红包",@"红包业绩",@"钱包币",@"购物币"];
+    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"购物币"];
     NSArray *typeCode =  @[kGXB,kFRB,kHBB,kHBYJ,kQBB,kGWB];
 
 

@@ -13,6 +13,7 @@
 #import "ZHDBModel.h"
 #import "ZHDBHistoryModel.h"
 #import "AFHTTPSessionManager.h"
+#import "AppConfig.h"
 
 @interface ZHDuoBaoVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -58,7 +59,7 @@
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808310";
-    helper.limit = 3;
+//    helper.limit = ;
     helper.parameters[@"status"] = @"0";
     helper.tableView = tableView;
     [helper modelClass:[ZHDBModel class]];
@@ -67,6 +68,14 @@
     __weak typeof(self) weakSelf = self;
     [tableView addRefreshAction:^{
         
+        [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logOut"] parameters:@{@"userId" : [ZHUser user].userId , @"token" : [ZHUser user].token} success:^(id responseObject) {
+            
+            
+        }  failure:^(NSError *error) {
+            
+        }];
+        
+        //--//
         [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
             self.dbRooms = objs;
@@ -83,31 +92,25 @@
         
     }];
     
+    
+    [tableView addLoadMoreAction:^{
+        
+        [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            self.dbRooms = objs;
+            [weakSelf.dbTableView reloadData_tl];
+            
+        } failure:^(NSError *error) {
+            
+        }];
+       
+        
+    }];
+    
 //    //定时获取--购买记录
-//    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(getDBRecord) userInfo:nil repeats:YES];
-//    
-//    TLNetworking *http = [TLNetworking new];
-//    http.showView = self.view;
-//    http.code = @"805191";
-////    http.url = @"http://121.40.165.180:8903/std-certi/api";
-//    http.parameters[@"userId"] = [ZHUser user].userId;
-//    http.parameters[@"idKind"] = @"1";
-//    http.parameters[@"idNo"] = @"412321199305120634";
-//    http.parameters[@"realName"] = @"田磊";
-//    [http postWithSuccess:^(id responseObject) {
-//        
-////        :8903/std-certi/zhima?bizNo=ZM42342545
-//    NSString *urlStr = [NSString stringWithFormat:@"http://121.40.165.180:8903/std-certi/zhima?bizNo=%@",responseObject[@"data"][@"bizNo"]];
-//        
-//    NSString *alipayUrl = [NSString stringWithFormat:@"alipays://platformapi/startapp?appId=2016121204189723&url=%@",urlStr];
-//        
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl] options:@{} completionHandler:nil];
-//                [weakSelf.dbTableView endRefreshHeader];
-//        
-//    } failure:^(NSError *error) {
-//        
-//        
-//    }];
+    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(getDBRecord) userInfo:nil repeats:YES];
+    
+
     
 
 }
@@ -168,7 +171,7 @@
         cell = [[ZHDuoBaoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhDuoBaoCellId];
         
     }
-    cell.type = [NSString stringWithFormat:@"%ld",indexPath.row  + 1];
+    cell.type = [NSString stringWithFormat:@"%ld",indexPath.row%3];
     cell.dbModel = self.dbRooms[indexPath.row];
     
     return cell;

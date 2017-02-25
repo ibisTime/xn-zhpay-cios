@@ -86,6 +86,7 @@
         http.parameters[@"jewelCode"] = self.historyModel.jewel.code;
         http.parameters[@"start"] = @"1";
         http.parameters[@"limit"] = @"40";
+        http.parameters[@"userId"] = self.isMineHistory ? [ZHUser user].userId : nil;
         //    http.parameters[@" "]
         [http postWithSuccess:^(id responseObject) {
             
@@ -159,7 +160,7 @@
         [self.view addSubview:lbl];
         lbl.font = FONT(13);
         lbl.textColor = [UIColor zh_themeColor];
-        lbl.text = self.historyModel.jewel.winUser;
+        lbl.text = self.historyModel.jewel.winNumber;
     }
 }
 

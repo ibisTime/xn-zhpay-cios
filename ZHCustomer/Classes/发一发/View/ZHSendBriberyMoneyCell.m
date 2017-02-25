@@ -48,6 +48,8 @@
 
     } else if (status == ZHBriberyMoneyStatusOutOfDate) { //过期
         
+        self.bgImageV.image = [UIImage imageNamed:@"已领取背景"];
+        receiverText = @"已过期";
     
     }
     
