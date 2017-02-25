@@ -82,16 +82,12 @@
             self.dbHistoryRooms = objs;
             [weakSelf.historyTableView reloadData_tl];
             
-            
-            
         } failure:^(NSError *error) {
             
             
         }];
         
     }];
-    
-    
     
 }
 

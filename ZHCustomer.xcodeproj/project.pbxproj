@@ -368,6 +368,8 @@
 		2EC602791E5EA4EC0066C197 /* TLCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602781E5EA4EC0066C197 /* TLCellModel.m */; };
 		2EC6027C1E5EDFBC0066C197 /* ZHDBNumberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6027B1E5EDFBC0066C197 /* ZHDBNumberModel.m */; };
 		2EC6027F1E5EE2E40066C197 /* ZHNumberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6027E1E5EE2E40066C197 /* ZHNumberCell.m */; };
+		2EC602821E5FDDB10066C197 /* ZHIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602811E5FDDB10066C197 /* ZHIP.m */; };
+		2EC602851E6005AA0066C197 /* ZHHZBInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602841E6005AA0066C197 /* ZHHZBInfoCell.m */; };
 		2EC96AFF1E26295C0079165A /* ZHTreasureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC96AFE1E26295C0079165A /* ZHTreasureModel.m */; };
 		2EC96B031E271F780079165A /* ZHMineTreasureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC96B021E271F780079165A /* ZHMineTreasureModel.m */; };
 		2EC96B091E2721EC0079165A /* ZHMineTreasureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC96B081E2721EC0079165A /* ZHMineTreasureCell.m */; };
@@ -1108,6 +1110,10 @@
 		2EC6027B1E5EDFBC0066C197 /* ZHDBNumberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDBNumberModel.m; sourceTree = "<group>"; };
 		2EC6027D1E5EE2E40066C197 /* ZHNumberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHNumberCell.h; sourceTree = "<group>"; };
 		2EC6027E1E5EE2E40066C197 /* ZHNumberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHNumberCell.m; sourceTree = "<group>"; };
+		2EC602801E5FDDB10066C197 /* ZHIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHIP.h; sourceTree = "<group>"; };
+		2EC602811E5FDDB10066C197 /* ZHIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHIP.m; sourceTree = "<group>"; };
+		2EC602831E6005AA0066C197 /* ZHHZBInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHHZBInfoCell.h; sourceTree = "<group>"; };
+		2EC602841E6005AA0066C197 /* ZHHZBInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHHZBInfoCell.m; sourceTree = "<group>"; };
 		2EC96AFD1E26295C0079165A /* ZHTreasureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHTreasureModel.h; sourceTree = "<group>"; };
 		2EC96AFE1E26295C0079165A /* ZHTreasureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHTreasureModel.m; sourceTree = "<group>"; };
 		2EC96B011E271F780079165A /* ZHMineTreasureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMineTreasureModel.h; sourceTree = "<group>"; };
@@ -1860,6 +1866,8 @@
 			children = (
 				2EC6025A1E5D2C080066C197 /* ZHDBModel.h */,
 				2EC6025B1E5D2C080066C197 /* ZHDBModel.m */,
+				2EC602801E5FDDB10066C197 /* ZHIP.h */,
+				2EC602811E5FDDB10066C197 /* ZHIP.m */,
 				2EC6027A1E5EDFBC0066C197 /* ZHDBNumberModel.h */,
 				2EC6027B1E5EDFBC0066C197 /* ZHDBNumberModel.m */,
 				2EC6025D1E5D61670066C197 /* ZHDBHistoryModel.h */,
@@ -2539,6 +2547,8 @@
 				2E16D02A1E5C4B870029B0A5 /* ZHCurrencyConvertView.m */,
 				2EC6027D1E5EE2E40066C197 /* ZHNumberCell.h */,
 				2EC6027E1E5EE2E40066C197 /* ZHNumberCell.m */,
+				2EC602831E6005AA0066C197 /* ZHHZBInfoCell.h */,
+				2EC602841E6005AA0066C197 /* ZHHZBInfoCell.m */,
 				2E6E48321E1663C300FD2CA7 /* ShoppingList */,
 			);
 			path = View;
@@ -3291,6 +3301,7 @@
 				2E2265CA1E4DACB200C7126E /* EaseTextView.m in Sources */,
 				2E2265BF1E4DACB200C7126E /* EaseBubbleView+File.m in Sources */,
 				2EC2ADD71E0CF55A003EF503 /* NSObject+convert.m in Sources */,
+				2EC602821E5FDDB10066C197 /* ZHIP.m in Sources */,
 				2EF9DC021E1CC877005E2943 /* ZHShopOrderVC.m in Sources */,
 				2E2265BB1E4DACB200C7126E /* EaseBaseMessageCell.m in Sources */,
 				2EC6027F1E5EE2E40066C197 /* ZHNumberCell.m in Sources */,
@@ -3338,6 +3349,7 @@
 				2E6E486A1E1B4D3800FD2CA7 /* ZHMsg.m in Sources */,
 				2E875D271E0D59CD007F97A5 /* ZHImageCell.m in Sources */,
 				2E2265BD1E4DACB200C7126E /* EaseMessageCell.m in Sources */,
+				2EC602851E6005AA0066C197 /* ZHHZBInfoCell.m in Sources */,
 				2EF9DC141E1CF209005E2943 /* ZHMapController.m in Sources */,
 				2E989CBF1E1E813B00F3643A /* ZHCouponsCell.m in Sources */,
 				2E6E47C31E134E8200FD2CA7 /* ZHEvaluateView.m in Sources */,

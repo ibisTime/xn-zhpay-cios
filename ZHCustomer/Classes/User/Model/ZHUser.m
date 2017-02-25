@@ -81,10 +81,9 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
         return NO;
     }
 
-    
-    
-    
 }
+
+
 
 - (void)loginOut {
 
@@ -100,7 +99,6 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_INFO_DICT_KEY];
 
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"user_login_out_notification" object:nil];
-
 }
 
 
@@ -110,6 +108,7 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     [[NSUserDefaults standardUserDefaults] synchronize];
     
 }
+
 
 - (ZHUserExt *)userExt {
 
@@ -139,8 +138,8 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
         
     }];
 
-
 }
+
 
 - (void)setUserInfoWithDict:(NSDictionary *)dict {
 
@@ -175,6 +174,7 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     }
     
 }
+
 
 - (NSString *)detailAddress {
 

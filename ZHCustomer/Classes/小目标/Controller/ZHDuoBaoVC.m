@@ -12,6 +12,7 @@
 #import "ZHDuoBaoDetailVC.h"
 #import "ZHDBModel.h"
 #import "ZHDBHistoryModel.h"
+#import "AFHTTPSessionManager.h"
 
 @interface ZHDuoBaoVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -66,24 +67,6 @@
     __weak typeof(self) weakSelf = self;
     [tableView addRefreshAction:^{
         
-//        NSString *urlStr = @"https://openapi.alipay.com/gateway.do?alipay_sdk=alipay-sdk-java-dynamicVersionNo&app_id=2016121204189723&biz_content=%7B%22biz_no%22%3A%22ZM201702233000000494900670311011%22%7D&charset=utf-8&format=json&method=zhima.customer.certification.certify&return_url=zhshios%3A%2F%2Fwww.baidu.com&sign=dcemScpbeX6beT0gsjh3TrbaL5xjg9Bd3VCLTwPWwwjcHaUpQ5SNdYBP0mspK3WN1o%2FORcldcRzL6EaPS7VEt%2Bri14mByZmsVc60hlQH%2FGPXWBmGtU%2BClFrh4cAWWK7AZ5LpL2nwCkvj99TsF6jDmsDvd1MUHaln0wJJQaXeAp4l1jn1geqChEwdw%2FG9ytJaES4Lv9t%2BEZlUs9H8uDUOuSKf%2BaJX9t%2BBNajnV9ZGARu0JstKbTl8U%2BMlJCLsAmf24MkFUMbhS69kbm6E1Lj7910J3BiejQJ3gYAQbAJ6JgnsV8brH7LqSAdzrCjxYhfb059tOTgb08FPE%2BqyJhUyZQ%3D%3D&sign_type=RSA2&timestamp=2017-02-23+19%3A49%3A04&version=1.0&sign=dcemScpbeX6beT0gsjh3TrbaL5xjg9Bd3VCLTwPWwwjcHaUpQ5SNdYBP0mspK3WN1o%2FORcldcRzL6EaPS7VEt%2Bri14mByZmsVc60hlQH%2FGPXWBmGtU%2BClFrh4cAWWK7AZ5LpL2nwCkvj99TsF6jDmsDvd1MUHaln0wJJQaXeAp4l1jn1geqChEwdw%2FG9ytJaES4Lv9t%2BEZlUs9H8uDUOuSKf%2BaJX9t%2BBNajnV9ZGARu0JstKbTl8U%2BMlJCLsAmf24MkFUMbhS69kbm6E1Lj7910J3BiejQJ3gYAQbAJ6JgnsV8brH7LqSAdzrCjxYhfb059tOTgb08FPE%2BqyJhUyZQ%3D%3D";
-        NSString *urlStr = @"localhost:8080/user/out";
-//        NSString *charactersToEscape = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\| ";
-//        NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];
-       
-        NSString *alipayUrl = [NSString stringWithFormat:@"alipays://platformapi/startapp?appId=2016121204189723&url=%@", urlStr];
- 
-        
-       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl] options:@{} completionHandler:nil];
-        [weakSelf.dbTableView endRefreshHeader];
-        
-        
-        
-        
-        return ;
-        
-        
-        
         [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
             self.dbRooms = objs;
@@ -100,8 +83,31 @@
         
     }];
     
-    //定时获取--购买记录
-    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(getDBRecord) userInfo:nil repeats:YES];
+//    //定时获取--购买记录
+//    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(getDBRecord) userInfo:nil repeats:YES];
+//    
+//    TLNetworking *http = [TLNetworking new];
+//    http.showView = self.view;
+//    http.code = @"805191";
+////    http.url = @"http://121.40.165.180:8903/std-certi/api";
+//    http.parameters[@"userId"] = [ZHUser user].userId;
+//    http.parameters[@"idKind"] = @"1";
+//    http.parameters[@"idNo"] = @"412321199305120634";
+//    http.parameters[@"realName"] = @"田磊";
+//    [http postWithSuccess:^(id responseObject) {
+//        
+////        :8903/std-certi/zhima?bizNo=ZM42342545
+//    NSString *urlStr = [NSString stringWithFormat:@"http://121.40.165.180:8903/std-certi/zhima?bizNo=%@",responseObject[@"data"][@"bizNo"]];
+//        
+//    NSString *alipayUrl = [NSString stringWithFormat:@"alipays://platformapi/startapp?appId=2016121204189723&url=%@",urlStr];
+//        
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl] options:@{} completionHandler:nil];
+//                [weakSelf.dbTableView endRefreshHeader];
+//        
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
     
 
 }

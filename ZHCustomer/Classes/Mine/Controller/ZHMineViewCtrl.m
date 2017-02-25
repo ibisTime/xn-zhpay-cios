@@ -94,8 +94,8 @@
             
         }];
         
-        
     }];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeInfo) name:kUserInfoChange object:nil];
     

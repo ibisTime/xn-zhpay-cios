@@ -7,7 +7,7 @@
 //
 
 #import "ZHDuoBaoRecordCell.h"
-
+#import "ZHIP.h"
 
 @interface ZHDuoBaoRecordCell()
 
@@ -46,23 +46,58 @@
 
     } else {
         
-        self.ipLbl.text = [NSString stringWithFormat:@"(%@)",_historyModel.ip];
         
-        [TLNetworking GET:[NSString stringWithFormat:@"http://ip.taobao.com/service/getIpInfo.php?ip=%@",_historyModel.ip]
-               parameters:nil success:^(NSString *msg, id data) {
-                   
-                   if (![data[@"code"] isEqual:@1]) {
+        //数据库查询
+        RLMResults *result = [ZHIP objectsWhere:@"ip = %@",_historyModel.ip];
+        
+        if (result.count > 0) {
+            
+            //数据库，有的话直接加载
+            ZHIP *ip = [result firstObject];
+            _historyModel.city = ip.cityName;
+            self.ipLbl.text = [NSString stringWithFormat:@"(%@ %@)",_historyModel.city ,_historyModel.ip];
+            
+            
+        } else {
+            
+            self.ipLbl.text = [NSString stringWithFormat:@"(%@)",_historyModel.ip];
+
+            //没有去请求
+            [TLNetworking GET:[NSString stringWithFormat:@"http://ip.taobao.com/service/getIpInfo.php?ip=%@",_historyModel.ip]
+                   parameters:nil success:^(NSString *msg, id data) {
                        
-                       _historyModel.city =  data[@"data"][@"city"];
-                       
-                       if ([data[@"data"][@"ip"] isEqualToString:_historyModel.ip]) {
+                       if (![data[@"code"] isEqual:@1]) {
                            
-                           self.ipLbl.text = [NSString stringWithFormat:@"(%@ %@)",_historyModel.city ,_historyModel.ip];
+                           _historyModel.city =  data[@"data"][@"city"];
                            
+                           //成功之后存档
+                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                               
+                               RLMRealm *realm = [RLMRealm defaultRealm];
+                               [realm transactionWithBlock:^{
+                                   ZHIP *ip = [[ZHIP alloc] init];
+                                   ip.ip = data[@"data"][@"ip"];
+                                   ip.cityName = data[@"data"][@"city"];
+                                   [realm addObject:ip];
+                               }];
+                               
+                           });
+                           
+                           if ([data[@"data"][@"ip"] isEqualToString:_historyModel.ip]) {
+                               
+                               self.ipLbl.text = [NSString stringWithFormat:@"(%@ %@)",_historyModel.city ,_historyModel.ip];
+                               
+                           }
                        }
-                   }
-                   
-               } abnormality:nil failure:nil];
+                       
+                   } abnormality:nil failure:nil];
+        
+        }
+        
+        
+        
+        
+     
     
     }
     
@@ -92,7 +127,7 @@
         
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:allStr];
         
-        [attr addAttribute:NSForegroundColorAttributeName value:[UIColor zh_themeColor] range:NSMakeRange(3, countStr.length)];
+       [attr addAttribute:NSForegroundColorAttributeName value:[UIColor zh_themeColor] range:NSMakeRange(3, countStr.length)];
        [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"#999999"] range:NSMakeRange(6 + countStr.length, dateStr.length)];
         self.contentLbl.attributedText = attr;
 

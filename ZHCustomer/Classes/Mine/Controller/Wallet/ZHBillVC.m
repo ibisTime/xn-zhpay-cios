@@ -47,10 +47,10 @@
     [super viewDidLoad];
     self.isFirst = YES;
     
-    if (!self.currencyModel) {
-        [TLAlert alertWithHUDText:@"无模型数据"];
-        return;
-    }
+//    if (!self.currencyModel || !(self.currency && self.bizType)) {
+//        [TLAlert alertWithHUDText:@"无模型数据"];
+//        return;
+//    }
     
     self.title = @"账单";
     TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
@@ -71,10 +71,11 @@
     pageDataHelper.tableView = billTableView;
     pageDataHelper.parameters[@"token"] = [ZHUser user].token;
 //    类型C=C端用户；B=B端用户；P=平台
+    pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
     pageDataHelper.parameters[@"type"] = @"C";
     
         
-   pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber;
+    pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
 
 
     //0 刚生成待回调，1 已回调待对账，2 对账通过, 3 对账不通过待调账,4 已调账,9,无需对账
@@ -109,6 +110,15 @@
         
     }];
     
+    
+    if (self.currency && self.bizType) {
+        
+        pageDataHelper.parameters[@"bizType"] = self.bizType;
+        pageDataHelper.parameters[@"currency"] = self.currency;
+        return;
+        
+    }
+    
     ZHCurrencyConvertView *currencyConvertView = [[ZHCurrencyConvertView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
     billTableView.tableHeaderView = currencyConvertView;
     
@@ -123,6 +133,9 @@
     BOOL hiddenRight = NO;
     NSString *leftTitle = @"";
     NSString *rightTitle = @"";
+    
+    
+    
 
     __weak typeof(self) weakself = self;
     //头部

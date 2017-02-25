@@ -170,7 +170,6 @@
     helper.tableView = self.briberyMoneyTableV;
     [helper modelClass:[ZHBriberyMoney class]];
     
-    
     //
     __weak typeof(self) weakSelf = self;
     [self.briberyMoneyTableV addRefreshAction:^{
@@ -186,6 +185,7 @@
         }];
         
     }];
+    
     
     [self.briberyMoneyTableV addLoadMoreAction:^{
         
@@ -216,6 +216,21 @@
     
     [TLWXManager manager].wxShare = ^(BOOL isSuccess,int errorCode){
     
+        if (isSuccess) {
+            
+            //用户发送成功之后---选择留在微信。无法获取，回调事件
+            TLNetworking *http = [TLNetworking new];
+            http.code = @"808470";
+            http.parameters[@"code"] = self.briberyMoneyRooms[indexPath.row].code;
+            [http postWithSuccess:^(id responseObject) {
+                
+                
+            } failure:^(NSError *error) {
+                
+                
+            }];
+
+        }
         
     };
     //

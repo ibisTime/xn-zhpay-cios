@@ -68,7 +68,7 @@
     fl.minimumLineSpacing = 0;
     fl.minimumInteritemSpacing = 0;
     
-    UICollectionView *numberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, mineNumberTableView.yy + 10, SCREEN_WIDTH, 280) collectionViewLayout:fl];
+    UICollectionView *numberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, mineNumberTableView.yy + 10, SCREEN_WIDTH, 260) collectionViewLayout:fl];
     [self.view addSubview:numberCollectionView];
     numberCollectionView.delegate = self;
     numberCollectionView.dataSource = self;
@@ -111,6 +111,7 @@
         http.parameters[@"jewelCode"] = self.historyModel.jewel.code;
         http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
         http.parameters[@"limit"] = @"40";
+        http.parameters[@"userId"] = self.isMineHistory ? [ZHUser user].userId : nil;
         [http postWithSuccess:^(id responseObject) {
             
             NSArray *arr = responseObject[@"data"][@"list"];

@@ -11,6 +11,7 @@
 
 
 @interface TLNetworking : NSObject
++ (AFHTTPSessionManager *)HTTPSessionManager;
 
 @property (nonatomic,strong, readonly) AFHTTPSessionManager *manager;
 @property (nonatomic,strong)  NSMutableDictionary *parameters;

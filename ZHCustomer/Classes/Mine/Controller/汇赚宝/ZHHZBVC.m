@@ -16,13 +16,20 @@
 #import "SGAlertView.h"
 #import "SGScanningQRCodeVC.h"
 #import "MJRefresh.h"
+#import "ZHBillVC.h"
 
-@interface ZHHZBVC ()
+#import "ZHHZBInfoCell.h"
+
+@interface ZHHZBVC ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic,strong) ZHHZBModel *HZBModel;
 @property (nonatomic,strong) ZHBuyHZBVC *buyVC;
 
+@property (nonatomic, strong) NSMutableArray <NSDictionary <NSString*, NSString *> *>*hzbInfos;
+@property (nonatomic, strong) TLTableView *hzbTableView;
+
 @end
+
 
 @implementation ZHHZBVC
 
@@ -42,9 +49,20 @@
 
 }
 
+- (NSMutableArray<NSDictionary<NSString *,NSString *> *> *)hzbInfos {
+
+    if (!_hzbInfos) {
+        
+        _hzbInfos = [[NSMutableArray alloc] initWithCapacity:7];
+    }
+    return _hzbInfos;
+
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的汇赚宝";
+    
+    
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buySuccess) name:@"HZBBuySuccess" object:nil];
@@ -59,7 +77,6 @@
 - (void)buySuccess {
 
     TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
     http.code = @"808456";
     http.parameters[@"userId"] = [ZHUser user].userId;
     http.parameters[@"token"] = [ZHUser user].token;
@@ -71,7 +88,10 @@
             
             self.HZBModel = [ZHHZBModel  tl_objectWithDictionary:data];
             [self.tl_placeholderView removeFromSuperview];
+            
+            
             [self setUpUI];
+            [self getOtherInfo];
             
             if (self.buyVC.view) {
                 
@@ -80,7 +100,9 @@
             }
             
             if (self.buyVC) {
+                
                 [self.buyVC removeFromParentViewController];
+                
             }
             
         } else { //还没有股份
@@ -92,46 +114,110 @@
         
     } failure:^(NSError *error) {
         
+        if (self.hzbTableView ) {
+            [self.hzbTableView endRefreshHeader];
+        }
+    }];
+    
+    
+
+    
+//    data = {
+//        ffTotalHbAmount = 0; 发一发红包业绩金额
+    
+    
+//        historyYyTimes = 1;  历史摇摇次数
+//        todayYyTimes = 0; 今日摇摇次数
+
+//        historyHbTimes = 0;
+//        todayHbTimes = 0;
+    
+//        yyTotalAmount = 450; 摇一摇总红包业绩
+//    };
+
+}
+
+
+- (void)getOtherInfo {
+
+    //获取统计信息
+    TLNetworking *httpGetInfo = [TLNetworking new];
+    httpGetInfo.code = @"808802";
+    httpGetInfo.parameters[@"userId"] = [ZHUser user].userId;
+    httpGetInfo.parameters[@"token"] = [ZHUser user].token;
+    [httpGetInfo postWithSuccess:^(id responseObject) {
+        
+        if (self.hzbTableView ) {
+            [self.hzbTableView endRefreshHeader];
+        }
+        
+        // 拼接地址数据
+        [self.hzbInfos removeAllObjects];
+        
+        NSDictionary *allDict = responseObject[@"data"];
+        
+//        NSArray *titles = @[@"隶属辖区",@"历史被摇次数",@"今日被摇次数",@"红包业绩",@"历史定向红包",@"今日定向红包",@"贡献值"];
+//        NSArray *keys = @[];
+        
+        NSDictionary *addressDict = @{@"隶属辖区" : [[ZHUser user] detailAddress]};
+        
+        NSDictionary *historyYYDict = @{@"历史被摇次数" : [allDict[@"historyYyTimes"] stringValue]};
+        NSDictionary *todayYYDict = @{@"今日被摇次数" : [allDict[@"todayYyTimes"]stringValue]};
+        NSDictionary *HBYJDict = @{@"红包业绩" : [(NSNumber *)allDict[@"ffTotalHbAmount"] convertToRealMoney]};
+        
+        NSDictionary *historyHBDict = @{@"历史定向红包" : [allDict[@"historyHbTimes"] stringValue]};
+        NSDictionary *todayHBDict = @{@"今日定向红包" : [allDict[@"todayYyTimes"] stringValue]};
+        
+        //贡献值 -- 红包业绩
+        NSDictionary *GXZDict = @{@"红包业绩" : [(NSNumber *)allDict[@"yyTotalAmount"] convertToRealMoney]};
+        
+        [self.hzbInfos addObjectsFromArray:@[addressDict,historyYYDict,todayYYDict,HBYJDict,historyHBDict,todayHBDict,GXZDict]];
+        
+    
+        [self.hzbTableView reloadData];
+        
+        
+    } failure:^(NSError *error) {
+        
+        if (self.hzbTableView ) {
+            [self.hzbTableView endRefreshHeader];
+        }
+        
     }];
 
 }
 
-//- (void)refresh {
-//
-//    
-//
-//}
-
 
 - (void)setUpUI {
-
-    UIScrollView *bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 65)];
-    [self.view addSubview:bgScrollView];
-//    bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+    
+    //防止刷新重复创建
+    if (self.hzbTableView) {
+        return;
+    }
+    
+    self.hzbTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH , SCREEN_HEIGHT - 64 - 65) delegate:self dataSource:self];
+    [self.view addSubview:self.hzbTableView];
+    self.hzbTableView.rowHeight = 50;
+    
+    __weak typeof(self) weakSelf = self;
+    [self.hzbTableView addRefreshAction:^{
+        
+        [weakSelf buySuccess];
+        
+        
+    }];
+    
     //
     ZHBusinessCardView *cardV = [[ZHBusinessCardView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90)];
-    [bgScrollView addSubview:cardV];
     
-    //
-    TLTextField *addressTf = [self tfByframe:CGRectMake(0, cardV.yy + 1, SCREEN_WIDTH, 50) leftTitle:@"隶属辖区" titleWidth:98 placeholder:nil];
-    [bgScrollView addSubview:addressTf];
-    
-    //
-    TLTextField *numTf = [self tfByframe:CGRectMake(0, addressTf.yy + 1, SCREEN_WIDTH, 50) leftTitle:@"被摇次数" titleWidth:98 placeholder:nil];
-    [bgScrollView addSubview:numTf];
+    self.hzbTableView.tableHeaderView = cardV;
+        cardV.headerImageV.image = [UIImage imageNamed:@"树"];
+        cardV.titleTf.text = [ZHUser user].realName;
+        cardV.subTitleTf.text =  [self.HZBModel getStatusName];
 
     
-    cardV.headerImageV.image = [UIImage imageNamed:@"树"];
-
-    cardV.titleTf.text = [ZHUser user].realName;
-    cardV.subTitleTf.text =  [self.HZBModel getStatusName];
-//
-    addressTf.text = [[ZHUser user] detailAddress];
-    
-    numTf.text = [NSString stringWithFormat:@"%@ 次",self.HZBModel.totalRockNum];
-
     //发红包Btn
-    UIButton *sendBtn = [UIButton zhBtnWithFrame:CGRectMake(20,bgScrollView.yy , SCREEN_WIDTH - 40, 45) title:@"发定向红包"];
+    UIButton *sendBtn = [UIButton zhBtnWithFrame:CGRectMake(20,self.hzbTableView.yy , SCREEN_WIDTH - 40, 45) title:@"发定向红包"];
     [self.view addSubview:sendBtn];
     [sendBtn addTarget:self action:@selector(sendBriberyMoney) forControlEvents:UIControlEventTouchUpInside];
     
@@ -161,8 +247,60 @@
     
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    if (!(indexPath.row == 3 || indexPath.row == 6)) {
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        return;
+    }
+
+    ZHBillVC *billVC = [[ZHBillVC alloc] init];
+    billVC.currency = kHBYJ;
+
+    
+    if (indexPath.row == 3) {
+        
+//      bizType 39
+        billVC.bizType = @"39";
+        
+    }
+    
+    if (indexPath.row == 6) {
+        
+//      bizType 61
+        billVC.bizType = @"61";
 
 
+    }
+    
+    [self.navigationController pushViewController:billVC animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    return self.hzbInfos.count;
+
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    ZHHZBInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"hzbCell"];
+    if (!cell) {
+        
+        cell = [[ZHHZBInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hzbCell"];
+    }
+    cell.titleLbl.text = self.hzbInfos[indexPath.row].allKeys[0];
+    cell.contentLbl.text = self.hzbInfos[indexPath.row].allValues[0];
+    
+    cell.arrowImageView.hidden = ( indexPath.row == 3 || indexPath.row == 6 )? NO : YES;
+    return cell;
+
+}
 
 
 
