@@ -11,16 +11,20 @@
 #import "ZHStepView.h"
 #import "ZHDuoBaoInfoCell.h"
 #import "ZHDuoBaoRecordCell.h"
-#import "ZHIntroduceVC.h"
 #import "ZHPayVC.h"
 #import "ZHNewPayVC.h"
-
+#import "ZHShareView.h"
 #import "ZHUserLoginVC.h"
 #import "ZHDBHistoryModel.h"
 #import "ZHDBHistoryRecordVC.h"
+#import "AppConfig.h"
+#import "TLHTMLStrVC.h"
+#import <WebKit/WebKit.h>
 
 
-@interface ZHDuoBaoDetailVC ()<UITableViewDelegate,UITableViewDataSource>
+NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationName";
+
+@interface ZHDuoBaoDetailVC ()<UITableViewDelegate,UITableViewDataSource,WKNavigationDelegate>
 
 @property (nonatomic, strong) TLBannerView *bannerView;
 
@@ -35,16 +39,14 @@
 @property (nonatomic, strong) ZHStepView *countChangeView; //剩余
 
 @property (nonatomic, strong) TLTableView *detailTableView; //剩余
+@property (nonatomic, strong) UILabel *advText;
 
 @property (nonatomic,strong) UIView *recordHeaderView;
 @property (nonatomic,strong) UILabel *timeLbl;
 @property (nonatomic,strong) UIView *buyToolView;
 @property (nonatomic,strong) UILabel *totalPriceLbl;
 @property (nonatomic, assign) BOOL isFirst;
-@property (nonatomic, assign) NSInteger start;
-
-
-
+//@property (nonatomic, assign) NSInteger start;
 
 @property (nonatomic, strong) NSMutableArray <ZHDBHistoryModel *>*dbHistoryRooms;
 
@@ -53,6 +55,11 @@
 
 
 @implementation ZHDuoBaoDetailVC
+
+- (void)dealloc {
+
+
+}
 
 - (void)viewWillAppear:(BOOL)animated {
 
@@ -65,11 +72,11 @@
     }
 
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.isFirst = YES;
-    self.start = 1;
     
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
     [self.view addSubview:tableView];
@@ -78,35 +85,56 @@
     tableView.backgroundColor = [UIColor zh_backgroundColor];
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无商品"];
     
-    //
+    
     __weak typeof(self) weakSelf = self;
-    [tableView addRefreshAction:^{
-       
-        TLNetworking *http = [TLNetworking new];
-        http.code = @"808312";
-        http.parameters[@"code"] = self.dbModel.code;
-        [http postWithSuccess:^(id responseObject) {
+    //刷新控件
+    TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
+    
+    helper.code = @"808315";
+    helper.parameters[@"jewelCode"] = self.dbModel.code;
+//    helper.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
+//    helper.parameters[@"limit"] = @"20";
+    helper.parameters[@"status"] = @"payed";
+    
+    helper.tableView = tableView;
+    [helper modelClass:[ZHDBHistoryModel class]];
+    
+    //
+    
+    [self.detailTableView addRefreshAction:^{
+        
+        //刷新详情
+        [weakSelf refreshDetail];
+        
+        //历史记录查询
+        [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
-            self.dbModel = [ZHDBModel tl_objectWithDictionary:responseObject[@"data"]];
-            [weakSelf.detailTableView endRefreshHeader];
-            [weakSelf data];
-            
+           weakSelf.dbHistoryRooms = objs;
+           [weakSelf.detailTableView reloadData];
+               
         } failure:^(NSError *error) {
             
-            [weakSelf.detailTableView endRefreshHeader];
+            
+        }];
+        
+    }];
 
+    
+    [self.detailTableView addLoadMoreAction:^{
+        
+        [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            weakSelf.dbHistoryRooms = objs;
+            [weakSelf.detailTableView reloadData];
+            
+        } failure:^(NSError *error) {
             
         }];
         
     }];
     
-    
-    [tableView addLoadMoreAction:^{
-        
-        [self loadMoreRecorder];
-        
-    }];
 
+    
     self.buyToolView.y = tableView.yy;
     [self.view addSubview:self.buyToolView];
     
@@ -126,11 +154,13 @@
     
     };
     
+    __weak ZHStepView *weakSelfCountChangeView = self.countChangeView;
+    
     self.countChangeView.buyAllAction = ^(){
     
 //        NSInteger count = [weakself.dbModel getSurplusPeople];
 //        weakself.countChangeView.count = count;
-        weakself.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:[weakSelf.dbModel.maxInvestNum integerValue]];
+        weakself.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:weakSelfCountChangeView.count];
         
     };
     
@@ -151,17 +181,39 @@
 
 }
 
+#pragma mark - 刷新详情
+- (void)refreshDetail {
 
+    __weak typeof(self) weakSelf = self;
+    //加载 -- 夺宝详情
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"808312";
+    http.parameters[@"code"] = self.dbModel.code;
+    [http postWithSuccess:^(id responseObject) {
+        
+        self.dbModel = [ZHDBModel tl_objectWithDictionary:responseObject[@"data"]];
+//        [weakSelf.detailTableView endRefreshHeader];
+        [weakSelf data];
+        
+    } failure:^(NSError *error) {
+        
+//        [weakSelf.detailTableView endRefreshHeader];
+        
+        
+    }];
+}
+
+#pragma mark- 获得参与记录
 - (void)loadMoreRecorder {
 
     __weak typeof(self) weakSelf = self;
     
-#pragma mark- 获得参与记录
     TLNetworking *http = [TLNetworking new];
     http.code = @"808315";
     http.parameters[@"jewelCode"] = self.dbModel.code;
-    http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
+    http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"20";
+    http.parameters[@"status"] = @"payed";
     [http postWithSuccess:^(id responseObject) {
         
         NSArray *arr = responseObject[@"data"][@"list"];
@@ -174,7 +226,7 @@
 
             [weakSelf.detailTableView endRefreshFooter];
             [weakSelf.detailTableView reloadData];
-            self.start ++;
+//            self.start ++;
             
         } else {
         
@@ -186,7 +238,7 @@
     } failure:^(NSError *error) {
         
         [weakSelf.detailTableView endRefreshFooter];
-        [weakSelf.detailTableView reloadData];
+//        [weakSelf.detailTableView reloadData];
         
         
     }];
@@ -201,17 +253,22 @@
     
 //  @[@"http://pic.35pic.com/normal/09/36/49/4499633_230627095337_2.jpg"];
     
-    self.countChangeView.maxCount = [self.dbModel.maxInvestNum integerValue];
+    
+    //计算单人最大投资
+    self.countChangeView.maxCount = [self.dbModel.maxInvestNum integerValue] < [self.dbModel getSurplusPeople] ? [self.dbModel.maxInvestNum integerValue] : [self.dbModel getSurplusPeople];
+    
     self.priceLbl.text = [self.dbModel getPriceDetail];
+    self.advText.text =  self.dbModel.advText;
+    
     self.numberLbl.text = [NSString  stringWithFormat:@"期号: %@",self.dbModel.periods];
+    
     self.progressView.progress  = [self.dbModel getProgress];
+    
 //    self.totalCountLbl.text = [NSString stringWithFormat:@"总需 %@ 人次",self.dbModel.totalNum];
-//    
-//    
+//
 //    self.surplusCountLbl.text = [NSString stringWithFormat:@"剩余 %ld",[self.dbModel getSurplusPeople]];
     
-    
-    
+
     NSString *animStr = [NSString stringWithFormat:@"总需 %@ 人次",self.dbModel.totalNum];
     self.totalCountLbl.attributedText = [self convertStrWithStr:animStr value:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]} range:NSMakeRange(3, [NSString stringWithFormat:@"%@",self.dbModel.totalNum].length)];
     
@@ -240,6 +297,14 @@
 - (void)share {
 
     
+    
+    ZHShareView *shareView = [[ZHShareView alloc] init];
+    shareView.title = @"小目标大玩法";
+    shareView.content = @"正汇钱包邀您一元夺宝";
+    shareView.shareUrl = [NSString stringWithFormat:@"%@/share/share-db.html?code=%@",[AppConfig config].shareBaseUrl,self.dbModel.code];
+    
+    [shareView show];
+    
 
 }
 
@@ -256,16 +321,46 @@
         return;
     }
     
-    
     //mask
     UIControl *maskCtrl = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [maskCtrl addTarget:self action:@selector(deleteMask:) forControlEvents:UIControlEventTouchUpInside];
     maskCtrl.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.65];
     [[UIApplication sharedApplication].keyWindow addSubview:maskCtrl];
     
+    //title
+    UILabel *titleLbl = [UILabel labelWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 30)
+                                          textAligment:NSTextAlignmentCenter
+                                       backgroundColor:[UIColor clearColor]
+                                                  font:FONT(17)
+                                             textColor:[UIColor whiteColor]];
+    titleLbl.text = @"免责声明";
+    [maskCtrl addSubview:titleLbl];
+    
+    //webView
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"807717";
+    http.parameters[@"ckey"] = @"treasure_statement";
+    
+    [http postWithSuccess:^(id responseObject) {
+        
+        WKWebViewConfiguration *webConfig = [[WKWebViewConfiguration alloc] init];
+        
+        WKWebView *webV = [[WKWebView alloc] initWithFrame:CGRectMake(0, titleLbl.yy + 20, SCREEN_WIDTH, SCREEN_HEIGHT - titleLbl.yy - 85 - 20 - 35) configuration:webConfig];
+        [maskCtrl addSubview:webV];
+        webV.backgroundColor = [UIColor clearColor];
+        webV.navigationDelegate = self;
+        [webV loadHTMLString:responseObject[@"data"][@"note"] baseURL:nil];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
+    
     UIButton *readBtn = [UIButton zhBtnWithFrame:CGRectMake(20, SCREEN_HEIGHT - 85, SCREEN_WIDTH - 40, 45) title:@"我已阅读"];
     [readBtn addTarget:self action:@selector(readed:) forControlEvents:UIControlEventTouchUpInside];
     [maskCtrl addSubview:readBtn];
+    
 
 }
 
@@ -286,13 +381,12 @@
     payVC.orderAmount = @([self.dbModel.price longLongValue]*self.countChangeView.count);
     payVC.paySucces = ^(){
         
-        //刷新信息
-        
+        //刷新详情
         [self.detailTableView beginRefreshing];
-//        [self.detailTableView ];
-        [self loadMoreRecorder];
-
+        //刷新外部列表
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRefreshDBListNotificationName object:nil];
         
+
     };
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
@@ -308,6 +402,7 @@
 
 }
 
+
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -315,7 +410,9 @@
         
         if (indexPath.row == 0) {
             
-            ZHIntroduceVC *vc = [[ZHIntroduceVC alloc] init];
+            TLHTMLStrVC *vc = [[TLHTMLStrVC alloc] init];
+            vc.type = ZHHTMLTypeDBIntroduce;
+            vc.title = @"玩法介绍";
             [self.navigationController pushViewController:vc animated:YES];
             
         } else {
@@ -329,6 +426,25 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
+}
+
+#pragma mark- web代理
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation {
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [TLAlert alertWithHUDText:@"加载失败"];
+    
+}
+
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (UIView *)buyToolView {
@@ -448,7 +564,7 @@
 #pragma mark- 头部
 - (void)tableViewHeaderView {
 
-    UIView *headerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 400)];
+    UIView *headerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 420)];
     headerBgView.backgroundColor = [UIColor whiteColor];
     self.detailTableView.tableHeaderView = headerBgView;
     
@@ -478,6 +594,19 @@
     }];
     
     //描述语
+    self.advText = [UILabel labelWithFrame:CGRectZero
+                               textAligment:NSTextAlignmentLeft
+                            backgroundColor:[UIColor whiteColor]
+                                       font:FONT(14)
+                                  textColor:[UIColor zh_textColor]];
+    [headerBgView addSubview:self.advText];
+    [self.advText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(headerBgView.mas_left).offset(15);
+        make.top.equalTo(self.priceLbl.mas_bottom).offset(20);
+        make.right.lessThanOrEqualTo(headerBgView.mas_right).offset(-15);
+        
+    }];
+    
     
     //期号
     self.numberLbl = [UILabel labelWithFrame:CGRectZero
@@ -489,10 +618,12 @@
     [self.numberLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.priceLbl.mas_left);
-        make.top.equalTo(self.priceLbl.mas_bottom).offset(20);
+        make.top.equalTo(self.advText.mas_bottom).offset(20);
+//        make.right.lessThanOrEqualTo();
         
     }];
     
+
     //单人最大投资
     self.maxNumLbl = [UILabel labelWithFrame:CGRectZero
                                 textAligment:NSTextAlignmentRight
@@ -506,6 +637,7 @@
         make.top.equalTo(self.numberLbl.mas_top);
         
     }];
+    
     
     //进度条
     self.progressView = [[ZHProgressView alloc] initWithFrame:CGRectMake(0, 0, 0, 10)];
@@ -537,15 +669,16 @@
     [headerBgView addSubview:self.surplusCountLbl];
     
     [self.totalCountLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.priceLbl.mas_left);
+        make.left.equalTo(self.progressView.mas_left);
         make.top.equalTo(self.progressView.mas_bottom).offset(8);
-        make.right.lessThanOrEqualTo(self.surplusCountLbl);
+        make.height.mas_equalTo([[UIFont systemFontOfSize:12] lineHeight]);
+//        make.right.lessThanOrEqualTo(self.surplusCountLbl);
     }];
 
     
     [self.surplusCountLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.greaterThanOrEqualTo(self.totalCountLbl);
-        make.top.equalTo(self.totalCountLbl);
+        make.top.equalTo(self.progressView.mas_bottom).offset(8);
         make.right.equalTo(self.progressView.mas_right);
     }];
     
@@ -559,7 +692,7 @@
         make.top.equalTo(self.totalCountLbl.mas_bottom).offset(25);
         make.width.mas_equalTo(@280);
         make.height.mas_equalTo(@25);
-        make.bottom.equalTo(headerBgView.mas_bottom).offset(-25);
+//        make.bottom.equalTo(headerBgView.mas_bottom).offset(-20);
     }];
     
     //

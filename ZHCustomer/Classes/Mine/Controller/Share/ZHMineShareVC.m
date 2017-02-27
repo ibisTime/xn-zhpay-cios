@@ -166,7 +166,7 @@
     NSMutableArray *contents =[NSMutableArray arrayWithArray:@[address,
                                                                [NSString stringWithFormat:@"%@",self.mothCard.stock.capital],
                                                                @"月卡",
-                                                               [NSString stringWithFormat:@"%@贡献奖励 + %@购物币",[self.mothCard.backWelfare1 convertToRealMoney],[self.mothCard.backWelfare2 convertToRealMoney]]
+                                                               [NSString stringWithFormat:@"%@贡献值 + %@购物币",[self.mothCard.backWelfare1 convertToRealMoney],[self.mothCard.backWelfare2 convertToRealMoney]]
                                                                ]];
     
     if ([self.mothCard.status isEqualToString:@"1"]) {
@@ -239,7 +239,7 @@
                 
                 self.mothCard = [ZHMonthCardModel tl_objectWithDictionary:responseObject[@"data"]];
                 
-                self.rewardtf.text = [NSString stringWithFormat:@"%@贡献奖励 + %@购物币",[self.mothCard.backWelfare1 convertToRealMoney],[self.mothCard.backWelfare2 convertToRealMoney]];
+                self.rewardtf.text = [NSString stringWithFormat:@"%@贡献值 + %@购物币",[self.mothCard.backWelfare1 convertToRealMoney],[self.mothCard.backWelfare2 convertToRealMoney]];
                 self.nextRewardTf.text = [self.mothCard.nextBack converDate];
                 
                 

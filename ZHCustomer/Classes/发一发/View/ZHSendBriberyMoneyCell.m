@@ -33,7 +33,7 @@
     if (status == ZHBriberyMoneyStatusUnSend) {
         
         self.bgImageV.image = [UIImage imageNamed:@"未发送背景"];
-        receiverText = @"未发送";
+        receiverText = @"待发送";
 
 
     } else if(status == ZHBriberyMoneyStatusUnReceive) {
@@ -44,11 +44,11 @@
     } else if (status == ZHBriberyMoneyStatusReceiverd ) { //已领取
     
         self.bgImageV.image = [UIImage imageNamed:@"已领取背景"];
-        receiverText = [NSString stringWithFormat:@"领取人:%@",_briberMoney.receiver];
+        receiverText = [NSString stringWithFormat:@"领取人:%@",_briberMoney.receiverMobile];
 
     } else if (status == ZHBriberyMoneyStatusOutOfDate) { //过期
         
-        self.bgImageV.image = [UIImage imageNamed:@"已领取背景"];
+        self.bgImageV.image = [UIImage imageNamed:@"待领取背景"];
         receiverText = @"已过期";
     
     }

@@ -12,10 +12,31 @@
 
 @interface ZHShareView ()
 
+@property (nonatomic, strong) UIImageView *qrImageView;
+
 @end
 
 @implementation ZHShareView
 
+
+- (UIImageView *)qrImageView {
+
+    if (!_qrImageView) {
+        
+        //添加二维码
+        UIImageView *qrImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 69, 200, 200)];
+        _qrImageView = qrImageView;
+        qrImageView.layer.cornerRadius = 5;
+        qrImageView.clipsToBounds = YES;
+        qrImageView.center = [UIApplication sharedApplication].keyWindow.center;
+        qrImageView.centerY = qrImageView.centerY - 40;
+//        [maskCtrl addSubview:qrImageView];
+        
+        
+    }
+    return _qrImageView;
+
+}
 - (instancetype)init {
 
     if (self = [super initWithFrame:[UIScreen mainScreen].bounds]) {
@@ -30,17 +51,10 @@
         //    [UIColor colorWithWhite:0.2 alpha:0.5];
         
         
-        //添加二维码
-        UIImageView *qrImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 69, 200, 200)];
-        qrImageView.layer.cornerRadius = 5;
-        qrImageView.clipsToBounds = YES;
-        qrImageView.center = [UIApplication sharedApplication].keyWindow.center;
-        qrImageView.centerY = qrImageView.centerY - 40;
-        [maskCtrl addSubview:qrImageView];
         
-        //二维码
-        UIImage *image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:@"我的号码" imageViewWidth:SCREEN_WIDTH];
-        qrImageView.image = image;
+      
+        
+        
         
         //分享界面
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 139 - 54, SCREEN_WIDTH, 139 + 54)];
@@ -100,10 +114,23 @@
         shareFriendBtn.tag = 100;
         shareWXZoneBtn.tag = 101;
         [shareFriendBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
+        [shareWXZoneBtn addTarget:self action:@selector(share:) forControlEvents:UIControlEventTouchUpInside];
         
     }
     
     return self;
+
+}
+
+- (void)setQrContentStr:(NSString *)qrContentStr {
+
+    _qrContentStr = qrContentStr;
+    
+    [self.qrImageView removeFromSuperview];
+    
+    self.qrImageView.image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:_qrContentStr imageViewWidth:SCREEN_WIDTH];
+    
+    [self addSubview:self.qrImageView];
 
 }
 
@@ -122,15 +149,21 @@
     
     [TLWXManager manager].wxShare = ^(BOOL isSuccess,int errorCode){
         
+        if (self.wxShare) {
+            self.wxShare(isSuccess,errorCode);
+        }
+        
         if (isSuccess) {
-            [TLAlert alertWithHUDText:@"分享成功"];
+//            [TLAlert alertWithHUDText:@"分享成功"];
             
             [(UIControl *)[[btn nextResponder] nextResponder] removeFromSuperview];
             
         } else {
             [TLAlert alertWithHUDText:@"分享失败"];
-            
+           
         }
+        
+     
         
     };
     

@@ -15,7 +15,7 @@
 
     NSDictionary *dict = @{
                            kFRB : @"分润",
-                           kGXB : @"贡献奖励",
+                           kGXB : @"贡献值",
                            kQBB : @"钱包币",
                            kGWB : @"购物币",
                            kHBYJ : @"红包业绩",

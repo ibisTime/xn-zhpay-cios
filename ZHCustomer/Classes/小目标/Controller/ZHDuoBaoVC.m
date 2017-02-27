@@ -41,6 +41,7 @@
     }
 
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"小目标";
@@ -67,13 +68,6 @@
     //
     __weak typeof(self) weakSelf = self;
     [tableView addRefreshAction:^{
-        
-        [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logOut"] parameters:@{@"userId" : [ZHUser user].userId , @"token" : [ZHUser user].token} success:^(id responseObject) {
-            
-            
-        }  failure:^(NSError *error) {
-            
-        }];
         
         //--//
         [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
@@ -109,18 +103,27 @@
     
 //    //定时获取--购买记录
     [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(getDBRecord) userInfo:nil repeats:YES];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:kRefreshDBListNotificationName object:nil];
 
     
 
 }
 
+- (void)refreshTable {
+    
+        [self.dbTableView beginRefreshing];
+
+    
+}
+
 - (void)getDBRecord {
 
+    
     TLNetworking *http = [TLNetworking new];
     http.code = @"808315";
     http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"3";
+    http.parameters[@"status"] = @"payed";
     [http postWithSuccess:^(id responseObject) {
         
        self.dbHistoryRooms = [ZHDBHistoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
@@ -130,6 +133,7 @@
             
             //
             ZHAwardAnnounceView *announceView = self.awardViewRooms[idx];
+           
             announceView.typeLbl.text = [obj getNowResultName];
             announceView.contentLbl.attributedText = [obj getNowResultContent];            
             [self.tableHeaderView addSubview:announceView];

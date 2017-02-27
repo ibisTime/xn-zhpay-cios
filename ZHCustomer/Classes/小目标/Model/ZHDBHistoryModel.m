@@ -12,7 +12,7 @@
 
 - (NSString *)getNowResultName {
 
-    if ([self.jewel.status isEqual:@1]) {
+    if ([self.status isEqual:@2]) {
         
         return @"中奖";
         
@@ -27,7 +27,7 @@
 
     NSString *securityMobile = [self.mobile stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
     
-    if ([self.jewel.status isEqual:@1]) { //已经揭晓
+    if ([self.status isEqual:@2]) { //已经揭晓
         
         NSString *allStr = [NSString stringWithFormat:@"%@ 中得 %@",securityMobile,[self.jewel getPriceDetail]];
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:allStr];
@@ -41,7 +41,7 @@
         
         NSString *countStr = [NSString stringWithFormat:@"%@",self.times];
         
-        NSString *allStr = [NSString stringWithFormat:@"%@ 参与 %@ 次抢红包",securityMobile,countStr];
+        NSString *allStr = [NSString stringWithFormat:@"%@ 参与 %@ 次夺宝",securityMobile,countStr];
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:allStr];
         
         [attr addAttribute:NSForegroundColorAttributeName value:[UIColor zh_themeColor] range:NSMakeRange(0, securityMobile.length)];

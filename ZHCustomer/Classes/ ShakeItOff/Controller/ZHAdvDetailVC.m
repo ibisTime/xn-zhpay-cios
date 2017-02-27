@@ -12,6 +12,8 @@
 #import <WebKit/WebKit.h>
 #import "SVProgressHUD.h"
 #import "SGQRCodeTool.h"
+#import "ZHShareView.h"
+#import "AppConfig.h"
 
 @interface ZHAdvDetailVC ()<WKNavigationDelegate>
 
@@ -100,7 +102,8 @@
 
     
     //二维码
-    UIImage *image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:self.hzbModel.shareUrl imageViewWidth:SCREEN_WIDTH];
+    NSString *qrStr = [NSString stringWithFormat:@"%@/user/register.html?userReferee=%@",[AppConfig config].shareBaseUrl,[[ZHUser user] mobile]];;
+    UIImage *image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:qrStr imageViewWidth:SCREEN_WIDTH];
     
     qrImageView.image = image;
     
@@ -127,12 +130,14 @@
 }
 
 - (void)share {
-
-    [TLWXManager manager].wxShare = ^(BOOL isSuccess,int errorCode) {
+    
+    //
+    ZHShareView *shareView = [[ZHShareView alloc] init];
+    
+    shareView.wxShare = ^(BOOL isSuccess,int errorCode) {
         
         if (isSuccess) {
             
-            [TLAlert alertWithHUDText:@"分享成功"];
             
             TLNetworking *http = [TLNetworking new];
             http.showView = self.view;
@@ -165,13 +170,13 @@
                     
                 }
                 
-//                [TLAlert alertWithHUDText:[NSString stringWithFormat:@"恭喜您获得 %@ 个%@",quantity,hintStr]];
-//                
+                //                [TLAlert alertWithHUDText:[NSString stringWithFormat:@"恭喜您获得 %@ 个%@",quantity,hintStr]];
+                //
                 NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"恭喜您获得 %@ 个%@",quantity,hintStr]];
                 [attr addAttributes:@{
                                       NSForegroundColorAttributeName : [UIColor zh_themeColor]
                                       } range:NSMakeRange(6, [NSString stringWithFormat:@"%@",quantity].length)
-                                                          ];
+                 ];
                 
                 [[UIApplication sharedApplication].keyWindow addSubview:self.awardBtn];
                 
@@ -191,14 +196,16 @@
             
         } else {
             
-            [TLAlert alertWithHUDText:@"分享失败,无法获取奖励"];
+//            [TLAlert alertWithHUDText:@"分享失败,无法获取奖励"];
             
         }
         
     };
     
-    //
-    [TLWXManager wxShareWebPageWith:@"正汇分享" desc:@"我正在参加摇一摇活动" url:self.hzbModel.shareUrl];
+    shareView.title = @"正汇钱包邀您玩转红包";
+    shareView.content = @"小目标，发一发，摇一摇，聊一聊各种红包玩法";
+    shareView.shareUrl = [NSString stringWithFormat:@"%@/user/register.html?userReferee=%@",[AppConfig config].shareBaseUrl,[[ZHUser user] mobile]];
+    [shareView show];
     
 }
 

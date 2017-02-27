@@ -179,7 +179,7 @@
                                      backgroundColor:[UIColor clearColor]
                                                 font:FONT(11)
                                            textColor:[UIColor colorWithHexString:@"#99ffff"]];
-    bootomHintlbl.text = @"(分润+贡献奖励)";
+    bootomHintlbl.text = @"(分润+贡献值)";
     [bgV addSubview:bootomHintlbl];
     
     return bgV;
@@ -312,7 +312,7 @@
         };
         [self.navigationController pushViewController:vc animated:YES];
     
-    } else if(indexPath.section == 3) { //转贡献奖励
+    } else if(indexPath.section == 3) { //转贡献值
         
       UITableViewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
       CGRect rect = [currentCell convertRect:currentCell.bounds toView:nil];
@@ -327,7 +327,7 @@
         chooseTypeView.backgroundColor = [UIColor whiteColor];
         
         //专贡献
-        UIButton *gxjlBtn = [self coverBtnWithFrame:CGRectMake(0, 0, chooseTypeView.width, chooseTypeView.height/2.0) tag:1 title:@"转贡献奖励"];
+        UIButton *gxjlBtn = [self coverBtnWithFrame:CGRectMake(0, 0, chooseTypeView.width, chooseTypeView.height/2.0) tag:1 title:@"转贡献值"];
         [chooseTypeView addSubview:gxjlBtn];
         
         //转分润
@@ -361,9 +361,9 @@
     vc.success = ^(){
         [self.walletTableView beginRefreshing];
     };
-    if (btn.tag == 1) {//转贡献奖励
+    if (btn.tag == 1) {//转贡献值
         
-        vc.title = @"转贡献奖励";
+        vc.title = @"转贡献值";
         vc.type = ZHCurrencyConvertHBYJToGXJL;
         
     } else { //转分润
@@ -453,7 +453,7 @@
             
             if (indexPath.row == 0) {
                 
-                typeText = @"贡献奖励";
+                typeText = @"贡献值";
                 moneyText = [self.currencyDict[kGXB].amount convertToRealMoney];
                 cell.currencyModel = self.currencyDict[kGXB];
 
@@ -496,7 +496,7 @@
             cell.typeLbl.text = @"红包业绩";
             cell.moneyLbl.text = [self.currencyDict[kHBYJ].amount convertToRealMoney];
             cell.currencyModel = self.currencyDict[kHBYJ];
-            cell.accessoryLbl.text = @"转贡献奖励";
+            cell.accessoryLbl.text = @"转贡献值";
             cell.type = @"2";
             
         } break;

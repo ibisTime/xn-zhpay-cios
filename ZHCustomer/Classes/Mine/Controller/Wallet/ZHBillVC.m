@@ -260,7 +260,7 @@
         
     };
     
-    vc.title = @"转贡献奖励";
+    vc.title = @"转贡献值";
     vc.type = ZHCurrencyConvertHBYJToGXJL;
         
 

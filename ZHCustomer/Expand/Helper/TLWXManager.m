@@ -64,7 +64,7 @@
 
     if (![WXApi isWXAppInstalled]) {
         
-        NSLog(@"您还没有安装微信");
+        [TLAlert alertWithHUDText:@"您还未安装微信"];
         return;
     }
     

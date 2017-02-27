@@ -30,7 +30,16 @@
     _bankCard = bankCard;
     
 //    UIImage *iconImage = [UIImage imageNamed:_bankCard.bankCode];
-    self.backgroundImageView.image = [UIImage imageNamed:@"工商背景"];
+    
+    UIImage *bgImg = [UIImage imageNamed:[NSString stringWithFormat:@"%@_bg",_bankCard.bankCode]];
+    if (bgImg) {
+        self.backgroundImageView.image = bgImg;
+
+    } else {
+    
+        self.backgroundImageView.image = [UIImage imageNamed:@"ICBC_bg"];
+
+    }
     
     
     if (_bankCard.bankCode) {

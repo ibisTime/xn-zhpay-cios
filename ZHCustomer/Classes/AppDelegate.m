@@ -12,7 +12,7 @@
 #import "AppDelegate+Chat.h"
 #import "AppDelegate+JPush.h"
 
-#import "ZHGoodsCategoryManager.h"
+//#import "ZHGoodsCategoryManager.h"
 #import "UMMobClick/MobClick.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
@@ -48,12 +48,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
 //@"%7B%22biz_no%22%3A%22ZM201702253000000292900673309391%22%2C%22passed%22%3A%22true%22%7D".stringByRemovingPercentEncoding;
-//    
    
 //  NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
-    
     
     //设置应用环境
     [AppConfig config].runEnv = RunEnvDev;
@@ -116,8 +114,8 @@
     self.window.rootViewController = [[ZHTabBarController alloc] init];
     
     //获取商品的分类，
-    ZHGoodsCategoryManager *categoryManager = [ZHGoodsCategoryManager manager];
-    [categoryManager getAllCategory];
+//    ZHGoodsCategoryManager *categoryManager = [ZHGoodsCategoryManager manager];
+//    [categoryManager getAllCategory];
     
     NSSetUncaughtExceptionHandler(*UncaughtExceptionHandler);
     
@@ -195,47 +193,51 @@ void UncaughtExceptionHandler(NSException *exception){
 
     if ([url.host isEqualToString:@"certi.back"]) {
         
-        TLNetworking *http = [TLNetworking new];
-        http.showView = [UIApplication sharedApplication].keyWindow;
-        http.code = @"805192";
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"bizNo"] = [ZHUser user].tempBizNo;
-        [http postWithSuccess:^(id responseObject) {
+
+        
+
+        NSString *str =  [url query];
+        NSArray <NSString *>*arr =  [str componentsSeparatedByString:@"&"];
+        
+       __block NSString *bizNoStr;
+       __block NSDictionary *dict;
+        [arr enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-//            [TLAlert alertWithHUDText:@"实名认证成功"];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoChange object:nil];
-//            
-//            [[ZHUser user] updateUserInfo];
-//    
-//            [ZHUser user].realName = [ZHUser user].tempRealName;
-//            [ZHUser user].idNo = [ZHUser user].tempIdNo;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"realNameSuccess" object:nil];
-            
-        } failure:^(NSError *error) {
-            
+            if ([obj hasPrefix:@"biz_content="]) {
+                
+                bizNoStr = [obj substringWithRange:NSMakeRange(12, obj.length - 12)];
+        
+                dict = [NSJSONSerialization JSONObjectWithData:[bizNoStr.stringByRemovingPercentEncoding dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+               
+           }
             
         }];
         
-
-//        NSString *str =  [url query];
-//        NSArray <NSString *>*arr =  [str componentsSeparatedByString:@"&"];
-//        
-//       __block NSString *bizNoStr;
-//        [arr enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            
-//            if ([obj hasPrefix:@"biz_content="]) {
+              
+        if (!dict[@"failed_reason"]) {
+            TLNetworking *http = [TLNetworking new];
+            http.showView = [UIApplication sharedApplication].keyWindow;
+            http.code = @"805192";
+            http.parameters[@"userId"] = [ZHUser user].userId;
+            http.parameters[@"bizNo"] = [ZHUser user].tempBizNo;
+            [http postWithSuccess:^(id responseObject) {
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"realNameSuccess" object:nil];
+                
+            } failure:^(NSError *error) {
+                
+                
+            }];
+            
+        } else {
+            
+//            if (dict[@"failed_reason"]) {
 //                
-//                bizNoStr = [obj substringWithRange:NSMakeRange(12, obj.length - 12)];
-//                
-//                NSString *newStr = [bizNoStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-        
-//              
-//                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[newStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-//                NSLog(@"%@",dict);
-//                
+//                [TLAlert alertWithHUDText:dict[@"failed_reason"]];
+//
 //            }
-//        }];
+            
+        }
 
         
         return YES;
@@ -322,7 +324,8 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 
-    [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logout"] parameters:@{@"userId" : [ZHUser user].userId , @"token" : [ZHUser user].token} success:^(id responseObject) {
+//    http://127.0.0.1:7070/forward-service/user/logOut
+    [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logOut"] parameters:@{@"userId" : [ZHUser user].userId , @"token" : [ZHUser user].token} success:^(id responseObject) {
         
         
     }  failure:^(NSError *error) {

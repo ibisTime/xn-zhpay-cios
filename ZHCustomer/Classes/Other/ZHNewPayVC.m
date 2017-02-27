@@ -73,7 +73,8 @@
     NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
     self.pays = [NSMutableArray array];
     
-    NSInteger count = imgs.count;
+    //隐藏掉支付宝
+    NSInteger count = imgs.count - 1;
     //只有一种支付，
     if ([self.orderAmount isEqual:@0]) {
         

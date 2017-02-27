@@ -104,8 +104,9 @@
   
 
     
-    NSString *dateStr = [_historyModel.investDatetime convertToDetailDate];
-    if ([_historyModel.jewel.status isEqual:@1]) { //已中奖
+    NSString *dateStr = _historyModel.payDatetime;
+//    [_historyModel.investDatetime convertToDetailDate];
+    if ([_historyModel.status isEqual:@2]) { //已中奖
         
         NSString *priceStr = [_historyModel.jewel getPriceDetail];
         NSString *allStr = [NSString stringWithFormat:@"中了%@大奖 %@",priceStr,dateStr];
@@ -114,7 +115,7 @@
         
         [attr addAttribute:NSForegroundColorAttributeName value:[UIColor zh_themeColor] range:NSMakeRange(2, priceStr.length)];
         
-       [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"#999999"] range:NSMakeRange(6 + priceStr.length, dateStr.length)];
+       [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"#999999"] range:NSMakeRange(5 + priceStr.length, dateStr.length)];
 
         self.contentLbl.attributedText = attr;
         

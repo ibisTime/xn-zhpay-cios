@@ -31,6 +31,9 @@ typedef NS_ENUM(NSUInteger, ZHBriberyMoneyStatus) {
 
 @property (nonatomic, strong) NSNumber *receiveAmount;
 @property (nonatomic, copy) NSString *receiver; //领取人
+@property (nonatomic, copy) NSString *receiverMobile; //领取人
+
+
 
 @property (nonatomic, copy) NSString *receiveDatetime;
 

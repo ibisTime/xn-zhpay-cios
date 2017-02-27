@@ -12,7 +12,6 @@
 		2E16D0181E5BE5F00029B0A5 /* ZHDuoBaoInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D0171E5BE5F00029B0A5 /* ZHDuoBaoInfoCell.m */; };
 		2E16D01B1E5C10DE0029B0A5 /* ZHDuoBaoRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D01A1E5C10DE0029B0A5 /* ZHDuoBaoRecordCell.m */; };
 		2E16D01E1E5C1B640029B0A5 /* ZHDuoBaoTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D01D1E5C1B640029B0A5 /* ZHDuoBaoTimeCell.m */; };
-		2E16D0211E5C2C140029B0A5 /* ZHIntroduceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D0201E5C2C140029B0A5 /* ZHIntroduceVC.m */; };
 		2E16D0251E5C30830029B0A5 /* ZHMineDBRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D0241E5C30830029B0A5 /* ZHMineDBRecordVC.m */; };
 		2E16D0281E5C316A0029B0A5 /* ZHMineNumberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D0271E5C316A0029B0A5 /* ZHMineNumberVC.m */; };
 		2E16D02B1E5C4B870029B0A5 /* ZHCurrencyConvertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D02A1E5C4B870029B0A5 /* ZHCurrencyConvertView.m */; };
@@ -265,6 +264,8 @@
 		2E9A77891E5441C9009D8FAA /* TLRealmPlayground.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A77881E5441C9009D8FAA /* TLRealmPlayground.m */; };
 		2E9A778C1E54492F009D8FAA /* TLPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A778B1E54492F009D8FAA /* TLPerson.m */; };
 		2E9A778F1E54494B009D8FAA /* TLDog.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A778E1E54494B009D8FAA /* TLDog.m */; };
+		2EA5218F1E63D68B0080965C /* TLHTMLStrVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5218E1E63D68B0080965C /* TLHTMLStrVC.m */; };
+		2EA521921E64069C0080965C /* ZHUserProtocalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA521911E64069C0080965C /* ZHUserProtocalVC.m */; };
 		2EAE611B1E48189500F1E032 /* ZHConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EAE611A1E48189500F1E032 /* ZHConst.m */; };
 		2EAE612F1E484E4500F1E032 /* jcore-ios-1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAE612C1E484E4500F1E032 /* jcore-ios-1.1.0.a */; };
 		2EAE61301E484E4500F1E032 /* jpush-ios-3.0.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAE612D1E484E4500F1E032 /* jpush-ios-3.0.1.a */; };
@@ -423,8 +424,6 @@
 		2E16D01A1E5C10DE0029B0A5 /* ZHDuoBaoRecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDuoBaoRecordCell.m; sourceTree = "<group>"; };
 		2E16D01C1E5C1B640029B0A5 /* ZHDuoBaoTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDuoBaoTimeCell.h; sourceTree = "<group>"; };
 		2E16D01D1E5C1B640029B0A5 /* ZHDuoBaoTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDuoBaoTimeCell.m; sourceTree = "<group>"; };
-		2E16D01F1E5C2C140029B0A5 /* ZHIntroduceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHIntroduceVC.h; sourceTree = "<group>"; };
-		2E16D0201E5C2C140029B0A5 /* ZHIntroduceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHIntroduceVC.m; sourceTree = "<group>"; };
 		2E16D0231E5C30830029B0A5 /* ZHMineDBRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMineDBRecordVC.h; sourceTree = "<group>"; };
 		2E16D0241E5C30830029B0A5 /* ZHMineDBRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHMineDBRecordVC.m; sourceTree = "<group>"; };
 		2E16D0261E5C316A0029B0A5 /* ZHMineNumberVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMineNumberVC.h; sourceTree = "<group>"; };
@@ -920,6 +919,10 @@
 		2E9A778B1E54492F009D8FAA /* TLPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLPerson.m; sourceTree = "<group>"; };
 		2E9A778D1E54494B009D8FAA /* TLDog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLDog.h; sourceTree = "<group>"; };
 		2E9A778E1E54494B009D8FAA /* TLDog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLDog.m; sourceTree = "<group>"; };
+		2EA5218D1E63D68B0080965C /* TLHTMLStrVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLHTMLStrVC.h; sourceTree = "<group>"; };
+		2EA5218E1E63D68B0080965C /* TLHTMLStrVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLHTMLStrVC.m; sourceTree = "<group>"; };
+		2EA521901E64069C0080965C /* ZHUserProtocalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHUserProtocalVC.h; sourceTree = "<group>"; };
+		2EA521911E64069C0080965C /* ZHUserProtocalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHUserProtocalVC.m; sourceTree = "<group>"; };
 		2EAE61191E48189500F1E032 /* ZHConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHConst.h; sourceTree = "<group>"; };
 		2EAE611A1E48189500F1E032 /* ZHConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHConst.m; sourceTree = "<group>"; };
 		2EAE611F1E481A4400F1E032 /* ZHCurrencyProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHCurrencyProtocol.h; path = ViewModel/ZHCurrencyProtocol.h; sourceTree = "<group>"; };
@@ -1856,8 +1859,6 @@
 				2E6908921E5AD6DF003D3C69 /* ZHDuoBaoVC.m */,
 				2E16D0131E5BD6D00029B0A5 /* ZHDuoBaoDetailVC.h */,
 				2E16D0141E5BD6D00029B0A5 /* ZHDuoBaoDetailVC.m */,
-				2E16D01F1E5C2C140029B0A5 /* ZHIntroduceVC.h */,
-				2E16D0201E5C2C140029B0A5 /* ZHIntroduceVC.m */,
 				2EC602601E5D7D4A0066C197 /* ZHDBHistoryRecordVC.h */,
 				2EC602611E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m */,
 			);
@@ -2699,6 +2700,8 @@
 				2E59453C1E28687E00331BAF /* SGQRCode */,
 				2EC2AC451E0CF55A003EF503 /* TLBaseVC.h */,
 				2EC2AC461E0CF55A003EF503 /* TLBaseVC.m */,
+				2EA5218D1E63D68B0080965C /* TLHTMLStrVC.h */,
+				2EA5218E1E63D68B0080965C /* TLHTMLStrVC.m */,
 				2E1762BE1E24893B00CAE489 /* TLWebVC.h */,
 				2E1762BF1E24893B00CAE489 /* TLWebVC.m */,
 			);
@@ -2932,6 +2935,8 @@
 				2EC2AE5D1E0CF5B3003EF503 /* ZHUserLoginVC.m */,
 				2EC2AE5E1E0CF5B3003EF503 /* ZHUserRegistVC.h */,
 				2EC2AE5F1E0CF5B3003EF503 /* ZHUserRegistVC.m */,
+				2EA521901E64069C0080965C /* ZHUserProtocalVC.h */,
+				2EA521911E64069C0080965C /* ZHUserProtocalVC.m */,
 				2E6E47F51E14A1B700FD2CA7 /* ZHRealNameAuthVC.h */,
 				2E6E47F61E14A1B700FD2CA7 /* ZHRealNameAuthVC.m */,
 			);
@@ -3287,7 +3292,6 @@
 				2E6E47951E11000500FD2CA7 /* ZHDoubleTitleView.m in Sources */,
 				2E2265911E4DACB200C7126E /* UIImage+EMWebP.m in Sources */,
 				2E2265B71E4DACB200C7126E /* EaseRefreshTableViewController.m in Sources */,
-				2E16D0211E5C2C140029B0A5 /* ZHIntroduceVC.m in Sources */,
 				2E3817E81E2A1F5200F6158C /* ZHLocationManager.m in Sources */,
 				2E2265861E4DACB200C7126E /* EMSDWebImageCompat.m in Sources */,
 				2EC2AE741E0CF849003EF503 /* UIColor+theme.m in Sources */,
@@ -3419,6 +3423,7 @@
 				2E2265A01E4DACB200C7126E /* PSTGridLayoutRow.m in Sources */,
 				2EC96B031E271F780079165A /* ZHMineTreasureModel.m in Sources */,
 				2EC602791E5EA4EC0066C197 /* TLCellModel.m in Sources */,
+				2EA521921E64069C0080965C /* ZHUserProtocalVC.m in Sources */,
 				2EDC53D51E1E389E00CACE31 /* NSNumber+TLAdd.m in Sources */,
 				2EC2ADC91E0CF55A003EF503 /* UIView+PYExtension.m in Sources */,
 				2EC602651E5E77DF0066C197 /* ZHBriberyMoney.m in Sources */,
@@ -3458,6 +3463,7 @@
 				2EC2AE6C1E0CF5B3003EF503 /* ZHUserLoginVC.m in Sources */,
 				2EC602621E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m in Sources */,
 				2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */,
+				2EA5218F1E63D68B0080965C /* TLHTMLStrVC.m in Sources */,
 				2EC2ADCE1E0CF55A003EF503 /* PYPhoto.m in Sources */,
 				2E2265971E4DACB200C7126E /* PSTCollectionViewCell.m in Sources */,
 				2EC2ADD31E0CF55A003EF503 /* PYPhotoCell.m in Sources */,

@@ -37,9 +37,22 @@
 
 - (NSString *)wxKey {
 
-    return @"wx3eb3d4d796093674";
+    return @"wx9324d86fb16e8af0";
 }
 
+- (NSString *)shareBaseUrl {
+
+    if (self.runEnv == RunEnvDev) {
+        
+        return @"http://121.43.101.148:5603"; //dev
+        
+    } else {
+        
+        return @"http://139.224.200.54:5603"; //test
+        
+    }
+
+}
 
 - (NSString *)addr {
 

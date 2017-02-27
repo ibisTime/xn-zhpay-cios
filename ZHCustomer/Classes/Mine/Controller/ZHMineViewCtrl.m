@@ -20,10 +20,10 @@
 #import "ZHBillVC.h"
 #import "ZHMineDBRecordVC.h"
 #import "TLWXManager.h"
-#import "SGQRCodeTool.h"
 #import "ZHBriberyMoneyVC.h"
-
+#import "ZHBriberyMoney.h"
 #import "ZHShareView.h"
+#import "AppConfig.h"
 
 @interface ZHMineViewCtrl ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -246,10 +246,16 @@
     
     
     ZHShareView *shareView = [[ZHShareView alloc] init];
-    shareView.title = @"test";
-    shareView.content = @"test";
-    shareView.shareUrl = @"www.baidu.com";
-
+    shareView.title = @"正汇钱包邀您玩转红包";
+    shareView.wxShare = ^(BOOL isSuccess, int code){
+    
+        if (isSuccess) {
+            [TLAlert alertWithHUDText:@"分享成功"];
+        }
+    };
+    shareView.content = @"小目标，发一发，摇一摇，聊一聊各种红包玩法";
+    shareView.shareUrl = [NSString stringWithFormat:@"%@/user/register.html?userReferee=%@",[AppConfig config].shareBaseUrl,[[ZHUser user] mobile]];
+    shareView.qrContentStr = [ZHUser user].mobile;
     [shareView show];
     
     return;

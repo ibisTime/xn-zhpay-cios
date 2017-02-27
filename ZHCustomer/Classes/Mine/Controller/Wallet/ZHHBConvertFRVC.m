@@ -88,7 +88,7 @@
         http.parameters[@"transAmount"] = [self.convertMoneytf.text convertToSysMoney];
 //    [NSString stringWithFormat:@"%.f",[self.convertMoneytf.text floatValue]*1000];
     
-//      50=红包兑分润 52=红包业绩兑分润 54=红包业绩兑贡献奖励
+//      50=红包兑分润 52=红包业绩兑分润 54=红包业绩兑贡献值
         switch (self.type) {
                 
             case ZHCurrencyConvertHBToFR:

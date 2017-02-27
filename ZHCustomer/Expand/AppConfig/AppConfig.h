@@ -22,6 +22,8 @@ typedef NS_ENUM(NSUInteger, RunEnv) {
 
 //url请求地址
 @property (nonatomic,strong ,readonly) NSString *addr;
+@property (nonatomic,strong ,readonly) NSString *shareBaseUrl;
+
 @property (nonatomic,copy, readonly) NSString *pushKey;
 
 @property (nonatomic, copy, readonly) NSString *wxKey;

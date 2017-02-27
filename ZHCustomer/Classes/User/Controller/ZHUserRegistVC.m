@@ -14,6 +14,7 @@
 #import "SGScanningQRCodeVC.h"
 #import <Photos/Photos.h>
 #import <CoreLocation/CoreLocation.h>
+#import "ZHUserProtocalVC.h"
 
 @interface ZHUserRegistVC ()<CLLocationManagerDelegate>
 
@@ -408,10 +409,25 @@
     }
     
     //登陆
-    UIButton *regBtn = [UIButton zhBtnWithFrame:CGRectMake(margin,self.addressTf.yy + 40, w, h) title:@"注册"];
+    UIButton *regBtn = [UIButton zhBtnWithFrame:CGRectMake(margin,self.addressTf.yy + 25, w, h) title:@"注册"];
     [regBtn addTarget:self action:@selector(goReg) forControlEvents:UIControlEventTouchUpInside];
     [self.bgSV addSubview:regBtn];
+    
+    //协议按钮
+    UIButton *protocalBtn = [[UIButton alloc] initWithFrame:CGRectMake(margin,regBtn.yy + 10, w, 25) title:@"注册即代表同意《正汇钱包用户协议》" backgroundColor:[UIColor clearColor]];
+    protocalBtn.titleLabel.font = FONT(12);
+    [protocalBtn addTarget:self action:@selector(readProtocal) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgSV addSubview:protocalBtn];
+    protocalBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [protocalBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
+
+}
+
+- (void)readProtocal {
+
+    ZHUserProtocalVC *protocalVC = [[ZHUserProtocalVC alloc] init];
+    [self.navigationController pushViewController:protocalVC animated:YES];
 
 }
 

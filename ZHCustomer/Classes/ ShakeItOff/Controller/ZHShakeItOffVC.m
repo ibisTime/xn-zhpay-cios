@@ -17,6 +17,7 @@
 #import "ZHLocationManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "TLHTMLStrVC.h"
 
 
 @interface ZHShakeItOffVC ()<CLLocationManagerDelegate>
@@ -72,6 +73,14 @@
     }
 }
 
+- (void)introduce {
+
+    TLHTMLStrVC *vc = [[TLHTMLStrVC alloc] init];
+    vc.type = ZHHTMLTypeShakeItOfIntroduce;
+    vc.title = @"玩法介绍";
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -80,7 +89,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.isDoneOnce = YES;
     
-
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"玩法介绍" style:UIBarButtonItemStylePlain target:self action:@selector(introduce)];
     [self setUpUI];
     
     //摸调iphone才会变的标志

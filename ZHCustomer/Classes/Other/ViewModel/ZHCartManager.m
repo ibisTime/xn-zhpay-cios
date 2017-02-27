@@ -49,6 +49,7 @@
 
 - (void)getCount {
 
+    return;
     TLNetworking *http = [TLNetworking new];
     http.isShowMsg = NO;
     http.code = @"808041";
