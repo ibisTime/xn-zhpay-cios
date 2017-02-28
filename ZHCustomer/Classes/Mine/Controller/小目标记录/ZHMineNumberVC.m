@@ -142,26 +142,78 @@
         
     }];
     
- 
     [weakCollectioView.mj_header beginRefreshing];
     
     
     //中奖号码
     if ([self.historyModel.jewel.status isEqual:@1]) {
         
-        CGFloat y = numberCollectionView.yy + 10;
-        UILabel *hintLbl = [[UILabel alloc] initWithFrame:CGRectMake(10, y, SCREEN_WIDTH - 20, 20)];
-        hintLbl.textColor = [UIColor zh_textColor];
-        [self.view addSubview:hintLbl];
-        hintLbl.text = @"中奖号码:";
-        hintLbl.font = FONT(13);
         
-        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(10, hintLbl.yy, SCREEN_WIDTH - 20, 30)];
-        [self.view addSubview:lbl];
-        lbl.font = FONT(13);
-        lbl.textColor = [UIColor zh_themeColor];
-        lbl.text = self.historyModel.jewel.winNumber;
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, numberCollectionView.yy, SCREEN_WIDTH, 100)];
+        [self.view addSubview:bgView];
+        //号码
+        UILabel *numberLbl = [UILabel labelWithFrame:CGRectZero
+                                        textAligment:NSTextAlignmentLeft
+                                     backgroundColor:[UIColor whiteColor]
+                                                font:FONT(12)
+                                           textColor:[UIColor zh_textColor]];
+        [bgView addSubview:numberLbl];
+        [numberLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(bgView.mas_left).offset(15);
+            make.top.equalTo(bgView.mas_top).offset(15);
+        }];
+        
+        //获奖者
+        UILabel *winPeopleLbl = [UILabel labelWithFrame:CGRectZero
+                                           textAligment:NSTextAlignmentLeft
+                                        backgroundColor:[UIColor whiteColor]
+                                                   font:FONT(12)
+                                              textColor:[UIColor zh_textColor]];
+        [bgView addSubview:winPeopleLbl];
+        [winPeopleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(numberLbl.mas_left);
+            make.top.equalTo(numberLbl.mas_bottom).offset(8);
+        }];
+        
+        //时间
+        UILabel *winTimeLbl = [UILabel labelWithFrame:CGRectZero
+                                         textAligment:NSTextAlignmentLeft
+                                      backgroundColor:[UIColor whiteColor]
+                                                 font:FONT(12)
+                                            textColor:[UIColor zh_textColor]];
+        [bgView addSubview:winTimeLbl];
+        [winTimeLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(numberLbl.mas_left);
+            make.top.equalTo(winPeopleLbl.mas_bottom).offset(8);
+        }];
+        
+        numberLbl.attributedText = [self convertStrWithStr:[NSString stringWithFormat:@"中奖号码: %@",self.historyModel.jewel.winNumber ] value:@{
+                                NSForegroundColorAttributeName : [UIColor zh_themeColor]
+                                                                                                                                             } range:NSMakeRange(6,self.historyModel.jewel.winNumber.length)];
+        
+        
+        winTimeLbl.text = [NSString stringWithFormat:@"揭晓时间: %@",[self.historyModel.jewel.winDatetime convertToDetailDate]];
+        //
+        if (!self.isMineHistory) {
+            
+            winPeopleLbl.text = [NSString stringWithFormat:@"中奖者: %@",self.historyModel.jewel.winUser];
+        }
+
+        
     }
+    
+}
+
+
+
+- (NSMutableAttributedString *)convertStrWithStr:(NSString *)str value:(NSDictionary <NSString *, id>*)keyAttrValue range:(NSRange )range {
+    
+    
+    NSMutableAttributedString *attrstr = [[NSMutableAttributedString alloc] initWithString:str];
+    [attrstr addAttributes:keyAttrValue range:range];
+    
+    return attrstr;
+    
 }
 
 #pragma mark- 追加

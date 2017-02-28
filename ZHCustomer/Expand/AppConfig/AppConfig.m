@@ -8,6 +8,19 @@
 
 #import "AppConfig.h"
 
+
+void TLLog(NSString *format, ...) {
+    
+    if ([AppConfig config].runEnv != RunEnvRelease) {
+        
+        va_list argptr;
+        va_start(argptr, format);
+        NSLogv(format, argptr);
+        va_end(argptr);
+    }
+    
+}
+
 @implementation AppConfig
 
 + (instancetype)config {
@@ -40,15 +53,21 @@
     return @"wx9324d86fb16e8af0";
 }
 
+
+
 - (NSString *)shareBaseUrl {
 
+//http://osszhqb.hichengdai.com/share/share/share-db.html
+//http://osszhqb.hichengdai.com/share/share/share-receive.html
+//http://osszhqb.hichengdai.com/share/user/register.html
     if (self.runEnv == RunEnvDev) {
         
         return @"http://121.43.101.148:5603"; //dev
         
     } else {
         
-        return @"http://139.224.200.54:5603"; //test
+//        return @"http://139.224.200.54:5603"; //test
+        return @"http://osszhqb.hichengdai.com/share";
         
     }
 

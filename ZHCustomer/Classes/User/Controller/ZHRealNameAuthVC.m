@@ -8,7 +8,7 @@
 
 #import "ZHRealNameAuthVC.h"
 
-@interface ZHRealNameAuthVC ()
+@interface ZHRealNameAuthVC ()<UIAlertViewDelegate>
 
 @property (nonatomic,strong) TLTextField *realNameTf;
 @property (nonatomic,strong) TLTextField *idNoTf;
@@ -50,7 +50,28 @@
 
 }
 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSString *appstoreUrl = @"itms-apps://itunes.apple.com/app/id333206289";
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appstoreUrl] options:@{} completionHandler:nil];
+    }
+}
+
+- (BOOL)canOpenAlipay {
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"alipays://"]];
+}
+
+
 - (void)confirm {
+    
+    if (![self canOpenAlipay]) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"实名认证需要安装支付宝,是否下载并安装支付宝完成认证?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好的", nil];
+        [alertView show];
+        
+        return;
+    }
     
     
     if (![self.realNameTf.text isChinese]) {
@@ -101,6 +122,8 @@
         NSString *urlStr = [NSString stringWithFormat:@"http://121.40.165.180:8903/std-certi/zhima?bizNo=%@",responseObject[@"data"][@"bizNo"]];
         
         NSString *alipayUrl = [NSString stringWithFormat:@"alipayqr://platformapi/startapp?saId=10000007&qrcode=%@",urlStr];
+        
+        //判断是否安装支付宝
         
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl] options:@{} completionHandler:nil];
         

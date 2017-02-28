@@ -90,8 +90,15 @@
     
     [self.view addSubview:qrImageView];
     
+    //
+    UILabel *hintLbl = [UILabel labelWithFrame:CGRectMake(0, qrImageView.yy + 10, SCREEN_WIDTH, 20)
+                                  textAligment:NSTextAlignmentCenter
+                               backgroundColor:[UIColor whiteColor]
+                                          font:FONT(13)
+                                     textColor:[UIColor zh_textColor]];
+    [self.view addSubview:hintLbl];
+    hintLbl.text = @"扫码，和我一起玩正汇";
     
-
     
     //
     UIButton *shareBtn = [UIButton zhBtnWithFrame:CGRectMake(0, qrImageView.yy + 90, SCREEN_WIDTH - 40, 45) title:@"分享领奖"];

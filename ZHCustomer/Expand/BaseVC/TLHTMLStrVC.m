@@ -22,6 +22,7 @@
 //    ('treasure_statement','夺宝免责申明');
 
 //    ('fyf_rule','发一发玩法介绍');
+
 //    ('fyf_statement','发一发免责申明');
 //    ('yyy_statement','摇一摇免责申明');
 
@@ -73,7 +74,10 @@
         WKWebView *webV = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) configuration:webConfig];
         [self.view addSubview:webV];
         webV.navigationDelegate = self;
-        [webV loadHTMLString:responseObject[@"data"][@"note"] baseURL:nil];
+        
+        NSString *styleStr = @"<style type=\"text/css\"> *{ font-size:30px;}</style>";
+        NSString *htmlStr = responseObject[@"data"][@"note"];
+        [webV loadHTMLString:[NSString stringWithFormat:@"%@%@",htmlStr,styleStr] baseURL:nil];
         
     } failure:^(NSError *error) {
         

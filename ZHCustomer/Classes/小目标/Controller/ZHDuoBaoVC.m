@@ -14,6 +14,7 @@
 #import "ZHDBHistoryModel.h"
 #import "AFHTTPSessionManager.h"
 #import "AppConfig.h"
+#import "ZHDBRecodBrowserView.h"
 
 @interface ZHDuoBaoVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -25,6 +26,10 @@
 /** 历史模型 */
 @property (nonatomic, strong) NSMutableArray <ZHDBHistoryModel *>*dbHistoryRooms;
 @property (nonatomic, strong) NSMutableArray<ZHAwardAnnounceView *> *awardViewRooms;
+
+//头部
+@property (nonatomic, strong) ZHDBRecodBrowserView *browseView;
+
 
 @property (nonatomic,strong) UIView *tableHeaderView;
 @end
@@ -42,12 +47,27 @@
 
 }
 
+- (ZHDBRecodBrowserView *)browseView {
+
+    if (!_browseView) {
+        
+        _browseView = [[ZHDBRecodBrowserView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 84)];
+    }
+    
+    return _browseView;
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"小目标";
     self.isFirst = YES;
     
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
+    
+    [self.view addSubview:self.browseView];
+    
+    //--//
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, self.browseView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - self.browseView.height) delegate:self dataSource:self];
     [self.view addSubview:tableView];
     self.dbTableView = tableView;
     tableView.rowHeight = 145;
@@ -55,7 +75,9 @@
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无商品"];
     
     //头部
-    tableView.tableHeaderView = self.tableHeaderView;
+//    tableView.tableHeaderView = self.tableHeaderView;
+//    tableView.tableHeaderView = self.browseView;
+
     
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
@@ -82,7 +104,7 @@
         }];
         
         //获得 记录
-        [self getDBRecord];
+//        [self getDBRecord];
         
     }];
     
@@ -98,27 +120,27 @@
             
         }];
        
-        
     }];
     
 //    //定时获取--购买记录
     [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(getDBRecord) userInfo:nil repeats:YES];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:kRefreshDBListNotificationName object:nil];
 
-    
+    //获取--
+    [self getDBRecord];
+
 
 }
 
 - (void)refreshTable {
     
-        [self.dbTableView beginRefreshing];
+      [self.dbTableView beginRefreshing];
 
-    
 }
 
 - (void)getDBRecord {
 
-    
     TLNetworking *http = [TLNetworking new];
     http.code = @"808315";
     http.parameters[@"start"] = @"1";
@@ -126,20 +148,22 @@
     http.parameters[@"status"] = @"payed";
     [http postWithSuccess:^(id responseObject) {
         
-       self.dbHistoryRooms = [ZHDBHistoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+     self.dbHistoryRooms = [ZHDBHistoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
         
-            [self.awardViewRooms makeObjectsPerformSelector:@selector(removeFromSuperview)];
-       [self.dbHistoryRooms enumerateObjectsUsingBlock:^(ZHDBHistoryModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            //
-            ZHAwardAnnounceView *announceView = self.awardViewRooms[idx];
-           
-            announceView.typeLbl.text = [obj getNowResultName];
-            announceView.contentLbl.attributedText = [obj getNowResultContent];            
-            [self.tableHeaderView addSubview:announceView];
-            
-            
-        }];
+     self.browseView.historyModels = self.dbHistoryRooms;
+        
+//            [self.awardViewRooms makeObjectsPerformSelector:@selector(removeFromSuperview)];
+//       [self.dbHistoryRooms enumerateObjectsUsingBlock:^(ZHDBHistoryModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            
+//            //
+//            ZHAwardAnnounceView *announceView = self.awardViewRooms[idx];
+//           
+//            announceView.typeLbl.text = [obj getNowResultName];
+//            announceView.contentLbl.attributedText = [obj getNowResultContent];            
+//            [self.tableHeaderView addSubview:announceView];
+//            
+//            
+//        }];
         
     } failure:^(NSError *error) {
         
@@ -180,8 +204,8 @@
     
     return cell;
     
-    
 }
+
 
 - (UIView *)tableHeaderView {
 

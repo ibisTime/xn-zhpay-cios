@@ -177,7 +177,8 @@
     http.parameters[@"token"] = [ZHUser user].token;
     //银行卡号
     http.parameters[@"bankcardNumber"] = self.bankPickTf.text; //实体账户编号,
-    http.parameters[@"transAmount"] = [self.moneyTf.text convertToSysMoney];   //@"-100";
+    http.parameters[@"transAmount"] = [NSString stringWithFormat:@"-%@",[self.moneyTf.text convertToSysMoney]];   //@"-100";
+    
     http.parameters[@"accountNumber"] = self.accountNum;
     http.parameters[@"tradePwd"] = self.tradePwdTf.text;
 

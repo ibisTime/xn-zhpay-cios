@@ -52,6 +52,7 @@
     //    0待开奖，1已中奖，2未中奖
 //    helper.parameters[@"status"] = @"1";
     helper.parameters[@"userId"] = [ZHUser user].userId;
+    helper.parameters[@"status"] = @"payed";
     helper.tableView = tableView;
     [helper modelClass:[ZHDBHistoryModel class]];
     

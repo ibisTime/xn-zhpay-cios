@@ -82,8 +82,8 @@
 //---//---//
 - (void)loginOut {
 
-    [[ZHUser user] loginOut];
-    [[ChatManager defaultManager] chatLoginOut];
+//    [[ZHUser user] loginOut];
+//    [[ChatManager defaultManager] chatLoginOut];
 
     [self.navigationController popToRootViewControllerAnimated:YES ];
 
@@ -93,7 +93,6 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginOutNotification object:nil];
 //        UITabBarController *tab = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
 //        tab.selectedIndex = 2;
-        
     });
     
 

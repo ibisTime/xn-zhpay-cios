@@ -45,8 +45,7 @@
       
         _sysLocationManager = [[CLLocationManager alloc] init];
         _sysLocationManager.delegate = self;
-        _sysLocationManager.distanceFilter = 30.0;
-        [_sysLocationManager requestLocation];
+        _sysLocationManager.distanceFilter = 50.0;
         
     }
     return _sysLocationManager;
@@ -68,8 +67,6 @@
 //    <+30.29055724,+119.99690671>
 //    <+30.29057788,+119.99699431>
 //    <+30.29052650,+119.99688861>
-    
-    
     //反地理编码
 //  [self.sysLocationManager stopUpdatingLocation];
     [manager stopUpdatingLocation];
@@ -91,8 +88,9 @@
         } else {
             
             self.province = placemark.administrativeArea ;
-            self.area = placemark.subLocality;
-            self.city = placemark.locality ? : placemark.administrativeArea;
+            self.city = placemark.locality ? : placemark.administrativeArea; //市
+            self.area = placemark.subLocality; //区
+
             
         }
         
@@ -112,6 +110,8 @@
     
     //连续定位，时间较短，可能首次经度低
     [self.sysLocationManager startUpdatingLocation];
+//    [self.sysLocationManager requestLocation];
+
     
     
     CLAuthorizationStatus authStatus = [CLLocationManager authorizationStatus];
@@ -190,8 +190,6 @@
         
         return;
     }
-    
-    
     
     if (!(self.pwdTf.text &&self.pwdTf.text.length > 5)) {
         
@@ -393,7 +391,7 @@
     self.addressTf.zh_placeholder = @"请选择地区";
     self.addressTf.leftIconView.image = [UIImage imageNamed:@"reg_location"];
     [self.bgSV addSubview:self.addressTf];
-//    self.addressTf.userInteractionEnabled = NO;
+//  self.addressTf.userInteractionEnabled = NO;
     
     UIButton *btn = [[UIButton alloc] initWithFrame:self.addressTf.bounds];
     [self.addressTf addSubview:btn];
@@ -401,6 +399,7 @@
     
     //定位成功 隐藏地址选择
     if (self.province && self.city && self.area) {
+        
         self.addressTf.height = 0.1;
         
     } else {

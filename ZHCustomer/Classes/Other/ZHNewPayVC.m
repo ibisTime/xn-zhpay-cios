@@ -120,9 +120,27 @@
                 return;
             }
             [self setUpUI];
+            
             self.amountTf.enabled = self.paySceneManager.isInitiative;
-            self.amountTf.text = self.paySceneManager.amount;
-            self.priceLbl.text = self.paySceneManager.amount;
+            
+            if (self.amoutAttr) {
+                
+                [self.amountTf addSubview:self.tempAttrLbl];
+                self.amountTf.placeholder = nil;
+                self.tempAttrLbl.attributedText = self.amoutAttr;
+                self.priceLbl.attributedText = self.amoutAttr;
+                self.amountTf.text = self.paySceneManager.amount;
+                self.amountTf.textColor = [UIColor clearColor];
+                
+            } else {
+                
+                self.amountTf.text = self.paySceneManager.amount;
+                self.priceLbl.text = self.paySceneManager.amount;
+                
+            }
+            
+//            self.amountTf.text = self.paySceneManager.amount;
+//            self.priceLbl.text = self.paySceneManager.amount;
             
         } break;
             
@@ -202,26 +220,45 @@
     };
     
 #pragma mark- 购买汇赚宝获取分润
-    
     if (self.type == ZHPayViewCtrlTypeHZB) {
         
         TLNetworking *http = [TLNetworking new];
-        //        http.showView = self.view;
-        http.code = @"802503";
-        http.parameters[@"token"] = [ZHUser user].token;
+//        http.showView = self.view;
+        http.code = @"808803";
         http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"currency"] = kFRB;
+        http.parameters[@"token"] = [ZHUser user].token;
+        http.parameters[@"currency"] = @"FRB";
         [http postWithSuccess:^(id responseObject) {
             
-            NSNumber *surplusMoney =  responseObject[@"data"][0][@"amount"];
-            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@)",[surplusMoney convertToRealMoney]];
+            NSNumber *surplusMoney =  responseObject[@"data"][@"xnbAmount"];
+            CGFloat rate =  1.0/[responseObject[@"data"][@"rate"] floatValue];
+            
+//           NSNumber *rmb =  responseObject[@"data"][@"cnyAmount"];
+            
+            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@) (1分润=%.2f人民币)",[surplusMoney convertToRealMoney],rate];
             [self.payTableView reloadData];
             
         } failure:^(NSError *error) {
             
-            
-            
         }];
+
+//        TLNetworking *http = [TLNetworking new];
+//        //        http.showView = self.view;
+//        http.code = @"802503";
+//        http.parameters[@"token"] = [ZHUser user].token;
+//        http.parameters[@"userId"] = [ZHUser user].userId;
+//        http.parameters[@"currency"] = kFRB;
+//        [http postWithSuccess:^(id responseObject) {
+//            
+//            NSNumber *surplusMoney =  responseObject[@"data"][0][@"amount"];
+//            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@)",[surplusMoney convertToRealMoney]];
+//            [self.payTableView reloadData];
+//            
+//        } failure:^(NSError *error) {
+//            
+//            
+//            
+//        }];
         
         return;
     }
@@ -420,6 +457,12 @@
 #pragma mark - tableView代理
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    BOOL con1 = self.pays[indexPath.row].payType == ZHPayTypeWeChat;
+    BOOL con2 = [WXApi isWXAppInstalled];
+    if (con1 && !con2) {
+        [TLAlert alertWithHUDText:@"您还未安装微信,不能进行微信支付"];
+        return;
+    }
     //支持点击整个cell,选择支付方式
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell isKindOfClass:[ZHPayFuncCell class]]) {

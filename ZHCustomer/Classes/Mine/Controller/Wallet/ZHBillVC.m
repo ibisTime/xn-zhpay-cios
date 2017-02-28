@@ -74,7 +74,6 @@
     pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
     pageDataHelper.parameters[@"type"] = @"C";
     
-        
     pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
 
 
@@ -136,7 +135,6 @@
     
     
     
-
     __weak typeof(self) weakself = self;
     //头部
     if ([self.currencyModel.currency isEqualToString:kFRB]) { //只可以提现

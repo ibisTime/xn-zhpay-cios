@@ -85,7 +85,7 @@
         http.code = @"802518";
         http.parameters[@"token"] = [ZHUser user].token;
         http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"transAmount"] = [self.convertMoneytf.text convertToSysMoney];
+        http.parameters[@"transAmount"] = [NSString stringWithFormat:@"-%@",[self.convertMoneytf.text convertToSysMoney]];
 //    [NSString stringWithFormat:@"%.f",[self.convertMoneytf.text floatValue]*1000];
     
 //      50=红包兑分润 52=红包业绩兑分润 54=红包业绩兑贡献值

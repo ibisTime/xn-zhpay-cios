@@ -35,10 +35,10 @@
 //反向次数
 @property (nonatomic, assign) NSInteger count;
 
+
 @property (nonatomic, copy) NSString *winDatetime; //获奖时间
 @property (nonatomic, copy) NSString *winNumber; //获奖号码
 @property (nonatomic, copy) NSString *winUser; //获奖用户
-
 
 
 - (NSString *)getPriceDetail;

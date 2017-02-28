@@ -67,15 +67,6 @@
     //没有购买的进行购买
     [self buySuccess];
     
-    
-    //----//
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-           [[NSNotificationCenter defaultCenter] postNotificationName:@"HZBBuySuccess" object:nil];
-        
-    });
- 
-
 
 }
 
@@ -168,13 +159,15 @@
         
         NSDictionary *historyYYDict = @{@"历史被摇次数" : [allDict[@"historyYyTimes"] stringValue]};
         NSDictionary *todayYYDict = @{@"今日被摇次数" : [allDict[@"todayYyTimes"]stringValue]};
-        NSDictionary *HBYJDict = @{@"红包业绩" : [(NSNumber *)allDict[@"ffTotalHbAmount"] convertToRealMoney]};
+        NSDictionary *HBYJDict = @{@"摇一摇红包业绩" : [(NSNumber *)allDict[@"yyTotalAmount"] convertToRealMoney]};
+        
+ 
         
         NSDictionary *historyHBDict = @{@"历史定向红包" : [allDict[@"historyHbTimes"] stringValue]};
-        NSDictionary *todayHBDict = @{@"今日定向红包" : [allDict[@"todayYyTimes"] stringValue]};
+        NSDictionary *todayHBDict = @{@"今日定向红包" : [allDict[@"todayHbTimes"] stringValue]};
         
         //贡献值 -- 红包业绩
-        NSDictionary *GXZDict = @{@"红包业绩" : [(NSNumber *)allDict[@"yyTotalAmount"] convertToRealMoney]};
+        NSDictionary *GXZDict =  @{@"发一发红包业绩" : [(NSNumber *)allDict[@"ffTotalHbAmount"] convertToRealMoney]};
         
         [self.hzbInfos addObjectsFromArray:@[addressDict,historyYYDict,todayYYDict,HBYJDict,historyHBDict,todayHBDict,GXZDict]];
         
@@ -215,6 +208,7 @@
     //
     ZHBusinessCardView *cardV = [[ZHBusinessCardView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90)];
     
+    //--//
     self.hzbTableView.tableHeaderView = cardV;
         cardV.headerImageV.image = [UIImage imageNamed:@"树"];
         cardV.titleTf.text = [ZHUser user].realName;
@@ -275,7 +269,7 @@
     if (indexPath.row == 6) {
         
 //      bizType 61
-        billVC.bizType = @"61";
+        billVC.bizType = @"60";
 
 
     }

@@ -8,14 +8,11 @@
 
 #import "AppDelegate.h"
 #import "ZHTabBarController.h"
-#import "ChatManager.h"
 #import "AppDelegate+Chat.h"
 #import "AppDelegate+JPush.h"
 
-//#import "ZHGoodsCategoryManager.h"
 #import "UMMobClick/MobClick.h"
 #import <MAMapKit/MAMapKit.h>
-#import <AMapFoundationKit/AMapFoundationKit.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
 #import "IQKeyboardManager.h"
@@ -26,10 +23,11 @@
 #import "ZHLocationManager.h"
 #import "SVProgressHUD.h"
 #import "ZHPayVC.h"
-#import "ZHCartManager.h"
 #import "AppConfig.h"
 #import "TLRealmPlayground.h"
 #import <CoreLocation/CoreLocation.h>
+#import "ChatManager.h"
+
 //#ifdef NSFoundationVersionNumber_iOS_9_x_Max
 //#import <UserNotifications/UserNotifications.h>
 //#endif
@@ -46,24 +44,21 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+        
     
-//@"%7B%22biz_no%22%3A%22ZM201702253000000292900673309391%22%2C%22passed%22%3A%22true%22%7D".stringByRemovingPercentEncoding;
-   
-//  NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    //设置应用环境
+    [AppConfig config].runEnv = RunEnvRelease;
+    
+    //
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
     
-    //设置应用环境
-    [AppConfig config].runEnv = RunEnvDev;
-    
+
     if ([AppConfig config].runEnv == RunEnvDev) {
         
         [TLRealmPlayground play];
         
     }
-    
-    //高德地图
-    [AMapServices sharedServices].apiKey = [AppConfig config].aliMapKey;
     
     //初始化环信
     [self chatInit];
@@ -146,19 +141,19 @@
     [JPUSHService setAlias:[ZHUser user].userId callbackSelector:nil object:nil];
     
     TLLog(@"%@",[ZHUser user].userId);
-    [[ZHCartManager manager] getCount];
 }
 
 #pragma mark- 退出登录
 - (void)userLoginOut {
+    
+    [self userLoginOutCancleLocation];
 
     [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
     
     [[ZHUser user] loginOut];
     [[ChatManager defaultManager] chatLoginOut];
-    //重置购物车
-    [[ZHCartManager manager] reset];
     
+    //重置位置信息
     UITabBarController *tbc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     tbc.selectedIndex = 2;
     
@@ -190,12 +185,8 @@ void UncaughtExceptionHandler(NSException *exception){
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
     
-
     if ([url.host isEqualToString:@"certi.back"]) {
         
-
-        
-
         NSString *str =  [url query];
         NSArray <NSString *>*arr =  [str componentsSeparatedByString:@"&"];
         
@@ -259,6 +250,7 @@ void UncaughtExceptionHandler(NSException *exception){
         return [WXApi handleOpenURL:url delegate:[TLWXManager manager]];
 
     }
+    //
     
 }
 
@@ -312,6 +304,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
   completionHandler:(void (^)())completionHandler {
     
     
+    
 }
 
 
@@ -324,14 +317,29 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 
-//    http://127.0.0.1:7070/forward-service/user/logOut
-    [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logOut"] parameters:@{@"userId" : [ZHUser user].userId , @"token" : [ZHUser user].token} success:^(id responseObject) {
-        
+    
+    [self userLoginOutCancleLocation];
+    
+
+}
+
+- (void)userLoginOutCancleLocation {
+
+    
+    if (![ZHUser user].userId) {
+        return;
+    }
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[@"placholder"] = @"placeholder";
+    dict[@"userId"] = [ZHUser user].userId;
+    dict[@"token"] = [ZHUser user].token;
+    
+    [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logOut"] parameters:dict success:^(id responseObject) {
         
     }  failure:^(NSError *error) {
         
     }];
-    TLLog(@"应用退出");
 
 }
 

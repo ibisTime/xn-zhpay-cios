@@ -135,6 +135,11 @@
 }
 
 - (void)show {
+    
+    if (![TLWXManager judgeAndHintInstalllWX]) {
+        
+        return;
+    }
 
     [[UIApplication sharedApplication].keyWindow addSubview:self];
 
@@ -154,16 +159,14 @@
         }
         
         if (isSuccess) {
-//            [TLAlert alertWithHUDText:@"分享成功"];
             
             [(UIControl *)[[btn nextResponder] nextResponder] removeFromSuperview];
             
         } else {
+            
             [TLAlert alertWithHUDText:@"分享失败"];
            
         }
-        
-     
         
     };
     
@@ -183,9 +186,7 @@
         
         [ctrl removeFromSuperview];
         
-        
     }
-    
     
 }
 

@@ -25,13 +25,13 @@
 #define DEBUG_XN
 #ifdef DEBUG_XN // 处于开发阶段
 
-#define TLLog(...) NSLog(__VA_ARGS__)
+//#define TLLog(...) NSLog(__VA_ARGS__)
 #define IS_PRODUCATION YES
 
 #else // 处于发布阶段
 
-#define TLLog(...)
-#define IS_PRODUCATION NO
+//#define TLLog(...)
+//#define IS_PRODUCATION NO
 
 
 #endif

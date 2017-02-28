@@ -27,13 +27,13 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 //
 @property (nonatomic,copy) void(^paySucces)();
 
-//汇赚宝
+//汇赚宝支付只需传该模型
 @property (nonatomic,strong) ZHHZBModel *HZBModel;
+
 
 //人民币价格
 //各种总金额----富文本
 @property (nonatomic,copy) NSAttributedString *amoutAttr;
-
 @property (nonatomic,strong) NSNumber *orderAmount;
 
 //2.0一元夺宝所需要的支付模型

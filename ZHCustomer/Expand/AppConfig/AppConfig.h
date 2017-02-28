@@ -14,7 +14,10 @@ typedef NS_ENUM(NSUInteger, RunEnv) {
     RunEnvTest
 };
 
+FOUNDATION_EXPORT void TLLog(NSString *format, ...);
+
 @interface AppConfig : NSObject
+
 
 + (instancetype)config;
 

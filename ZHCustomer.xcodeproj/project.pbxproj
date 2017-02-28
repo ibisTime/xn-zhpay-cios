@@ -165,6 +165,8 @@
 		2E59455D1E2871D600331BAF /* QRCodeTopLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E59455C1E2871D600331BAF /* QRCodeTopLeft@2x.png */; };
 		2E59455F1E2871F700331BAF /* QRCodebottomRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E59455E1E2871F700331BAF /* QRCodebottomRight@2x.png */; };
 		2E5945621E287FB900331BAF /* ZHRecordListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5945611E287FB900331BAF /* ZHRecordListCell.m */; };
+		2E5983B61E65891600DE8F3C /* ZHDBRecodBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983B51E65891600DE8F3C /* ZHDBRecodBrowserView.m */; };
+		2E5983B91E658AE600DE8F3C /* ZHDBBrowserCoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983B81E658AE600DE8F3C /* ZHDBBrowserCoreView.m */; };
 		2E6908821E5AA2A9003D3C69 /* ZHMineViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6908811E5AA2A9003D3C69 /* ZHMineViewCtrl.m */; };
 		2E6908851E5ABAFA003D3C69 /* ZHWalletView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6908841E5ABAFA003D3C69 /* ZHWalletView.m */; };
 		2E6908881E5AC476003D3C69 /* ZHUserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6908871E5AC476003D3C69 /* ZHUserHeaderView.m */; };
@@ -722,6 +724,10 @@
 		2E59455E1E2871F700331BAF /* QRCodebottomRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodebottomRight@2x.png"; sourceTree = "<group>"; };
 		2E5945601E287FB900331BAF /* ZHRecordListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHRecordListCell.h; sourceTree = "<group>"; };
 		2E5945611E287FB900331BAF /* ZHRecordListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHRecordListCell.m; sourceTree = "<group>"; };
+		2E5983B41E65891600DE8F3C /* ZHDBRecodBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDBRecodBrowserView.h; sourceTree = "<group>"; };
+		2E5983B51E65891600DE8F3C /* ZHDBRecodBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDBRecodBrowserView.m; sourceTree = "<group>"; };
+		2E5983B71E658AE600DE8F3C /* ZHDBBrowserCoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDBBrowserCoreView.h; sourceTree = "<group>"; };
+		2E5983B81E658AE600DE8F3C /* ZHDBBrowserCoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDBBrowserCoreView.m; sourceTree = "<group>"; };
 		2E6908801E5AA2A9003D3C69 /* ZHMineViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMineViewCtrl.h; sourceTree = "<group>"; };
 		2E6908811E5AA2A9003D3C69 /* ZHMineViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHMineViewCtrl.m; sourceTree = "<group>"; };
 		2E6908831E5ABAFA003D3C69 /* ZHWalletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHWalletView.h; sourceTree = "<group>"; };
@@ -1895,6 +1901,10 @@
 				2E69089E1E5B0CAA003D3C69 /* ZHAwardAnnounceView.m */,
 				2E6908A01E5B3491003D3C69 /* ZHTwoLineView.h */,
 				2E6908A11E5B3491003D3C69 /* ZHTwoLineView.m */,
+				2E5983B41E65891600DE8F3C /* ZHDBRecodBrowserView.h */,
+				2E5983B51E65891600DE8F3C /* ZHDBRecodBrowserView.m */,
+				2E5983B71E658AE600DE8F3C /* ZHDBBrowserCoreView.h */,
+				2E5983B81E658AE600DE8F3C /* ZHDBBrowserCoreView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3237,6 +3247,7 @@
 				2E5945551E28687E00331BAF /* SGScanningQRCodeView.m in Sources */,
 				2EF9DBF51E1BA4EA005E2943 /* ZHBuyShareVC.m in Sources */,
 				2EBCF52D1E49A70C003A3A5E /* ZHDBRecordDetailVC.m in Sources */,
+				2E5983B91E658AE600DE8F3C /* ZHDBBrowserCoreView.m in Sources */,
 				2E2265961E4DACB200C7126E /* PSTCollectionView.m in Sources */,
 				2E22658B1E4DACB200C7126E /* EMSDWebImagePrefetcher.m in Sources */,
 				2E6E47891E10E8BF00FD2CA7 /* ZHLookForTreasureVC.m in Sources */,
@@ -3430,6 +3441,7 @@
 				2EC2ABD51E0CD28E003EF503 /* ZHShopCell.m in Sources */,
 				2E69089C1E5AEFCF003D3C69 /* ZHDuoBaoCell.m in Sources */,
 				2E6E48161E15199F00FD2CA7 /* ZHOrderGoodsCell.m in Sources */,
+				2E5983B61E65891600DE8F3C /* ZHDBRecodBrowserView.m in Sources */,
 				2E16D0251E5C30830029B0A5 /* ZHMineDBRecordVC.m in Sources */,
 				2E9A778F1E54494B009D8FAA /* TLDog.m in Sources */,
 				2E16D0151E5BD6D00029B0A5 /* ZHDuoBaoDetailVC.m in Sources */,

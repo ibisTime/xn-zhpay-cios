@@ -22,8 +22,6 @@
 
 @interface ZHShakeItOffVC ()<CLLocationManagerDelegate>
 
-//@property (nonatomic,strong) AMapLocationManager *locationManager;
-
 @property (nonatomic,strong) ZHHZBListVC *hzbListVC;
 //
 @property (nonatomic,strong) NSMutableArray *hzbRoom;
@@ -46,11 +44,11 @@
 @property (nonatomic, assign) SystemSoundID resultSoundId;
 @property (nonatomic, assign) SystemSoundID beginSoundId;
 
+@property (nonatomic, assign) BOOL firstUpLoaded;
 
 @end
 
 @implementation ZHShakeItOffVC
-
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -82,6 +80,28 @@
 
 }
 
+
+- (void)sendLocation {
+
+    if ([ZHUser user].isLogin) {
+        
+        TLNetworking *http = [TLNetworking new];
+        http.isShowMsg = NO;
+        http.code = @"805158";
+        http.parameters[@"longitude"] = self.lon;
+        http.parameters[@"latitude"] = self.lat;
+        http.parameters[@"token"] = [ZHUser user].token;
+        http.parameters[@"userId"] = [ZHUser user].userId;
+        [http postWithSuccess:^(id responseObject) {
+            
+        } failure:^(NSError *error) {
+            
+        }];
+        
+    }
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -99,6 +119,8 @@
     }
     
     [self.sysLocationManager startUpdatingLocation];
+    
+    [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(sendLocation) userInfo:nil repeats:YES];
     
 }
 
@@ -138,15 +160,14 @@
 
 }
 
-
 - (CLLocationManager *)sysLocationManager {
     
     if (!_sysLocationManager) {
         
         _sysLocationManager = [[CLLocationManager alloc] init];
         _sysLocationManager.delegate = self;
-        _sysLocationManager.distanceFilter = 50.0;
-        _sysLocationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        _sysLocationManager.distanceFilter = 20.0;
+        _sysLocationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         
     }
     
@@ -158,7 +179,6 @@
     [btn removeFromSuperview];
     
 }
-
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
 
@@ -178,40 +198,32 @@
     self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
     self.lat = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];
     
-    //上传用户位置--登录状态--并且已经购买摇钱树
-    if ([ZHUser user].isLogin) {
-        
-        TLNetworking *http = [TLNetworking new];
-        http.isShowMsg = NO;
-        http.code = @"808456";
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"token"] = [ZHUser user].token;
-        [http postWithSuccess:^(id responseObject) {
-            
-            NSDictionary *data = responseObject[@"data"];
-            if (data.allKeys.count > 0) {
-                
-                TLNetworking *http = [TLNetworking new];
-                http.isShowMsg = NO;
-                http.code = @"805158";
-                http.parameters[@"longitude"] = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];;
-                http.parameters[@"latitude"] = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];;
-                http.parameters[@"token"] = [ZHUser user].token;
-                http.parameters[@"userId"] = [ZHUser user].userId;
-                [http postWithSuccess:^(id responseObject) {
-                    
-                } failure:^(NSError *error) {
-                    
-                }];
-                
-            }
-            
-        } failure:^(NSError *error) {
-            
-        }];
-        
+    //首次上传 以后交给定时器上传
+    if (!self.firstUpLoaded) {
+        [self sendLocation];
+        self.firstUpLoaded = YES;
     }
-
+    //
+    //上传用户位置--登录状态--并且已经购买摇钱树
+//  self.sendLocationTimer.fireDate = [NSDate distantPast];
+    
+    
+//    if ([ZHUser user].isLogin) {
+//        
+//        TLNetworking *http = [TLNetworking new];
+//        http.isShowMsg = NO;
+//        http.code = @"805158";
+//        http.parameters[@"longitude"] = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];;
+//        http.parameters[@"latitude"] = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];;
+//        http.parameters[@"token"] = [ZHUser user].token;
+//        http.parameters[@"userId"] = [ZHUser user].userId;
+//        [http postWithSuccess:^(id responseObject) {
+//            
+//        } failure:^(NSError *error) {
+//            
+//        }];
+//        
+//    }
 }
 
 
@@ -246,7 +258,7 @@
     CLAuthorizationStatus authStatus = [CLLocationManager authorizationStatus];
     if (authStatus == kCLAuthorizationStatusDenied) { //定位权限不可用可用
      
-        [TLAlert alertWithTitle:nil Message:@"您的定位服务不可用,无法参加该活动" confirmMsg:@"设置" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
+        [TLAlert alertWithTitle:nil Message:@"您的定位服务不可用,无法参加该活动,请在设置中打开" confirmMsg:@"设置" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
             
         } confirm:^(UIAlertAction *action) {
             
@@ -329,7 +341,7 @@
                  hzbListVC.hzbRoom = self.hzbRoom;
                 [self.navigationController pushViewController:hzbListVC animated:YES];
                 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     
                     self.bgImageView.image = [UIImage imageNamed:@"摇一摇before"];
 

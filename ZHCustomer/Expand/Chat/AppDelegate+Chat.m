@@ -62,7 +62,6 @@
         
        NSArray *arr = [[EMClient sharedClient].chatManager getAllConversations];
 //        [[NSNotificationCenter defaultCenter] postNotificationName:<#(nonnull NSNotificationName)#> object:<#(nullable id)#>];
-        NSLog(@"---+++%@",arr);
     }
 
 

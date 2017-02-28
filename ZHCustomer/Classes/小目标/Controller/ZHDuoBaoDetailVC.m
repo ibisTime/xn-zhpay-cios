@@ -249,7 +249,14 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
 //-----//
 - (void)data {
 
-    self.bannerView.imgUrls = @[[self.dbModel.advPic convertImageUrl]];
+    NSArray <NSString *>*shortUrls = [self.dbModel.advPic componentsSeparatedByString:@"||"];
+    NSMutableArray <NSString *>*longUrls = [[NSMutableArray alloc] initWithCapacity:shortUrls.count];
+    [shortUrls enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+      [longUrls addObject: [obj convertImageUrl]];
+        
+    }];
+    self.bannerView.imgUrls = longUrls;
     
 //  @[@"http://pic.35pic.com/normal/09/36/49/4499633_230627095337_2.jpg"];
     
@@ -296,9 +303,17 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
 #pragma mark- 分享
 - (void)share {
 
-    
-    
     ZHShareView *shareView = [[ZHShareView alloc] init];
+    shareView.wxShare = ^(BOOL isSuccess, int code){
+    
+        if (isSuccess) {
+            
+          [TLAlert alertWithHUDText:@"分享成功"];
+
+        }
+        
+    };
+    
     shareView.title = @"小目标大玩法";
     shareView.content = @"正汇钱包邀您一元夺宝";
     shareView.shareUrl = [NSString stringWithFormat:@"%@/share/share-db.html?code=%@",[AppConfig config].shareBaseUrl,self.dbModel.code];
@@ -349,8 +364,11 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
         WKWebView *webV = [[WKWebView alloc] initWithFrame:CGRectMake(0, titleLbl.yy + 20, SCREEN_WIDTH, SCREEN_HEIGHT - titleLbl.yy - 85 - 20 - 35) configuration:webConfig];
         [maskCtrl addSubview:webV];
         webV.backgroundColor = [UIColor clearColor];
+        webV.opaque = NO;
         webV.navigationDelegate = self;
-        [webV loadHTMLString:responseObject[@"data"][@"note"] baseURL:nil];
+        NSString *styleStr = @"<style type=\"text/css\"> *{color:white; font-size:30px;}</style>";
+        NSString *htmlStr = responseObject[@"data"][@"note"];
+        [webV loadHTMLString:[NSString stringWithFormat:@"%@%@",htmlStr,styleStr] baseURL:nil];
         
     } failure:^(NSError *error) {
         

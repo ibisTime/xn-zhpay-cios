@@ -7,7 +7,7 @@
 //
 
 #import "ZHBriberyMoneyVC.h"
-#import "ZHBuyHZBVC.h"
+#import "ZHHZBVC.h"
 #import "ZHSendBriberyMoneyCell.h"
 #import "ZHBriberyMoney.h"
 #import "TLWXManager.h"
@@ -233,7 +233,6 @@
     if (self.displayType == ZHBriberyMoneyVCTypeHistory) {
         
         //历史记录
-        
         NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
        
         NSDateComponents *comps = nil;
@@ -255,6 +254,7 @@
         dateFormatter.dateFormat = @"yyyy-MM-dd";
         NSString *dateStr = [dateFormatter stringFromDate:[NSDate new]];
         helper.parameters[@"createDatetimeStart"] = dateStr;
+        helper.parameters[@"createDatetimeEnd"] = dateStr;
 
     }
     
@@ -273,12 +273,12 @@
             
         } failure:^(NSError *error) {
             
-            
         }];
         
     }];
     
     
+    //
     [self.briberyMoneyTableV addLoadMoreAction:^{
         
         [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
@@ -292,13 +292,15 @@
         }];
         
     }];
+    
+    
 
 }
 
 
 - (void)goBuyHZB {
 
-    ZHBuyHZBVC *vc = [[ZHBuyHZBVC alloc] init];
+    ZHHZBVC *vc = [[ZHHZBVC alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 
 }

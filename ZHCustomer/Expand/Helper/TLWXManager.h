@@ -13,6 +13,7 @@
 @interface TLWXManager : NSObject<WXApiDelegate>
 
 + (instancetype)manager;
++ (BOOL)judgeAndHintInstalllWX;
 
 - (void)registerApp;
 

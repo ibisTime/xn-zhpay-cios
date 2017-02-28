@@ -59,12 +59,35 @@
     
 }
 
++ (BOOL)judgeAndHintInstalllWX {
+
+    if (![WXApi isWXAppInstalled]) {
+        
+        [TLAlert alertWithTitle:@"" Message:@"您还没有安装微信,前往安装" confirmMsg:@"好的" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
+            
+        } confirm:^(UIAlertAction *action) {
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124?mt=8"]];
+            
+        }];
+        return NO;
+    }
+
+    return YES;
+
+}
 
 + (void)wxShareWebPageWithScene:(int)scene title:(NSString *)title desc:(NSString *)desc url:(NSString *)url {
 
     if (![WXApi isWXAppInstalled]) {
         
-        [TLAlert alertWithHUDText:@"您还未安装微信"];
+        [TLAlert alertWithTitle:@"" Message:@"您还没有安装微信,前往安装" confirmMsg:@"好的" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
+            
+        } confirm:^(UIAlertAction *action) {
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/%E5%BE%AE%E4%BF%A1/id414478124?mt=8"]];
+            
+        }];
         return;
     }
     
