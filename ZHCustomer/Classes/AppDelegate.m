@@ -22,7 +22,6 @@
 #import "ZHUserLoginVC.h"
 #import "ZHLocationManager.h"
 #import "SVProgressHUD.h"
-#import "ZHPayVC.h"
 #import "AppConfig.h"
 #import "TLRealmPlayground.h"
 #import <CoreLocation/CoreLocation.h>
@@ -45,9 +44,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
-    
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvRelease;
+    [AppConfig config].runEnv = RunEnvDev;
     
     //
     self.locationManager = [[CLLocationManager alloc] init];

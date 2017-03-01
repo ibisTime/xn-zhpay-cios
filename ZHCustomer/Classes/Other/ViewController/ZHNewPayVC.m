@@ -234,8 +234,9 @@
             CGFloat rate =  1.0/[responseObject[@"data"][@"rate"] floatValue];
             
 //           NSNumber *rmb =  responseObject[@"data"][@"cnyAmount"];
+//            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@) (1分润=%.2f人民币)",[surplusMoney convertToRealMoney],rate];
             
-            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@) (1分润=%.2f人民币)",[surplusMoney convertToRealMoney],rate];
+             self.pays[0].payName = [NSString stringWithFormat:@"分润(%@) (1分润=%@人民币)",[surplusMoney convertToRealMoney],responseObject[@"data"][@"rate"]];
             [self.payTableView reloadData];
             
         } failure:^(NSError *error) {

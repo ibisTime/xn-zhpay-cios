@@ -17,7 +17,6 @@
 #import "UIColor+theme.h"
 #import "ZHCurrencyHelper.h"
 
-#import "ZHConst.h"
 
 
 #define GOODS_PLACEHOLDER_IMG @"mall_placeholder"

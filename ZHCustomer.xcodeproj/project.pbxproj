@@ -167,6 +167,10 @@
 		2E5945621E287FB900331BAF /* ZHRecordListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5945611E287FB900331BAF /* ZHRecordListCell.m */; };
 		2E5983B61E65891600DE8F3C /* ZHDBRecodBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983B51E65891600DE8F3C /* ZHDBRecodBrowserView.m */; };
 		2E5983B91E658AE600DE8F3C /* ZHDBBrowserCoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983B81E658AE600DE8F3C /* ZHDBBrowserCoreView.m */; };
+		2E5983BC1E66776400DE8F3C /* ZHPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983BB1E66776400DE8F3C /* ZHPayVC.m */; };
+		2E5983C11E6678EC00DE8F3C /* ZHNewPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983C01E6678EC00DE8F3C /* ZHNewPayVC.m */; };
+		2E5983C51E66795B00DE8F3C /* ZHPayFuncModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983C41E66795B00DE8F3C /* ZHPayFuncModel.m */; };
+		2E5983C71E667B5800DE8F3C /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983C61E667B5800DE8F3C /* UIViewController+Extension.m */; };
 		2E6908821E5AA2A9003D3C69 /* ZHMineViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6908811E5AA2A9003D3C69 /* ZHMineViewCtrl.m */; };
 		2E6908851E5ABAFA003D3C69 /* ZHWalletView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6908841E5ABAFA003D3C69 /* ZHWalletView.m */; };
 		2E6908881E5AC476003D3C69 /* ZHUserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6908871E5AC476003D3C69 /* ZHUserHeaderView.m */; };
@@ -179,13 +183,11 @@
 		2E6C3DF71E2B1F08006A7AA2 /* ZHBillVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C3DF61E2B1F08006A7AA2 /* ZHBillVC.m */; };
 		2E6C3DFA1E2B1F28006A7AA2 /* ZHBillCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C3DF91E2B1F28006A7AA2 /* ZHBillCell.m */; };
 		2E6C3DFD1E2B1F3D006A7AA2 /* ZHBillModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C3DFC1E2B1F3D006A7AA2 /* ZHBillModel.m */; };
-		2E6C3DFF1E2B2110006A7AA2 /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C3DFE1E2B2110006A7AA2 /* UIViewController+Extension.m */; };
 		2E6C3E031E2C60AB006A7AA2 /* TLImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C3E021E2C60AB006A7AA2 /* TLImagePicker.m */; };
 		2E6C3E061E2CB387006A7AA2 /* ZHBank.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C3E051E2CB387006A7AA2 /* ZHBank.m */; };
 		2E6E47751E0FEBAA00FD2CA7 /* TopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E47741E0FEBAA00FD2CA7 /* TopView.m */; };
 		2E6E477C1E1010A700FD2CA7 /* ZHPayInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E477B1E1010A700FD2CA7 /* ZHPayInfoCell.m */; };
 		2E6E477F1E101F7000FD2CA7 /* ZHPayFuncCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E477E1E101F7000FD2CA7 /* ZHPayFuncCell.m */; };
-		2E6E47831E1021E200FD2CA7 /* ZHPayFuncModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E47821E1021E200FD2CA7 /* ZHPayFuncModel.m */; };
 		2E6E47861E10B49800FD2CA7 /* NSAttributedString+add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E47851E10B49800FD2CA7 /* NSAttributedString+add.m */; };
 		2E6E47891E10E8BF00FD2CA7 /* ZHLookForTreasureVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E47881E10E8BF00FD2CA7 /* ZHLookForTreasureVC.m */; };
 		2E6E478F1E10F01100FD2CA7 /* ZHProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E478E1E10F01100FD2CA7 /* ZHProgressView.m */; };
@@ -268,7 +270,6 @@
 		2E9A778F1E54494B009D8FAA /* TLDog.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A778E1E54494B009D8FAA /* TLDog.m */; };
 		2EA5218F1E63D68B0080965C /* TLHTMLStrVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5218E1E63D68B0080965C /* TLHTMLStrVC.m */; };
 		2EA521921E64069C0080965C /* ZHUserProtocalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA521911E64069C0080965C /* ZHUserProtocalVC.m */; };
-		2EAE611B1E48189500F1E032 /* ZHConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EAE611A1E48189500F1E032 /* ZHConst.m */; };
 		2EAE612F1E484E4500F1E032 /* jcore-ios-1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAE612C1E484E4500F1E032 /* jcore-ios-1.1.0.a */; };
 		2EAE61301E484E4500F1E032 /* jpush-ios-3.0.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAE612D1E484E4500F1E032 /* jpush-ios-3.0.1.a */; };
 		2EAE61391E4856C900F1E032 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAE61381E4856C900F1E032 /* CoreFoundation.framework */; };
@@ -299,21 +300,6 @@
 		2EC2ABD51E0CD28E003EF503 /* ZHShopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2ABD41E0CD28E003EF503 /* ZHShopCell.m */; };
 		2EC2ADC51E0CF55A003EF503 /* TLBaseModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC431E0CF55A003EF503 /* TLBaseModal.m */; };
 		2EC2ADC61E0CF55A003EF503 /* TLBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC461E0CF55A003EF503 /* TLBaseVC.m */; };
-		2EC2ADC71E0CF55A003EF503 /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC4A1E0CF55A003EF503 /* DALabeledCircularProgressView.m */; };
-		2EC2ADC81E0CF55A003EF503 /* MBProgressHUD+PY.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC4E1E0CF55A003EF503 /* MBProgressHUD+PY.m */; };
-		2EC2ADC91E0CF55A003EF503 /* UIView+PYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC501E0CF55A003EF503 /* UIView+PYExtension.m */; };
-		2EC2ADCA1E0CF55A003EF503 /* PYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC531E0CF55A003EF503 /* PYNavigationController.m */; };
-		2EC2ADCB1E0CF55A003EF503 /* PYPhotosPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC551E0CF55A003EF503 /* PYPhotosPreviewController.m */; };
-		2EC2ADCC1E0CF55A003EF503 /* PYPhotosReaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC571E0CF55A003EF503 /* PYPhotosReaderController.m */; };
-		2EC2ADCD1E0CF55A003EF503 /* PYPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC591E0CF55A003EF503 /* PYPhotosViewController.m */; };
-		2EC2ADCE1E0CF55A003EF503 /* PYPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC5C1E0CF55A003EF503 /* PYPhoto.m */; };
-		2EC2ADCF1E0CF55A003EF503 /* PYConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC5F1E0CF55A003EF503 /* PYConst.m */; };
-		2EC2ADD01E0CF55A003EF503 /* PYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC611E0CF55A003EF503 /* PYProgressView.m */; };
-		2EC2ADD11E0CF55A003EF503 /* PYPhotosView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EC2AC631E0CF55A003EF503 /* PYPhotosView.bundle */; };
-		2EC2ADD21E0CF55A003EF503 /* PYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC661E0CF55A003EF503 /* PYPhotoBrowseView.m */; };
-		2EC2ADD31E0CF55A003EF503 /* PYPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC681E0CF55A003EF503 /* PYPhotoCell.m */; };
-		2EC2ADD41E0CF55A003EF503 /* PYPhotosView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC6A1E0CF55A003EF503 /* PYPhotosView.m */; };
-		2EC2ADD51E0CF55A003EF503 /* PYPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC6C1E0CF55A003EF503 /* PYPhotoView.m */; };
 		2EC2ADD61E0CF55A003EF503 /* MBProgressHUD+add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC6E1E0CF55A003EF503 /* MBProgressHUD+add.m */; };
 		2EC2ADD71E0CF55A003EF503 /* NSObject+convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC701E0CF55A003EF503 /* NSObject+convert.m */; };
 		2EC2ADD81E0CF55A003EF503 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC721E0CF55A003EF503 /* NSString+Extension.m */; };
@@ -366,8 +352,6 @@
 		2EC602621E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602611E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m */; };
 		2EC602651E5E77DF0066C197 /* ZHBriberyMoney.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602641E5E77DF0066C197 /* ZHBriberyMoney.m */; };
 		2EC602671E5E87830066C197 /* Impact.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 2EC602661E5E87830066C197 /* Impact.TTF */; };
-		2EC6026A1E5E8DD20066C197 /* ZHPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602691E5E8DD20066C197 /* ZHPayVC.m */; };
-		2EC6026D1E5E90D70066C197 /* ZHNewPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6026C1E5E90D70066C197 /* ZHNewPayVC.m */; };
 		2EC602761E5EA4DF0066C197 /* TLGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602751E5EA4DF0066C197 /* TLGroupModel.m */; };
 		2EC602791E5EA4EC0066C197 /* TLCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC602781E5EA4EC0066C197 /* TLCellModel.m */; };
 		2EC6027C1E5EDFBC0066C197 /* ZHDBNumberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC6027B1E5EDFBC0066C197 /* ZHDBNumberModel.m */; };
@@ -728,6 +712,13 @@
 		2E5983B51E65891600DE8F3C /* ZHDBRecodBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDBRecodBrowserView.m; sourceTree = "<group>"; };
 		2E5983B71E658AE600DE8F3C /* ZHDBBrowserCoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDBBrowserCoreView.h; sourceTree = "<group>"; };
 		2E5983B81E658AE600DE8F3C /* ZHDBBrowserCoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDBBrowserCoreView.m; sourceTree = "<group>"; };
+		2E5983BA1E66776400DE8F3C /* ZHPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayVC.h; sourceTree = "<group>"; };
+		2E5983BB1E66776400DE8F3C /* ZHPayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHPayVC.m; sourceTree = "<group>"; };
+		2E5983BF1E6678EC00DE8F3C /* ZHNewPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHNewPayVC.h; sourceTree = "<group>"; };
+		2E5983C01E6678EC00DE8F3C /* ZHNewPayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHNewPayVC.m; sourceTree = "<group>"; };
+		2E5983C31E66795B00DE8F3C /* ZHPayFuncModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayFuncModel.h; sourceTree = "<group>"; };
+		2E5983C41E66795B00DE8F3C /* ZHPayFuncModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHPayFuncModel.m; sourceTree = "<group>"; };
+		2E5983C61E667B5800DE8F3C /* UIViewController+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Extension.m"; sourceTree = "<group>"; };
 		2E6908801E5AA2A9003D3C69 /* ZHMineViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMineViewCtrl.h; sourceTree = "<group>"; };
 		2E6908811E5AA2A9003D3C69 /* ZHMineViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHMineViewCtrl.m; sourceTree = "<group>"; };
 		2E6908831E5ABAFA003D3C69 /* ZHWalletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHWalletView.h; sourceTree = "<group>"; };
@@ -752,7 +743,6 @@
 		2E6C3DF91E2B1F28006A7AA2 /* ZHBillCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHBillCell.m; sourceTree = "<group>"; };
 		2E6C3DFB1E2B1F3D006A7AA2 /* ZHBillModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHBillModel.h; sourceTree = "<group>"; };
 		2E6C3DFC1E2B1F3D006A7AA2 /* ZHBillModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHBillModel.m; sourceTree = "<group>"; };
-		2E6C3DFE1E2B2110006A7AA2 /* UIViewController+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Extension.m"; path = "3rd/UIViewController+Extension.m"; sourceTree = "<group>"; };
 		2E6C3E001E2B2127006A7AA2 /* UIViewController+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
 		2E6C3E011E2C60AB006A7AA2 /* TLImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLImagePicker.h; sourceTree = "<group>"; };
 		2E6C3E021E2C60AB006A7AA2 /* TLImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLImagePicker.m; sourceTree = "<group>"; };
@@ -764,8 +754,6 @@
 		2E6E477B1E1010A700FD2CA7 /* ZHPayInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHPayInfoCell.m; sourceTree = "<group>"; };
 		2E6E477D1E101F7000FD2CA7 /* ZHPayFuncCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayFuncCell.h; sourceTree = "<group>"; };
 		2E6E477E1E101F7000FD2CA7 /* ZHPayFuncCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHPayFuncCell.m; sourceTree = "<group>"; };
-		2E6E47811E1021E200FD2CA7 /* ZHPayFuncModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayFuncModel.h; sourceTree = "<group>"; };
-		2E6E47821E1021E200FD2CA7 /* ZHPayFuncModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHPayFuncModel.m; sourceTree = "<group>"; };
 		2E6E47841E10B49800FD2CA7 /* NSAttributedString+add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+add.h"; sourceTree = "<group>"; };
 		2E6E47851E10B49800FD2CA7 /* NSAttributedString+add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+add.m"; sourceTree = "<group>"; };
 		2E6E47871E10E8BF00FD2CA7 /* ZHLookForTreasureVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHLookForTreasureVC.h; sourceTree = "<group>"; };
@@ -929,8 +917,6 @@
 		2EA5218E1E63D68B0080965C /* TLHTMLStrVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLHTMLStrVC.m; sourceTree = "<group>"; };
 		2EA521901E64069C0080965C /* ZHUserProtocalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHUserProtocalVC.h; sourceTree = "<group>"; };
 		2EA521911E64069C0080965C /* ZHUserProtocalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHUserProtocalVC.m; sourceTree = "<group>"; };
-		2EAE61191E48189500F1E032 /* ZHConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHConst.h; sourceTree = "<group>"; };
-		2EAE611A1E48189500F1E032 /* ZHConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHConst.m; sourceTree = "<group>"; };
 		2EAE611F1E481A4400F1E032 /* ZHCurrencyProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHCurrencyProtocol.h; path = ViewModel/ZHCurrencyProtocol.h; sourceTree = "<group>"; };
 		2EAE612C1E484E4500F1E032 /* jcore-ios-1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jcore-ios-1.1.0.a"; sourceTree = "<group>"; };
 		2EAE612D1E484E4500F1E032 /* jpush-ios-3.0.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.0.1.a"; sourceTree = "<group>"; };
@@ -985,36 +971,6 @@
 		2EC2AC431E0CF55A003EF503 /* TLBaseModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBaseModal.m; sourceTree = "<group>"; };
 		2EC2AC451E0CF55A003EF503 /* TLBaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBaseVC.h; sourceTree = "<group>"; };
 		2EC2AC461E0CF55A003EF503 /* TLBaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBaseVC.m; sourceTree = "<group>"; };
-		2EC2AC491E0CF55A003EF503 /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
-		2EC2AC4A1E0CF55A003EF503 /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
-		2EC2AC4D1E0CF55A003EF503 /* MBProgressHUD+PY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+PY.h"; sourceTree = "<group>"; };
-		2EC2AC4E1E0CF55A003EF503 /* MBProgressHUD+PY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+PY.m"; sourceTree = "<group>"; };
-		2EC2AC4F1E0CF55A003EF503 /* UIView+PYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PYExtension.h"; sourceTree = "<group>"; };
-		2EC2AC501E0CF55A003EF503 /* UIView+PYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PYExtension.m"; sourceTree = "<group>"; };
-		2EC2AC521E0CF55A003EF503 /* PYNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYNavigationController.h; sourceTree = "<group>"; };
-		2EC2AC531E0CF55A003EF503 /* PYNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYNavigationController.m; sourceTree = "<group>"; };
-		2EC2AC541E0CF55A003EF503 /* PYPhotosPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosPreviewController.h; sourceTree = "<group>"; };
-		2EC2AC551E0CF55A003EF503 /* PYPhotosPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosPreviewController.m; sourceTree = "<group>"; };
-		2EC2AC561E0CF55A003EF503 /* PYPhotosReaderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosReaderController.h; sourceTree = "<group>"; };
-		2EC2AC571E0CF55A003EF503 /* PYPhotosReaderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosReaderController.m; sourceTree = "<group>"; };
-		2EC2AC581E0CF55A003EF503 /* PYPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosViewController.h; sourceTree = "<group>"; };
-		2EC2AC591E0CF55A003EF503 /* PYPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosViewController.m; sourceTree = "<group>"; };
-		2EC2AC5B1E0CF55A003EF503 /* PYPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhoto.h; sourceTree = "<group>"; };
-		2EC2AC5C1E0CF55A003EF503 /* PYPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhoto.m; sourceTree = "<group>"; };
-		2EC2AC5E1E0CF55A003EF503 /* PYConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYConst.h; sourceTree = "<group>"; };
-		2EC2AC5F1E0CF55A003EF503 /* PYConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYConst.m; sourceTree = "<group>"; };
-		2EC2AC601E0CF55A003EF503 /* PYProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYProgressView.h; sourceTree = "<group>"; };
-		2EC2AC611E0CF55A003EF503 /* PYProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYProgressView.m; sourceTree = "<group>"; };
-		2EC2AC621E0CF55A003EF503 /* PYPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoBrowser.h; sourceTree = "<group>"; };
-		2EC2AC631E0CF55A003EF503 /* PYPhotosView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PYPhotosView.bundle; sourceTree = "<group>"; };
-		2EC2AC651E0CF55A003EF503 /* PYPhotoBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoBrowseView.h; sourceTree = "<group>"; };
-		2EC2AC661E0CF55A003EF503 /* PYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoBrowseView.m; sourceTree = "<group>"; };
-		2EC2AC671E0CF55A003EF503 /* PYPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoCell.h; sourceTree = "<group>"; };
-		2EC2AC681E0CF55A003EF503 /* PYPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoCell.m; sourceTree = "<group>"; };
-		2EC2AC691E0CF55A003EF503 /* PYPhotosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotosView.h; sourceTree = "<group>"; };
-		2EC2AC6A1E0CF55A003EF503 /* PYPhotosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotosView.m; sourceTree = "<group>"; };
-		2EC2AC6B1E0CF55A003EF503 /* PYPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYPhotoView.h; sourceTree = "<group>"; };
-		2EC2AC6C1E0CF55A003EF503 /* PYPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYPhotoView.m; sourceTree = "<group>"; };
 		2EC2AC6D1E0CF55A003EF503 /* MBProgressHUD+add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+add.h"; sourceTree = "<group>"; };
 		2EC2AC6E1E0CF55A003EF503 /* MBProgressHUD+add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+add.m"; sourceTree = "<group>"; };
 		2EC2AC6F1E0CF55A003EF503 /* NSObject+convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+convert.h"; sourceTree = "<group>"; };
@@ -1046,8 +1002,8 @@
 		2EC2ADA31E0CF55A003EF503 /* TLUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUploadManager.h; sourceTree = "<group>"; };
 		2EC2ADA41E0CF55A003EF503 /* TLUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUploadManager.m; sourceTree = "<group>"; };
 		2EC2ADA51E0CF55A003EF503 /* TLHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLHeader.h; sourceTree = "<group>"; };
-		2EC2ADA61E0CF55A003EF503 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
-		2EC2ADA71E0CF55A003EF503 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		2EC2ADA61E0CF55A003EF503 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Frame.h"; path = "../UIView+Frame.h"; sourceTree = "<group>"; };
+		2EC2ADA71E0CF55A003EF503 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Frame.m"; path = "../UIView+Frame.m"; sourceTree = "<group>"; };
 		2EC2ADAA1E0CF55A003EF503 /* TLBannerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBannerCell.h; sourceTree = "<group>"; };
 		2EC2ADAB1E0CF55A003EF503 /* TLBannerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBannerCell.m; sourceTree = "<group>"; };
 		2EC2ADAC1E0CF55A003EF503 /* TLBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBannerView.h; sourceTree = "<group>"; };
@@ -1110,10 +1066,6 @@
 		2EC602631E5E77DF0066C197 /* ZHBriberyMoney.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHBriberyMoney.h; sourceTree = "<group>"; };
 		2EC602641E5E77DF0066C197 /* ZHBriberyMoney.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHBriberyMoney.m; sourceTree = "<group>"; };
 		2EC602661E5E87830066C197 /* Impact.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = Impact.TTF; sourceTree = "<group>"; };
-		2EC602681E5E8DD20066C197 /* ZHPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayVC.h; sourceTree = "<group>"; };
-		2EC602691E5E8DD20066C197 /* ZHPayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHPayVC.m; sourceTree = "<group>"; };
-		2EC6026B1E5E90D70066C197 /* ZHNewPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHNewPayVC.h; sourceTree = "<group>"; };
-		2EC6026C1E5E90D70066C197 /* ZHNewPayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHNewPayVC.m; sourceTree = "<group>"; };
 		2EC602741E5EA4DF0066C197 /* TLGroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLGroupModel.h; sourceTree = "<group>"; };
 		2EC602751E5EA4DF0066C197 /* TLGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLGroupModel.m; sourceTree = "<group>"; };
 		2EC602771E5EA4EC0066C197 /* TLCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCellModel.h; sourceTree = "<group>"; };
@@ -1848,6 +1800,32 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		2E5983BD1E66785F00DE8F3C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2E5983C21E66795B00DE8F3C /* Pay */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2E5983BE1E6678B800DE8F3C /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2E5983BF1E6678EC00DE8F3C /* ZHNewPayVC.h */,
+				2E5983C01E6678EC00DE8F3C /* ZHNewPayVC.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2E5983C21E66795B00DE8F3C /* Pay */ = {
+			isa = PBXGroup;
+			children = (
+				2E5983C31E66795B00DE8F3C /* ZHPayFuncModel.h */,
+				2E5983C41E66795B00DE8F3C /* ZHPayFuncModel.m */,
+			);
+			path = Pay;
+			sourceTree = "<group>";
+		};
 		2E6908891E5AD4DF003D3C69 /* 小目标 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1953,15 +1931,6 @@
 				2E6E477B1E1010A700FD2CA7 /* ZHPayInfoCell.m */,
 				2E6E477D1E101F7000FD2CA7 /* ZHPayFuncCell.h */,
 				2E6E477E1E101F7000FD2CA7 /* ZHPayFuncCell.m */,
-			);
-			path = Pay;
-			sourceTree = "<group>";
-		};
-		2E6E47801E1021C600FD2CA7 /* Pay */ = {
-			isa = PBXGroup;
-			children = (
-				2E6E47811E1021E200FD2CA7 /* ZHPayFuncModel.h */,
-				2E6E47821E1021E200FD2CA7 /* ZHPayFuncModel.m */,
 			);
 			path = Pay;
 			sourceTree = "<group>";
@@ -2204,15 +2173,6 @@
 			path = RealmTest;
 			sourceTree = "<group>";
 		};
-		2EAE61181E48186C00F1E032 /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				2EAE61191E48189500F1E032 /* ZHConst.h */,
-				2EAE611A1E48189500F1E032 /* ZHConst.m */,
-			);
-			path = Config;
-			sourceTree = "<group>";
-		};
 		2EAE612B1E484E4500F1E032 /* jpushLib */ = {
 			isa = PBXGroup;
 			children = (
@@ -2297,13 +2257,13 @@
 				2EC2ABA61E0CC8BF003EF503 /* AppDelegate.m */,
 				2E6908891E5AD4DF003D3C69 /* 小目标 */,
 				2E69088D1E5AD59F003D3C69 /* 发一发 */,
-				2EC2ABB31E0CC8BF003EF503 /* Shop */,
 				2EC2ABA11E0CC8BF003EF503 /* ShakeItOff */,
 				2EC2ABA71E0CC8BF003EF503 /* Chat */,
-				2EC2ABAB1E0CC8BF003EF503 /* Goods */,
 				2EC2ABAF1E0CC8BF003EF503 /* Mine */,
-				2EC2ABB81E0CC91D003EF503 /* Other */,
+				2EC2ABB31E0CC8BF003EF503 /* Shop */,
+				2EC2ABAB1E0CC8BF003EF503 /* Goods */,
 				2EC2AE561E0CF5B3003EF503 /* User */,
+				2EC2ABB81E0CC91D003EF503 /* Other */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -2584,6 +2544,8 @@
 		2EC2ABB41E0CC8BF003EF503 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2E5983BA1E66776400DE8F3C /* ZHPayVC.h */,
+				2E5983BB1E66776400DE8F3C /* ZHPayVC.m */,
 				2EC2ABC41E0CD04E003EF503 /* ZHShopVC.h */,
 				2EC2ABC51E0CD04E003EF503 /* ZHShopVC.m */,
 				2E22277C1E2DBB0A00B6F209 /* ZHSearchVC.h */,
@@ -2605,7 +2567,6 @@
 		2EC2ABB51E0CC8BF003EF503 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2E6E47801E1021C600FD2CA7 /* Pay */,
 				2E875D0C1E0D1573007F97A5 /* ZHShop.h */,
 				2E875D0D1E0D1573007F97A5 /* ZHShop.m */,
 				2E1762BB1E2486D100CAE489 /* ZHBannerModel.h */,
@@ -2630,29 +2591,26 @@
 		2EC2ABB81E0CC91D003EF503 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				2EC602681E5E8DD20066C197 /* ZHPayVC.h */,
-				2EC602691E5E8DD20066C197 /* ZHPayVC.m */,
-				2EC6026B1E5E90D70066C197 /* ZHNewPayVC.h */,
-				2EC6026C1E5E90D70066C197 /* ZHNewPayVC.m */,
+				2EC2ABB91E0CC946003EF503 /* ZHTabBarController.h */,
+				2EC2ABBA1E0CC946003EF503 /* ZHTabBarController.m */,
+				2EC2ABBC1E0CC964003EF503 /* ZHNavigationController.h */,
+				2EC2ABBD1E0CC964003EF503 /* ZHNavigationController.m */,
 				2EC602741E5EA4DF0066C197 /* TLGroupModel.h */,
 				2EC602751E5EA4DF0066C197 /* TLGroupModel.m */,
 				2EC602771E5EA4EC0066C197 /* TLCellModel.h */,
 				2EC602781E5EA4EC0066C197 /* TLCellModel.m */,
 				2EC602661E5E87830066C197 /* Impact.TTF */,
+				2EC2AE721E0CF849003EF503 /* UIColor+theme.h */,
+				2EC2AE731E0CF849003EF503 /* UIColor+theme.m */,
+				2EAE611F1E481A4400F1E032 /* ZHCurrencyProtocol.h */,
 				2E9A77831E544078009D8FAA /* RealmTest */,
-				2EAE61181E48186C00F1E032 /* Config */,
 				2E2267461E50A6DE00C7126E /* Alipay */,
 				2EAE612B1E484E4500F1E032 /* jpushLib */,
 				2EDC53C61E1E210A00CACE31 /* OpenSDK1.7.5 */,
-				2EC2AE721E0CF849003EF503 /* UIColor+theme.h */,
-				2EC2AE731E0CF849003EF503 /* UIColor+theme.m */,
-				2EC2ABB91E0CC946003EF503 /* ZHTabBarController.h */,
-				2EC2ABBA1E0CC946003EF503 /* ZHTabBarController.m */,
-				2EC2ABBC1E0CC964003EF503 /* ZHNavigationController.h */,
-				2EC2ABBD1E0CC964003EF503 /* ZHNavigationController.m */,
+				2E5983BE1E6678B800DE8F3C /* ViewController */,
 				2E6E48251E164DC000FD2CA7 /* View */,
+				2E5983BD1E66785F00DE8F3C /* Model */,
 				2E6E48171E15439C00FD2CA7 /* ViewModel */,
-				2EAE611F1E481A4400F1E032 /* ZHCurrencyProtocol.h */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -2674,8 +2632,6 @@
 				2EC2AD9C1E0CF55A003EF503 /* ImageTools */,
 				2EC2AD9D1E0CF55A003EF503 /* Networking */,
 				2EC2ADA51E0CF55A003EF503 /* TLHeader.h */,
-				2EC2ADA61E0CF55A003EF503 /* UIView+Frame.h */,
-				2EC2ADA71E0CF55A003EF503 /* UIView+Frame.m */,
 				2EC2ADA81E0CF55A003EF503 /* View */,
 				2EC2ADC21E0CF55A003EF503 /* Warn */,
 			);
@@ -2721,9 +2677,10 @@
 		2EC2AC471E0CF55A003EF503 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				2EC2ADA61E0CF55A003EF503 /* UIView+Frame.h */,
+				2EC2ADA71E0CF55A003EF503 /* UIView+Frame.m */,
 				2E6C3E001E2B2127006A7AA2 /* UIViewController+Extension.h */,
-				2E6C3DFE1E2B2110006A7AA2 /* UIViewController+Extension.m */,
-				2EC2AC481E0CF55A003EF503 /* 3rd */,
+				2E5983C61E667B5800DE8F3C /* UIViewController+Extension.m */,
 				2EC2AC6D1E0CF55A003EF503 /* MBProgressHUD+add.h */,
 				2EC2AC6E1E0CF55A003EF503 /* MBProgressHUD+add.m */,
 				2EC2AC6F1E0CF55A003EF503 /* NSObject+convert.h */,
@@ -2746,91 +2703,6 @@
 				2E2264291E4D8AE000C7126E /* NSTimer+tlNoCycle.m */,
 			);
 			path = Category;
-			sourceTree = "<group>";
-		};
-		2EC2AC481E0CF55A003EF503 /* 3rd */ = {
-			isa = PBXGroup;
-			children = (
-				2EC2AC491E0CF55A003EF503 /* DALabeledCircularProgressView.h */,
-				2EC2AC4A1E0CF55A003EF503 /* DALabeledCircularProgressView.m */,
-				2EC2AC4B1E0CF55A003EF503 /* PYPhotoBrowser */,
-			);
-			path = 3rd;
-			sourceTree = "<group>";
-		};
-		2EC2AC4B1E0CF55A003EF503 /* PYPhotoBrowser */ = {
-			isa = PBXGroup;
-			children = (
-				2EC2AC4C1E0CF55A003EF503 /* Category */,
-				2EC2AC511E0CF55A003EF503 /* Controller */,
-				2EC2AC5A1E0CF55A003EF503 /* Model */,
-				2EC2AC5D1E0CF55A003EF503 /* Other */,
-				2EC2AC621E0CF55A003EF503 /* PYPhotoBrowser.h */,
-				2EC2AC631E0CF55A003EF503 /* PYPhotosView.bundle */,
-				2EC2AC641E0CF55A003EF503 /* View */,
-			);
-			path = PYPhotoBrowser;
-			sourceTree = "<group>";
-		};
-		2EC2AC4C1E0CF55A003EF503 /* Category */ = {
-			isa = PBXGroup;
-			children = (
-				2EC2AC4D1E0CF55A003EF503 /* MBProgressHUD+PY.h */,
-				2EC2AC4E1E0CF55A003EF503 /* MBProgressHUD+PY.m */,
-				2EC2AC4F1E0CF55A003EF503 /* UIView+PYExtension.h */,
-				2EC2AC501E0CF55A003EF503 /* UIView+PYExtension.m */,
-			);
-			path = Category;
-			sourceTree = "<group>";
-		};
-		2EC2AC511E0CF55A003EF503 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				2EC2AC521E0CF55A003EF503 /* PYNavigationController.h */,
-				2EC2AC531E0CF55A003EF503 /* PYNavigationController.m */,
-				2EC2AC541E0CF55A003EF503 /* PYPhotosPreviewController.h */,
-				2EC2AC551E0CF55A003EF503 /* PYPhotosPreviewController.m */,
-				2EC2AC561E0CF55A003EF503 /* PYPhotosReaderController.h */,
-				2EC2AC571E0CF55A003EF503 /* PYPhotosReaderController.m */,
-				2EC2AC581E0CF55A003EF503 /* PYPhotosViewController.h */,
-				2EC2AC591E0CF55A003EF503 /* PYPhotosViewController.m */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		2EC2AC5A1E0CF55A003EF503 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				2EC2AC5B1E0CF55A003EF503 /* PYPhoto.h */,
-				2EC2AC5C1E0CF55A003EF503 /* PYPhoto.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		2EC2AC5D1E0CF55A003EF503 /* Other */ = {
-			isa = PBXGroup;
-			children = (
-				2EC2AC5E1E0CF55A003EF503 /* PYConst.h */,
-				2EC2AC5F1E0CF55A003EF503 /* PYConst.m */,
-				2EC2AC601E0CF55A003EF503 /* PYProgressView.h */,
-				2EC2AC611E0CF55A003EF503 /* PYProgressView.m */,
-			);
-			path = Other;
-			sourceTree = "<group>";
-		};
-		2EC2AC641E0CF55A003EF503 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				2EC2AC651E0CF55A003EF503 /* PYPhotoBrowseView.h */,
-				2EC2AC661E0CF55A003EF503 /* PYPhotoBrowseView.m */,
-				2EC2AC671E0CF55A003EF503 /* PYPhotoCell.h */,
-				2EC2AC681E0CF55A003EF503 /* PYPhotoCell.m */,
-				2EC2AC691E0CF55A003EF503 /* PYPhotosView.h */,
-				2EC2AC6A1E0CF55A003EF503 /* PYPhotosView.m */,
-				2EC2AC6B1E0CF55A003EF503 /* PYPhotoView.h */,
-				2EC2AC6C1E0CF55A003EF503 /* PYPhotoView.m */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		2EC2AC7B1E0CF55A003EF503 /* Chat */ = {
@@ -3141,7 +3013,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EC2ADD11E0CF55A003EF503 /* PYPhotosView.bundle in Resources */,
 				2E5945571E2871A500331BAF /* QRCodeTopRight@2x.png in Resources */,
 				2EC2AB9F1E0CC8A7003EF503 /* Info.plist in Resources */,
 				2E59455D1E2871D600331BAF /* QRCodeTopLeft@2x.png in Resources */,
@@ -3225,7 +3096,6 @@
 				2E6E48691E1B4D3800FD2CA7 /* ZHMsgVC.m in Sources */,
 				2E2265B21E4DACB200C7126E /* EaseEmotionManager.m in Sources */,
 				2EC2ADC51E0CF55A003EF503 /* TLBaseModal.m in Sources */,
-				2EC2ADD51E0CF55A003EF503 /* PYPhotoView.m in Sources */,
 				2E22277E1E2DBB0A00B6F209 /* ZHSearchVC.m in Sources */,
 				2EC2ABC61E0CD04E003EF503 /* ZHShopVC.m in Sources */,
 				2E6E481A1E1543B600FD2CA7 /* ZHCurrencyHelper.m in Sources */,
@@ -3235,7 +3105,6 @@
 				2E1762BA1E23B7DC00CAE489 /* ZHAdvDetailVC.m in Sources */,
 				2E6E47FB1E14DF9000FD2CA7 /* ZHAddAddressVC.m in Sources */,
 				2E2265611E4DACB100C7126E /* EMCDDeviceManagerBase.m in Sources */,
-				2EC2ADD01E0CF55A003EF503 /* PYProgressView.m in Sources */,
 				2E6E47B41E128A0C00FD2CA7 /* ZHLookForTreasureCell.m in Sources */,
 				2E6E47E71E13BD1200FD2CA7 /* ZHAccountSecurityVC.m in Sources */,
 				2E22657F1E4DACB200C7126E /* MWPhoto.m in Sources */,
@@ -3254,7 +3123,6 @@
 				2EF892A41E51C0A80068CE16 /* ZHAboutUsVC.m in Sources */,
 				2E989CC51E1F3DF500F3643A /* ZHCouponsDetailVC.m in Sources */,
 				2E6E48051E14E72300FD2CA7 /* AddressPickerView.m in Sources */,
-				2EC6026D1E5E90D70066C197 /* ZHNewPayVC.m in Sources */,
 				2EC2ABCF1E0CD09D003EF503 /* ZHChatVC.m in Sources */,
 				2EDC53D81E1E463C00CACE31 /* ZHWithdrawalVC.m in Sources */,
 				2E5945511E28687E00331BAF /* SGScanningQRCodeVC.m in Sources */,
@@ -3277,6 +3145,7 @@
 				2E2265B51E4DACB200C7126E /* EaseLocationViewController.m in Sources */,
 				2E6E48561E1B4B6900FD2CA7 /* ZHBankCardListVC.m in Sources */,
 				2EC2ADDB1E0CF55A003EF503 /* UIFont+UI.m in Sources */,
+				2E5983C11E6678EC00DE8F3C /* ZHNewPayVC.m in Sources */,
 				2EC2AE511E0CF55A003EF503 /* TLTableView.m in Sources */,
 				2EC2AE521E0CF55A003EF503 /* TLTextField.m in Sources */,
 				2E2265B11E4DACB200C7126E /* EaseEmotionEscape.m in Sources */,
@@ -3285,7 +3154,6 @@
 				2E2265991E4DACB200C7126E /* PSTCollectionViewData.m in Sources */,
 				2EBCF52F1E49A70C003A3A5E /* ZHDBRecordVC.m in Sources */,
 				2EC2AE4F1E0CF55A003EF503 /* TLPickerTextField.m in Sources */,
-				2EC2ADD41E0CF55A003EF503 /* PYPhotosView.m in Sources */,
 				2E6E47CD1E13583C00FD2CA7 /* ZHShoppingCartCell.m in Sources */,
 				2E989CC21E1E815A00F3643A /* ZHCoupon.m in Sources */,
 				2E2265AB1E4DACB200C7126E /* UIViewController+HUD.m in Sources */,
@@ -3298,7 +3166,6 @@
 				2E2265941E4DACB200C7126E /* UIView+EMWebCacheOperation.m in Sources */,
 				2E6E48381E17AB3100FD2CA7 /* ZHOrderDetailVC.m in Sources */,
 				2E2265931E4DACB200C7126E /* UIImageView+EMWebCache.m in Sources */,
-				2E6C3DFF1E2B2110006A7AA2 /* UIViewController+Extension.m in Sources */,
 				2E22659E1E4DACB200C7126E /* PSTGridLayoutInfo.m in Sources */,
 				2E6E47951E11000500FD2CA7 /* ZHDoubleTitleView.m in Sources */,
 				2E2265911E4DACB200C7126E /* UIImage+EMWebP.m in Sources */,
@@ -3338,6 +3205,7 @@
 				2E6E48411E1A8A6300FD2CA7 /* ZHCategoryModel.m in Sources */,
 				2EF9DBFE1E1C95A8005E2943 /* ZHChatMerchantCell.m in Sources */,
 				2E1762A11E23286300CAE489 /* FCUUID.m in Sources */,
+				2E5983C51E66795B00DE8F3C /* ZHPayFuncModel.m in Sources */,
 				2EC6025C1E5D2C080066C197 /* ZHDBModel.m in Sources */,
 				2EC2AE6D1E0CF5B3003EF503 /* ZHUserRegistVC.m in Sources */,
 				2E11982F1E2F9E1400879365 /* ZHTreasureRecord.m in Sources */,
@@ -3345,7 +3213,6 @@
 				2E2265A91E4DACB200C7126E /* NSString+Valid.m in Sources */,
 				2EC2ABCC1E0CD083003EF503 /* ZHShakeItOffVC.m in Sources */,
 				2E5945521E28687E00331BAF /* SGAlertView.m in Sources */,
-				2EC2ADD21E0CF55A003EF503 /* PYPhotoBrowseView.m in Sources */,
 				2E6E47C01E12C37300FD2CA7 /* ZHSingleDetailVC.m in Sources */,
 				2E22659A1E4DACB200C7126E /* PSTCollectionViewFlowLayout.m in Sources */,
 				2EC2AE471E0CF55A003EF503 /* TLUploadManager.m in Sources */,
@@ -3353,6 +3220,7 @@
 				2E2265C71E4DACB200C7126E /* EaseChatToolbar.m in Sources */,
 				2E6E48201E15FF6200FD2CA7 /* ZHCartGoodsModel.m in Sources */,
 				2E2265BE1E4DACB200C7126E /* EaseMessageTimeCell.m in Sources */,
+				2E5983C71E667B5800DE8F3C /* UIViewController+Extension.m in Sources */,
 				2E4E8BD01E2230B700AC022A /* ZHBusinessCardView.m in Sources */,
 				2EC2AE501E0CF55A003EF503 /* TLPlaceholderView.m in Sources */,
 				2E6E48071E14E72300FD2CA7 /* Province.m in Sources */,
@@ -3375,7 +3243,6 @@
 				2E6E47C31E134E8200FD2CA7 /* ZHEvaluateView.m in Sources */,
 				2E2265B01E4DACB200C7126E /* EaseEmojiEmoticons.m in Sources */,
 				2E6E483B1E17ADD800FD2CA7 /* ZHAddressChooseView.m in Sources */,
-				2EC2ADC81E0CF55A003EF503 /* MBProgressHUD+PY.m in Sources */,
 				2E6C3DFA1E2B1F28006A7AA2 /* ZHBillCell.m in Sources */,
 				2E2265A11E4DACB200C7126E /* PSTGridLayoutSection.m in Sources */,
 				2E6E47A71E12596900FD2CA7 /* ZHTreasureInfoView.m in Sources */,
@@ -3385,7 +3252,6 @@
 				2E6908931E5AD6DF003D3C69 /* ZHDuoBaoVC.m in Sources */,
 				2EC2ADD61E0CF55A003EF503 /* MBProgressHUD+add.m in Sources */,
 				2EC2AE461E0CF55A003EF503 /* TLPageDataHelper.m in Sources */,
-				2EC2ADCA1E0CF55A003EF503 /* PYNavigationController.m in Sources */,
 				2EC602761E5EA4DF0066C197 /* TLGroupModel.m in Sources */,
 				2E2265831E4DACB200C7126E /* MWZoomingScrollView.m in Sources */,
 				2E59454F1E28687E00331BAF /* ScanSuccessJumpVC.m in Sources */,
@@ -3406,7 +3272,6 @@
 				2E4E8BC31E20D9BB00AC022A /* ZHReferralModel.m in Sources */,
 				2E69089F1E5B0CAA003D3C69 /* ZHAwardAnnounceView.m in Sources */,
 				2E6E47AD1E12859000FD2CA7 /* ZHTreasureProgressVC.m in Sources */,
-				2E6E47831E1021E200FD2CA7 /* ZHPayFuncModel.m in Sources */,
 				2E6908821E5AA2A9003D3C69 /* ZHMineViewCtrl.m in Sources */,
 				2EBCF52C1E49A70C003A3A5E /* ZHDBNumVC.m in Sources */,
 				2EC2AB891E0CC76F003EF503 /* main.m in Sources */,
@@ -3436,7 +3301,6 @@
 				2EC602791E5EA4EC0066C197 /* TLCellModel.m in Sources */,
 				2EA521921E64069C0080965C /* ZHUserProtocalVC.m in Sources */,
 				2EDC53D51E1E389E00CACE31 /* NSNumber+TLAdd.m in Sources */,
-				2EC2ADC91E0CF55A003EF503 /* UIView+PYExtension.m in Sources */,
 				2EC602651E5E77DF0066C197 /* ZHBriberyMoney.m in Sources */,
 				2EC2ABD51E0CD28E003EF503 /* ZHShopCell.m in Sources */,
 				2E69089C1E5AEFCF003D3C69 /* ZHDuoBaoCell.m in Sources */,
@@ -3465,7 +3329,6 @@
 				2E2265891E4DACB200C7126E /* EMSDWebImageDownloaderOperation.m in Sources */,
 				2EF9DC0E1E1CD67D005E2943 /* TLBaseModel.m in Sources */,
 				2E6E47C91E1357A900FD2CA7 /* ZHShoppingCartVC.m in Sources */,
-				2EC2ADC71E0CF55A003EF503 /* DALabeledCircularProgressView.m in Sources */,
 				2E6E48551E1B4B6900FD2CA7 /* ZHBankCardAddVC.m in Sources */,
 				2E6E484B1E1B33F600FD2CA7 /* ZHChangeNickNameVC.m in Sources */,
 				2E2265A51E4DACB200C7126E /* EaseMessageModel.m in Sources */,
@@ -3476,13 +3339,9 @@
 				2EC602621E5D7D4A0066C197 /* ZHDBHistoryRecordVC.m in Sources */,
 				2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */,
 				2EA5218F1E63D68B0080965C /* TLHTMLStrVC.m in Sources */,
-				2EC2ADCE1E0CF55A003EF503 /* PYPhoto.m in Sources */,
 				2E2265971E4DACB200C7126E /* PSTCollectionViewCell.m in Sources */,
-				2EC2ADD31E0CF55A003EF503 /* PYPhotoCell.m in Sources */,
 				2E2227831E2F100900B6F209 /* ZHShopOrderDetailVC.m in Sources */,
 				2EC2ABBE1E0CC964003EF503 /* ZHNavigationController.m in Sources */,
-				2EAE611B1E48189500F1E032 /* ZHConst.m in Sources */,
-				2EC2ADCD1E0CF55A003EF503 /* PYPhotosViewController.m in Sources */,
 				2EC96AFF1E26295C0079165A /* ZHTreasureModel.m in Sources */,
 				2EC2ADD81E0CF55A003EF503 /* NSString+Extension.m in Sources */,
 				2E2265B61E4DACB200C7126E /* EaseMessageViewController.m in Sources */,
@@ -3503,7 +3362,6 @@
 				2E16D0281E5C316A0029B0A5 /* ZHMineNumberVC.m in Sources */,
 				2E22658C1E4DACB200C7126E /* MKAnnotationView+EMWebCache.m in Sources */,
 				2E2265951E4DACB200C7126E /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
-				2EC2ADCF1E0CF55A003EF503 /* PYConst.m in Sources */,
 				2EC2AE6F1E0CF5B3003EF503 /* ZHUserExt.m in Sources */,
 				2EC2AE4D1E0CF55A003EF503 /* TLDatePicker.m in Sources */,
 				2EB13E851E24E17800076EF8 /* ZHGoodsCategoryVC.m in Sources */,
@@ -3512,7 +3370,6 @@
 				2EBCF5051E4860CC003A3A5E /* AppDelegate+JPush.m in Sources */,
 				2E2265B31E4DACB200C7126E /* FixFopen.c in Sources */,
 				2E22655D1E4DACB100C7126E /* EMCDDeviceManager+Media.m in Sources */,
-				2EC2ADCC1E0CF55A003EF503 /* PYPhotosReaderController.m in Sources */,
 				2E4E8BCD1E2228C600AC022A /* ZHBuyHZBVC.m in Sources */,
 				2E875D241E0D4F8F007F97A5 /* ZHTextDetailCell.m in Sources */,
 				2E9A778C1E54492F009D8FAA /* TLPerson.m in Sources */,
@@ -3524,11 +3381,10 @@
 				2E1762B41E23727800CAE489 /* ZHHZBListVC.m in Sources */,
 				2EC6025F1E5D61670066C197 /* ZHDBHistoryModel.m in Sources */,
 				2EC2AE451E0CF55A003EF503 /* TLNetworking.m in Sources */,
-				2EC2ADCB1E0CF55A003EF503 /* PYPhotosPreviewController.m in Sources */,
+				2E5983BC1E66776400DE8F3C /* ZHPayVC.m in Sources */,
 				2E6E482B1E165ECB00FD2CA7 /* ZHShoppingListCategoryVC.m in Sources */,
 				2E5945621E287FB900331BAF /* ZHRecordListCell.m in Sources */,
 				2E1762C01E24893B00CAE489 /* TLWebVC.m in Sources */,
-				2EC6026A1E5E8DD20066C197 /* ZHPayVC.m in Sources */,
 				2E6E47E01E13AC4600FD2CA7 /* ZHMineHomeVC.m in Sources */,
 				2E6E47F31E13C64900FD2CA7 /* ZHChangeMobileVC.m in Sources */,
 				2E2265C51E4DACB200C7126E /* EaseBubbleView+Voice.m in Sources */,
