@@ -143,7 +143,6 @@
 		2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2267521E50A91000C7126E /* TLAlipayManager.m */; };
 		2E2267571E50B26000C7126E /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2267561E50B26000C7126E /* AppConfig.m */; };
 		2E2308701E6181D400322ED8 /* ZHShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E23086F1E6181D400322ED8 /* ZHShareView.m */; };
-		2E3817E81E2A1F5200F6158C /* ZHLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3817E71E2A1F5200F6158C /* ZHLocationManager.m */; };
 		2E4E8BC31E20D9BB00AC022A /* ZHReferralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E8BC21E20D9BB00AC022A /* ZHReferralModel.m */; };
 		2E4E8BC61E20F1E100AC022A /* ZHMonthCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E8BC51E20F1E100AC022A /* ZHMonthCardModel.m */; };
 		2E4E8BCA1E2228B000AC022A /* ZHHZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E8BC91E2228B000AC022A /* ZHHZBVC.m */; };
@@ -670,8 +669,6 @@
 		2E2267561E50B26000C7126E /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
 		2E23086E1E6181D400322ED8 /* ZHShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShareView.h; sourceTree = "<group>"; };
 		2E23086F1E6181D400322ED8 /* ZHShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShareView.m; sourceTree = "<group>"; };
-		2E3817E61E2A1F5200F6158C /* ZHLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHLocationManager.h; sourceTree = "<group>"; };
-		2E3817E71E2A1F5200F6158C /* ZHLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHLocationManager.m; sourceTree = "<group>"; };
 		2E4E8BC11E20D9BB00AC022A /* ZHReferralModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHReferralModel.h; sourceTree = "<group>"; };
 		2E4E8BC21E20D9BB00AC022A /* ZHReferralModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHReferralModel.m; sourceTree = "<group>"; };
 		2E4E8BC41E20F1E100AC022A /* ZHMonthCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMonthCardModel.h; sourceTree = "<group>"; };
@@ -1133,10 +1130,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EC2AE7C1E0CFECE003EF503 /* MobileCoreServices.framework in Frameworks */,
+				2E22674C1E50A77100C7126E /* CoreGraphics.framework in Frameworks */,
 				2E2267501E50A8CF00C7126E /* CoreMotion.framework in Frameworks */,
 				2E22674E1E50A77E00C7126E /* CoreText.framework in Frameworks */,
 				2EAE613B1E4856E100F1E032 /* CoreTelephony.framework in Frameworks */,
-				2E22674C1E50A77100C7126E /* CoreGraphics.framework in Frameworks */,
 				2EAE61411E48572800F1E032 /* libresolv.tbd in Frameworks */,
 				2EAE613F1E48570D00F1E032 /* UserNotifications.framework in Frameworks */,
 				2EC2AE821E0CFEEB003EF503 /* libz.tbd in Frameworks */,
@@ -1155,7 +1153,6 @@
 				2EC2AE801E0CFEE2003EF503 /* libc++.tbd in Frameworks */,
 				2E2264321E4DA8B400C7126E /* HyphenateLite.framework in Frameworks */,
 				2EC2AE7E1E0CFED5003EF503 /* ImageIO.framework in Frameworks */,
-				2EC2AE7C1E0CFECE003EF503 /* MobileCoreServices.framework in Frameworks */,
 				2EC2AE7A1E0CFEC3003EF503 /* AVFoundation.framework in Frameworks */,
 				2E2265D11E4DB12300C7126E /* HyphenateLite.framework in Frameworks */,
 				2EC2AE761E0CFEAC003EF503 /* CoreMedia.framework in Frameworks */,
@@ -2028,8 +2025,6 @@
 			children = (
 				2E6E48181E1543B600FD2CA7 /* ZHCurrencyHelper.h */,
 				2E6E48191E1543B600FD2CA7 /* ZHCurrencyHelper.m */,
-				2E3817E61E2A1F5200F6158C /* ZHLocationManager.h */,
-				2E3817E71E2A1F5200F6158C /* ZHLocationManager.m */,
 				2E6E481B1E15FCFC00FD2CA7 /* ZHCartManager.h */,
 				2E6E481C1E15FCFC00FD2CA7 /* ZHCartManager.m */,
 			);
@@ -3170,7 +3165,6 @@
 				2E6E47951E11000500FD2CA7 /* ZHDoubleTitleView.m in Sources */,
 				2E2265911E4DACB200C7126E /* UIImage+EMWebP.m in Sources */,
 				2E2265B71E4DACB200C7126E /* EaseRefreshTableViewController.m in Sources */,
-				2E3817E81E2A1F5200F6158C /* ZHLocationManager.m in Sources */,
 				2E2265861E4DACB200C7126E /* EMSDWebImageCompat.m in Sources */,
 				2EC2AE741E0CF849003EF503 /* UIColor+theme.m in Sources */,
 				2E2265801E4DACB200C7126E /* MWPhotoBrowser.m in Sources */,
@@ -3564,12 +3558,6 @@
 					"-l\"stdc++.6.0.9\"",
 					"-l\"z\"",
 					"-framework",
-					"\"AMapFoundationKit\"",
-					"-framework",
-					"\"AMapLocationKit\"",
-					"-framework",
-					"\"AMapNaviKit\"",
-					"-framework",
 					"\"CoreGraphics\"",
 					"-framework",
 					"\"CoreLocation\"",
@@ -3583,8 +3571,6 @@
 					"\"ImageIO\"",
 					"-framework",
 					"\"JavaScriptCore\"",
-					"-framework",
-					"\"MAMapKit\"",
 					"-framework",
 					"\"MobileCoreServices\"",
 					"-framework",
@@ -3656,12 +3642,6 @@
 					"-l\"stdc++.6.0.9\"",
 					"-l\"z\"",
 					"-framework",
-					"\"AMapFoundationKit\"",
-					"-framework",
-					"\"AMapLocationKit\"",
-					"-framework",
-					"\"AMapNaviKit\"",
-					"-framework",
 					"\"CoreGraphics\"",
 					"-framework",
 					"\"CoreLocation\"",
@@ -3675,8 +3655,6 @@
 					"\"ImageIO\"",
 					"-framework",
 					"\"JavaScriptCore\"",
-					"-framework",
-					"\"MAMapKit\"",
 					"-framework",
 					"\"MobileCoreServices\"",
 					"-framework",

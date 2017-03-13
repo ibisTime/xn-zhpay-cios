@@ -14,7 +14,6 @@
 #import "FCUUID.h"
 #import "ZHRealNameAuthVC.h"
 #import "ZHUserLoginVC.h"
-#import "ZHLocationManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "TLHTMLStrVC.h"

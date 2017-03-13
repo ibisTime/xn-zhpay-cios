@@ -582,13 +582,14 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
 #pragma mark- 头部
 - (void)tableViewHeaderView {
 
-    UIView *headerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 420)];
+#warning - 该处
+    UIView *headerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225 + SCREEN_WIDTH*1.0/1.553)];
     headerBgView.backgroundColor = [UIColor whiteColor];
     self.detailTableView.tableHeaderView = headerBgView;
     
     
     //轮播图
-    TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*0.52)];
+    TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*1.0/1.553)];
     self.bannerView = bannerView;
     [headerBgView addSubview:bannerView];
     
@@ -641,7 +642,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
         
     }];
     
-
+    
     //单人最大投资
     self.maxNumLbl = [UILabel labelWithFrame:CGRectZero
                                 textAligment:NSTextAlignmentRight

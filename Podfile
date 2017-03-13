@@ -18,9 +18,11 @@ target 'ZHCustomer' do
   pod 'Realm'
   
   #导航sdk
-  pod 'AMapLocation'
-  pod 'AMapNavi'
-#  pod 'AMap2DMap'
+  #一组
+#  pod 'AMapLocation'
+  #pod 'AMapNavi'
+  #一组
+  #pod 'AMap2DMap'
   
   #错误分析
   pod 'UMengAnalytics-NO-IDFA'

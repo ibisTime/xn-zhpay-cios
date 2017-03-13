@@ -17,7 +17,6 @@
 #import "Masonry.h"
 #import "ZHBannerModel.h"
 #import "ZHSearchVC.h"
-#import "ZHLocationManager.h"
 #import "ZHMsgVC.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>

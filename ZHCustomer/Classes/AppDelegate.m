@@ -12,7 +12,6 @@
 #import "AppDelegate+JPush.h"
 
 #import "UMMobClick/MobClick.h"
-#import <MAMapKit/MAMapKit.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
 #import "IQKeyboardManager.h"
@@ -20,7 +19,6 @@
 #import "TLWXManager.h"
 #import "ZHUserRegistVC.h"
 #import "ZHUserLoginVC.h"
-#import "ZHLocationManager.h"
 #import "SVProgressHUD.h"
 #import "AppConfig.h"
 #import "TLRealmPlayground.h"
@@ -45,7 +43,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvRelease;
     
     //
     self.locationManager = [[CLLocationManager alloc] init];

@@ -12,7 +12,9 @@
 @interface ZHMapController : TLBaseVC
 @property (nonatomic,copy)  void(^confirm)(CLLocationCoordinate2D point);
 
+//
 @property (nonatomic,copy) NSString *shopName;
+
 //外传
 @property (nonatomic,assign) CLLocationCoordinate2D point;
 
