@@ -8,7 +8,7 @@
 
 #import "ZHTabBarController.h"
 #import "ZHNavigationController.h"
-#import "ZHMineVC.h"
+//#import "ZHMineVC.h"
 #import "ZHUserLoginVC.h"
 #import "ChatManager.h"
 
@@ -22,14 +22,23 @@
     [super viewDidLoad];
     
     self.delegate = self;
-    NSArray *titles = @[@"小目标",@"发一发",@"摇一摇",@"聊聊",@"我的"];
+//    NSArray *titles = @[@"优店",@"尖货",@"小目标",@"发一发",@"摇一摇",@"聊聊",@"我的"];
+//    //, BPProjectCategoryVC  BPSubscriptionVC
+//    
+//    
+////    @"ZHMineVC"  ZHMineViewCtrl
+//    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHDuoBaoVC", @"ZHBriberyMoneyVC",@"ZHShakeItOffVC",@"ZHChatVC",@"ZHMineViewCtrl"];
+//    NSArray *imageNames = @[@"优店00",@"尖货00",@"小目标00",@"发一发00",@"摇一摇00",@"聊聊00",@"我的00"];
+//    NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"小目标01",@"发一发01",@"摇一摇01",@"聊聊01",@"我的01"];
+    
+    NSArray *titles = @[@"优店",@"尖货",@"小目标",@"发一发",@"我的"];
     //, BPProjectCategoryVC  BPSubscriptionVC
     
     
-//    @"ZHMineVC"  ZHMineViewCtrl
-    NSArray *VCNames = @[@"ZHDuoBaoVC", @"ZHBriberyMoneyVC",@"ZHShakeItOffVC",@"ZHChatVC",@"ZHMineViewCtrl"];
-    NSArray *imageNames = @[@"小目标00",@"发一发00",@"摇一摇00",@"聊聊00",@"我的00"];
-    NSArray *selectedImageNames = @[@"小目标01",@"发一发01",@"摇一摇01",@"聊聊01",@"我的01"];
+    //    @"ZHMineVC"  ZHMineViewCtrl
+    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHDuoBaoVC", @"ZHBriberyMoneyVC",@"ZHMineViewCtrl"];
+    NSArray *imageNames = @[@"优店00",@"尖货00",@"小目标00",@"发一发00",@"我的00"];
+    NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"发一发01",@"摇一摇01",@"我的01"];
     
     for (int i = 0; i < imageNames.count; i++) {
         

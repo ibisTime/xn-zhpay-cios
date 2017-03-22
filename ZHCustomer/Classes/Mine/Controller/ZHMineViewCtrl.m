@@ -11,8 +11,10 @@
 #import "ZHSettingUpCell.h"
 #import "ZHAccountSecurityVC.h"
 #import "ZHHZBVC.h"
-#import "ZHWalletView.h"
-#import "ZHCurrencyModel.h"
+
+//#import "ZHWalletView.h"
+//#import "ZHCurrencyModel.h"
+#import "ZHMineEarningsVC.h"
 #import "ZHUserHeaderView.h"
 #import "TLImagePicker.h"
 #import "TLUploadManager.h"
@@ -24,18 +26,25 @@
 #import "ZHBriberyMoney.h"
 #import "ZHShareView.h"
 #import "AppConfig.h"
+#import "ZHShoppingListVC.h"
+#import "ZHShopOrderVC.h"
+#import "ZHCouponsMgtVC.h"
+#import "ZHHZBVC.h"
+#import "ZHNewMineWalletVC.h"
 
 @interface ZHMineViewCtrl ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) NSArray <ZHSettingGroup *>*groups;
-@property (nonatomic,strong) NSMutableArray <ZHWalletView *>*walletViews;
+
+//@property (nonatomic,strong) NSMutableArray <ZHWalletView *>*walletViews;
+
 @property (nonatomic,strong) TLTableView *mineTableView;
 @property (nonatomic,strong) ZHUserHeaderView *headerView;
 
 @property (nonatomic,strong) TLImagePicker *imagePicker;
 
-@property (nonatomic,strong) NSMutableArray <ZHCurrencyModel *>*currencyRoom; //币种
-@property (nonatomic,strong) NSMutableDictionary <NSString *,ZHCurrencyModel *>*currencyDict;
+//@property (nonatomic,strong) NSMutableArray <ZHCurrencyModel *>*currencyRoom; //币种
+//@property (nonatomic,strong) NSMutableDictionary <NSString *,ZHCurrencyModel *>*currencyDict;
 
 @property (nonatomic,assign) BOOL   isFist;
 
@@ -68,34 +77,36 @@
     __weak typeof(self) weakSelf = self;
     [tableV addRefreshAction:^{
         
-        TLNetworking *http = [TLNetworking new];
-//        http.showView = self.view;
-        http.code = @"802503";
-        http.parameters[@"token"] = [ZHUser user].token;
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        [http postWithSuccess:^(id responseObject) {
-            
-            [weakSelf.mineTableView endRefreshHeader];
+//        TLNetworking *http = [TLNetworking new];
+////        http.showView = self.view;
+//        http.code = @"802503";
+//        http.parameters[@"token"] = [ZHUser user].token;
+//        http.parameters[@"userId"] = [ZHUser user].userId;
+//        [http postWithSuccess:^(id responseObject) {
+//            
+//            [weakSelf.mineTableView endRefreshHeader];
+//
+//            self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+//            
+//            //把币种分开
+//            self.currencyDict = [[NSMutableDictionary alloc] initWithCapacity:self.currencyRoom.count];
+//            [self.currencyRoom  enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                
+//                self.currencyDict[obj.currency] = obj;
+//                
+//            }];
+//            
+//            //刷新界面信息
+//            [self refreshWalletInfo];
+//            
+//        } failure:^(NSError *error) {
+//            
+//            [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
+//
+//        }];
+        
+                    [weakSelf.mineTableView endRefreshHeader];
 
-            self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-            
-            //把币种分开
-            self.currencyDict = [[NSMutableDictionary alloc] initWithCapacity:self.currencyRoom.count];
-            [self.currencyRoom  enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                self.currencyDict[obj.currency] = obj;
-                
-            }];
-            
-            //刷新界面信息
-            [self refreshWalletInfo];
-            
-        } failure:^(NSError *error) {
-            
-            [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
-            [weakSelf.mineTableView endRefreshHeader];
-            
-        }];
         
     }];
     
@@ -127,8 +138,8 @@
     self.headerView.mobileLbl.text = @"";
     self.headerView.avatarImageV.image = [UIImage imageNamed:@"user_placeholder"];
     
-    self.currencyRoom = nil;
-    self.currencyDict = nil;
+//    self.currencyRoom = nil;
+//    self.currencyDict = nil;
     
 }
 
@@ -156,32 +167,32 @@
 
 
 
-- (void)refreshWalletInfo {
-
-    [self.walletViews enumerateObjectsUsingBlock:^(ZHWalletView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        NSNumber *amount = self.currencyDict[obj.code].amount;
-        obj.moneyLbl.text = [amount convertToRealMoney];
-        
-    }];
-
-}
+//- (void)refreshWalletInfo {
+//
+//    [self.walletViews enumerateObjectsUsingBlock:^(ZHWalletView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        NSNumber *amount = self.currencyDict[obj.code].amount;
+//        obj.moneyLbl.text = [amount convertToRealMoney];
+//        
+//    }];
+//
+//}
 
 #pragma mark- 前往钱包
-- (void)goWalletDetailWithCode:(NSString *)code {
-
-    
-    ZHBillVC *vc = [[ZHBillVC alloc] init];
-    vc.currencyModel = self.currencyDict[code];
-    
-    if (!vc.currencyModel) {
-        [TLAlert alertWithHUDText:@"请刷新重新获取账户信息"];
-        return;
-    }
-//    vc.accountNumber = self.currencyDict[code].accountNumber; //账单编号
-    [self.navigationController pushViewController:vc animated:YES];
-    
-}
+//- (void)goWalletDetailWithCode:(NSString *)code {
+//
+//    
+//    ZHBillVC *vc = [[ZHBillVC alloc] init];
+//    vc.currencyModel = self.currencyDict[code];
+//    
+//    if (!vc.currencyModel) {
+//        [TLAlert alertWithHUDText:@"请刷新重新获取账户信息"];
+//        return;
+//    }
+////    vc.accountNumber = self.currencyDict[code].accountNumber; //账单编号
+//    [self.navigationController pushViewController:vc animated:YES];
+//    
+//}
 
 #pragma mark- 修改头像
 - (void)choosePhoto {
@@ -262,7 +273,20 @@
     
 }
 
+#pragma mark- 查看收益
+- (void)lookMineEarnings {
 
+    ZHMineEarningsVC *vc = [ZHMineEarningsVC new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark- 我的汇赚宝
+- (void)lookMineHZB {
+    
+    ZHHZBVC *hzbVC = [[ZHHZBVC alloc] init];
+    [self.navigationController pushViewController:hzbVC animated:YES];
+    
+}
 
 
 #pragma mark- 头部信息
@@ -288,42 +312,56 @@
         
     };
     
+    //我的收益 汇赚宝
+    CGFloat w0 = (SCREEN_WIDTH - 1)/2.0;
+    UIButton *earningBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.headerView.yy,w0, 45) title:@"我的收益" backgroundColor:[UIColor whiteColor]];
+    [earningBtn setTitleColor:[UIColor zh_themeColor] forState:UIControlStateNormal];
+    [earningBtn addTarget:self action:@selector(lookMineEarnings) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:earningBtn];
+    earningBtn.titleLabel.font = FONT(15);
 
-    //钱包
     
-    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"购物币"];
-    NSArray *typeCode =  @[kGXB,kFRB,kHBB,kHBYJ,kQBB,kGWB];
-
-
-    self.walletViews = [[NSMutableArray alloc] initWithCapacity:typeNames.count];
+    //
+    UIButton *hzbBtn = [[UIButton alloc] initWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 45) title:@"汇赚宝" backgroundColor:[UIColor whiteColor]];
+    hzbBtn.titleLabel.font = FONT(15);
+    [hzbBtn setTitleColor:[UIColor zh_themeColor] forState:UIControlStateNormal];
+    [hzbBtn addTarget:self action:@selector(lookMineHZB) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:hzbBtn];
     
+//    //钱包
+//    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"购物币"];
+//    NSArray *typeCode =  @[kGXB,kFRB,kHBB,kHBYJ,kQBB,kGWB];
+//
+//
+//    self.walletViews = [[NSMutableArray alloc] initWithCapacity:typeNames.count];
+//    
+//    CGFloat y = earningBtn.yy;
+//    CGFloat w = (SCREEN_WIDTH - 1)/2.0;
+//    CGFloat h = 60;
+//    CGFloat x = w + 1;
+//    UIView *lastView;
+//    
+//    for (NSInteger i = 0; i < typeNames.count; i ++) {
+//        
+//        CGRect frame = CGRectMake((i%2)*x, (h + 1)*(i/2) + y + 10, w, h);
+//        ZHWalletView *walletView = [[ZHWalletView alloc] initWithFrame:frame];walletView.backgroundColor = [UIColor whiteColor];
+//        [headerView addSubview:walletView];
+//        
+//        walletView.typeLbl.text = typeNames[i];
+//        walletView.code = typeCode[i];
+//        walletView.action = ^(NSString *code){
+//            [weakself goWalletDetailWithCode:code];
+//            
+//        };
+//        [self.walletViews addObject:walletView];
+//        lastView = walletView;
+//        
+//        walletView.moneyLbl.text = @"0.00";
+//
+//        
+//    }
     
-    CGFloat w = (SCREEN_WIDTH - 1)/2.0;
-    CGFloat h = 60;
-    CGFloat x = w + 1;
-    UIView *lastView;
-    
-    for (NSInteger i = 0; i < typeNames.count; i ++) {
-        
-        CGRect frame = CGRectMake((i%2)*x, (h + 1)*(i/2) + self.headerView.yy + 10, w, h);
-        ZHWalletView *walletView = [[ZHWalletView alloc] initWithFrame:frame];walletView.backgroundColor = [UIColor whiteColor];
-        [headerView addSubview:walletView];
-        
-        walletView.typeLbl.text = typeNames[i];
-        walletView.code = typeCode[i];
-        walletView.action = ^(NSString *code){
-            [weakself goWalletDetailWithCode:code];
-            
-        };
-        [self.walletViews addObject:walletView];
-        lastView = walletView;
-        
-        walletView.moneyLbl.text = @"0.00";
-
-        
-    }
-    
-    self.mineTableView.tableHeaderView.height = lastView.yy + 10;
+    self.mineTableView.tableHeaderView.height = hzbBtn.yy + 10;
 
 }
 
@@ -351,40 +389,94 @@
 - (ZHSettingGroup *)group01 {
     
     __weak typeof(self) weakself = self;
-    ZHSettingModel *item01 = [[ZHSettingModel alloc] init];
-    item01.imgName = @"我的－汇赚宝";
-    item01.text = @"汇赚宝";
-    item01.action = ^(){
-        //
-        ZHHZBVC *vc = [ZHHZBVC new];
     
+    //钱包
+    ZHSettingModel *mineWallet = [[ZHSettingModel alloc] init];
+    mineWallet.imgName = @"我的钱包";
+    mineWallet.text = @"我的钱包";
+    mineWallet.action = ^(){
+        //
+        ZHNewMineWalletVC *vc = [ZHNewMineWalletVC new];
         [weakself.navigationController pushViewController:vc animated:YES];
         
     };
     
-    ZHSettingModel *item02 = [[ZHSettingModel alloc] init];
-    item02.imgName = @"我的－发一发";
-    item02.text = @"发一发";
-    item02.action = ^(){
-        
-        ZHBriberyMoneyVC *vc = [[ZHBriberyMoneyVC alloc] init];
-        vc.displayType = ZHBriberyMoneyVCTypeSecondUI;
-        [self.navigationController pushViewController:vc animated:YES];
-      
-    };
-    
-    ZHSettingModel *item03 = [[ZHSettingModel alloc] init];
-    item03.imgName = @"小目标记录";
-    item03.text = @"小目标记录";
-    item03.action = ^(){
+    //小目标
+    ZHSettingModel *smallTarget = [[ZHSettingModel alloc] init];
+    smallTarget.imgName = @"小目标记录";
+    smallTarget.text = @"小目标记录";
+    smallTarget.action = ^(){
         
         ZHMineDBRecordVC  *dbRecordVC = [[ZHMineDBRecordVC alloc] init];
         [weakself.navigationController pushViewController:dbRecordVC animated:YES];
         
     };
     
+    //尖货清单
+    ZHSettingModel *goodsDetail = [[ZHSettingModel alloc] init];
+    goodsDetail.imgName = @"购物清单";
+    goodsDetail.text = @"购物清单";
+    goodsDetail.action = ^(){
+        //
+        ZHShoppingListVC  *vc = [ZHShoppingListVC new];
+        [weakself.navigationController pushViewController:vc animated:YES];
+        
+      
+        
+    };
+    
+    
+    //优店清单
+    ZHSettingModel *shopDetail = [[ZHSettingModel alloc] init];
+    shopDetail.imgName = @"我的优店";
+    shopDetail.text = @"我的优店";
+    shopDetail.action = ^(){
+        //
+        
+        ZHShopOrderVC  *vc = [ZHShopOrderVC new];
+        [weakself.navigationController pushViewController:vc animated:YES];
+  
+    };
+    
+    //我的折扣券
+    ZHSettingModel *coupons = [[ZHSettingModel alloc] init];
+    coupons.imgName = @"我的折扣券";
+    coupons.text = @"我的折扣券";
+    coupons.action = ^(){
+        //
+        
+        ZHCouponsMgtVC  *vc = [ZHCouponsMgtVC new];
+        [weakself.navigationController pushViewController:vc animated:YES];
+        
+    };
+    
+    
+    
+//    ZHSettingModel *item01 = [[ZHSettingModel alloc] init];
+//    item01.imgName = @"我的－汇赚宝";
+//    item01.text = @"汇赚宝";
+//    item01.action = ^(){
+//        //
+//        ZHHZBVC *vc = [ZHHZBVC new];
+//    
+//        [weakself.navigationController pushViewController:vc animated:YES];
+//        
+//    };
+//    
+//    ZHSettingModel *item02 = [[ZHSettingModel alloc] init];
+//    item02.imgName = @"我的－发一发";
+//    item02.text = @"发一发";
+//    item02.action = ^(){
+//        
+//        ZHBriberyMoneyVC *vc = [[ZHBriberyMoneyVC alloc] init];
+//        vc.displayType = ZHBriberyMoneyVCTypeSecondUI;
+//        [self.navigationController pushViewController:vc animated:YES];
+//      
+//    };
+    
+
     ZHSettingGroup *group01 = [[ZHSettingGroup alloc] init];
-    group01.items = @[item01,item02,item03];
+    group01.items = @[mineWallet,smallTarget,goodsDetail,shopDetail,coupons];
     return group01;
 }
 

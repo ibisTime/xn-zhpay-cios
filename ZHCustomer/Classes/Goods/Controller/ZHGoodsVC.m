@@ -19,6 +19,7 @@
 #import "ZHGoodsCategoryVC.h"
 #import "ZHCartManager.h"
 #import "ZHSearchVC.h"
+#import "ZHDuoBaoVC.h"
 
 @interface ZHGoodsVC ()<ZHSegmentViewDelegate>
 
@@ -50,6 +51,12 @@
     _getCategoryGroup = dispatch_group_create();
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search"] style:UIBarButtonItemStylePlain target:self action:@selector(search)];
+    
+    
+    [self setUpUI];
+
+    return;
+#warning -- 上面部分，调整界面用 ；要去调
     
     // 判断底部滑动的时候，是否已经加载过控制器
 
@@ -208,9 +215,13 @@
 
     if (idx == 1) {
         
-        ZHLookForTreasureVC *treasureVC = [[ZHLookForTreasureVC alloc] init];
-        [self.navigationController pushViewController:treasureVC animated:YES];
+        ZHDuoBaoVC *小目标VC = [[ZHDuoBaoVC alloc] init];
+        [self.navigationController pushViewController:小目标VC animated:YES];
         return NO;
+        
+//        ZHLookForTreasureVC *treasureVC = [[ZHLookForTreasureVC alloc] init];
+//        [self.navigationController pushViewController:treasureVC animated:YES];
+//        return NO;
         
     }
     

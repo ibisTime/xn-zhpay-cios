@@ -30,9 +30,14 @@ FOUNDATION_EXPORT void TLLog(NSString *format, ...);
 @property (nonatomic,copy, readonly) NSString *pushKey;
 
 @property (nonatomic, copy, readonly) NSString *wxKey;
-@property (nonatomic,copy) NSString *aliPayKey;
-@property (nonatomic, copy, readonly) NSString *aliMapKey;
 
+@property (nonatomic,copy) NSString *aliPayKey;
+
+
+
+//@property (nonatomic, copy, readonly) NSString *aliMapKey;
+@property (nonatomic, copy, readonly) NSString *chatKey;
+@property (nonatomic, copy, readonly) NSString *qiNiuKey;
 
 
 @end

@@ -205,7 +205,15 @@
       
         _briberyMoneyTableV = [TLTableView tableViewWithframe:[UIScreen mainScreen].bounds delegate:self dataSource:self];
         _briberyMoneyTableV.rowHeight = 113;
-        _briberyMoneyTableV.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无红包"];
+        if (self.displayType == ZHBriberyMoneyVCTypeHistory) {
+            
+          _briberyMoneyTableV.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无红包"];
+            
+        } else {
+        
+            _briberyMoneyTableV.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无红包"];
+        }
+        
         
     }
     

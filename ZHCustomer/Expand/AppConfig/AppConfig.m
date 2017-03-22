@@ -36,9 +36,16 @@ void TLLog(NSString *format, ...) {
     return config;
 }
 
+- (NSString *)chatKey {
+    
+//    return @"tianleios#zh-dev";
+    return @"1139170317178872#zhpay";
+    
+}
+
 - (NSString *)pushKey {
 
-    return @"b1f02271d1f6708671c4b002";
+    return @"552c967a30325e9374a6ea2a";
 
 }
 
@@ -48,11 +55,18 @@ void TLLog(NSString *format, ...) {
 
 }
 
+
+- (NSString *)qiNiuKey {
+
+    return @"http://omxvtiss6.bkt.clouddn.com";
+
+}
+
+
 - (NSString *)wxKey {
 
     return @"wx9324d86fb16e8af0";
 }
-
 
 
 - (NSString *)shareBaseUrl {

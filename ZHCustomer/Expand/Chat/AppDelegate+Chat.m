@@ -12,9 +12,10 @@
 #import "EaseSDKHelper.h"
 #import "ChatManager.h"
 #import "EaseSDKHelper.h"
+#import "AppConfig.h"
 
 //#define EaseMobAppKey @"easemob-demo#chatdemoui"
-#define EaseMobAppKey @"tianleios#zh-dev"
+//#define EaseMobAppKey @"tianleios#zh-dev"
 
 
 @implementation AppDelegate (Chat)
@@ -22,7 +23,7 @@
     
 //    [[EaseSDKHelper  shareHelper] _registerRemoteNotification];
 
-    EMOptions *options = [EMOptions optionsWithAppkey:EaseMobAppKey];
+    EMOptions *options = [EMOptions optionsWithAppkey:[AppConfig config].chatKey];
     options.isAutoAcceptGroupInvitation = NO;
     options.enableConsoleLog = NO;
     options.enableDeliveryAck = NO;

@@ -8,6 +8,7 @@
 
 #import "NSString+Extension.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "AppConfig.h"
 
 @implementation NSString (Extension)
 
@@ -66,7 +67,9 @@
         
     } else {
         
-        return [[@"http:/7xnuu2.com1.z0.glb.clouddn.com/" add:self] add:@"?imageMogr2/auto-orient/strip/thumbnail/300x300/quality/60!"];
+        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/thumbnail/300x300/quality/60!",[AppConfig config].qiNiuKey,self];
+        
+//        return [[@"http:/7xnuu2.com1.z0.glb.clouddn.com/" add:self] add:@"?imageMogr2/auto-orient/strip/thumbnail/300x300/quality/60!"];
     }
     
 }
@@ -131,7 +134,9 @@
         
     } else {
     
-        return [[@"http:/7xnuu2.com1.z0.glb.clouddn.com/" add:self] add:@"?imageMogr2/auto-orient/strip/quality/50!"];
+           return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/quality/50!",[AppConfig config].qiNiuKey,self];
+        
+//        return [[@"http:/7xnuu2.com1.z0.glb.clouddn.com/" add:self] add:@"?imageMogr2/auto-orient/strip/quality/50!"];
         
     }
 
