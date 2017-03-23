@@ -18,6 +18,7 @@
 #import "ZHGoodsCategoryManager.h"
 #import "ZHGoodsCategoryVC.h"
 #import "ZHCartManager.h"
+
 #import "ZHSearchVC.h"
 #import "ZHDuoBaoVC.h"
 
@@ -29,6 +30,7 @@
 @property (nonatomic,strong) UIView *reloaView;
 @property (nonatomic,strong) TLMsgBadgeView *msgBadgeView;
 @property (nonatomic,strong) ZHGoodsCategoryVC *zeroBuyVC;
+@property (nonatomic, strong) ZHSegmentView *segmentView;
 
 @end
 
@@ -54,6 +56,8 @@
     
     
     [self setUpUI];
+    
+    self.segmentView.selectedIndex = 1;
 
     return;
 #warning -- 上面部分，调整界面用 ；要去调
@@ -215,13 +219,16 @@
 
     if (idx == 1) {
         
-        ZHDuoBaoVC *小目标VC = [[ZHDuoBaoVC alloc] init];
-        [self.navigationController pushViewController:小目标VC animated:YES];
-        return NO;
+        static  ZHDuoBaoVC *duobaoVC;
         
-//        ZHLookForTreasureVC *treasureVC = [[ZHLookForTreasureVC alloc] init];
-//        [self.navigationController pushViewController:treasureVC animated:YES];
-//        return NO;
+        if (!duobaoVC) {
+            
+            duobaoVC = [[ZHDuoBaoVC alloc] init];
+            [self addChildViewController:duobaoVC];
+            duobaoVC.view.frame = self.switchScrollView.bounds;
+            duobaoVC.view.x = SCREEN_WIDTH;
+            [self.switchScrollView addSubview:duobaoVC.view];
+        }
         
     }
     
@@ -292,6 +299,7 @@
     segmentView.tagNames = @[@"剁手合集",@"一元夺宝",@"0元试购"];
     [self.view addSubview:segmentView];
     self.typeChangeView = segmentView;
+    self.segmentView = segmentView;
     
     
     self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.typeChangeView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - self.typeChangeView.yy)];

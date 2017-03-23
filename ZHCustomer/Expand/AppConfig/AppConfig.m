@@ -38,8 +38,16 @@ void TLLog(NSString *format, ...) {
 
 - (NSString *)chatKey {
     
-//    return @"tianleios#zh-dev";
-    return @"1139170317178872#zhpay";
+    if (self.runEnv == RunEnvDev) {
+        
+        return @"tianleios#zh-dev";
+        
+    } else {
+    
+       return @"1139170317178872#zhpay";
+    }
+//
+    
     
 }
 
@@ -91,7 +99,9 @@ void TLLog(NSString *format, ...) {
 
     if (self.runEnv == RunEnvDev) {
         
-      return @"http://121.43.101.148:5601"; //dev
+        return   @"http://121.43.101.148:8901";
+
+//      return @"http://121.43.101.148:5601"; //dev
 
     } else {
     

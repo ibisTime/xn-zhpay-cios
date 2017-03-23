@@ -90,6 +90,17 @@
     
 }
 
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
+
+    _selectedIndex = selectedIndex;
+    
+    UIButton *btn = (UIButton *)[self viewWithTag:1000 + selectedIndex];
+    if (btn) {
+        [self changeAction:btn];
+    }
+
+}
+
 - (void)reloadTagNameWithArray:(NSArray *)tagNames {
 
     if (!tagNames || tagNames.count <= 0) {

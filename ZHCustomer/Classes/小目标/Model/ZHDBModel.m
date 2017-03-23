@@ -23,8 +23,14 @@
                            };
     
    
-    return  [NSString stringWithFormat:@"%@ %@",[self.amount convertToSimpleRealMoney],dict[self.currency]];
+    return  [NSString stringWithFormat:@"%@ %@",[self.toAmount convertToSimpleRealMoney],dict[self.toCurrency]];
 
+}
+
+- (NSNumber *)price {
+
+    return self.fromAmount;
+    
 }
 
 - (float)getProgress {

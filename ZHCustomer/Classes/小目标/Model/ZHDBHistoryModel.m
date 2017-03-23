@@ -54,4 +54,15 @@
 
 }
 
+- (NSString *)mobile {
+
+
+    return self.user[@"mobile"];
+}
+
+- (NSString *)nickname {
+
+    return self.user[@"nickname"];
+
+}
 @end

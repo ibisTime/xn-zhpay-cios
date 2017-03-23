@@ -18,6 +18,7 @@
 
 @property (nonatomic,copy) NSArray *tagNames;
 @property (nonatomic,weak) id<ZHSegmentViewDelegate> delegate;
+@property (nonatomic, assign) NSInteger selectedIndex;
 
 //更新tagName
 - (void)reloadTagNameWithArray:(NSArray *)tagNames;

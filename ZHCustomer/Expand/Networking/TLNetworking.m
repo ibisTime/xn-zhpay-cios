@@ -98,6 +98,7 @@
         }
         
         self.parameters[@"systemCode"] = [[self class] systemCode];
+        self.parameters[@"companyCode"] = [[self class] systemCode];
         
         if (!self.kind || self.kind.length <= 0 ) {
             

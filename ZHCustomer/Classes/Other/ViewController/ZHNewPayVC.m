@@ -371,7 +371,7 @@
         
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
-        http.code = @"808303";
+        http.code = @"615020";
         http.parameters[@"userId"] = [ZHUser user].userId;
         http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];

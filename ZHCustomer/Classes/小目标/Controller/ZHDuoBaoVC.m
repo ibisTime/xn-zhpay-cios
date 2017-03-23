@@ -81,8 +81,9 @@
     
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808310";
+    helper.code = @"615015";
 //    helper.limit = ;
+//    0 募集中，1 已揭晓
     helper.parameters[@"status"] = @"0";
     helper.tableView = tableView;
     [helper modelClass:[ZHDBModel class]];
@@ -142,10 +143,10 @@
 - (void)getDBRecord {
 
     TLNetworking *http = [TLNetworking new];
-    http.code = @"808315";
+    http.code = @"615025";
     http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"3";
-    http.parameters[@"status"] = @"payed";
+//    http.parameters[@"status"] = @"payed";
     [http postWithSuccess:^(id responseObject) {
         
      self.dbHistoryRooms = [ZHDBHistoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];

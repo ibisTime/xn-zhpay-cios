@@ -72,6 +72,10 @@
 
 
 - (void)buySuccess {
+    
+//    [self setUpUI];
+//
+//    return;
 
     TLNetworking *http = [TLNetworking new];
     http.code = @"808456";

@@ -90,7 +90,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     //刷新控件
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     
-    helper.code = @"808315";
+    helper.code = @"615025";
     helper.parameters[@"jewelCode"] = self.dbModel.code;
 //    helper.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
 //    helper.parameters[@"limit"] = @"20";
@@ -187,7 +187,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     __weak typeof(self) weakSelf = self;
     //加载 -- 夺宝详情
     TLNetworking *http = [TLNetworking new];
-    http.code = @"808312";
+    http.code = @"615016";
     http.parameters[@"code"] = self.dbModel.code;
     [http postWithSuccess:^(id responseObject) {
         
@@ -262,10 +262,10 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     
     
     //计算单人最大投资
-    self.countChangeView.maxCount = [self.dbModel.maxInvestNum integerValue] < [self.dbModel getSurplusPeople] ? [self.dbModel.maxInvestNum integerValue] : [self.dbModel getSurplusPeople];
+    self.countChangeView.maxCount = [self.dbModel.maxNum integerValue] < [self.dbModel getSurplusPeople] ? [self.dbModel.maxNum integerValue] : [self.dbModel getSurplusPeople];
     
     self.priceLbl.text = [self.dbModel getPriceDetail];
-    self.advText.text =  self.dbModel.advText;
+    self.advText.text =  self.dbModel.slogan;
     
     self.numberLbl.text = [NSString  stringWithFormat:@"期号: %@",self.dbModel.periods];
     
@@ -280,7 +280,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     self.totalCountLbl.attributedText = [self convertStrWithStr:animStr value:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]} range:NSMakeRange(3, [NSString stringWithFormat:@"%@",self.dbModel.totalNum].length)];
     
     //单人最大投资
-    NSString *maxStr = [NSString stringWithFormat:@"%@",self.dbModel.maxInvestNum];
+    NSString *maxStr = [NSString stringWithFormat:@"%@",self.dbModel.maxNum];
     
     self.maxNumLbl.attributedText = [self convertStrWithStr:[NSString stringWithFormat:@"单人最大投资 %@ 次",maxStr] value:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]}
                                                       range:NSMakeRange(7, maxStr.length)];
