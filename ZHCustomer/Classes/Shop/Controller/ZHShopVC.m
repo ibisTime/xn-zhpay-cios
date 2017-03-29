@@ -21,7 +21,6 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-//#import <Photos/Photos.h>
 #import "TLWebVC.h"
 
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
@@ -152,7 +151,7 @@
     
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808207";
+    helper.code = @"808217";
     helper.parameters[@"status"] = @"2";
     helper.tableView = self.shopTableView;
     [helper modelClass:[ZHShop class]];
@@ -313,13 +312,14 @@
 //--------------------------------------------//
     if (self.cityName) { //已经有
         
+#warning -打开
         self.pageDataHelper.parameters[@"city"] = self.cityName;
         //
         self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
-        self.pageDataHelper.parameters[@"userLongitude"] = self.lon;
+        self.pageDataHelper.parameters[@"longitude"] = self.lon;
         
         self.lat = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];
-        self.pageDataHelper.parameters[@"userLatitude"] = self.lat;
+        self.pageDataHelper.parameters[@"latitude"] = self.lat;
         
         //
         if (!self.isLocationSuccess) {
@@ -354,10 +354,10 @@
 //                self.locationManager.distanceFilter = 10;
                 self.pageDataHelper.parameters[@"city"] = self.cityName;
                 self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
-                self.pageDataHelper.parameters[@"userLongitude"] = self.lon;
+                self.pageDataHelper.parameters[@"longitude"] = self.lon;
                 
                 self.lat = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];
-                self.pageDataHelper.parameters[@"userLatitude"] = self.lat;
+                self.pageDataHelper.parameters[@"latitude"] = self.lat;
                 
                 [[NSUserDefaults standardUserDefaults] setObject:self.cityName forKey:USER_CITY_NAME_KEY];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -394,10 +394,10 @@
                 self.pageDataHelper.parameters[@"city"] = self.cityName;
                 //
                 self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
-                self.pageDataHelper.parameters[@"userLongitude"] = self.lon;
+                self.pageDataHelper.parameters[@"longitude"] = self.lon;
                 
                 self.lat = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];
-                self.pageDataHelper.parameters[@"userLatitude"] = self.lat;
+                self.pageDataHelper.parameters[@"latitude"] = self.lat;
                 
                 //
                 if (!self.isLocationSuccess) {

@@ -169,7 +169,7 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
                 [[NSNotificationCenter defaultCenter] postNotificationName:kSelectedCartGoodsCountChangeNotification object:nil];
             }
             TLNetworking *http = [TLNetworking new];
-            http.code = @"808033";
+            http.code = @"808042";
             http.parameters[@"code"] = weakself.item.code;
             http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",count];
             http.parameters[@"token"] = [ZHUser user].token;

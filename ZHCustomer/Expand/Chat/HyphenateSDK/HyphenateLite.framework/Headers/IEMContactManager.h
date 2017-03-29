@@ -102,6 +102,8 @@
  *  \~english
  *  Get all the contacts from the server
  *
+ *  Synchronization method will block the current thread
+ *
  *  @param pError Error
  *
  *  @return Contact list<NSString>
@@ -121,6 +123,8 @@
  *
  *  \~english
  *  Add a contact with invitation message
+ *
+ *  Synchronization method will block the current thread
  *
  *  @param aUsername  The user to add
  *  @param aMessage   Invitation message
@@ -144,6 +148,8 @@
  *  \~english
  *  Delete a contact
  *
+ *  Synchronization method will block the current thread
+ *
  *  @param aUsername The user to delete
  *  @param aIsDeleteConversation Delete the conversation or not
  *
@@ -165,6 +171,8 @@
  *  \~english
  *  Get the blacklist from the server
  *
+ *  Synchronization method will block the current thread
+ *
  *  @param pError Error
  *
  *  @return Blacklist<NSString>
@@ -184,6 +192,8 @@
  *
  *  \~english
  *  Add a user to blacklist
+ *
+ *  Synchronization method will block the current thread
  *
  *  @param aUsername Block user
  *  @param aBoth     if aBoth is YES, then hide user and block messages from blocked user; if NO, then hide user from blocked user
@@ -206,6 +216,8 @@
  *  \~english
  *  Remove user out of blacklist
  *
+ *  Synchronization method will block the current thread
+ *
  *  @param aUsername Unblock user
  *
  *  @return Error
@@ -225,6 +237,8 @@
  *  \~english
  *  Accept a friend request
  *
+ *  Synchronization method will block the current thread
+ *
  *  @param aUsername User who initiated the friend request
  *
  *  @return Error
@@ -243,6 +257,8 @@
  *
  *  \~english
  *  Decline a friend request
+ *
+ *  Synchronization method will block the current thread
  *
  *  @param aUsername User who initiated the friend request
  *
@@ -487,6 +503,8 @@
  *
  *  \~english
  *  Delete a contact
+ *
+ *  Synchronization method will block the current thread
  *
  *  @param aUsername The user to delete
  *

@@ -24,6 +24,7 @@
 #import "TLRealmPlayground.h"
 #import <CoreLocation/CoreLocation.h>
 #import "ChatManager.h"
+#import "ZHCartManager.h"
 
 //#ifdef NSFoundationVersionNumber_iOS_9_x_Max
 //#import <UserNotifications/UserNotifications.h>
@@ -45,7 +46,7 @@
     //设置应用环境
     [AppConfig config].runEnv = RunEnvDev;
     
-    //
+    //-- --//
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
     
@@ -116,10 +117,6 @@
     [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
     
     //
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginOutNotification object:nil];
-//    });
     
     //判断的同时进行赋值
     if ([ZHUser user].isLogin) {
@@ -136,6 +133,8 @@
 
     [JPUSHService setAlias:[ZHUser user].userId callbackSelector:nil object:nil];
     
+    [[ZHCartManager manager] getCount];
+
     TLLog(@"%@",[ZHUser user].userId);
 }
 
@@ -148,7 +147,8 @@
     
     [[ZHUser user] loginOut];
     [[ChatManager defaultManager] chatLoginOut];
-    
+    [[ZHCartManager manager] reset];
+
     //重置位置信息
     UITabBarController *tbc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     tbc.selectedIndex = 2;

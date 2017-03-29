@@ -19,8 +19,8 @@ target 'ZHCustomer' do
   
   #导航sdk
   #一组
-#  pod 'AMapLocation'
-  #pod 'AMapNavi'
+  pod 'AMapLocation'
+  pod 'AMapNavi'
   #一组
   #pod 'AMap2DMap'
   

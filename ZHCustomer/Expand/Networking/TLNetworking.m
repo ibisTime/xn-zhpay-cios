@@ -152,8 +152,7 @@
           
           if(self.isShowMsg) { //异常也是失败
               [SVProgressHUD showErrorWithStatus:responseObject[@"errorInfo"]];
-//              [TLAlert alertWithMsg:responseObject[@"errorInfo"]];
-//              [TLAlert alertWithHUDText:responseObject[@"errorInfo"]];
+
           }
       
       
@@ -170,7 +169,8 @@
        
        if (self.isShowMsg) {
            
-           [TLAlert alertWithHUDText:@"网络异常"];
+           [SVProgressHUD showErrorWithStatus:@"网络异常"];
+           [SVProgressHUD dismissWithDelay:3];
 
        }
        

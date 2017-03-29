@@ -67,10 +67,10 @@ typedef enum {
 
 /*!
  *  \~chinese
- *  是否只使用https, 默认为YES
+ *  是否只使用https, 默认为NO
  *
  *  \~english
- *  Whether using https only, default is YES
+ *  Whether using https only, default is NO
  */
 @property (nonatomic, assign) BOOL usingHttpsOnly;
 

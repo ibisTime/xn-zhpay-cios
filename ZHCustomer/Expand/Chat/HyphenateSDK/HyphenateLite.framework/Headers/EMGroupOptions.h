@@ -58,4 +58,13 @@ typedef enum{
  */
 @property (nonatomic) NSInteger maxUsersCount;
 
+/*!
+ *  \~chinese
+ *  邀请群成员时，是否需要发送邀请通知.若NO，被邀请的人自动加入群组
+ *
+ *  \~english
+ *  When you invite a group member, do you need to send an invitation notification
+ */
+@property (nonatomic) BOOL IsInviteNeedConfirm;
+
 @end

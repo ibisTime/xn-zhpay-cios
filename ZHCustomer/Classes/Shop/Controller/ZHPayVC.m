@@ -26,9 +26,13 @@
 
 @property (nonatomic,strong) TLTextField *amountTf;
 @property (nonatomic,strong) NSMutableArray <ZHCoupon *>*coupons;
+
 @property (nonatomic,strong) ZHPayInfoCell *couponsCell;
+
 @property (nonatomic,strong) ZHCoupon *selectedCoupon;
+
 @property (nonatomic,strong) UILabel *priceLbl;
+
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
 
 @property (nonatomic,strong) UITableView *payTableView;
@@ -83,40 +87,16 @@
     //--//
     NSArray *imgs = @[@"zh_pay",@"we_chat",@"alipay"];
     NSArray *payNames;
-    if (self.type == ZHPayVCTypeHZB) {
-        
-        payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+    payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
 
-    } else {
-    
-        payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
-
-    }
     NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
     NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
     self.pays = [NSMutableArray array];
     
     NSInteger count = imgs.count;
     
-
+ 
     
-//    if (!self.orderAmount || [self.orderAmount isEqual:@0]) {
-//        count = 1;
-//    }
-    
-    if (self.type == ZHPayVCTypeShop || self.type == ZHPayVCTypeHZB || self.type == ZHPayVCTypeMonthCard) {
-        //三种支付都有
-        
-        
-    } else {
-        
-        if ([self.orderAmount isEqual:@0]) {
-            
-            count = 1;
-
-        }
-    
-    }
     for (NSInteger i = 0; i < count; i ++) {
         
         ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
@@ -130,234 +110,42 @@
     //--//
     self.paySceneManager = [[ZHPaySceneManager alloc] init];
     switch (self.type) {
-//        case ZHPayVCTypeShop: { //店铺消费
-//        
-//            self.paySceneManager.isInitiative = YES;
-//            
-//            //1.第一组
-//            ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
-//            priceItem.headerHeight = 10.0;
-//            priceItem.footerHeight = 0.1;
-//            priceItem.rowNum = 1;
-//            
-//            //2.优惠券
-//            ZHPaySceneUIItem *couponItem = [[ZHPaySceneUIItem alloc] init];
-//            couponItem.headerHeight = 10.0;
-//            couponItem.footerHeight = 10.0;
-//            couponItem.rowNum = 1;
-//            
-//            //3.支付
-//            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-//            payFuncItem.headerHeight = 30.0;
-//            payFuncItem.footerHeight = 0.1;
-//            payFuncItem.rowNum = self.pays.count;
-//            
-//            self.paySceneManager.groupItems = @[priceItem,couponItem,payFuncItem];
-//        
-//        } break;
-            
-//        case ZHPayVCTypeMonthCard: { //月卡
-//            
-//            self.paySceneManager.isInitiative = NO;
-//            self.paySceneManager.amount = [self.monthCardModel.price convertToSimpleRealMoney];
-//            //1.第一组
-//            ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
-//            priceItem.headerHeight = 10.0;
-//            priceItem.footerHeight = 10.0;
-//            priceItem.rowNum = 1;
-//            
-//            //2.支付
-//            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-//            payFuncItem.headerHeight = 30.0;
-//            payFuncItem.footerHeight = 0.1;
-//            payFuncItem.rowNum = self.pays.count;
-//            
-//            self.paySceneManager.groupItems = @[priceItem,payFuncItem];
-//
-//            //
-//            if (!self.monthCardModel) {
-//                [TLAlert alertWithHUDText:@"月卡信息呢？"];
-//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//                return;
-//            }
-//            [self setUpUI];
-//            self.priceLbl.text = [self.monthCardModel.price convertToSimpleRealMoney];
-//            self.amountTf.enabled = self.paySceneManager.isInitiative;
-//            
-//           self.amountTf.text = [self.monthCardModel.price convertToSimpleRealMoney];
-//        
-//            
-//            
-//        } break;
+        case ZHPayVCTypeShop: { //店铺消费
         
-        case ZHPayVCTypeHZB: { //购买汇赚宝
-            
-            self.paySceneManager.isInitiative = NO;
-            self.paySceneManager.amount = [self.HZBModel.price convertToSimpleRealMoney];
-            //1.第一组
-            ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
-            priceItem.headerHeight = 10.0;
-            priceItem.footerHeight = 10.0;
-            priceItem.rowNum = 1;
-            
-            //2.支付
-            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-            payFuncItem.headerHeight = 30.0;
-            payFuncItem.footerHeight = 0.1;
-            payFuncItem.rowNum = self.pays.count;
-            self.paySceneManager.groupItems = @[priceItem,payFuncItem];
-            
-            //
-            if (!self.HZBModel) {
-                [TLAlert alertWithHUDText:@"汇赚宝信息呢？"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                return;
-            }
-            [self setUpUI];
-            self.amountTf.enabled = self.paySceneManager.isInitiative;
-            self.amountTf.text = self.paySceneManager.amount;
-            self.priceLbl.text = self.paySceneManager.amount;
-
-        } break;
-            
-//        case ZHPayVCTypeGoods: { //商品消费
-//            
-//            if (!self.orderAmount) {
-//                [TLAlert alertWithHUDText:@"无法确定订单信息"];
-//                return;
-//            }
-//            
-//            self.paySceneManager.isInitiative = NO;
-//            self.paySceneManager.amount = [self.orderAmount convertToSimpleRealMoney];
-//            
-//            //1.第一组
-//            ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
-//            priceItem.headerHeight = 10.0;
-//            priceItem.footerHeight = 10.0;
-//            priceItem.rowNum = 1;
-//            
-//            //2.支付
-//            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-//            payFuncItem.headerHeight = 30.0;
-//            payFuncItem.footerHeight = 0.1;
-//            payFuncItem.rowNum = self.pays.count;
-//            self.paySceneManager.groupItems = @[priceItem,payFuncItem];
-//            [self setUpUI];
-//            self.amountTf.enabled = self.paySceneManager.isInitiative;
-//            
-//            if (self.amoutAttr) {
-//                
-////                self.amountTf.attributedText = self.amoutAttr;
-//                [self.amountTf addSubview:self.tempAttrLbl];
-//                self.amountTf.placeholder = nil;
-////                [self.amountTf bringSubviewToFront:self.tempAttrLbl];
-//                self.tempAttrLbl.attributedText = self.amoutAttr;
-//                self.priceLbl.attributedText = self.amoutAttr;
-//                self.amountTf.text = self.paySceneManager.amount;
-//                self.amountTf.textColor = [UIColor clearColor];
-//
-//
-//            } else {
-//                
-//                self.amountTf.text = self.paySceneManager.amount;
-//                self.priceLbl.text = self.paySceneManager.amount;
-//        
-//            }
-//            
-//
-//        } break;
-            
-//        case ZHPayVCTypeYYDB: {
-//            
-//            
-//            self.paySceneManager.isInitiative = NO;
-//            self.paySceneManager.amount = [self.orderAmount convertToSimpleRealMoney];
-//            
-//            //1.第一组
-//            ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
-//            priceItem.headerHeight = 10.0;
-//            priceItem.footerHeight = 10.0;
-//            priceItem.rowNum = 1;
-//            
-//            //2.支付
-//            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-//            payFuncItem.headerHeight = 30.0;
-//            payFuncItem.footerHeight = 0.1;
-//            payFuncItem.rowNum = self.pays.count;
-//            self.paySceneManager.groupItems = @[priceItem,payFuncItem];
-//            [self setUpUI];
-//            self.amountTf.enabled = self.paySceneManager.isInitiative;
-//            
-//            
-//            if (self.amoutAttr) {
-//                [self.amountTf addSubview:self.tempAttrLbl];
-////                [self.amountTf bringSubviewToFront:self.tempAttrLbl];
-//
-//                //self.amountTf.attributedText = self.amoutAttr;
-//                self.amountTf.placeholder = nil;
-//                self.tempAttrLbl.attributedText = self.amoutAttr;
-//                self.priceLbl.attributedText = self.amoutAttr;
-//                self.amountTf.text = self.paySceneManager.amount;
-//                self.amountTf.textColor = [UIColor clearColor];
-//
-//                
-//            } else {
-//                
-//                self.amountTf.text = self.paySceneManager.amount;
-//                self.priceLbl.text = self.paySceneManager.amount;
-//                
-//
-//            }
-//
-//        } break;
-            
-        case ZHPayVCTypeNewYYDB: { //2.0版本的一元夺宝
-            
-            
-            self.paySceneManager.isInitiative = NO;
-            self.paySceneManager.amount = [self.orderAmount convertToSimpleRealMoney];
+            self.paySceneManager.isInitiative = YES;
             
             //1.第一组
             ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
             priceItem.headerHeight = 10.0;
-            priceItem.footerHeight = 10.0;
+            priceItem.footerHeight = 0.1;
             priceItem.rowNum = 1;
             
-            //2.支付
+            //2.优惠券
+            ZHPaySceneUIItem *couponItem = [[ZHPaySceneUIItem alloc] init];
+            couponItem.headerHeight = 10.0;
+            couponItem.footerHeight = 10.0;
+            couponItem.rowNum = 1;
+            
+            //3.支付
             ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
             payFuncItem.headerHeight = 30.0;
             payFuncItem.footerHeight = 0.1;
             payFuncItem.rowNum = self.pays.count;
-            self.paySceneManager.groupItems = @[priceItem,payFuncItem];
-            [self setUpUI];
-            self.amountTf.enabled = self.paySceneManager.isInitiative;
             
-            if (self.amoutAttr) {
-                
-                [self.amountTf addSubview:self.tempAttrLbl];
-                //                [self.amountTf bringSubviewToFront:self.tempAttrLbl];
-                
-                //self.amountTf.attributedText = self.amoutAttr;
-                self.amountTf.placeholder = nil;
-                self.tempAttrLbl.attributedText = self.amoutAttr;
-                self.priceLbl.attributedText = self.amoutAttr;
-                self.amountTf.text = self.paySceneManager.amount;
-                self.amountTf.textColor = [UIColor clearColor];
-                
-            } else {
-                
-                self.amountTf.text = self.paySceneManager.amount;
-                self.priceLbl.text = self.paySceneManager.amount;
-                
-            }
-            
-            
+            self.paySceneManager.groupItems = @[priceItem,couponItem,payFuncItem];
+        
         } break;
-         
+            
+        
+//
         default: [TLAlert alertWithHUDText:@"您还没有选择支付场景"];
-            
+//
     }
     
+    
+    //界面
+    [self setUpUI];
+
     
     //----//----//
     if (self.navigationController) {
@@ -386,7 +174,6 @@
             if (self.coupons.count > 0) {
                 self.selectedCoupon = self.coupons[0];
             }
-            [self setUpUI];
             
         } failure:^(NSError *error) {
             
@@ -424,29 +211,6 @@
         
     };
     
-#pragma mark- 购买汇赚宝获取分润
-    if (self.type == ZHPayVCTypeHZB) {
-        
-        TLNetworking *http = [TLNetworking new];
-        //        http.showView = self.view;
-        http.code = @"802503";
-        http.parameters[@"token"] = [ZHUser user].token;
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"currency"] = kFRB;
-        [http postWithSuccess:^(id responseObject) {
-            
-            NSNumber *surplusMoney =  responseObject[@"data"][0][@"amount"];
-            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@)",[surplusMoney convertToRealMoney]];
-            [self.payTableView reloadData];
-            
-        } failure:^(NSError *error) {
-            
-            
-            
-        }];
-        
-        return;
-    }
 
     
 #pragma mark- 除汇赚宝外  获得余额
@@ -511,42 +275,63 @@
             break;
     }
 
-    if(self.type == ZHPayVCTypeHZB) {
+   
+    
+    if (self.type == ZHPayVCTypeShop) {
         
-        [self hzbPay:payType];
-        
-    } if (self.type == ZHPayVCTypeNewYYDB) {
-        
-        [self newYydbPay:payType];
+        [self shopPay:payType];
         
     }
     
-//    if (self.type == ZHPayVCTypeShop) {
-//        
-////        [self shopPay:payType];
-//        
-//    } else if(self.type == ZHPayVCTypeMonthCard) {
-//    
-////        [self monthCardPay:payType];
-//    
-//    } else if(self.type == ZHPayVCTypeHZB) {
-//    
-//        [self hzbPay:payType];
-//        
-//    } else if (self.type == ZHPayVCTypeGoods) {
-//    
-////        [self goodsPay:payType];
-//        
-//    } else if (self.type == ZHPayVCTypeYYDB) {
-//    
-////        [self yydbPay:payType];
-//    } else if (self.type == ZHPayVCTypeNewYYDB) {
-//    
-//        [self newYydbPay:payType];
-//
-//    
-//    }
 }
+
+#pragma mark- 优店支付
+- (void)shopPay:(NSString *)payType {
+
+    
+    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
+        
+        TLNetworking *http = [TLNetworking new];
+        http.showView = self.view;
+        http.code = @"808241";
+        http.parameters[@"userId"] = [ZHUser user].userId;
+        http.parameters[@"storeCode"] = self.shop.code;
+        if (self.selectedCoupon && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.ticketKey1]) {
+            
+            http.parameters[@"ticketCode"] = self.selectedCoupon.code; //优惠券编号
+        }
+        
+        http.parameters[@"amount"] = [self.amountTf.text convertToSysMoney];
+        http.parameters[@"token"] = [ZHUser user].token;
+        http.parameters[@"ip"] = data[@"ip"];
+        http.parameters[@"payType"] = payType;
+        
+        //        payType = http.parameters[@"payType"];
+        
+        [http postWithSuccess:^(id responseObject) {
+            
+            
+            if ([payType isEqualToString: @"2"]) {
+                
+                [self wxPayWithInfo:responseObject[@"data"]];
+                
+            } else {
+                
+                [TLAlert alertWithHUDText:@"支付成功"];
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            }
+            
+        } failure:^(NSError *error) {
+            
+        }];
+        
+    } abnormality:nil failure:^(NSError *error) {
+        
+        
+    }];
+    
+}
+
 
 - (void)wxPayWithInfo:(NSDictionary *)info {
 
@@ -572,94 +357,9 @@
 
 }
 
-#pragma mark- 2.0新一元夺宝支付
-- (void)newYydbPay:(NSString *)payType {
 
-    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-        
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"808303";
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"jewelCode"] = self.dbModel.code;
-        http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];
-        http.parameters[@"payType"] = payType;
-        http.parameters[@"ip"] = data[@"ip"];
-        
-        //---//
-        [http postWithSuccess:^(id responseObject) {
-            
-            if ([payType isEqualToString: @"2"]) {
-                
-                [self wxPayWithInfo:responseObject[@"data"]];
-                
-            } else {
-                
-                [TLAlert alertWithHUDText:@"支付成功"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                if (self.paySucces) {
-                    self.paySucces();
-                }
-            }
-            
-            
-            
-        } failure:^(NSError *error) {
-            
-        }];
-        
-        
-        
-    } abnormality:nil failure:^(NSError *error) {
-        
-    }];
 
-}
 
-#pragma mark- 一元夺宝支付
-//- (void)yydbPay:(NSString *)payType {
-//
-//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-//        
-//        TLNetworking *http = [TLNetworking new];
-//        http.showView = self.view;
-//        http.code = @"808303";
-//        http.parameters[@"userId"] = [ZHUser user].userId;
-//        http.parameters[@"jewelCode"] = self.treasureModel.code;
-//        http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.treasureModel.count];
-//        http.parameters[@"payType"] = payType;
-//        http.parameters[@"ip"] = data[@"ip"];
-//
-//        //---//
-//        [http postWithSuccess:^(id responseObject) {
-//            
-//            if ([payType isEqualToString: @"2"]) {
-//                
-//                [self wxPayWithInfo:responseObject[@"data"]];
-//
-//            } else {
-//                
-//                [TLAlert alertWithHUDText:@"支付成功"];
-//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//                if (self.paySucces) {
-//                    self.paySucces();
-//                }
-//            }
-//            
-//            
-//            
-//        } failure:^(NSError *error) {
-//            
-//        }];
-//
-//        
-//        
-//    } abnormality:nil failure:^(NSError *error) {
-//        
-//    }];
-//   
-//
-//}
 
 
 #pragma mark- 普通商品支付
@@ -742,54 +442,6 @@
 //    }];
 //    
 //}
-
-#pragma mark- 汇赚宝支付
-- (void)hzbPay:(NSString *)payType {
-    
-    
-    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-        
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"808452";
-        http.parameters[@"hzbCode"] = self.HZBModel.code;
-        http.parameters[@"payType"] = payType;
-        http.parameters[@"token"] = [ZHUser user].token;
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"ip"] = data[@"ip"];
-        
-        [http postWithSuccess:^(id responseObject) {
-            
-            if ([payType isEqualToString:@"2"]) {
-                
-                [self wxPayWithInfo:responseObject[@"data"]];
-                
-            } else {
-                
-                [TLAlert alertWithHUDText:@"购买成功,等待激活"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                    
-                    if (self.paySucces) {
-                        self.paySucces();
-                    }
-                    
-                }];
-                
-            }
-            
-            
-        } failure:^(NSError *error) {
-            
-        }];
-        
-    } abnormality:nil failure:^(NSError *error) {
-        
-    }];
-    
-}
-
-
-
 
 #pragma mark - tableView代理
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1037,107 +689,6 @@
 }
 
 
-#pragma mark- 优店支付
-//- (void)shopPay:(NSString *)payType {
-//
-//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-//
-//        TLNetworking *http = [TLNetworking new];
-//        http.showView = self.view;
-//        http.code = @"808210";
-//        http.parameters[@"userId"] = [ZHUser user].userId;
-//        http.parameters[@"storeCode"] = self.shop.code;
-//        if (self.selectedCoupon && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.ticketKey1]) {
-//
-//            http.parameters[@"ticketCode"] = self.selectedCoupon.code; //优惠券编号
-//        }
-//
-//        http.parameters[@"amount"] = [self.amountTf.text convertToSysMoney];
-//        http.parameters[@"token"] = [ZHUser user].token;
-//        http.parameters[@"ip"] = data[@"ip"];
-//        http.parameters[@"payType"] = payType;
-//
-////        payType = http.parameters[@"payType"];
-//
-//        [http postWithSuccess:^(id responseObject) {
-//
-//
-//            if ([payType isEqualToString: @"2"]) {
-//
-//                [self wxPayWithInfo:responseObject[@"data"]];
-//
-//            } else {
-//
-//                [TLAlert alertWithHUDText:@"支付成功"];
-//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//            }
-//
-//        } failure:^(NSError *error) {
-//
-//        }];
-//
-//    } abnormality:nil failure:^(NSError *error) {
-//
-//
-//    }];
-//
-//}
 
-
-#pragma mark-- 月卡
-//- (void)monthCardPay:(NSString *)payType {
-//
-////    @"http://121.43.101.148:5601/forward-service/ip"
-//  [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-//
-//      TLNetworking *http = [TLNetworking new];
-//      http.showView = self.view;
-//      http.code = @"808403";
-//      http.parameters[@"code"] = self.monthCardModel.code;
-//      http.parameters[@"userId"] = [ZHUser user].userId;
-//      http.parameters[@"token"] = [ZHUser user].token;
-//      //1.内部 2.微信 3.支付宝
-//      http.parameters[@"payType"] = payType;
-//
-//      if ([payType isEqualToString: @"2"]) {
-//
-//          http.parameters[@"ip"] = data[@"ip"];
-//
-//      }
-//
-//      [http postWithSuccess:^(id responseObject) {
-//
-//          if ([payType isEqualToString: @"2"]) {
-//
-//              [self wxPayWithInfo:responseObject[@"data"]];
-//
-//          } else {
-//
-//              [TLAlert alertWithHUDText:@"购买月卡成功"];
-//
-//              [self.navigationController dismissViewControllerAnimated:YES completion:^{
-//
-//                  if (self.paySucces) {
-//                      self.paySucces();
-//                  }
-//
-//              }];
-//
-//          }
-//
-//
-//
-//      } failure:^(NSError *error) {
-//
-//
-//      }];
-//
-//
-//  } abnormality:nil failure:^(NSError *error) {
-//
-//  }];
-//
-//
-//}
 
 @end

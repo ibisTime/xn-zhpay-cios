@@ -78,13 +78,13 @@
 //    return;
 
     TLNetworking *http = [TLNetworking new];
-    http.code = @"808456";
+    http.code = @"615118";
     http.parameters[@"userId"] = [ZHUser user].userId;
     http.parameters[@"token"] = [ZHUser user].token;
     [http postWithSuccess:^(id responseObject) {
     
         NSDictionary *data = responseObject[@"data"];
-        if (data.allKeys.count > 0) {
+        if (data.count > 0) {
             
             self.HZBModel = [ZHHZBModel  tl_objectWithDictionary:data];
             [self.tl_placeholderView removeFromSuperview];
@@ -105,7 +105,7 @@
                 
             }
             
-        } else { //还没有股份
+        } else { //还没有汇赚宝
             
             [self addChildViewController:self.buyVC];
             [self.view addSubview:self.buyVC.view];

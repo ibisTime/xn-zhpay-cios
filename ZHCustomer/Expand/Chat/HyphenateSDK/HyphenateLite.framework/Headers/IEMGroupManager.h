@@ -91,28 +91,55 @@
  */
 - (NSArray *)getGroupsWithoutPushNotification:(EMError **)pError;
 
-#pragma mark - Sync method
+#pragma mark - Get group from server
 
-/**
+/*!
  *  \~chinese
- *  从服务器获取用户所有的群组，成功后更新DB和内存中的群组列表
- *  
+ *  从服务器获取指定数目的群组
+ *
  *  同步方法，会阻塞当前线程
  *
- *  @param pError  错误信息
+ *  @param aPageNum  获取公开群的cursor，首次调用传空
+ *  @param aPageSize 期望返回结果的数量, 如果 < 0 则一次返回所有结果
+ *  @param pError    出错信息
  *
  *  @return 群组列表<EMGroup>
  *
  *  \~english
- *  Get all of user's groups from server
+ *  Get pagesize number group from server.
  *
  *  Synchronization method will block the current thread
  *
- *  @param pError  Error
+ *  @param aPageNum         Page number
+ *  @param aPageSize        Page size
+ *  @param pError   Error
  *
- *  @result Group list<EMGroup>
+ *  @return Group list<EMGroup>
  */
-- (NSArray *)getMyGroupsFromServerWithError:(EMError **)pError;
+- (NSArray *)getJoinedGroupsFromServerWithPage:(NSInteger)aPageNum
+                                      pageSize:(NSInteger)aPageSize
+                                         error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  从服务器获取所有的群组
+ *
+ *  @param aPageNum  获取公开群的cursor，首次调用传空
+ *  @param aPageSize 期望返回结果的数量, 如果 < 0 则一次返回所有结果
+ *  @param aCompletionBlock      完成的回调
+ *
+ *  \~english
+ *  Get all the groups from server
+ *
+ *  @param aPageNum             Page number
+ *  @param aPageSize            Page size
+ *  @param aCompletionBlock     The callback block of completion
+ *
+ */
+
+- (void)getJoinedGroupsFromServerWithPage:(NSInteger)aPageNum
+                                 pageSize:(NSInteger)aPageSize
+                               completion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -143,6 +170,27 @@
 
 /*!
  *  \~chinese
+ *  从服务器获取指定范围内的公开群
+ *
+ *  @param aCursor          获取公开群的cursor，首次调用传空
+ *  @param aPageSize        期望返回结果的数量, 如果 < 0 则一次返回所有结果
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Get public groups with the specified range from the server
+ *
+ *  @param aCursor          Cursor, input nil the first time
+ *  @param aPageSize        Expect result count, return all results if count is less than zero
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)getPublicGroupsFromServerWithCursor:(NSString *)aCursor
+                                   pageSize:(NSInteger)aPageSize
+                                 completion:(void (^)(EMCursorResult *aResult, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  根据群ID搜索公开群
  *
  *  同步方法，会阻塞当前线程
@@ -164,6 +212,24 @@
  */
 - (EMGroup *)searchPublicGroupWithId:(NSString *)aGroundId
                                error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  根据群ID搜索公开群
+ *
+ *  @param aGroundId        群组id
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Search public group with group id
+ *
+ *  @param aGroundId        Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)searchPublicGroupWithId:(NSString *)aGroundId
+                     completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
 
 #pragma mark - Create
 
@@ -203,58 +269,226 @@
                             setting:(EMGroupOptions *)aSetting
                               error:(EMError **)pError;
 
+/*!
+ *  \~chinese
+ *  创建群组
+ *
+ *  @param aSubject         群组名称
+ *  @param aDescription     群组描述
+ *  @param aInvitees        群组成员（不包括创建者自己）
+ *  @param aMessage         邀请消息
+ *  @param aSetting         群组属性
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Create a group
+ *
+ *  @param aSubject         Group subject
+ *  @param aDescription     Group description
+ *  @param aInvitees        Group members, without creater
+ *  @param aMessage         Invitation message
+ *  @param aSetting         Group options
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)createGroupWithSubject:(NSString *)aSubject
+                   description:(NSString *)aDescription
+                      invitees:(NSArray *)aInvitees
+                       message:(NSString *)aMessage
+                       setting:(EMGroupOptions *)aSetting
+                    completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
 #pragma mark - Fetch Info
 
 /*!
  *  \~chinese
- *  获取群组详情
+ *  获取群组详情，包含群组ID,群组名称，群组描述，群组基本属性，群组Owner, 群组管理员
  *  
  *  同步方法，会阻塞当前线程
  *
  *  @param aGroupId              群组ID
- *  @param aIncludeMembersList   是否获取成员列表
  *  @param pError                错误信息
  *
  *  @return    群组
  *
  *  \~english
- *  Fetch group info
+ *  Fetch group info，include ID, name, description，setting, owner, admins
  *
  *  Synchronization method will block the current thread
  *
  *  @param aGroupId              Group id
- *  @param aIncludeMembersList   Whether to get member list
  *  @param pError                Error
  *
  *  @return    Group instance
  */
-- (EMGroup *)fetchGroupInfo:(NSString *)aGroupId
-         includeMembersList:(BOOL)aIncludeMembersList
-                      error:(EMError **)pError;
+- (EMGroup *)getGroupSpecificationFromServerWithId:(NSString *)aGroupId
+                                             error:(EMError **)pError;
 
 /*!
  *  \~chinese
- *  获取群组黑名单列表, 需要owner权限
- *  
- *  同步方法，会阻塞当前线程
+ *  获取群组详情,包含群组ID,群组名称，群组描述，群组基本属性，群组Owner, 群组管理员
  *
- *  @param aGroupId  群组ID
- *  @param pError    错误信息
+ *  @param aGroupId              群组ID
+ *  @param aCompletionBlock      完成的回调
  *
- *  @return    群组黑名单列表<NSString>
  *
  *  \~english
- *  Get group‘s blacklist, required owner’s authority
+ *  Fetch group specification，include ID, name, description，setting, owner, admins
  *
- *  Synchronization method will block the current thread
+ *  @param aGroupId              Group id
+ *  @param aCompletionBlock      The callback block of completion
  *
- *  @param aGroupId  Group id
- *  @param pError    Error
- *
- *  @return    Group blacklist<NSString>
  */
-- (NSArray *)fetchGroupBansList:(NSString *)aGroupId
-                          error:(EMError **)pError;
+- (void)getGroupSpecificationFromServerWithId:(NSString *)aGroupID
+                                   completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  获取群组成员列表
+ *
+ *  @param aGroupId         群组ID
+ *  @param aCursor          游标，，首次调用传空
+ *  @param aPageSize        获取多少条
+ *  @param pError           错误信息
+ *
+ *  @return    列表和游标
+ *
+ *  \~english
+ *  Get the list of group members from the server
+ *
+ *  @param aGroupId         Group id
+ *  @param aCursor          Cursor, input nil the first time
+ *  @param aPageSize        Page size
+ *  @param pError           Error
+ *
+ *  @return    List and cursor
+ *
+ */
+- (EMCursorResult *)getGroupMemberListFromServerWithId:(NSString *)aGroupId
+                                                cursor:(NSString *)aCursor
+                                              pageSize:(NSInteger)aPageSize
+                                                 error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  获取群组成员列表
+ *
+ *  @param aGroupId         群组ID
+ *  @param aCursor          游标，首次调用传空
+ *  @param aPageSize        获取多少条
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Get the list of group members from the server
+ *
+ *  @param aGroupId         Group id
+ *  @param aCursor          Cursor, input nil the first time
+ *  @param aPageSize        Page size
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)getGroupMemberListFromServerWithId:(NSString *)aGroupId
+                                    cursor:(NSString *)aCursor
+                                  pageSize:(NSInteger)aPageSize
+                                completion:(void (^)(EMCursorResult *aResult, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  获取群组黑名单列表, 需要owner/admin权限
+ *
+ *  @param aGroupId         群组ID
+ *  @param aPageNum         获取第几页
+ *  @param aPageSize        获取多少条
+ *  @param pError           错误信息
+ *
+ *
+ *  \~english
+ *  Get the blacklist of group from the server, need owner / admin permissions
+ *
+ *  @param aGroupId         Group id
+ *  @param aPageNum         Page number
+ *  @param aPageSize        Page size
+ *  @param pError           Error
+ *
+ */
+- (NSArray *)getGroupBlacklistFromServerWithId:(NSString *)aGroupId
+                                    pageNumber:(NSInteger)aPageNum
+                                      pageSize:(NSInteger)aPageSize
+                                         error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  获取群组黑名单列表, 需要owner/admin权限
+ *
+ *  @param aGroupId         群组ID
+ *  @param aPageNum         获取第几页
+ *  @param aPageSize        获取多少条
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Get group's blacklist, need owner / admin permissions
+ *
+ *  @param aGroupId         Group id
+ *  @param aPageNum         Page number
+ *  @param aPageSize        Page size
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)getGroupBlacklistFromServerWithId:(NSString *)aGroupId
+                               pageNumber:(NSInteger)aPageNum
+                                 pageSize:(NSInteger)aPageSize
+                               completion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  获取群组被禁言列表
+ *
+ *  @param aGroupId         群组ID
+ *  @param aPageNum         获取第几页
+ *  @param aPageSize        获取多少条
+ *  @param pError           错误信息
+ *
+ *
+ *  \~english
+ *  Get the mutes of group  from the server
+ *
+ *  @param aGroupId         Group id
+ *  @param aPageNum         Page number
+ *  @param aPageSize        Page size
+ *  @param pError           Error
+ *
+ */
+- (NSArray *)getGroupMuteListFromServerWithId:(NSString *)aGroupId
+                                   pageNumber:(NSInteger)aPageNum
+                                     pageSize:(NSInteger)aPageSize
+                                        error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  获取群组被禁言列表
+ *
+ *  @param aGroupId         群组ID
+ *  @param aPageNum         获取第几页
+ *  @param aPageSize        获取多少条
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Get the mutes of group  from the server
+ *
+ *  @param aGroupId         Group id
+ *  @param aPageNum         Page number
+ *  @param aPageSize        Page size
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)getGroupMuteListFromServerWithId:(NSString *)aGroupId
+                              pageNumber:(NSInteger)aPageNum
+                                pageSize:(NSInteger)aPageSize
+                              completion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
 
 #pragma mark - Edit Group
 
@@ -290,6 +524,30 @@
 
 /*!
  *  \~chinese
+ *  邀请用户加入群组
+ *
+ *  @param aUsers           被邀请的用户名列表
+ *  @param aGroupId         群组ID
+ *  @param aMessage         欢迎信息
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Invite User to join a group
+ *
+ *  @param aUsers           Invited users
+ *  @param aGroupId         Group id
+ *  @param aMessage         Welcome message
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)addMembers:(NSArray *)aUsers
+           toGroup:(NSString *)aGroupId
+           message:(NSString *)aMessage
+        completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  将群成员移出群组, 需要owner权限
  *  
  *  同步方法，会阻塞当前线程
@@ -317,6 +575,27 @@
 
 /*!
  *  \~chinese
+ *  将群成员移出群组, 需要owner权限
+ *
+ *  @param aUsers           要移出群组的用户列表
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Remove members from a group, owner‘s authority is required
+ *
+ *  @param aUsers           Users to be removed
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)removeMembers:(NSArray *)aUsers
+            fromGroup:(NSString *)aGroupId
+           completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  加人到群组黑名单, 需要owner权限
  *  
  *  同步方法，会阻塞当前线程
@@ -341,6 +620,27 @@
 - (EMGroup *)blockOccupants:(NSArray *)aOccupants
                   fromGroup:(NSString *)aGroupId
                       error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  加人到群组黑名单, 需要owner权限
+ *
+ *  @param aMembers         要加入黑名单的用户
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Add users to group blacklist, owner‘s authority is required
+ *
+ *  @param aMembers         Users to be added
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)blockMembers:(NSArray *)aMembers
+           fromGroup:(NSString *)aGroupId
+          completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
 
 
 /*!
@@ -372,6 +672,27 @@
 
 /*!
  *  \~chinese
+ *  从群组黑名单中减人, 需要owner权限
+ *
+ *  @param aMembers         要从黑名单中移除的用户名列表
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Remove users out of group blacklist, owner‘s authority is required
+ *
+ *  @param aMembers         Users to be removed
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)unblockMembers:(NSArray *)aMembers
+             fromGroup:(NSString *)aGroupId
+            completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  更改群组主题, 需要owner权限
  *  
  *  同步方法，会阻塞当前线程
@@ -396,6 +717,27 @@
 - (EMGroup *)changeGroupSubject:(NSString *)aSubject
                        forGroup:(NSString *)aGroupId
                           error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  更改群组主题, 需要owner权限
+ *
+ *  @param aSubject         新主题
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Change the group subject, owner‘s authority is required
+ *
+ *  @param aSubject         New group‘s subject
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)updateGroupSubject:(NSString *)aSubject
+                  forGroup:(NSString *)aGroupId
+                completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -426,6 +768,27 @@
 
 /*!
  *  \~chinese
+ *  更改群组说明信息, 需要owner权限
+ *
+ *  @param aDescription     说明信息
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Change the group description, owner‘s authority is required
+ *
+ *  @param aDescription     New group‘s description
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)updateDescription:(NSString *)aDescription
+                 forGroup:(NSString *)aGroupId
+               completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  退出群组，owner不能退出群，只能销毁群
  *  
  *  同步方法，会阻塞当前线程
@@ -433,7 +796,6 @@
  *  @param aGroupId  群组ID
  *  @param pError    错误信息
  *
- *  @result    退出的群组对象, 失败返回nil
  *
  *  \~english
  *  Leave a group, owner can't leave the group, can only destroy the group
@@ -443,10 +805,27 @@
  *  @param aGroupId  Group id
  *  @param pError    Error
  *
- *  @result    Leaved group, return nil if fail
  */
-- (EMGroup *)leaveGroup:(NSString *)aGroupId
-                 error:(EMError **)pError;
+- (void)leaveGroup:(NSString *)aGroupId
+             error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  退出群组，owner不能退出群，只能销毁群
+ *
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Leave a group, owner can't leave the group, can only destroy the group
+ *
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)leaveGroup:(NSString *)aGroupId
+        completion:(void (^)(EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -455,9 +834,8 @@
  *  同步方法，会阻塞当前线程
  *
  *  @param aGroupId  群组ID
- *  @param pError    错误信息
  *
- *  @result    销毁的群组实例, 失败返回nil
+ *  @result    错误信息, 成功返回nil
  *
  *  \~english
  *  Destroy a group, owner‘s authority is required
@@ -465,12 +843,27 @@
  *  Synchronization method will block the current thread
  *
  *  @param aGroupId  Group id
- *  @param pError    Error
  *
- *  @result    Destroyed group, return nil if failed
+ *  @result    Error, return nil if success
  */
-- (EMGroup *)destroyGroup:(NSString *)aGroupId
-                    error:(EMError **)pError;
+- (EMError *)destroyGroup:(NSString *)aGroupId;
+
+/*!
+ *  \~chinese
+ *  解散群组, 需要owner权限
+ *
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Destroy a group, owner‘s authority is required
+ *
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)destroyGroup:(NSString *)aGroupId
+    finishCompletion:(void (^)(EMError *aError))aCompletionBlock;
 
 
 /*!
@@ -499,6 +892,23 @@
 
 /*!
  *  \~chinese
+ *  屏蔽群消息，服务器不再发送此群的消息给用户，owner不能屏蔽群消息
+ *
+ *  @param aGroupId         要屏蔽的群ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Block group messages, server blocks the messages from the group, owner can't block the group's messages
+ *
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)blockGroup:(NSString *)aGroupId
+        completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  取消屏蔽群消息
  *  
  *  同步方法，会阻塞当前线程
@@ -520,6 +930,273 @@
  */
 - (EMGroup *)unblockGroup:(NSString *)aGroupId
                     error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  取消屏蔽群消息
+ *
+ *  @param aGroupId         要取消屏蔽的群ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Unblock group message
+ *
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)unblockGroup:(NSString *)aGroupId
+          completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+
+/*!
+ *  \~chinese
+ *  改变群主，需要Owner权限
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aGroupId   群ID
+ *  @param aNewOwner  新群主
+ *  @param pError     错误信息
+ *
+ *  @result    返回群组实例
+ *
+ *  \~english
+ *  Change group owner, need Owner permissions
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aGroupId   Group id
+ *  @param aNewOwner  New group owner
+ *  @param pError     Error
+ *
+ *  @result    Group instance
+ */
+- (EMGroup *)updateGroupOwner:(NSString *)aGroupId
+                     newOwner:(NSString *)aNewOwner
+                        error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  改变群主，需要Owner权限
+ *
+ *  @param aGroupId   群ID
+ *  @param aNewOwner  新群主
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Change group owner, need Owner permissions
+ *
+ *  @param aGroupId   Group id
+ *  @param aNewOwner  New group owner
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)updateGroupOwner:(NSString *)aGroupId
+                newOwner:(NSString *)aNewOwner
+              completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  添加群组管理员，需要Owner权限
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aAdmin     要添加的群组管理员
+ *  @param aGroupId   群ID
+ *  @param pError     错误信息
+ *
+ *  @result    返回群组实例
+ *
+ *  \~english
+ *  Add group admin, need Owner permissions
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aAdmin     Admin
+ *  @param aGroupId   Group id
+ *  @param pError     Error
+ *
+ *  @result    Group instance
+ */
+- (EMGroup *)addAdmin:(NSString *)aAdmin
+              toGroup:(NSString *)aGroupId
+                error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  添加群组管理员，需要Owner权限
+ *
+ *  @param aAdmin     要添加的群组管理员
+ *  @param aGroupId   群ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Add group admin, need Owner permissions
+ *
+ *  @param aAdmin     Admin
+ *  @param aGroupId   Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)addAdmin:(NSString *)aAdmin
+         toGroup:(NSString *)aGroupId
+      completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  移除群组管理员，需要Owner权限
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aAdmin     要移除的群组管理员
+ *  @param aGroupId   群ID
+ *  @param pError     错误信息
+ *
+ *  @result    返回群组实例
+ *
+ *  \~english
+ *  Remove group admin, need Owner permissions
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aAdmin     Admin
+ *  @param aGroupId   Group id
+ *  @param pError     Error
+ *
+ *  @result    Group instance
+ */
+- (EMGroup *)removeAdmin:(NSString *)aAdmin
+               fromGroup:(NSString *)aGroupId
+                   error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  移除群组管理员，需要Owner权限
+ *
+ *  @param aAdmin     要添加的群组管理员
+ *  @param aGroupId   群ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Remove group admin, need Owner permissions
+ *
+ *  @param aAdmin     Admin
+ *  @param aGroupId   Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)removeAdmin:(NSString *)aAdmin
+          fromGroup:(NSString *)aGroupId
+         completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+
+/*!
+ *  \~chinese
+ *  将一组成员禁言，需要Owner / Admin权限
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aMuteMembers         要禁言的成员列表<NSString>
+ *  @param aMuteMilliseconds    禁言时长
+ *  @param aGroupId             群ID
+ *  @param pError               错误信息
+ *
+ *  @result    返回群组实例
+ *
+ *  \~english
+ *  Mute group members, need Owner / Admin permissions
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aMuteMembers         The list of mute, type is <NSString>
+ *  @param aMuteMilliseconds    Muted time duration in millisecond
+ *  @param aGroupId             Group id
+ *  @param pError               Error
+ *
+ *  @result    Group instance
+ */
+- (EMGroup *)muteMembers:(NSArray *)aMuteMembers
+        muteMilliseconds:(NSInteger)aMuteMilliseconds
+               fromGroup:(NSString *)aGroupId
+                   error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  将一组成员禁言，需要Owner / Admin权限
+ *
+ *  @param aMuteMembers         要禁言的成员列表<NSString>
+ *  @param aMuteMilliseconds    禁言时长
+ *  @param aGroupId             群ID
+ *  @param aCompletionBlock     完成的回调
+ *
+ *  \~english
+ *  Mute group members, need Owner / Admin permissions
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aMuteMembers         The list of mute, type is <NSString>
+ *  @param aMuteMilliseconds    Muted time duration in millisecond
+ *  @param aGroupId             Group id
+ *  @param aCompletionBlock     The callback block of completion
+ *
+ */
+- (void)muteMembers:(NSArray *)aMuteMembers
+   muteMilliseconds:(NSInteger)aMuteMilliseconds
+          fromGroup:(NSString *)aGroupId
+         completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  解除禁言，需要Owner / Admin权限
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aMuteMembers     被解除的列表<NSString>
+ *  @param aGroupId         群ID
+ *  @param pError           错误信息
+ *
+ *  @result    返回群组实例
+ *
+ *  \~english
+ *  Unmute group members, need Owner / Admin permissions
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aMembers         The list of unmute, type is <NSString>
+ *  @param aGroupId         Group id
+ *  @param pError           Error
+ *
+ *  @result    Group instance
+ */
+- (EMGroup *)unmuteMembers:(NSArray *)aMembers
+                 fromGroup:(NSString *)aGroupId
+                     error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  解除禁言，需要Owner / Admin权限
+ *
+ *  @param aMuteMembers     被解除的列表<NSString>
+ *  @param aGroupId         群ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Unmute group members, need Owner / Admin permissions
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aMembers         The list of unmute, type is <NSString>
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)unmuteMembers:(NSArray *)aMembers
+            fromGroup:(NSString *)aGroupId
+           completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
 
 #pragma mark - Edit Public Group
 
@@ -549,6 +1226,23 @@
 
 /*!
  *  \~chinese
+ *  加入一个公开群组，群类型应该是EMGroupStylePublicOpenJoin
+ *
+ *  @param aGroupId         公开群组的ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Join a public group, group style should be EMGroupStylePublicOpenJoin
+ *
+ *  @param aGroupId         Public group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)joinPublicGroup:(NSString *)aGroupId
+             completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  申请加入一个需批准的公开群组，群类型应该是EMGroupStylePublicJoinNeedApproval
  *
  *  同步方法，会阻塞当前线程
@@ -573,6 +1267,27 @@
 - (EMGroup *)applyJoinPublicGroup:(NSString *)aGroupId
                           message:(NSString *)aMessage
                             error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  申请加入一个需批准的公开群组，群类型应该是EMGroupStylePublicJoinNeedApproval
+ *
+ *  @param aGroupId         公开群组的ID
+ *  @param aMessage         请求加入的信息
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Request to join a public group, group style should be EMGroupStylePublicJoinNeedApproval
+ *
+ *  @param aGroupId         Public group id
+ *  @param aMessage         Apply info
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)requestToJoinPublicGroup:(NSString *)aGroupId
+                         message:(NSString *)aMessage
+                      completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
 
 #pragma mark - Application
 
@@ -599,6 +1314,27 @@
  */
 - (EMError *)acceptJoinApplication:(NSString *)aGroupId
                          applicant:(NSString *)aUsername;
+
+/*!
+ *  \~chinese
+ *  批准入群申请, 需要Owner权限
+ *
+ *  @param aGroupId         所申请的群组ID
+ *  @param aUsername        申请人
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Approve a group request, owner‘s authority is required
+ *
+ *  @param aGroupId         Group id
+ *  @param aUsername        Group request sender
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)approveJoinGroupRequest:(NSString *)aGroupId
+                         sender:(NSString *)aUsername
+                     completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -629,6 +1365,30 @@
 
 /*!
  *  \~chinese
+ *  拒绝入群申请, 需要Owner权限
+ *
+ *  @param aGroupId         被拒绝的群组ID
+ *  @param aUsername        申请人
+ *  @param aReason          拒绝理由
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Decline a group request, owner‘s authority is required
+ *
+ *  @param aGroupId         Group id
+ *  @param aUsername        Group request sender
+ *  @param aReason          Decline reason
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)declineJoinGroupRequest:(NSString *)aGroupId
+                         sender:(NSString *)aUsername
+                         reason:(NSString *)aReason
+                     completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  接受入群邀请
  *
  *  同步方法，会阻塞当前线程
@@ -653,6 +1413,28 @@
 - (EMGroup *)acceptInvitationFromGroup:(NSString *)aGroupId
                                inviter:(NSString *)aUsername
                                  error:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  接受入群邀请
+ *
+ *  @param groupId          接受的群组ID
+ *  @param aUsername        邀请者
+ *  @param pError           错误信息
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Accept a group invitation
+ *
+ *  @param groupId          Group id
+ *  @param aUsername        Inviter
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)acceptInvitationFromGroup:(NSString *)aGroupId
+                          inviter:(NSString *)aUsername
+                       completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -681,6 +1463,30 @@
                                 inviter:(NSString *)aUsername
                                  reason:(NSString *)aReason;
 
+/*!
+ *  \~chinese
+ *  拒绝入群邀请
+ *
+ *  @param aGroupId         被拒绝的群组ID
+ *  @param aInviter         邀请人
+ *  @param aReason          拒绝理由
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Decline a group invitation
+ *
+ *  @param aGroupId         Group id
+ *  @param aInviter         Inviter
+ *  @param aReason          Decline reason
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)declineGroupInvitation:(NSString *)aGroupId
+                       inviter:(NSString *)aInviter
+                        reason:(NSString *)aReason
+                    completion:(void (^)(EMError *aError))aCompletionBlock;
+
 #pragma mark - Apns
 
 /*!
@@ -707,458 +1513,6 @@
 - (EMError *)ignoreGroupPush:(NSString *)aGroupId
                       ignore:(BOOL)aIsIgnore;
 
-#pragma mark - Async method
-
-/**
- *  \~chinese
- *  从服务器获取用户所有的群组，成功后更新DB和内存中的群组列表
- *
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Get all of user's groups from server
- *
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)getJoinedGroupsFromServerWithCompletion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  从服务器获取指定范围内的公开群
- *
- *  @param aCursor          获取公开群的cursor，首次调用传空
- *  @param aPageSize        期望返回结果的数量, 如果 < 0 则一次返回所有结果
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Get public groups with the specified range from the server
- *
- *  @param aCursor          Cursor, input nil the first time
- *  @param aPageSize        Expect result count, return all results if count is less than zero
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)getPublicGroupsFromServerWithCursor:(NSString *)aCursor
-                                   pageSize:(NSInteger)aPageSize
-                                 completion:(void (^)(EMCursorResult *aResult, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  根据群ID搜索公开群
- *
- *  @param aGroundId        群组id
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Search public group with group id
- *
- *  @param aGroundId        Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)searchPublicGroupWithId:(NSString *)aGroundId
-                     completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  创建群组
- *
- *  @param aSubject         群组名称
- *  @param aDescription     群组描述
- *  @param aInvitees        群组成员（不包括创建者自己）
- *  @param aMessage         邀请消息
- *  @param aSetting         群组属性
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Create a group
- *
- *  @param aSubject         Group subject
- *  @param aDescription     Group description
- *  @param aInvitees        Group members, without creater
- *  @param aMessage         Invitation message
- *  @param aSetting         Group options
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)createGroupWithSubject:(NSString *)aSubject
-                   description:(NSString *)aDescription
-                      invitees:(NSArray *)aInvitees
-                       message:(NSString *)aMessage
-                       setting:(EMGroupOptions *)aSetting
-                    completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  获取群组详情
- *
- *  @param aGroupId              群组ID
- *  @param aIncludeMembersList   是否获取成员列表
- *  @param aCompletionBlock      完成的回调
- *
- *
- *  \~english
- *  Fetch group specification
- *
- *  @param aGroupId              Group id
- *  @param aIncludeMembersList   Whether to get member list
- *  @param aCompletionBlock      The callback block of completion
- *
- */
-- (void)getGroupSpecificationFromServerByID:(NSString *)aGroupID
-                         includeMembersList:(BOOL)aIncludeMembersList
-                                 completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  获取群组黑名单列表, 需要owner权限
- *
- *  @param aGroupId         群组ID
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Get group's blacklist, owner’s authority is required
- *
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)getGroupBlackListFromServerByID:(NSString *)aGroupId
-                             completion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  邀请用户加入群组
- *
- *  @param aUsers           被邀请的用户名列表
- *  @param aGroupId         群组ID
- *  @param aMessage         欢迎信息
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Invite User to join a group
- *
- *  @param aUsers           Invited users
- *  @param aGroupId         Group id
- *  @param aMessage         Welcome message
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)addMembers:(NSArray *)aUsers
-           toGroup:(NSString *)aGroupId
-           message:(NSString *)aMessage
-        completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  将群成员移出群组, 需要owner权限
- *
- *  @param aUsers           要移出群组的用户列表
- *  @param aGroupId         群组ID
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Remove members from a group, owner‘s authority is required
- *
- *  @param aUsers           Users to be removed
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)removeMembers:(NSArray *)aUsers
-            fromGroup:(NSString *)aGroupId
-           completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  加人到群组黑名单, 需要owner权限
- *
- *  @param aMembers         要加入黑名单的用户
- *  @param aGroupId         群组ID
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Add users to group blacklist, owner‘s authority is required
- *
- *  @param aMembers         Users to be added
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)blockMembers:(NSArray *)aMembers
-           fromGroup:(NSString *)aGroupId
-          completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  从群组黑名单中减人, 需要owner权限
- *
- *  @param aMembers         要从黑名单中移除的用户名列表
- *  @param aGroupId         群组ID
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Remove users out of group blacklist, owner‘s authority is required
- *
- *  @param aMembers         Users to be removed
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)unblockMembers:(NSArray *)aMembers
-             fromGroup:(NSString *)aGroupId
-            completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  更改群组主题, 需要owner权限
- *
- *  @param aSubject         新主题
- *  @param aGroupId         群组ID
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Change the group subject, owner‘s authority is required
- *
- *  @param aSubject         New group‘s subject
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)updateGroupSubject:(NSString *)aSubject
-                  forGroup:(NSString *)aGroupId
-                completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  更改群组说明信息, 需要owner权限
- *
- *  @param aDescription     说明信息
- *  @param aGroupId         群组ID
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Change the group description, owner‘s authority is required
- *
- *  @param aDescription     New group‘s description
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)updateDescription:(NSString *)aDescription
-                 forGroup:(NSString *)aGroupId
-               completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  退出群组，owner不能退出群，只能销毁群
- *
- *  @param aGroupId         群组ID
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Leave a group, owner can't leave the group, can only destroy the group
- *
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)leaveGroup:(NSString *)aGroupId
-        completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  解散群组, 需要owner权限
- *
- *  @param aGroupId         群组ID
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Destroy a group, owner‘s authority is required
- *
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)destroyGroup:(NSString *)aGroupId
-          completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  屏蔽群消息，服务器不再发送此群的消息给用户，owner不能屏蔽群消息
- *
- *  @param aGroupId         要屏蔽的群ID
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Block group messages, server blocks the messages from the group, owner can't block the group's messages
- *
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)blockGroup:(NSString *)aGroupId
-        completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  取消屏蔽群消息
- *
- *  @param aGroupId         要取消屏蔽的群ID
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Unblock group message
- *
- *  @param aGroupId         Group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)unblockGroup:(NSString *)aGroupId
-          completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  加入一个公开群组，群类型应该是EMGroupStylePublicOpenJoin
- *
- *  @param aGroupId         公开群组的ID
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Join a public group, group style should be EMGroupStylePublicOpenJoin
- *
- *  @param aGroupId         Public group id
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)joinPublicGroup:(NSString *)aGroupId
-            completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  申请加入一个需批准的公开群组，群类型应该是EMGroupStylePublicJoinNeedApproval
- *
- *  @param aGroupId         公开群组的ID
- *  @param aMessage         请求加入的信息
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Request to join a public group, group style should be EMGroupStylePublicJoinNeedApproval
- *
- *  @param aGroupId         Public group id
- *  @param aMessage         Apply info
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)requestToJoinPublicGroup:(NSString *)aGroupId
-                         message:(NSString *)aMessage
-                      completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  批准入群申请, 需要Owner权限
- *
- *  @param aGroupId         所申请的群组ID
- *  @param aUsername        申请人
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Approve a group request, owner‘s authority is required
- *
- *  @param aGroupId         Group id
- *  @param aUsername        Group request sender
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)approveJoinGroupRequest:(NSString *)aGroupId
-                         sender:(NSString *)aUsername
-                     completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  拒绝入群申请, 需要Owner权限
- *
- *  @param aGroupId         被拒绝的群组ID
- *  @param aUsername        申请人
- *  @param aReason          拒绝理由
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Decline a group request, owner‘s authority is required
- *
- *  @param aGroupId         Group id
- *  @param aUsername        Group request sender
- *  @param aReason          Decline reason
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)declineJoinGroupRequest:(NSString *)aGroupId
-                        sender:(NSString *)aUsername
-                        reason:(NSString *)aReason
-                    completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  接受入群邀请
- *
- *  @param groupId          接受的群组ID
- *  @param aUsername        邀请者
- *  @param pError           错误信息
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Accept a group invitation
- *
- *  @param groupId          Group id
- *  @param aUsername        Inviter
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)acceptInvitationFromGroup:(NSString *)aGroupId
-                           inviter:(NSString *)aUsername
-                        completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
-
-/*!
- *  \~chinese
- *  拒绝入群邀请
- *
- *  @param aGroupId         被拒绝的群组ID
- *  @param aInviter         邀请人
- *  @param aReason          拒绝理由
- *  @param aCompletionBlock 完成的回调
- *
- *
- *  \~english
- *  Decline a group invitation
- *
- *  @param aGroupId         Group id
- *  @param aInviter         Inviter
- *  @param aReason          Decline reason
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)declineGroupInvitation:(NSString *)aGroupId
-                       inviter:(NSString *)aInviter
-                        reason:(NSString *)aReason
-                    completion:(void (^)(EMError *aError))aCompletionBlock;
-
 /*!
  *  \~chinese
  *  屏蔽/取消屏蔽群组消息的推送
@@ -1179,6 +1533,175 @@
 - (void)updatePushServiceForGroup:(NSString *)aGroupID
                     isPushEnabled:(BOOL)aIsEnable
                        completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock;
+
+#pragma mark - EM_DEPRECATED_IOS 3.3.0
+
+/**
+ *  \~chinese
+ *  从服务器获取用户所有的群组，成功后更新DB和内存中的群组列表
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param pError  错误信息
+ *
+ *  @return 群组列表<EMGroup>
+ *
+ *  \~english
+ *  Get all of user's groups from server
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param pError  Error
+ *
+ *  @result Group list<EMGroup>
+ */
+- (NSArray *)getMyGroupsFromServerWithError:(EMError **)pError EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -[IEMGroupManager getJoinedGroupsFromServerWithPage:pageSize:error:]");
+
+/**
+ *  \~chinese
+ *  从服务器获取用户所有的群组，成功后更新DB和内存中的群组列表
+ *
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Get all of user's groups from server
+ *
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)getJoinedGroupsFromServerWithCompletion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -[IEMGroupManager getJoinedGroupsFromServerWithPage:pageSize:completion:]");
+
+/*!
+ *  \~chinese
+ *  获取群组详情
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aGroupId              群组ID
+ *  @param aIncludeMembersList   是否获取成员列表，为YES时，返回200个成员
+ *  @param pError                错误信息
+ *
+ *  @return    群组
+ *
+ *  \~english
+ *  Fetch group info
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aGroupId              Group id
+ *  @param aIncludeMembersList   Whether to get member list，When YES, returns 200 members
+ *  @param pError                Error
+ *
+ *  @return    Group instance
+ */
+- (EMGroup *)fetchGroupInfo:(NSString *)aGroupId
+         includeMembersList:(BOOL)aIncludeMembersList
+                      error:(EMError **)pError EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -[IEMGroupManager getGroupSpecificationFromServerWithId:error:]");
+
+/*!
+ *  \~chinese
+ *  获取群组详情
+ *
+ *  @param aGroupId              群组ID
+ *  @param aIncludeMembersList   是否获取成员列表，为YES时，返回200个成员
+ *  @param aCompletionBlock      完成的回调
+ *
+ *
+ *  \~english
+ *  Fetch group specification
+ *
+ *  @param aGroupId              Group id
+ *  @param aIncludeMembersList   Whether to get member list，When YES, returns 200 members
+ *  @param aCompletionBlock      The callback block of completion
+ *
+ */
+- (void)getGroupSpecificationFromServerByID:(NSString *)aGroupID
+                         includeMembersList:(BOOL)aIncludeMembersList
+                                 completion:(void (^)(EMGroup *aGroup, EMError *aError))aCompletionBlock EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -[IEMGroupManager getGroupSpecificationFromServerWithId:completion:]");
+
+/*!
+ *  \~chinese
+ *  获取群组黑名单列表, 需要owner权限
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aGroupId  群组ID
+ *  @param pError    错误信息
+ *
+ *  @return    群组黑名单列表<NSString>
+ *
+ *  \~english
+ *  Get group‘s blacklist, required owner’s authority
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aGroupId  Group id
+ *  @param pError    Error
+ *
+ *  @return    Group blacklist<NSString>
+ */
+- (NSArray *)fetchGroupBansList:(NSString *)aGroupId
+                          error:(EMError **)pError EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -[IEMGroupManager getGroupBlacklistFromServerWithId:pageNumber:pageSize:error:]");
+
+/*!
+ *  \~chinese
+ *  获取群组黑名单列表, 需要owner权限
+ *
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *
+ *  \~english
+ *  Get group's blacklist, owner’s authority is required
+ *
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)getGroupBlackListFromServerByID:(NSString *)aGroupId
+                             completion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -[IEMGroupManager getGroupBlacklistFromServerWithId:pageNumber:pageSize:completion:]");
+
+/*!
+ *  \~chinese
+ *  解散群组, 需要owner权限
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aGroupId  群组ID
+ *  @param pError    错误信息
+ *
+ *  @result    销毁的群组实例, 失败返回nil
+ *
+ *  \~english
+ *  Destroy a group, owner‘s authority is required
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aGroupId  Group id
+ *  @param pError    Error
+ *
+ *  @result    Destroyed group, return nil if failed
+ */
+- (EMGroup *)destroyGroup:(NSString *)aGroupId
+                    error:(EMError **)pError EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -[IEMGroupManager destroyGroup:]");
+
+/*!
+ *  \~chinese
+ *  解散群组, 需要owner权限
+ *
+ *  @param aGroupId         群组ID
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Destroy a group, owner‘s authority is required
+ *
+ *  @param aGroupId         Group id
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)destroyGroup:(NSString *)aGroupId
+          completion:(void (^)(EMGroup* aGroup, EMError *aError))aCompletionBlock EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -[IEMGroupManager destroyGroup:finishCompletion:]");
 
 #pragma mark - EM_DEPRECATED_IOS 3.2.3
 

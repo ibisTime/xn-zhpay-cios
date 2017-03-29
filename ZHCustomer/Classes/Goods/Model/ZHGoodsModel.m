@@ -38,10 +38,10 @@
 
 }
 
-- (void)setPic1:(NSString *)pic1 {
+- (void)setPic:(NSString *)pic {
 
     
-    _pic1 = [pic1 copy];    
+    _pic = [pic copy];
 
 }
 
@@ -49,7 +49,7 @@
 
     if (!_pics) {
         
-        NSArray *imgs = [self.pic1 componentsSeparatedByString:@"||"];
+        NSArray *imgs = [self.pic componentsSeparatedByString:@"||"];
         NSMutableArray *newImgs = [NSMutableArray arrayWithCapacity:imgs.count];
         [imgs enumerateObjectsUsingBlock:^(NSString *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
@@ -70,7 +70,7 @@
     if (!_imgHeights) {
         
         //未经转换的url
-        NSArray *urls = [self.pic1 componentsSeparatedByString:@"||"];
+        NSArray *urls = [self.pic componentsSeparatedByString:@"||"];
         NSMutableArray *hs = [NSMutableArray arrayWithCapacity:urls.count];
         
         [urls enumerateObjectsUsingBlock:^(NSString *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

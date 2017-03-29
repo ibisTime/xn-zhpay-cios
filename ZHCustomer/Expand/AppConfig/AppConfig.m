@@ -36,11 +36,36 @@ void TLLog(NSString *format, ...) {
     return config;
 }
 
+- (void)setRunEnv:(RunEnv)runEnv {
+
+    _runEnv = runEnv;
+    switch (_runEnv) {
+        case RunEnvRelease: {
+        
+           self.chatKey = @"1139170317178872#zhpay";
+            
+        }break;
+        case RunEnvDev: {
+            self.qiniuDomain = @"http://oi99f4peg.bkt.clouddn.com";
+            self.chatKey = @"tianleios#cd-test";
+
+            
+        }break;
+        case RunEnvTest: {
+            self.qiniuDomain = @"http://oi99f4peg.bkt.clouddn.com";
+            self.chatKey = @"tianleios#cd-test";
+
+            
+        }break;
+
+    }
+}
+
 - (NSString *)chatKey {
     
     if (self.runEnv == RunEnvDev) {
         
-        return @"tianleios#zh-dev";
+        return @"tianleios#cd-test";
         
     } else {
     
@@ -109,7 +134,6 @@ void TLLog(NSString *format, ...) {
 
     }
 
-    
 }
 
 @end

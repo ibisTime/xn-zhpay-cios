@@ -42,4 +42,22 @@
 //totalRockNum = 0;
 //userId = U2017010615181802379;
 
+
+//--------///
+//"name": "汇赚宝",
+//"pic": "http://123/default.jpg",
+//"price": "2000000",
+//"currency": "CNY",
+//"periodRockNum": "10",
+//"totalRockNum": "CNY",
+//"backAmount1": "0",
+//"backAmount2": "0",
+//"backAmount3": "0",
+//"updater": "admin",
+//"remark": "备注",
+//"systemCode": "CD-CZH000001",
+//"companyCode": "CD-CZH000001",
+//"token": "token"
+
+
 @end

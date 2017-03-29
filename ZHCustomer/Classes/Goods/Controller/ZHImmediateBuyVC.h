@@ -9,7 +9,7 @@
 #import "TLBaseVC.h"
 #import "ZHGoodsModel.h"
 #import "ZHCartGoodsModel.h"
-#import "ZHTreasureModel.h"
+//#import "ZHTreasureModel.h"
 
 typedef NS_ENUM(NSInteger,ZHIMBuyType){
     
@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger,ZHIMBuyType){
 @property (nonatomic,strong) NSArray<ZHGoodsModel *> *goodsRoom;
 
 //购物商品
-@property (nonatomic,strong) NSArray<ZHTreasureModel*> *treasureRoom;
+//@property (nonatomic,strong) NSArray<ZHTreasureModel*> *treasureRoom;
 
 //购物车商品
 @property (nonatomic,strong) NSArray<ZHCartGoodsModel *> *cartGoodsRoom;

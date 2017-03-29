@@ -47,7 +47,7 @@
     self.timeLbl.text = [_shopOrderModel.createDatetime converDate];
     
     
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[_shopOrderModel.store.adPic convertThumbnailImageUrl]]];
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[_shopOrderModel.store.advPic convertThumbnailImageUrl]]];
     
     
     self.nameLbl.text = _shopOrderModel.store.name;

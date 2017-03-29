@@ -183,8 +183,6 @@
  */
 - (EMError *)initializeSDKWithOptions:(EMOptions *)aOptions;
 
-#pragma mark - Sync method
-
 #pragma mark - Register
 
 /*!
@@ -211,6 +209,30 @@
 - (EMError *)registerWithUsername:(NSString *)aUsername
                          password:(NSString *)aPassword;
 
+/*!
+ *  \~chinese
+ *  注册用户
+ *
+ *  不推荐使用，建议后台通过REST注册
+ *
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Register a new IM user
+ *
+ *  To enhance the reliability, recommend register new IM user via backend using REST API
+ *
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *  @param aCompletionBlock The callback block of completion
+ *
+ */
+- (void)registerWithUsername:(NSString *)aUsername
+                    password:(NSString *)aPassword
+                  completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
+
 #pragma mark - Login
 
 /*!
@@ -227,6 +249,8 @@
  *  \~english
  *  Login
  *
+ *  Synchronization method will block the current thread
+ *
  *  @param aUsername  Username
  *  @param aPassword  Password
  *
@@ -234,143 +258,6 @@
  */
 - (EMError *)loginWithUsername:(NSString *)aUsername
                       password:(NSString *)aPassword;
-
-#pragma makr - Logout
-
-/*!
- *  \~chinese
- *  退出
- *
- *  同步方法，会阻塞当前线程
- *
- *  @param aIsUnbindDeviceToken 是否解除device token的绑定，解除绑定后设备不会再收到消息推送
- *         如果传入YES, 解除绑定失败，将返回error
- *
- *  @result 错误信息
- *
- *  \~english
- *  Logout
- *
- *  @param aIsUnbindDeviceToken Unbind device token to disable Apple Push Notification Service
- *
- *  @result Error
- */
-- (EMError *)logout:(BOOL)aIsUnbindDeviceToken;
-
-#pragma mark - Apns
-
-/*!
- *  \~chinese
- *  绑定device token
- *
- *  同步方法，会阻塞当前线程
- *
- *  @param aDeviceToken  要绑定的token
- *
- *  @result 错误信息
- *
- *  \~english
- *  Device token binding is required for enabling Apple Push Notification Service
- *
- *  @param aDeviceToken  Device token to bind
- *
- *  @result Error
- */
-- (EMError *)bindDeviceToken:(NSData *)aDeviceToken;
-
-/*!
- *  \~chinese
- *  设置推送消息显示的昵称
- *
- *  同步方法，会阻塞当前线程
- *
- *  @param aNickname  要设置的昵称
- *
- *  @result 错误信息
- *
- *  \~english
- *  Set display name for Apple Push Notification message
- *
- *  @param aNickname  Display name
- *
- *  @result Error
- */
-- (EMError *)setApnsNickname:(NSString *)aNickname;
-
-/*!
- *  \~chinese 
- *  从服务器获取推送属性
- *
- *  同步方法，会阻塞当前线程
- *
- *  @param pError  错误信息
- *
- *  @result 推送属性
- *
- *  \~english
- *  Get Apple Push Notification Service options from the server
- *
- *  @param pError  Error
- *
- *  @result Apple Push Notification Service options
- */
-- (EMPushOptions *)getPushOptionsFromServerWithError:(EMError **)pError;
-
-/*!
- *  \~chinese 
- *  更新推送设置到服务器
- *
- *  同步方法，会阻塞当前线程
- *
- *  @result 错误信息
- *
- *  \~english
- *  Update Apple Push Notification Service options to the server
- *
- *  @result Error
- */
-- (EMError *)updatePushOptionsToServer;
-
-/*!
- *  \~chinese
- *  上传日志到服务器
- *
- *  同步方法，会阻塞当前线程
- *
- *  @result 错误信息
- *
- *  \~english
- *  Upload debugging log to server
- *
- *  @result Error
- */
-- (EMError *)uploadLogToServer;
-
-#pragma mark - Async method
-
-/*!
- *  \~chinese
- *  注册用户
- *
- *  不推荐使用，建议后台通过REST注册
- *
- *  @param aUsername        用户名
- *  @param aPassword        密码
- *  @param aCompletionBlock 完成的回调
- *
- *  \~english
- *  Register a new IM user
- *
- *  To enhance the reliability, registering new IM user through REST API from backend is highly recommended
- *
- *  @param aUsername        Username
- *  @param aPassword        Password
- *  @param aCompletionBlock The callback block of completion
- *
- */
-- (void)registerWithUsername:(NSString *)aUsername
-                    password:(NSString *)aPassword
-                  completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
 
 /*!
  *  \~chinese
@@ -392,6 +279,30 @@
                  password:(NSString *)aPassword
                completion:(void (^)(NSString *aUsername, EMError *aError))aCompletionBlock;
 
+#pragma mark - Logout
+
+/*!
+ *  \~chinese
+ *  退出
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aIsUnbindDeviceToken 是否解除device token的绑定，解除绑定后设备不会再收到消息推送
+ *         如果传入YES, 解除绑定失败，将返回error
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Logout
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aIsUnbindDeviceToken Unbind device token to disable Apple Push Notification Service
+ *
+ *  @result Error
+ */
+- (EMError *)logout:(BOOL)aIsUnbindDeviceToken;
+
 /*!
  *  \~chinese
  *  退出
@@ -409,6 +320,29 @@
  */
 - (void)logout:(BOOL)aIsUnbindDeviceToken
     completion:(void (^)(EMError *aError))aCompletionBlock;
+
+#pragma mark - Apns
+
+/*!
+ *  \~chinese
+ *  绑定device token
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aDeviceToken  要绑定的token
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Device token binding is required for enabling Apple Push Notification Service
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aDeviceToken  Device token to bind
+ *
+ *  @result Error
+ */
+- (EMError *)bindDeviceToken:(NSData *)aDeviceToken;
 
 /*!
  *  \~chinese
@@ -428,6 +362,27 @@
 
 /*!
  *  \~chinese
+ *  设置推送消息显示的昵称
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aNickname  要设置的昵称
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Set display name for Apple Push Notification message
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aNickname  Display name
+ *
+ *  @result Error
+ */
+- (EMError *)setApnsNickname:(NSString *)aNickname;
+
+/*!
+ *  \~chinese
  *  设置推送的显示名
  *
  *  @param aDisplayName     推送显示名
@@ -442,6 +397,28 @@
  */
 - (void)updatePushNotifiationDisplayName:(NSString *)aDisplayName
                               completion:(void (^)(NSString *aDisplayName, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese 
+ *  从服务器获取推送属性
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param pError  错误信息
+ *
+ *  @result 推送属性
+ *
+ *  \~english
+ *  Get Apple Push Notification Service options from the server
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param pError  Error
+ *
+ *  @result Apple Push Notification Service options
+ */
+- (EMPushOptions *)getPushOptionsFromServerWithError:(EMError **)pError;
+
 /*!
  *  \~chinese
  *  从服务器获取推送属性
@@ -456,6 +433,23 @@
 - (void)getPushNotificationOptionsFromServerWithCompletion:(void (^)(EMPushOptions *aOptions, EMError *aError))aCompletionBlock;
 
 /*!
+ *  \~chinese 
+ *  更新推送设置到服务器
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Update Apple Push Notification Service options to the server
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @result Error
+ */
+- (EMError *)updatePushOptionsToServer;
+
+/*!
  *  \~chinese
  *  更新推送设置到服务器
  *
@@ -467,6 +461,25 @@
  *  @param aCompletionBlock The callback block of completion
  */
 - (void)updatePushNotificationOptionsToServerWithCompletion:(void (^)(EMError *aError))aCompletionBlock;
+
+#pragma mark - Log
+
+/*!
+ *  \~chinese
+ *  上传日志到服务器
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Upload debugging log to server
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @result Error
+ */
+- (EMError *)uploadLogToServer;
 
 /*!
  *  \~chinese
@@ -480,6 +493,40 @@
  *  @param aCompletionBlock The callback block of completion
  */
 - (void)uploadDebugLogToServerWithCompletion:(void (^)(EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
+ *  将日志文件压缩成.gz文件，返回gz文件路径。强烈建议方法完成之后删除该压缩文件
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param pError 错误信息
+ *
+ *  @result 文件路径
+ *
+ *  \~english
+ *  Compress the log file into a .gz file, return to the gz file path. It is strongly recommended that you remove the gz file after the method completes.
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param pError Error
+ *
+ *  @result File path
+ */
+- (NSString *)getLogFilesPath:(EMError **)pError;
+
+/*!
+ *  \~chinese
+ *  将日志文件压缩成.gz文件，返回gz文件路径。强烈建议方法完成之后删除该压缩文件
+ *
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Compress the log file into a .gz file, return to the gz file path. It is strongly recommended that you remove the gz file after the method completes.
+ *
+ *  @param aCompletionBlock The callback block of completion
+ */
+- (void)getLogFilesPathWithCompletion:(void (^)(NSString *aPath, EMError *aError))aCompletionBlock;
 
 #pragma mark - iOS
 
@@ -495,6 +542,8 @@
  *
  *  \~english
  *  Migrate the IM database to the latest SDK version
+ *
+ *  Synchronization method will block the current thread
  *
  *  @result Return YES for success
  */

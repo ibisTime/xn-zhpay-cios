@@ -76,7 +76,7 @@
 - (void)setShop:(ZHShop *)shop {
 
     _shop = shop;
-    NSString *coverUrl = [_shop.adPic convertThumbnailImageUrl];
+    NSString *coverUrl = [_shop.advPic convertThumbnailImageUrl];
     
     [self.coverImageView sd_setImageWithURL:[[NSURL alloc] initWithString:coverUrl] placeholderImage:nil];
     self.nameLbl.text = _shop.name;
@@ -133,6 +133,15 @@
                                      textColor:[UIColor zh_textColor2]];
     [self addSubview:self.discountLbl];
     
+    [self.discountLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.discountImageView.mas_right).offset(5);
+        make.centerY.equalTo(self.discountImageView.mas_centerY);
+        make.height.mas_equalTo(15);
+
+    }];
+    self.discountLbl.centerY = self.discountImageView.centerY;
+
+    
     //位置
     self.distanceLbl = [UILabel labelWithFrame:CGRectMake(SCREEN_WIDTH - 115, self.discountImageView.y, 100, 15)
                                   textAligment:NSTextAlignmentRight
@@ -140,19 +149,25 @@
                                           font:FONT(11)
                                      textColor:[UIColor zh_textColor]];
     [self addSubview:self.distanceLbl];
-    
-    
-    [self.discountLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_discountImageView.mas_right).offset(5);
-        make.top.equalTo(self.discountImageView.mas_top).offset(5);
-        make.right.lessThanOrEqualTo(self.distanceLbl.mas_left);
-    }];
-    
+    self.distanceLbl.centerY = self.discountImageView.centerY;
     [self.distanceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.greaterThanOrEqualTo(self.discountImageView.mas_right);
-        make.top.equalTo(self.discountLbl.mas_top);
         make.right.equalTo(self.mas_right).offset(-15);
+        make.centerY.equalTo(self.discountImageView.mas_centerY);
+        make.height.mas_equalTo(15);
     }];
+    
+    
+//    [self.discountLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(_discountImageView.mas_right).offset(5);
+//        make.top.equalTo(self.discountImageView.mas_top).offset(5);
+//        make.right.lessThanOrEqualTo(self.distanceLbl.mas_left);
+//    }];
+//    
+//    [self.distanceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.greaterThanOrEqualTo(self.discountImageView.mas_right);
+//        make.top.equalTo(self.discountLbl.mas_top);
+//        make.right.equalTo(self.mas_right).offset(-15);
+//    }];
 
     //
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, [[self class] rowHeight] - 0.5, SCREEN_WIDTH, 0.5)];

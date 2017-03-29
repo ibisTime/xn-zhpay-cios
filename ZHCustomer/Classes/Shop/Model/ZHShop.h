@@ -18,7 +18,7 @@
 
 @property (nonatomic,copy)  NSString *code;
 
-@property (nonatomic,copy) NSString *adPic; //封面图
+@property (nonatomic,copy) NSString *advPic; //封面图
 @property (nonatomic,copy) NSString *type; //地址
 @property (nonatomic,copy) NSString *name;
 @property (nonatomic,copy) NSString *province;

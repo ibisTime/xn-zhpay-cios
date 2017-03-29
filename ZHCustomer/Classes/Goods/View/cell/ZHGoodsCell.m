@@ -83,7 +83,7 @@
     [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:urlStr]
                         placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
     self.nameLbl.text = goods.name;
-    self.adLbl.text = goods.advTitle;
+    self.adLbl.text = goods.slogan;
 
 //    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_goods.qbb GWB:_goods.gwb RMB:_goods.rmb];
     self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:[_goods QBB] GWB:[_goods GWB] RMB:[_goods RMB]];

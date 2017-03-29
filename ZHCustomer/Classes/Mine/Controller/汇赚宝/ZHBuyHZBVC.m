@@ -31,7 +31,9 @@
     //先查出
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    http.code = @"808451";
+    http.code = @"615115";
+    http.parameters[@"start"] = @"1";
+    http.parameters[@"limit"] = @"1";
     http.parameters[@"token"] = [ZHUser user].token;
 
     [http postWithSuccess:^(id responseObject) {

@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "ZHGoodsModel.h"
-#import "ZHTreasureModel.h"
+//#import "ZHTreasureModel.h"
 
 
 typedef NS_ENUM(NSInteger,ZHGoodsDetailType){
     
-    ZHGoodsDetailTypeDefault = 0,
-    ZHGoodsDetailTypeLookForTreasure
+    ZHGoodsDetailTypeDefault = 0
+//    ZHGoodsDetailTypeLookForTreasure
 };
 
 @interface ZHGoodsDetailVC : UIViewController
@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger,ZHGoodsDetailType){
 @property (nonatomic,strong) ZHGoodsModel *goods;
 
 //夺宝的模型
-@property (nonatomic,strong) ZHTreasureModel *treasure;
+//@property (nonatomic,strong) ZHTreasureModel *treasure;
 
 //
 @property (nonatomic,assign) ZHGoodsDetailType detailType;

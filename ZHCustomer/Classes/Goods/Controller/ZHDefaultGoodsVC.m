@@ -63,12 +63,12 @@
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无商品"];
     
     
-    //// 0 已提交 1.审批通过 2.审批不通过 3.已上架 4.已下架
+    //// 0 待发布 1 已上架 2已下架
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808020";
+    helper.code = @"808025";
 //    helper.parameters[@"category"] = @"FL201600000000000001"; //大类
     helper.parameters[@"type"] = self.categoryCode;
-    helper.parameters[@"status"] = @"3";
+//    helper.parameters[@"status"] = @"1";
     helper.tableView = self.goodsTableView;
     [helper modelClass:[ZHGoodsModel class]];
     

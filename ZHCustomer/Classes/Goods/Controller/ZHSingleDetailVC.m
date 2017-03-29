@@ -32,22 +32,23 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (self.goods) {
-        
+    
         if (indexPath.row == 0) {
             return [self.goods detailHeight];
         }
         
         return [self.goods.imgHeights[indexPath.row - 1] floatValue];
-    } else {
     
-        if (indexPath.row == 0) {
-            return [self.treasure detailHeight];
-        }
-        
-        return [self.treasure.imgHeights[indexPath.row - 1] floatValue];
-    
-    }
+//
+//    else {
+//    
+////        if (indexPath.row == 0) {
+////            return [self.treasure detailHeight];
+////        }
+////        
+////        return [self.treasure.imgHeights[indexPath.row - 1] floatValue];
+//    
+//    }
 
 }
 
@@ -62,15 +63,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (self.treasure) {
-        
-        return [self.treasure.descriptionPic componentsSeparatedByString:@"||"].count + 1;
-        
-    } else { //拍一通
+//    if (self.treasure) {
+//        
+//        return [self.treasure.descriptionPic componentsSeparatedByString:@"||"].count + 1;
+//        
+//    } else { //拍一通
+//    
+//
+//    }
     
-        return self.goods.pics.count + 1;
+    return self.goods.pics.count + 1;
 
-    }
     
 }
 
@@ -89,15 +92,17 @@
                 
             }
             
-            if (self.goods) {
-                
-                cell.detailLbl.text = self.goods.desc;
-
-            } else {
             
-                cell.detailLbl.text = self.treasure.descriptionText;
+            cell.detailLbl.text = self.goods.desc;
 
-            }
+//            if (self.goods) {
+//                
+//
+//            } else {
+//            
+//                cell.detailLbl.text = self.treasure.descriptionText;
+//
+//            }
             return cell;
             
         } else {
@@ -109,15 +114,18 @@
                 cell = [[ZHImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:imgCellId];
                 
             }
-            if (self.goods) {
-                
-                cell.url = self.goods.pics[indexPath.row - 1];
-
-            } else {
-                cell.url = self.treasure.pics[indexPath.row - 1];
-
             
-            }
+            
+            cell.url = self.goods.pics[indexPath.row - 1];
+
+//            if (self.goods) {
+//                
+//
+//            } else {
+//                cell.url = self.treasure.pics[indexPath.row - 1];
+//
+//            
+//            }
             return cell;
             
         }

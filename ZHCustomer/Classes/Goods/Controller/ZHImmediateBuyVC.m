@@ -77,13 +77,6 @@
            price2 = goods.price2;
            price3 = goods.price3;
            num =  goods.count; //数量
-        } else if(self.treasureRoom){
-        
-            ZHTreasureModel *goods = self.treasureRoom[0];
-            price1 = goods.price1;
-            price2 = goods.price2;
-            price3 = goods.price3;
-            num =  goods.count; //数量
         }
      
 
@@ -96,37 +89,7 @@
      
         self.totalPriceLbl.attributedText = self.priceAttr;
         
-    } else if (self.type == ZHIMBuyTypeYYDB) { //一元夺宝购买
-    
-        NSNumber *price1;
-        NSNumber *price2;
-        NSNumber *price3;
-        NSInteger num;
-        if(self.treasureRoom){
-            
-            ZHTreasureModel *goods = self.treasureRoom[0];
-            price1 = goods.price1;
-            price2 = goods.price2;
-            price3 = goods.price3;
-            num =  goods.count; //数量
-        }
-        
-        self.totalPriceLbl.attributedText = [ZHCurrencyHelper calculatePriceWithQBB:price3
-                                                                                GWB:price2
-                                                                                RMB:price1
-                                                                              count:num];
-        
-//        self.tableV.y = self.tableV.y - 90;
-        
-//        [[IQKeyboardManager sharedManager].disabledToolbarClasses addObject:[self class]];
-
-//        self.tableV.y = self.tableV.y - 90;
-        
-//        self.tableV.contentInset = UIEdgeInsetsMake(-90, 0, 0, 0);
-//        self.buyBtn.y = self.buyBtn.y + 90;
-        
-        
-    } else if (self.type == ZHIMBuyTypeYYDBChooseAddress) { //一元夺宝地址选择
+    }  else if (self.type == ZHIMBuyTypeYYDBChooseAddress) { //一元夺宝地址选择
     
         
 //       self.tableV.tableFooterView = nil;
@@ -286,32 +249,32 @@
         return;
     }
     
-     if (self.type == ZHIMBuyTypeYYDB && self.treasureRoom) { //一元夺宝购买
-        //商品购买
-        ZHPayVC *payVC = [[ZHPayVC alloc] init];
-//        payVC.orderCode = orderCode;
-        payVC.type = ZHPayVCTypeYYDB;
-        NSNumber *rmb = self.treasureRoom[0].price1;
-        payVC.orderAmount = @([rmb longLongValue]*self.treasureRoom[0].count); //把人民币传过去
-        payVC.treasureModel = self.treasureRoom[0];
-        payVC.amoutAttr = self.totalPriceLbl.attributedText;
-
-        payVC.paySucces = ^(){
-            
-            //夺宝
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"dbBuySuccess" object:nil];
-            
-            [TLAlert alertWithHUDText:@"参与夺宝成功"];
-            [self.navigationController popViewControllerAnimated:YES];
-            
-        };
-        
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-        [self presentViewController:nav animated:YES completion:nil];
-        
-         return;
-         
-    }
+//     if (self.type == ZHIMBuyTypeYYDB && self.treasureRoom) { //一元夺宝购买
+//        //商品购买
+//        ZHPayVC *payVC = [[ZHPayVC alloc] init];
+////        payVC.orderCode = orderCode;
+//        payVC.type = ZHPayVCTypeYYDB;
+//        NSNumber *rmb = self.treasureRoom[0].price1;
+//        payVC.orderAmount = @([rmb longLongValue]*self.treasureRoom[0].count); //把人民币传过去
+//        payVC.treasureModel = self.treasureRoom[0];
+//        payVC.amoutAttr = self.totalPriceLbl.attributedText;
+//
+//        payVC.paySucces = ^(){
+//            
+//            //夺宝
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"dbBuySuccess" object:nil];
+//            
+//            [TLAlert alertWithHUDText:@"参与夺宝成功"];
+//            [self.navigationController popViewControllerAnimated:YES];
+//            
+//        };
+//        
+//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+//        [self presentViewController:nav animated:YES completion:nil];
+//        
+//         return;
+//         
+//    }
     
     
     if (self.type == ZHIMBuyTypeYYDBChooseAddress) { //地址选择
@@ -524,14 +487,9 @@
    
 //       if (self.type == ZHIMBuyTypeSingle || self.type == ZHIMBuyTypeSingle) {
        
-           if (self.goodsRoom) {
-               
-               cell.goods = self.goodsRoom[indexPath.row];
-               
-           } else {
-               
-               cell.treasureModel = self.treasureRoom[indexPath.row];
-           }
+       cell.goods = self.goodsRoom[indexPath.row];
+
+    
            
 //       }
        

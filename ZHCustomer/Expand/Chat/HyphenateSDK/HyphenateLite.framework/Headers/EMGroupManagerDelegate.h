@@ -88,7 +88,7 @@ typedef enum{
  *  @param aReason   拒绝理由
  *
  *  \~english
- *  Delegate method will be invoked when the group invitation is decliend.
+ *  Delegate method will be invoked when the group invitation is declined.
  *
  *  After user B declined user A's group invitation, user A will receive the callback
  *
@@ -202,6 +202,93 @@ typedef enum{
  */
 - (void)groupListDidUpdate:(NSArray *)aGroupList;
 
+
+/*!
+ *  \~chinese
+ *  有成员被加入禁言列表
+ *
+ *  @param aGroup           群组
+ *  @param aMutedMembers    被禁言的成员
+ *  @param aMuteExpire      禁言失效时间，当前不可用
+ *
+ *  \~english
+ *  Users are added to the mute list
+ *
+ *  @param aGroup           Group
+ *  @param aMutedMembers    Users to be added
+ *  @param aMuteExpire      Mute expire, not available at this time
+ */
+- (void)groupMuteListDidUpdate:(EMGroup *)aGroup
+             addedMutedMembers:(NSArray *)aMutedMembers
+                    muteExpire:(NSInteger)aMuteExpire;
+
+/*!
+ *  \~chinese
+ *  有成员被移出禁言列表
+ *
+ *  @param aGroup           群组
+ *  @param aMutedMembers    移出禁言列表的成员
+ *
+ *  \~english
+ *  Users are removed from the mute list
+ *
+ *  @param aGroup           Group
+ *  @param aMutedMembers    Users to be removed
+ */
+- (void)groupMuteListDidUpdate:(EMGroup *)aGroup
+           removedMutedMembers:(NSArray *)aMutedMembers;
+
+/*!
+ *  \~chinese
+ *  有成员被加入管理员列表
+ *
+ *  @param aGroup    群组
+ *  @param aAdmin    加入管理员列表的成员
+ *
+ *  \~english
+ *  User is added to the admin list
+ *
+ *  @param aGroup    Group
+ *  @param aAdmin    User to be added
+ */
+- (void)groupAdminListDidUpdate:(EMGroup *)aGroup
+                     addedAdmin:(NSString *)aAdmin;
+
+/*!
+ *  \~chinese
+ *  有成员被移出管理员列表
+ *
+ *  @param aGroup    群组
+ *  @param aAdmin    移出管理员列表的成员
+ *
+ *  \~english
+ *  User is removed to the admin list
+ *
+ *  @param aGroup    Group
+ *  @param aAdmin    User to be removed
+ */
+- (void)groupAdminListDidUpdate:(EMGroup *)aGroup
+                   removedAdmin:(NSString *)aAdmin;
+
+/*!
+ *  \~chinese
+ *  群组创建者有更新
+ *
+ *  @param aGroup       群组
+ *  @param aNewOwner    新群主
+ *  @param aOldOwner    旧群主
+ *
+ *  \~english
+ *  Owner is updated
+ *
+ *  @param aGroup       Group
+ *  @param aNewOwner    New Owner
+ *  @param aOldOwner    Old Owner
+ */
+- (void)groupOwnerDidUpdate:(EMGroup *)aGroup
+                   newOwner:(NSString *)aNewOwner
+                   oldOwner:(NSString *)aOldOwner;
+
 #pragma mark - Deprecated methods
 
 /*!
@@ -241,7 +328,7 @@ typedef enum{
  *  @param aInvitee  Invitee
  */
 - (void)didReceiveAcceptedGroupInvitation:(EMGroup *)aGroup
-                                  invitee:(NSString *)aInvitee __deprecated_msg("Use -groupInvitationDidApprove:invitee:");
+                                  invitee:(NSString *)aInvitee __deprecated_msg("Use -groupInvitationDidAccept:invitee:");
 
 /*!
  *  \~chinese

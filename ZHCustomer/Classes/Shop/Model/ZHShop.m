@@ -152,7 +152,7 @@ NSString *const kShopInfoChange = @"zh_shop_info_change";
 
 - (NSString *)getCoverImgUrl {
 
-    return [self.adPic convertImageUrl];
+    return [self.advPic convertImageUrl];
 
 }
 

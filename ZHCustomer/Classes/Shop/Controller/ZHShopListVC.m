@@ -60,12 +60,12 @@
     
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808207";
-    helper.parameters[@"userLongitude"] = self.lon;
-    helper.parameters[@"userLatitude"] = self.lat;
+    helper.code = @"808217";
+    helper.parameters[@"longitude"] = self.lon;
+    helper.parameters[@"latitude"] = self.lat;
     helper.parameters[@"city"] = self.cityName;
-
     helper.parameters[@"status"] = @"2";
+    
     helper.tableView = self.shopTableView;
     helper.parameters[@"type"] = self.type;
     [helper modelClass:[ZHShop class]];

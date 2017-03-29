@@ -14,7 +14,22 @@
 
 #import <Foundation/Foundation.h>
 
+#import "EMCommonDefs.h"
 #import "EMGroupOptions.h"
+
+/*!
+ *  \~chinese
+ *  群组类型
+ *
+ *  \~english
+ *  Group permission type
+ */
+typedef enum{
+    EMGroupPermissionTypeNone   = -1,    /*! \~chinese 未知 \~english Unknown */
+    EMGroupPermissionTypeMember = 0,     /*! \~chinese 普通成员 \~english Normal member */
+    EMGroupPermissionTypeAdmin,          /*! \~chinese 群组管理员 \~english Group admin */
+    EMGroupPermissionTypeOwner,          /*! \~chinese 群主 \~english Group owner  */
+}EMGroupPermissionType;
 
 /*!
  *  \~chinese 
@@ -54,15 +69,6 @@
 
 /*!
  *  \~chinese
- *  群组当前的成员数量，需要获取群详情
- *
- *  \~english
- *  The total number of group members
- */
-@property (nonatomic, readonly) NSInteger membersCount;
-
-/*!
- *  \~chinese
  *  群组属性配置，需要获取群详情
  *
  *  \~english
@@ -85,12 +91,23 @@
 
 /*!
  *  \~chinese
+ *  群组的管理者，拥有群的最高权限，需要获取群详情
+ *
+ *
+ *  \~english
+ *  Admins of the group
+ *
+ */
+@property (nonatomic, copy, readonly) NSArray *adminList;
+
+/*!
+ *  \~chinese
  *  群组的成员列表，需要获取群详情
  *
  *  \~english
  *  Member list of the group
  */
-@property (nonatomic, copy, readonly) NSArray *members;
+@property (nonatomic, copy, readonly) NSArray *memberList;
 
 /*!
  *  \~chinese
@@ -103,16 +120,20 @@
  *
  *  Need owner's authority to access, return nil if user is not the group owner.
  */
-@property (nonatomic, strong, readonly) NSArray *blackList;
+@property (nonatomic, strong, readonly) NSArray *blacklist;
 
 /*!
  *  \~chinese
- *  群组的所有成员(包含owner和members)
+ *  群组的被禁言列表
+ *
+ *  需要owner权限才能查看，非owner返回nil
  *
  *  \~english
- *  All occupants of the group, includes the group owner and all other group members
+ *  List of muted members
+ *
+ *  Need owner's authority to access, return nil if user is not the group owner.
  */
-@property (nonatomic, strong, readonly) NSArray *occupants;
+@property (nonatomic, strong, readonly) NSArray *muteList;
 
 /*!
  *  \~chinese
@@ -143,6 +164,33 @@
 
 /*!
  *  \~chinese
+ *  当前登录账号的群成员类型
+ *
+ *  \~english
+ *  The group membership type of the current login account
+ */
+@property (nonatomic, readonly) EMGroupPermissionType permissionType;
+
+/*!
+ *  \~chinese
+ *  群组的所有成员(包含owner、admins和members)
+ *
+ *  \~english
+ *  All occupants of the group, includes the group owner and admins and all other group members
+ */
+@property (nonatomic, strong, readonly) NSArray *occupants;
+
+/*!
+ *  \~chinese
+ *  群组当前的成员数量，需要获取群详情, 包括owner, admins, members
+ *
+ *  \~english
+ *  The total number of group occupants, include owner, admins, members
+ */
+@property (nonatomic, readonly) NSInteger occupantsCount;
+
+/*!
+ *  \~chinese
  *  获取群组实例，如果不存在则创建
  *
  *  @param aGroupId    群组ID
@@ -157,6 +205,39 @@
  *  @result Group instance
  */
 + (instancetype)groupWithId:(NSString *)aGroupId;
+
+#pragma mark - EM_DEPRECATED_IOS 3.3.0
+
+/*!
+ *  \~chinese
+ *  群组的成员列表，需要获取群详情
+ *
+ *  \~english
+ *  Member list of the group
+ */
+@property (nonatomic, copy, readonly) NSArray *members EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -memberList");
+
+/*!
+ *  \~chinese
+ *  群组的黑名单，需要先调用获取群黑名单方法
+ *
+ *  需要owner权限才能查看，非owner返回nil
+ *
+ *  \~english
+ *  Group‘s blacklist of blocked users
+ *
+ *  Need owner's authority to access, return nil if user is not the group owner.
+ */
+@property (nonatomic, strong, readonly) NSArray *blackList EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -blacklist");
+
+/*!
+ *  \~chinese
+ *  群组当前的成员数量，需要获取群详情, 包括owner, admins, members
+ *
+ *  \~english
+ *  The total number of group members, include owner, admins, members
+ */
+@property (nonatomic, readonly) NSInteger membersCount EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -occupantsCount");
 
 #pragma mark - EM_DEPRECATED_IOS < 3.2.3
 
@@ -177,14 +258,6 @@
  */
 - (instancetype)init __deprecated_msg("Use +groupWithId:");
 
-/*!
- *  \~chinese
- *  群组当前的成员数量，需要获取群详情
- *
- *  \~english
- *  The total number of group members
- */
-@property (nonatomic, readonly) NSInteger occupantsCount __deprecated_msg("Use - membersCount");
 
 /*!
  *  \~chinese

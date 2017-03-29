@@ -40,7 +40,7 @@
     shopDetailTV.tableHeaderView = coverImgView;
     coverImgView.clipsToBounds = YES;
     coverImgView.contentMode = UIViewContentModeScaleAspectFill;
-    [coverImgView sd_setImageWithURL:[NSURL URLWithString:[self.shop.adPic convertImageUrl]] placeholderImage:nil];
+    [coverImgView sd_setImageWithURL:[NSURL URLWithString:[self.shop.advPic convertImageUrl]] placeholderImage:nil];
     
     self.shopNameLbl.text = self.shop.name;
     self.title = self.shop.name;
@@ -109,49 +109,6 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
     [self presentViewController:nav animated:YES completion:nil];
     
-//
-//    if([WXApi registerApp:@"wx3eb3d4d796093674" withDescription:nil]){
-//    
-//        //获取IP
-//        [TLNetworking GET:@"http://121.43.101.148:5601/forward-service/ip" parameters:nil success:^(NSString *msg, id data) {
-//            
-//            TLNetworking *http = [TLNetworking new];
-//            http.showView = self.view;
-//            http.code = @"808210";
-//            http.parameters[@"userId"] = [ZHUser user].userId;
-//            http.parameters[@"storeCode"] = self.shop.code;
-//            http.parameters[@"amount"] = @"10";
-//            http.parameters[@"ip"] = data[@"ip"];
-//            http.parameters[@"payType"] = @"2";
-//            
-//            
-//            [http postWithSuccess:^(id responseObject) {
-//                
-//                NSDictionary *dict = responseObject[@"data"];
-//                //调起微信支付
-//                PayReq* req             = [[PayReq alloc] init];
-//                
-//                req.partnerId           = [dict objectForKey:@"partnerid"];
-//                req.prepayId            = [dict objectForKey:@"prepayId"];
-//                req.nonceStr            = [dict objectForKey:@"nonceStr"];
-//                req.timeStamp           = [[dict objectForKey:@"timeStamp"] intValue];
-//                req.package             = [dict objectForKey:@"wechatPackage"];
-//                req.sign                = [dict objectForKey:@"sign"];
-//                BOOL res = [WXApi sendReq:req];
-//                
-//                NSLog(@"%@",@(res));
-//                
-//            } failure:^(NSError *error) {
-//                
-//                
-//            }];
-//       
-//        } abnormality:nil failure:^(NSError *error) {
-//            
-//        }];
-//    }
-    
-
 
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "ZHShakeItOffVC.h"
-//#import <AMapLocationKit/AMapLocationKit.h>
 #import "UMMobClick/MobClick.h"
 #import "ZHHZBModel.h"
 #import "ZHHZBListVC.h"
@@ -30,12 +29,6 @@
 
 @property (nonatomic,copy) NSString *lon; //
 @property (nonatomic,copy) NSString *lat; //
-
-//
-//@property (nonatomic,strong) UIImageView *topImageView;
-//@property (nonatomic,strong) UIImageView *oneImageView;
-//@property (nonatomic,strong) UIImageView *bottomImageView;
-//@property (nonatomic, strong) AVAudioPlayer *musicPlayer ;
 
 @property (nonatomic, strong) UIImageView *bgImageView;
 @property (nonatomic, strong) CLLocationManager *sysLocationManager;
@@ -183,7 +176,7 @@
 
     if ([ZHUser user].isLogin) {
         
-        [TLAlert alertWithHUDText:@"无法获得您当前位置"];
+//        [TLAlert alertWithHUDText:@"无法获得您当前位置"];
         
     }
 
@@ -407,93 +400,12 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(action)];
     [imageV addGestureRecognizer:tap];
     
-    
-//    UIImageView *iconImageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
-//    iconImageV.image = [UIImage imageNamed:@"zh_icon"];
-//    iconImageV.centerX = self.oneImageView.centerX;
-//    iconImageV.centerY = self.oneImageView.centerY - 10;
-//    [self.view addSubview:iconImageV];
-//    
-//    UILabel *lbl = [UILabel labelWithFrame:CGRectMake(0, iconImageV.yy + 10, SCREEN_WIDTH, [FONT(15) lineHeight])
-//                              textAligment:NSTextAlignmentCenter
-//                           backgroundColor:[UIColor clearColor]
-//                                      font:FONT(15)
-//                                 textColor:[UIColor zh_textColor]];
-//    lbl.text = @"正汇钱包";
-//    [self.view addSubview:lbl];
-//    //
-//    [self.view addSubview:self.topImageView];
-//    [self.view addSubview:self.bottomImageView];
-//    [self.view addSubview:self.oneImageView];
-    
-    //UIImageView *iconImageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, topMargin - 20, 220, 220)];
-    //iconImageV.image = [UIImage imageNamed:@"摇"];
-    //[self.view addSubview:iconImageV];
-    //iconImageV.centerX = SCREEN_WIDTH/2.0;
-    
-    
-    //点击
-   // UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, iconImageV.yy + 25, 159, 43)];
-    //[self.view addSubview:btn];
-   // btn.centerX = iconImageV.centerX;
-   // [btn setImage:[UIImage imageNamed:@"点击"] forState:UIControlStateNormal];
-    //[btn addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 
 
 
 
-//- (UIImageView *)oneImageView {
-//
-//    CGFloat topMargin =  (SCREEN_HEIGHT - 288 - 64- 49)/2.0;
-//
-//    if (!_oneImageView) {
-//        
-//     _oneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, topMargin, 220, 220)];
-//        _oneImageView.centerX = SCREEN_WIDTH/2.0;
-//        _oneImageView.image = [UIImage imageNamed:@"摇"];
-//        
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(action)];
-//        _oneImageView.userInteractionEnabled = YES;
-//        [_oneImageView addGestureRecognizer:tap];
-//        
-//    }
-//    
-//    return _oneImageView;
-//
-//}
-//
-//
-//- (UIImageView *)topImageView {
-//    
-//    CGFloat topMargin =  (SCREEN_HEIGHT - 288 - 64- 49)/2.0;
-//    
-//    if (!_topImageView) {
-//        
-//        _topImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, topMargin, 220, 110)];
-//        _topImageView.centerX = self.oneImageView.centerX;
-//        _topImageView.image = [UIImage imageNamed:@"shake_top"];
-//
-//    }
-//    
-//    return _topImageView;
-//    
-//}
-//
-//- (UIImageView *)bottomImageView {
-//    
-//    if (!_bottomImageView) {
-//        
-//        _bottomImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.topImageView.yy, 220, 110)];
-//        _bottomImageView.centerX = self.oneImageView.centerX;
-//        _bottomImageView.image = [UIImage imageNamed:@"shake_bottom"];
-//
-//    }
-//    
-//    return _bottomImageView;
-//    
-//}
+
 
 
 //- (CAEmitterLayer *)currencyLayer {

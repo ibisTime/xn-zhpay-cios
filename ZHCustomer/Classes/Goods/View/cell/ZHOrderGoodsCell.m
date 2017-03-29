@@ -114,18 +114,7 @@
     
 }
 
-#pragma mark- 一元夺宝详情
-- (void)setTreasureModel:(ZHTreasureModel *)treasureModel {
 
-    _treasureModel = treasureModel;
-    NSString *urlStr = _treasureModel.advPic;
-    [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[urlStr convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
-    //
-    self.nameLbl.text = _treasureModel.name;
-    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_treasureModel.price3 GWB:_treasureModel.price2 RMB:_treasureModel.price1];
-    self.numLbl.text = [NSString stringWithFormat:@"X%ld",_treasureModel.count];
-
-}
 
 - (void)setOrderGoods:(ZHOrderDetailModel *)orderGoods {
 

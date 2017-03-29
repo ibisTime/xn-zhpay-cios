@@ -87,6 +87,92 @@ typedef enum{
 - (void)didDismissFromChatroom:(EMChatroom *)aChatroom
                         reason:(EMChatroomBeKickedReason)aReason;
 
+/*!
+ *  \~chinese
+ *  有成员被加入禁言列表
+ *
+ *  @param aChatroom        聊天室
+ *  @param aMutedMembers    被禁言的成员
+ *  @param aMuteExpire      禁言失效时间，暂时不可用
+ *
+ *  \~english
+ *  Users are added to the mute list
+ *
+ *  @param aChatroom        Chatroom
+ *  @param aMutedMembers    Users to be added
+ *  @param aMuteExpire      Mute expire, not available at this time
+ */
+- (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom
+                addedMutedMembers:(NSArray *)aMutes
+                       muteExpire:(NSInteger)aMuteExpire;
+
+/*!
+ *  \~chinese
+ *  有成员被移出禁言列表
+ *
+ *  @param aChatroom        聊天室
+ *  @param aMutedMembers    移出禁言列表的成员
+ *
+ *  \~english
+ *  Users are removed from the mute list
+ *
+ *  @param aChatroom        Chatroom
+ *  @param aMutedMembers    Users to be removed
+ */
+- (void)chatroomMuteListDidUpdate:(EMChatroom *)aChatroom
+              removedMutedMembers:(NSArray *)aMutes;
+
+/*!
+ *  \~chinese
+ *  有成员被加入管理员列表
+ *
+ *  @param aChatroom    聊天室
+ *  @param aAdmin       加入管理员列表的成员
+ *
+ *  \~english
+ *  User is added to the admin list
+ *
+ *  @param aChatroom    Chatroom
+ *  @param aAdmin       User to be added
+ */
+- (void)chatroomAdminListDidUpdate:(EMChatroom *)aChatroom
+                        addedAdmin:(NSString *)aAdmin;
+
+/*!
+ *  \~chinese
+ *  有成员被移出管理员列表
+ *
+ *  @param aChatroom    聊天室
+ *  @param aAdmin       移出管理员列表的成员
+ *
+ *  \~english
+ *  User is removed to the admin list
+ *
+ *  @param aChatroom    Chatroom
+ *  @param aAdmin       User to be removed
+ */
+- (void)chatroomAdminListDidUpdate:(EMChatroom *)aChatroom
+                      removedAdmin:(NSString *)aAdmin;
+
+/*!
+ *  \~chinese
+ *  聊天室创建者有更新
+ *
+ *  @param aChatroom    聊天室
+ *  @param aNewOwner    新群主
+ *  @param aOldOwner    旧群主
+ *
+ *  \~english
+ *  Owner is updated
+ *
+ *  @param aChatroom    Chatroom
+ *  @param aNewOwner    New Owner
+ *  @param aOldOwner    Old Owner
+ */
+- (void)chatroomOwnerDidUpdate:(EMChatroom *)aChatroom
+                      newOwner:(NSString *)aNewOwner
+                      oldOwner:(NSString *)aOldOwner;
+
 #pragma mark - Deprecated methods
 
 /*!

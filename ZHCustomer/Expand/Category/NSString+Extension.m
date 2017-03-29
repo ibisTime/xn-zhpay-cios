@@ -60,17 +60,35 @@
 
 }
 - (NSString *)convertThumbnailImageUrl{
-//  限定长边，生成不超过 300x300 的缩略图
+    //  限定长边，生成不超过 300x300 的缩略图
     if ([self hasPrefix:@"http"] || [self hasPrefix:@"https"]) {
         
         return self;
         
     } else {
         
-        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/thumbnail/300x300/quality/60!",[AppConfig config].qiNiuKey,self];
+        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/thumbnail/300x300/quality/50!",[AppConfig config].qiniuDomain,self];
         
-//        return [[@"http:/7xnuu2.com1.z0.glb.clouddn.com/" add:self] add:@"?imageMogr2/auto-orient/strip/thumbnail/300x300/quality/60!"];
     }
+    
+}
+
+- (NSString *)convertImageUrl {
+    
+    //auto-orient 根据原信息 旋转
+    //strip 取出图片原信息
+    
+    if ([self hasPrefix:@"http"]) {
+        
+        return self;
+        
+    } else {
+        
+        
+        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/quality/50!",[AppConfig config].qiniuDomain,self];
+        
+    }
+    
     
 }
 
@@ -120,26 +138,6 @@
         }
     
     }
-
-}
-
-- (NSString *)convertImageUrl {
-
-    //auto-orient 根据原信息 旋转
-    //strip 取出图片原信息
-    
-    if ([self hasPrefix:@"http"]) {
-        
-        return self;
-        
-    } else {
-    
-           return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/quality/50!",[AppConfig config].qiNiuKey,self];
-        
-//        return [[@"http:/7xnuu2.com1.z0.glb.clouddn.com/" add:self] add:@"?imageMogr2/auto-orient/strip/quality/50!"];
-        
-    }
-
 
 }
 

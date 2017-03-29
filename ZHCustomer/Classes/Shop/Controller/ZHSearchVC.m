@@ -10,9 +10,9 @@
 #import "ZHShopCell.h"
 #import "ZHShop.h"
 #import "ZHGoodsModel.h"
-#import "ZHTreasureModel.h"
+//#import "ZHTreasureModel.h"
 #import "ZHShopDetailVC.h"
-#import "ZHLookForTreasureCell.h"
+//#import "ZHLookForTreasureCell.h"
 #import "ZHGoodsDetailVC.h"
 #import "ZHGoodsCell.h"
 
@@ -25,7 +25,7 @@
 @property (nonatomic,strong) NSMutableArray <ZHGoodsModel *>*goods;
 
 //一元夺宝搜索
-@property (nonatomic,strong) NSMutableArray <ZHTreasureModel *>*treasures;
+//@property (nonatomic,strong) NSMutableArray <ZHTreasureModel *>*treasures;
 
 @property (nonatomic,strong) TLTableView *searchTableView;
 
@@ -124,32 +124,7 @@
         }];
 
         
-    } else if(self.type == ZHSearchVCTypeYYDB) {
-        
-//        helper.code = @"808310";
-//        helper.parameters[@"status"] = @"3";
-        
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"808310";
-        http.parameters[@"status"] = @"3";
-        http.parameters[@"start"] = @"1";
-        http.parameters[@"limit"] = @"10000";
-
-        http.parameters[@"name"] = searchBar.text;
-
-        [http postWithSuccess:^(id responseObject) {
-            
-            self.treasures = [ZHTreasureModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
-            [self.searchTableView reloadData_tl];
-            
-        } failure:^(NSError *error) {
-            
-        }];
-
-        
-        
-    } else if(self.type == ZHSearchVCTypeDefaultGoods) { //
+    }  else if(self.type == ZHSearchVCTypeDefaultGoods) { //
         
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
@@ -183,10 +158,10 @@
     } else if(self.type == ZHSearchVCTypeYYDB) {
         
         
-        ZHGoodsDetailVC *vc = [[ZHGoodsDetailVC alloc] init];
-        vc.detailType = ZHGoodsDetailTypeLookForTreasure;
-        vc.treasure = self.treasures[indexPath.row];
-        [self.navigationController pushViewController:vc animated:YES];
+//        ZHGoodsDetailVC *vc = [[ZHGoodsDetailVC alloc] init];
+//        vc.detailType = ZHGoodsDetailTypeLookForTreasure;
+//        vc.treasure = self.treasures[indexPath.row];
+//        [self.navigationController pushViewController:vc animated:YES];
         
     } else if(self.type == ZHSearchVCTypeDefaultGoods) { //
         
@@ -211,10 +186,6 @@
         
         return self.shops.count;
 
-    } else if(self.type == ZHSearchVCTypeYYDB) { //一元夺宝搜索
-        
-        return self.treasures.count;
-        
     } else  { //店铺搜索
         
         return self.goods.count;
@@ -240,19 +211,7 @@
         cell.shop = self.shops[indexPath.row];
         return cell;
         
-    } else if(self.type == ZHSearchVCTypeYYDB) { //一元夺宝搜索
-        
-        static NSString *zhTreasureCellId = @"zhTreasureCellId";
-        ZHLookForTreasureCell *cell = [tableView dequeueReusableCellWithIdentifier:zhTreasureCellId];
-        if (!cell) {
-            
-            cell = [[ZHLookForTreasureCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhTreasureCellId];
-            
-        }
-        cell.treasure = self.treasures[indexPath.row];
-        return cell;
-        
-    } else  { 
+    }  else  { 
         
         static NSString *zhGoodsCellId = @"ZHGoodsCell";
         ZHGoodsCell *cell = [tableView dequeueReusableCellWithIdentifier:zhGoodsCellId];

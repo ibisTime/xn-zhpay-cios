@@ -13,8 +13,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-#import <HyphenateLite/EMSDK.h>
-
+#import <HyphenateLite/HyphenateLite.h>
 @class EMMessage;
 
 /** @brief 消息模型协议 */

@@ -14,6 +14,23 @@
 
 #import <Foundation/Foundation.h>
 
+#import "EMCommonDefs.h"
+
+/*!
+ *  \~chinese
+ *  聊天室成员类型
+ *
+ *  \~english
+ *  Chat room permission type
+ */
+typedef enum{
+    EMChatroomPermissionTypeNone   = -1,    /*! \~chinese 未知 \~english Unknown */
+    EMChatroomPermissionTypeMember = 0,     /*! \~chinese 普通成员 \~english Normal member */
+    EMChatroomPermissionTypeAdmin,          /*! \~chinese 群组管理员 \~english Group admin */
+    EMChatroomPermissionTypeOwner,          /*! \~chinese 群主 \~english Group owner  */
+}EMChatroomPermissionType;
+
+
 /*!
  *  \~chinese 
  *  聊天室
@@ -62,22 +79,15 @@
 @property (nonatomic, copy, readonly) NSString *owner;
 
 /*!
- *  \~chinese 
- *  聊天室的当前人数，如果没有获取聊天室详情将返回0
+ *  \~chinese
+ *  聊天室的管理者，拥有群的最高权限，需要获取群详情
+ *
  *
  *  \~english
- *  The total number of members in the chat room
- */
-@property (nonatomic, readonly) NSInteger membersCount;
-
-/*!
- *  \~chinese 
- *  聊天室的最大人数，如果没有获取聊天室详情将返回0
+ *  Admins of the chatroom
  *
- *  \~english
- *  The capacity of the chat room
  */
-@property (nonatomic, readonly) NSInteger maxMembersCount;
+@property (nonatomic, copy, readonly) NSArray *adminList;
 
 /*!
  *  \~chinese
@@ -86,7 +96,60 @@
  *  \~english
  *  List of members in the chat room
  */
-@property (nonatomic, copy, readonly) NSArray *members;
+@property (nonatomic, copy, readonly) NSArray *memberList;
+
+/*!
+ *  \~chinese
+ *  聊天室的黑名单，需要先调用获取群黑名单方法
+ *
+ *  需要owner权限才能查看，非owner返回nil
+ *
+ *  \~english
+ *  Chatroom‘s blacklist of blocked users
+ *
+ *  Need owner's authority to access, return nil if user is not the chatroom owner.
+ */
+@property (nonatomic, strong, readonly) NSArray *blacklist;
+
+/*!
+ *  \~chinese
+ *  聊天室的被禁言列表<NSString>
+ *
+ *  需要owner权限才能查看，非owner返回nil
+ *
+ *  \~english
+ *  List of muted members<NSString>
+ *
+ *  Need owner's authority to access, return nil if user is not the chatroom owner.
+ */
+@property (nonatomic, strong, readonly) NSArray *muteList;
+
+/*!
+ *  \~chinese
+ *  当前登录账号的聊天室成员类型
+ *
+ *  \~english
+ *  The chatroom membership type of the current login account
+ */
+@property (nonatomic, readonly) EMChatroomPermissionType permissionType;
+
+/*!
+ *  \~chinese
+ *  聊天室的最大人数，如果没有获取聊天室详情将返回0
+ *
+ *  \~english
+ *  The capacity of the chat room
+ */
+@property (nonatomic, readonly) NSInteger maxOccupantsCount;
+
+/*!
+ *  \~chinese
+ *  聊天室的当前人数，如果没有获取聊天室详情将返回0
+ *
+ *  \~english
+ *  The total number of members in the chat room
+ */
+@property (nonatomic, readonly) NSInteger occupantsCount;
 
 /*!
  *  \~chinese
@@ -105,7 +168,16 @@
  */
 + (instancetype)chatroomWithId:(NSString *)aChatroomId;
 
-#pragma mark - EM_DEPRECATED_IOS < 3.2.3
+#pragma mark - EM_DEPRECATED_IOS 3.3.0
+
+/*!
+ *  \~chinese
+ *  聊天室的成员列表，需要获取聊天室详情
+ *
+ *  \~english
+ *  List of members in the chat room
+ */
+@property (nonatomic, copy, readonly) NSArray *members EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -memberList");
 
 /*!
  *  \~chinese
@@ -114,7 +186,7 @@
  *  \~english
  *  The total number of members in the chat room
  */
-@property (nonatomic, readonly) NSInteger occupantsCount __deprecated_msg("Use - membersCount");
+@property (nonatomic, readonly) NSInteger membersCount EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -occupantsCount");
 
 /*!
  *  \~chinese
@@ -123,7 +195,9 @@
  *  \~english
  *  The capacity of the chat room
  */
-@property (nonatomic, readonly) NSInteger maxOccupantsCount __deprecated_msg("Use - maxMembersCount");
+@property (nonatomic, readonly) NSInteger maxMembersCount EM_DEPRECATED_IOS(3_1_0, 3_3_0, "Use -maxOccupantsCount");
+
+#pragma mark - EM_DEPRECATED_IOS < 3.2.3
 
 /*!
  *  \~chinese

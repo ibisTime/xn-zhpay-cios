@@ -42,9 +42,10 @@
         
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
-        http.code = @"808031";
-        http.parameters[@"code"] = item.code;
+        http.code = @"808041";
+//        http.parameters[@"code"] = item.code;
         http.parameters[@"token"] = [ZHUser user].token;
+        http.parameters[@"cartCodeList"] = @[item.code];
         [http postWithSuccess:^(id responseObject) {
             
             [TLAlert alertWithHUDText:@"删除成功"];
@@ -189,7 +190,7 @@
     
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808040"; //分页查询
+    helper.code = @"808045"; //分页查询
     helper.limit = 30;
     helper.parameters[@"userId"] = [ZHUser user].userId;
     helper.parameters[@"token"] = [ZHUser user].token;

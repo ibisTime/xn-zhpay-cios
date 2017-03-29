@@ -13,7 +13,7 @@
 #import "ZHTreasureInfoView.h"
 #import "ZHImmediateBuyVC.h"
 
-#import "ZHTreasureProgressVC.h"//夺宝进度
+//#import "ZHTreasureProgressVC.h"//夺宝进度
 #import "ZHEvaluateListVC.h" //评价列表
 #import "ZHSingleDetailVC.h" //详情列表
 
@@ -102,6 +102,7 @@
 
 }
 
+
 #pragma mark - 客服消息变更
 - (void)kefuUnreadMsgChange:(NSNotification *)notification {
     
@@ -125,6 +126,8 @@
     
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    //背景
     self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
     self.bgScrollView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.bgScrollView];
@@ -136,68 +139,22 @@
     
     //根据为夺宝或者为 普通商品加载不同的商品
     [self setUpUI];
-    
     //
     self.bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     
     
-    //包尾按钮事件
-    __weak  ZHStepView *weakStep = self.stepView;
-    __weak typeof(self) weakSelf = self;
-    self.stepView.buyAllAction = ^(){
-#pragma mark- 夺宝价格展示
-        weakStep.count = [weakSelf.treasure.totalNum integerValue] - [weakSelf.treasure.investNum integerValue];
-        
-        weakSelf.buyView.priceLbl.attributedText = [ZHCurrencyHelper
-                                                    stepPriceWithQBB:weakSelf.treasure.price3
-                                           GWB:weakSelf.treasure.price2
-                                                                                       RMB:weakSelf.treasure.price1
-                                                      bounds:CGRectMake(0, -1, 10, 10)
-                                                                                count: weakStep.count];
-    };
-    
-    
-    //
-#pragma mark- 夺宝价格展示
-    self.stepView.countChange = ^(NSUInteger count){
-    
-        if (weakSelf.priceLbl && weakSelf.treasure) {
-            weakSelf.buyView.priceLbl.attributedText = [ZHCurrencyHelper stepPriceWithQBB:weakSelf.treasure.price3
-                                                                                      GWB:weakSelf.treasure.price2
-                                                                                      RMB:weakSelf.treasure.price1
-                                                                                   bounds:CGRectMake(0, -1, 10, 10) count:count];
-            
-//            [ZHCurrencyHelper calculatePriceWithQBB:weakSelf.treasure.price3
-//                                                                                   GWB:weakSelf.treasure.price2
-//                                                                                   RMB:weakSelf.treasure.price1 count:count];
-            
-        }
-    
-    };
-    
-    //---//夺宝
-    if (self.detailType == 1) { //夺宝
-        
-        [self setUPDBData];
-        
-        
-        self.buyView.priceLbl.attributedText = [ZHCurrencyHelper
-                                                    stepPriceWithQBB:weakSelf.treasure.price3
-                                                    GWB:weakSelf.treasure.price2
-                                                    RMB:weakSelf.treasure.price1
-                                                    bounds:CGRectMake(0, -1, 10, 10)
-                                                count: 1];
 
-    } else {
+    
+
     
         //拍普通商品，价格在上面
         self.bannerView.imgUrls = self.goods.pics;
         self.nameLbl.text = self.goods.name;
-        self.advLbl.text = self.goods.advTitle;
+        self.advLbl.text = self.goods.slogan;
         self.priceLbl.text = self.goods.totalPrice;
         self.buyView.countView.msgCount = [ZHCartManager manager].count;
-        
-    }
+    
+//    }
     
     //扩大
     self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.stepView.yy + 10);
@@ -226,50 +183,13 @@
 }
 
 
-- (void)setUPDBData {
-
-    self.bannerView.imgUrls = self.treasure.pics;
-    
-    self.nameLbl.text = self.treasure.name;
-    self.advLbl.text = self.treasure.slogan;
-    self.priceLbl.attributedText = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.treasure.price3 GWB:self.treasure.price2 RMB:self.treasure.price1];
-    
-    self.infoView.progress.progress = [self.treasure getProgress];
-    self.infoView.peopleView.bootomLbl.text = [NSString stringWithFormat:@"%@",self.treasure.investNum];
-    //        self.infoView.priceView.bootomLbl.text = [self.goods.price1 stringValue];
-    self.infoView.dayView.bootomLbl.text = [self.treasure getSurplusTime];
-    
-    //底部购买工具条
-    self.buyView.type = ZHBuyTypeLookForTreasure;
-    self.stepView.isDefault = NO;
-
-}
 
 #pragma mark- 一元夺宝刷新
 - (void)refresh {
 
-    if (self.treasure) {
-        
-        TLNetworking *http = [TLNetworking new];
-        http.code = @"808312";
-        http.parameters[@"code"] = self.treasure.code;
 
-        [http postWithSuccess:^(id responseObject) {
-            self.treasure = [ZHTreasureModel tl_objectWithDictionary: responseObject[@"data"]];
-            
-            [self setUPDBData];
-            
-            [self.bgScrollView.mj_header endRefreshing];
-        } failure:^(NSError *error) {
-            
-            [self.bgScrollView.mj_header endRefreshing];
+      [self.bgScrollView.mj_header endRefreshing];
 
-        }];
-        
-    } else {
-        
-        [self.bgScrollView.mj_header endRefreshing];
-    }
 
 }
 
@@ -297,15 +217,9 @@
         buyVC.goodsRoom = @[self.goods];
         [self.navigationController pushViewController:buyVC animated:YES];
         
-    } else { //夺宝
-        
-        ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
-        buyVC.type = ZHIMBuyTypeYYDB;
-        self.treasure.count = self.stepView.count;
-        buyVC.treasureRoom = @[self.treasure];
-        [self.navigationController pushViewController:buyVC animated:YES];
-        
     }
+    
+
     
 }
 
@@ -332,9 +246,6 @@
 
     }
 
-    //夺宝成功之后刷新该页面
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(<#selector#>) name:<#(nullable NSNotificationName)#> object:<#(nullable id)#>];
-    
 }
 
 #pragma mark- 夺宝后刷新
@@ -359,7 +270,7 @@
     
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    http.code = @"808030";
+    http.code = @"808040";
     http.parameters[@"userId"] = [ZHUser user].userId;
     http.parameters[@"token"] = [ZHUser user].token;
 
@@ -398,14 +309,9 @@
 
 }
 
-#pragma mark- 查看一元夺宝购买详情
-- (void)lookBuyDetail {
-    
-    ZHTreasureProgressVC *vc = [[ZHTreasureProgressVC alloc] init];
-    vc.treasureModel = self.treasure;
-    [self.navigationController pushViewController:vc animated:YES];
-    
-}
+
+
+
 
 
 
@@ -416,14 +322,8 @@
         ZHSingleDetailVC *detailVC = [[ZHSingleDetailVC alloc] init];
         detailVC.view.frame = self.bgScrollView.frame;
         [self addChildViewController:detailVC];
-        if (self.goods) {
-            
-            detailVC.goods = self.goods;
-            
-        } else {
-            
-            detailVC.treasure = self.treasure;
-        }
+        detailVC.goods = self.goods;
+
         
         [self.view addSubview:detailVC.view];
         _detailView = detailVC.view;
@@ -440,16 +340,10 @@
         
         ZHEvaluateListVC *evaluateListVC = [[ZHEvaluateListVC alloc] init];
 
+    
         
-        if (self.detailType == ZHGoodsDetailTypeLookForTreasure) {
-            
-            evaluateListVC.goodsCode = self.treasure.code;
+        evaluateListVC.goodsCode = self.goods.code;
 
-        } else {
-        
-            evaluateListVC.goodsCode = self.goods.code;
-            
-        }
         
         evaluateListVC.view.frame = self.bgScrollView.frame;
         [self addChildViewController:evaluateListVC];
@@ -548,72 +442,6 @@
     
     
 
-    //以上为公共部分
-    if (self.detailType == 1) { //夺宝---autoLayout
-    
-        //夺宝信息
-        ZHTreasureInfoView *infoView = [[ZHTreasureInfoView alloc] initWithFrame:CGRectZero];
-        [self.bgScrollView addSubview:infoView];
-        self.infoView = infoView;
-        [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.left.equalTo(self.bgScrollView.mas_left);
-            make.top.equalTo(priceBottomLine.mas_bottom).offset(20);
-            make.height.mas_equalTo(@60);
-            make.width.mas_equalTo(@(260));
-            
-        }];
-        
-        //
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectZero];
-        [self.bgScrollView addSubview:btn];
-        [btn addTarget:self action:@selector(lookBuyDetail) forControlEvents:UIControlEventTouchUpInside];
-        [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(infoView.mas_right);
-            make.left.equalTo(self.bgScrollView.mas_left);
-            make.top.equalTo(infoView.mas_top);
-            make.bottom.equalTo(infoView.mas_bottom);
-            make.width.mas_equalTo(@(SCREEN_WIDTH));
-
-        }];
-        
-        //向右箭头
-        UIImageView *arrowImageV = [[UIImageView alloc] initWithFrame:CGRectZero];
-        arrowImageV.image = [UIImage imageNamed:@"更多"];
-        [self.bgScrollView addSubview:arrowImageV];
-        [arrowImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.width.mas_equalTo(@10);
-            make.height.mas_equalTo(@17);
-            make.top.equalTo(self.infoView.mas_top).offset(15);
-            make.right.mas_equalTo(@(SCREEN_WIDTH - 15));
-            
-        }];
-        
-        //
-        UIView *infoViewBottomLine = [[UIView alloc] init];
-        infoViewBottomLine.backgroundColor = [UIColor zh_lineColor];
-        [self.bgScrollView addSubview:infoViewBottomLine];
-        [infoViewBottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(infoView.mas_bottom).offset(20);
-            make.left.equalTo(self.bgScrollView.mas_left);
-            make.width.mas_equalTo(@(SCREEN_WIDTH));
-            make.height.mas_equalTo(@(1));
-        }];
-        ////
-        
-       ZHStepView *stepV = [[ZHStepView alloc] initWithFrame:CGRectZero type:ZHStepViewTypeDefault];
-       self.stepView = stepV;
-       [self.bgScrollView addSubview:self.stepView];
-       [stepV mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-             make.left.equalTo(self.bgScrollView.mas_left).offset(LEFT_MARGIN);
-             make.top.equalTo(infoViewBottomLine.mas_bottom).offset(30);
-             make.width.mas_equalTo(@280);
-             make.height.mas_equalTo(@25);
-        }];
-    
-    } else { //普通---frame
 
         ZHStepView *stepV = [[ZHStepView alloc] initWithFrame:CGRectZero type:ZHStepViewTypeDefault];
         self.stepView = stepV;
@@ -628,7 +456,7 @@
             make.height.mas_equalTo(@25);
         }];
         
-    }
+//    }
 
 
 
@@ -668,15 +496,11 @@
             
         }
         
-        
-        
         [_switchView addSubview:bgView];
     }
     return _switchView;
     
 }
-
-
 
 
 @end

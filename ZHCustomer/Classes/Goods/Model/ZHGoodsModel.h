@@ -12,7 +12,7 @@
 @interface ZHGoodsModel : TLBaseModal<ZHCurrencyProtocol>
 
 @property (nonatomic,copy) NSString *advPic; //封面图片
-@property (nonatomic,copy) NSString *advTitle;
+@property (nonatomic,copy) NSString *slogan;
 @property (nonatomic,copy) NSString *category;
 @property (nonatomic,copy) NSString *code;
 @property (nonatomic,copy) NSString *companyCode;
@@ -24,7 +24,7 @@
 
 @property (nonatomic,copy) NSString *name;
 
-@property (nonatomic,copy) NSString *pic1;
+@property (nonatomic,copy) NSString *pic;
 
 @property (nonatomic,copy) NSString *orderNo;
 @property (nonatomic,strong) NSNumber *quantity;

@@ -10,7 +10,7 @@
 #import "ZHGoodsModel.h"
 #import "ZHCartGoodsModel.h"
 #import "ZHOrderDetailModel.h"
-#import "ZHTreasureModel.h"
+//#import "ZHTreasureModel.h"
 
 // 购物清单cell  立刻支付中的cell
 //订单cell
@@ -19,7 +19,7 @@
 @property (nonatomic,strong) ZHGoodsModel *goods;//直接立即购买的界面
 
 //夺宝的模型
-@property (nonatomic,strong) ZHTreasureModel *treasureModel;
+//@property (nonatomic,strong) ZHTreasureModel *treasureModel;
 
 @property (nonatomic,strong) ZHCartGoodsModel *cartGoods;//从购物车进入的
 

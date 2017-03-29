@@ -4,7 +4,7 @@
 //
 //  Created by  tianlei on 2016/12/26.
 //  Copyright © 2016年  tianlei. All rights reserved.
-//  普通物品展示列表
+//  商品列表展示控制器
 
 
 #import <UIKit/UIKit.h>
