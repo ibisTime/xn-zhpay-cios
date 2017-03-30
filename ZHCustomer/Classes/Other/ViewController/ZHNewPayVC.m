@@ -74,7 +74,8 @@
     self.pays = [NSMutableArray array];
     
     //隐藏掉支付宝
-    NSInteger count = imgs.count - 1;
+    NSInteger count = imgs.count;
+    
     //只有一种支付，
     if ([self.orderAmount isEqual:@0]) {
         
@@ -222,66 +223,49 @@
 #pragma mark- 购买汇赚宝获取分润
     if (self.type == ZHPayViewCtrlTypeHZB) {
         
-        TLNetworking *http = [TLNetworking new];
-//        http.showView = self.view;
-        http.code = @"808803";
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"token"] = [ZHUser user].token;
-        http.parameters[@"currency"] = @"FRB";
-        [http postWithSuccess:^(id responseObject) {
-            
-            NSNumber *surplusMoney =  responseObject[@"data"][@"xnbAmount"];
-            CGFloat rate =  1.0/[responseObject[@"data"][@"rate"] floatValue];
-            
-//           NSNumber *rmb =  responseObject[@"data"][@"cnyAmount"];
-//            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@) (1分润=%.2f人民币)",[surplusMoney convertToRealMoney],rate];
-            
-             self.pays[0].payName = [NSString stringWithFormat:@"分润(%@) (1分润=%@人民币)",[surplusMoney convertToRealMoney],responseObject[@"data"][@"rate"]];
-            [self.payTableView reloadData];
-            
-        } failure:^(NSError *error) {
-            
-        }];
-
 //        TLNetworking *http = [TLNetworking new];
-//        //        http.showView = self.view;
+////        http.showView = self.view;
 //        http.code = @"802503";
-//        http.parameters[@"token"] = [ZHUser user].token;
 //        http.parameters[@"userId"] = [ZHUser user].userId;
+//        http.parameters[@"token"] = [ZHUser user].token;
 //        http.parameters[@"currency"] = kFRB;
 //        [http postWithSuccess:^(id responseObject) {
 //            
 //            NSNumber *surplusMoney =  responseObject[@"data"][0][@"amount"];
+//            
+////            CGFloat rate =  1.0/[responseObject[@"data"][@"rate"] floatValue];
+////        
+////            
+////             self.pays[0].payName = [NSString stringWithFormat:@"分润(%@) (1分润=%@人民币)",[surplusMoney convertToRealMoney],responseObject[@"data"][@"rate"]];
+//            
 //            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@)",[surplusMoney convertToRealMoney]];
 //            [self.payTableView reloadData];
 //            
 //        } failure:^(NSError *error) {
 //            
-//            
-//            
 //        }];
-        
+
         return;
     }
     
     
 #pragma mark- 获得余额
     //首先获得总额
-    TLNetworking *http2 = [TLNetworking new];
-    http2.code = @"808801";
-    http2.parameters[@"userId"] = [ZHUser user].userId;
-    http2.parameters[@"token"] = [ZHUser user].token;
-    [http2 postWithSuccess:^(id responseObject) {
-        
-        NSNumber *surplusMoney =  responseObject[@"data"];
-        self.pays[0].payName = [NSString stringWithFormat:@"余额(%@)",[surplusMoney convertToRealMoney]];
-        [self.payTableView reloadData];
-        
-        
-    } failure:^(NSError *error) {
-        
-        
-    }];
+//    TLNetworking *http2 = [TLNetworking new];
+//    http2.code = @"808801";
+//    http2.parameters[@"userId"] = [ZHUser user].userId;
+//    http2.parameters[@"token"] = [ZHUser user].token;
+//    [http2 postWithSuccess:^(id responseObject) {
+//        
+//        NSNumber *surplusMoney =  responseObject[@"data"];
+//        self.pays[0].payName = [NSString stringWithFormat:@"余额(%@)",[surplusMoney convertToRealMoney]];
+//        [self.payTableView reloadData];
+//        
+//        
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
     
 }
 
@@ -414,8 +398,8 @@
         
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
-        http.code = @"808452";
-        http.parameters[@"hzbCode"] = self.HZBModel.code;
+        http.code = @"615110";
+        http.parameters[@"hzbTemplateCode"] = self.HZBModel.code;
         http.parameters[@"payType"] = payType;
         http.parameters[@"token"] = [ZHUser user].token;
         http.parameters[@"userId"] = [ZHUser user].userId;

@@ -41,7 +41,7 @@
     __weak typeof(self) weakself = self;
     TLPageDataHelper *goodsHelper = [[TLPageDataHelper alloc] init];
     goodsHelper.tableView = self.couponsTableView;
-    goodsHelper.code = @"808228";
+    goodsHelper.code = @"808265";
     goodsHelper.parameters[@"userId"] = [ZHUser user].userId;
     goodsHelper.parameters[@"token"] = [ZHUser user].token;
 

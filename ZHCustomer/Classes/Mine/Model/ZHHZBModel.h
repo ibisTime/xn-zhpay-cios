@@ -15,49 +15,62 @@
 @property (nonatomic,copy) NSString *desc;
 @property (nonatomic,copy) NSString *name;
 @property (nonatomic,copy) NSString *pic;
-
 @property (nonatomic,strong) NSNumber *price;
-@property (nonatomic,copy) NSString *ID;
+//@property (nonatomic,copy) NSString *ID;
 
+@property (nonatomic,copy, readonly) NSString *mobile;
 
-@property (nonatomic,copy) NSString *mobile;
 @property (nonatomic,copy) NSString *shareUrl;
+@property (nonatomic, strong) NSDictionary *user;
+
 
 //我的HUB
-@property (nonatomic,strong) NSNumber *totalRockNum;
+@property (nonatomic,strong) NSNumber *totalRockNum; //总的被摇次数
+@property (nonatomic,strong) NSNumber *periodRockNum; //历史被摇次数
+
 @property (nonatomic,copy) NSString *status;
 @property (nonatomic,copy) NSNumber *distance;
 @property (nonatomic,copy) NSString *userId;
 
 
-- (NSString *)getStatusName;
+@property (nonatomic, strong) NSNumber *backAmount1;
+@property (nonatomic, strong) NSNumber *backAmount2;
+@property (nonatomic, strong) NSNumber *backAmount3;
 
+
+
+//backAmount1 = 0;
+//backAmount2 = 0;
+//backAmount3 = 0;
+//code = H201703301257284684;
+//companyCode = "CD-CZH000001";
+//createDatetime = "Mar 30, 2017 12:57:28 PM";
 //currency = CNY;
-//hzbCode = HZB001;
-//id = 7;
+//distance = 0;
+//payAmount1 = 0;
+//payAmount2 = 10000;
+//payAmount3 = 0;
+//payDatetime = "Mar 30, 2017 12:57:28 PM";
 //periodRockNum = 0;
-//price = 2000000;
+//price = 10000;
+//shareUrl = "http://www.sina.com.cn";
 //status = 1;
 //systemCode = "CD-CZH000001";
+//templateCode = HT201700000000000001;
 //totalRockNum = 0;
-//userId = U2017010615181802379;
+//user =             {
+//    identityFlag = 1;
+//    loginName = 13868074590;
+//    mobile = 13868074590;
+//    nickname = 45414717;
+//    userId = U2017032915445414717;
+//    userReferee = U2017010713451027748;
+//};
+//userId = U2017032915445414717;
+
+- (NSString *)getStatusName;
 
 
-//--------///
-//"name": "汇赚宝",
-//"pic": "http://123/default.jpg",
-//"price": "2000000",
-//"currency": "CNY",
-//"periodRockNum": "10",
-//"totalRockNum": "CNY",
-//"backAmount1": "0",
-//"backAmount2": "0",
-//"backAmount3": "0",
-//"updater": "admin",
-//"remark": "备注",
-//"systemCode": "CD-CZH000001",
-//"companyCode": "CD-CZH000001",
-//"token": "token"
 
 
 @end

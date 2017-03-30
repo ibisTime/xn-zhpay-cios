@@ -208,7 +208,6 @@
         return;
     }
 
-    if (self.detailType == ZHGoodsDetailTypeDefault) { 
         //查看数量
         
         ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
@@ -217,8 +216,6 @@
         buyVC.goodsRoom = @[self.goods];
         [self.navigationController pushViewController:buyVC animated:YES];
         
-    }
-    
 
     
 }

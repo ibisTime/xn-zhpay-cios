@@ -38,9 +38,13 @@ typedef NS_ENUM(NSInteger,ZHPayVCType){
 
 //普通商品的订单编号和价格
 //订单编号
-@property (nonatomic,copy) NSString *orderCode;
-@property (nonatomic,copy) NSArray *codeList;
+//@property (nonatomic,copy) NSString *orderCode;
+//@property (nonatomic,copy) NSArray *codeList;
 
+
+//折扣券
+@property (nonatomic,strong) NSMutableArray <ZHCoupon *>*coupons;
+@property (nonatomic,strong) ZHCoupon *selectedCoupon;
 
 //人民币价格
 //各种总金额----富文本

@@ -10,6 +10,7 @@
 #import "ZHWalletView.h"
 #import "ZHCurrencyModel.h"
 #import "ZHBillVC.h"
+#import "MJRefresh.h"
 
 @interface ZHNewMineWalletVC ()
 
@@ -21,51 +22,44 @@
 @property (nonatomic,strong) NSMutableArray <ZHCurrencyModel *>*currencyRoom; //币种
 @property (nonatomic,strong) NSMutableDictionary <NSString *,ZHCurrencyModel *>*currencyDict;
 
+@property (nonatomic, assign) BOOL isFirst;
+
+@property (nonatomic, strong) UIScrollView *bgScrollView;
 @end
 
 @implementation ZHNewMineWalletVC
+- (void)viewWillAppear:(BOOL)animated {
 
+    [super viewWillAppear:animated];
+    if (self.isFirst) {
+        
+        self.isFirst = NO;
+        [self.bgScrollView.mj_header beginRefreshing];
+    }
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = @"我的钱包";
+    self.isFirst = YES;
+
+    [self tl_placholderViewWithTitle:@"加载失败" opTitle:@"点击重新加载"];
+    [self refreshWalletInfo];
+
 
     
-    //下部，钱包
-    TLNetworking *http = [TLNetworking new];
-    //        http.showView = self.view;
-    http.code = @"802503";
-    http.parameters[@"token"] = [ZHUser user].token;
-    http.parameters[@"userId"] = [ZHUser user].userId;
-    [http postWithSuccess:^(id responseObject) {
-        
-//        [weakSelf.mineTableView endRefreshHeader];
-        
-        self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-        
-        //把币种分开
-        self.currencyDict = [[NSMutableDictionary alloc] initWithCapacity:self.currencyRoom.count];
-        [self.currencyRoom  enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            self.currencyDict[obj.currency] = obj;
-            
-        }];
-        
-        //刷新界面信息
-        [self refreshWalletInfo];
-        
-    } failure:^(NSError *error) {
-        
-        [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
-//        [weakSelf.mineTableView endRefreshHeader];
-        
-    }];
-    
-    
-    
+}
+
+- (void)setUpUI {
+
+    if (self.bgScrollView) {
+        return;
+    }
     //背景
     UIScrollView *bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 + 10)];
     [self.view addSubview:bgScrollView];
+    self.bgScrollView = bgScrollView;
     
     //头部总额
     UIView *headerV = [self headerView];
@@ -104,21 +98,80 @@
         
         
     }
-
     
-    self.balanceLbl.text = @"1000";
-
     
+    self.balanceLbl.text = @"0.00";
+    
+    
+    bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshWalletInfo)];
+
+}
+
+- (void)tl_placeholderOperation {
+
+    [self refreshWalletInfo];
+
 }
 
 - (void)refreshWalletInfo {
     
-    [self.walletViews enumerateObjectsUsingBlock:^(ZHWalletView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    
+    //下部，钱包
+    TLNetworking *http = [TLNetworking new];
+    //        http.showView = self.view;
+    http.code = @"802503";
+    http.parameters[@"token"] = [ZHUser user].token;
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    [http postWithSuccess:^(id responseObject) {
         
-        NSNumber *amount = self.currencyDict[obj.code].amount;
-        obj.moneyLbl.text = [amount convertToRealMoney];
+        //ui操作
+        [self tl_hiddenPlaceholder];
+        [self setUpUI];
+        [self.bgScrollView.mj_header endRefreshing];
+
+        //[weakSelf.mineTableView endRefreshHeader];
+        
+        //数据操作
+        self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+        //把币种分开
+        self.currencyDict = [[NSMutableDictionary alloc] initWithCapacity:self.currencyRoom.count];
+        [self.currencyRoom  enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            self.currencyDict[obj.currency] = obj;
+            
+        }];
+        
+        //刷新界面信息
+//        [self refreshWalletInfo];
+        
+        //单个
+      __block  long long total = 0;
+        
+        [self.walletViews enumerateObjectsUsingBlock:^(ZHWalletView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            NSNumber *amount = self.currencyDict[obj.code].amount;
+            obj.moneyLbl.text = [amount convertToRealMoney];
+            
+            if ([obj.code isEqualToString:kFRB] || [obj.code isEqualToString:kGXB]) {
+                
+                total += [amount longLongValue];
+                
+            }
+            
+        }];
+        
+        self.balanceLbl.text = [@(total) convertToRealMoney];
+        
+    } failure:^(NSError *error) {
+        
+//        [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
+        //        [weakSelf.mineTableView endRefreshHeader];
+        
+        [self tl_showPlaceholder];
         
     }];
+    
+ 
     
 }
 

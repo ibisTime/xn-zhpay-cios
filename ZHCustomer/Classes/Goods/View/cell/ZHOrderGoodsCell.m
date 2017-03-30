@@ -94,10 +94,10 @@
 - (void)setCartGoods:(ZHCartGoodsModel *)cartGoods {
 
     _cartGoods = cartGoods;
-    NSString *urlStr = _cartGoods.advPic;
+    NSString *urlStr = _cartGoods.product.advPic;
     [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[urlStr convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
     //
-    self.nameLbl.text = _cartGoods.productName;
+    self.nameLbl.text = _cartGoods.product.name;
     self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_cartGoods.qbb GWB:_cartGoods.gwb RMB:_cartGoods.rmb];
     self.numLbl.text = [NSString stringWithFormat:@"X%@",_cartGoods.quantity];
 

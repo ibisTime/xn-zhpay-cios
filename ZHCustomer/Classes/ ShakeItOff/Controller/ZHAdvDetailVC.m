@@ -148,10 +148,10 @@
             
             TLNetworking *http = [TLNetworking new];
             http.showView = self.view;
-            http.code = @"808460";
+            http.code = @"615120";
             http.parameters[@"token"] = [ZHUser user].token;
             http.parameters[@"userId"] = [ZHUser user].userId;
-            http.parameters[@"hzbHoldId"] = self.hzbModel.ID;
+            http.parameters[@"hzbCode"] = self.hzbModel.code;
             http.parameters[@"deviceNo"] = [NSString stringWithFormat:@"%@",[FCUUID uuidForDevice]];
             //--//
             [http postWithSuccess:^(id responseObject) {

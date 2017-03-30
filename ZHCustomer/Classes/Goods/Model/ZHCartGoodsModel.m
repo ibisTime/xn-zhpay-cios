@@ -31,17 +31,17 @@
 
 - (NSNumber *)rmb {
     
-    return self.price1;
+    return self.product.price1;
 }
 
 - (NSNumber *)gwb {
     
-    return self.price2;
+    return self.product.price2;
 }
 
 - (NSNumber *)qbb {
     
-    return self.price3;
+    return self.product.price3;
     
 }
 

@@ -9,15 +9,14 @@
 #import "ZHMineDBRecordVC.h"
 #import "ZHDuoBaoCell.h"
 #import "ZHMineNumberVC.h"
-#import "ZHDBHistoryModel.h"
+
 
 @interface ZHMineDBRecordVC ()<UITableViewDelegate,UITableViewDataSource>
-
-
+//
 @property (nonatomic, strong) TLTableView *historyTableView;
-@property (nonatomic, strong) NSMutableArray <ZHDBHistoryModel *>*dbHistoryRooms;
+@property (nonatomic, strong) NSMutableArray <ZHDBModel *>*dbHistoryRooms;
 @property (nonatomic, assign) BOOL isFirst;
-
+//
 @end
 
 @implementation ZHMineDBRecordVC
@@ -48,13 +47,13 @@
     
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808315";
+    helper.code = @"615027";
     //    0待开奖，1已中奖，2未中奖
 //    helper.parameters[@"status"] = @"1";
     helper.parameters[@"userId"] = [ZHUser user].userId;
-    helper.parameters[@"status"] = @"payed";
+    helper.parameters[@"jewelStatus "] = @"all";
     helper.tableView = tableView;
-    [helper modelClass:[ZHDBHistoryModel class]];
+    [helper modelClass:[ZHDBModel class]];
     
     //
     __weak typeof(self) weakSelf = self;
@@ -84,14 +83,13 @@
         
     }];
     
-    
 }
 
 #pragma mark- tableView delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ZHMineNumberVC *mineNumVC = [[ZHMineNumberVC alloc] init] ;
-    mineNumVC.historyModel = self.dbHistoryRooms[indexPath.row];
+    mineNumVC.dbModel = self.dbHistoryRooms[indexPath.row];
     mineNumVC.isMineHistory = YES;
     [self.navigationController pushViewController:mineNumVC animated:YES];
     
@@ -119,7 +117,9 @@
     
     cell.type = [NSString stringWithFormat:@"%ld",indexPath.row%3];
 
-    cell.dbModel = self.dbHistoryRooms[indexPath.row].jewel;
+//    cell.dbModel = self.dbHistoryRooms[indexPath.row].jewel;
+    cell.dbModel = self.dbHistoryRooms[indexPath.row];
+
     
     return cell;
     

@@ -88,8 +88,9 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     
     __weak typeof(self) weakSelf = self;
     //刷新控件
-    TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
+    //夺宝分页查询
     
+    TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"615025";
     helper.parameters[@"jewelCode"] = self.dbModel.code;
 //    helper.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
@@ -205,15 +206,15 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
 
 #pragma mark- 获得参与记录
 - (void)loadMoreRecorder {
-
+//
     __weak typeof(self) weakSelf = self;
     
     TLNetworking *http = [TLNetworking new];
-    http.code = @"808315";
+    http.code = @"615025";
     http.parameters[@"jewelCode"] = self.dbModel.code;
     http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"20";
-    http.parameters[@"status"] = @"payed";
+//    http.parameters[@"status"] = @"payed";
     [http postWithSuccess:^(id responseObject) {
         
         NSArray *arr = responseObject[@"data"][@"list"];
@@ -382,7 +383,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
 
 }
 
-
+#pragma mark- 阅读后 进行 购买
 - (void)readed:(UIButton *)btn {
 
     [(UIControl *)btn.nextResponder removeFromSuperview];
@@ -402,7 +403,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
         //刷新详情
         [self.detailTableView beginRefreshing];
         //刷新外部列表
-        [[NSNotificationCenter defaultCenter] postNotificationName:kRefreshDBListNotificationName object:nil];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kRefreshDBListNotificationName object:nil];
         
 
     };

@@ -2408,7 +2408,7 @@
 				2E6908801E5AA2A9003D3C69 /* ZHMineViewCtrl.h */,
 				2E6908811E5AA2A9003D3C69 /* ZHMineViewCtrl.m */,
 				2E989CB91E1E80BA00F3643A /* Coupons */,
-				2EF9DBFF1E1CC83F005E2943 /* ShopOrder */,
+				2EF9DBFF1E1CC83F005E2943 /* 我的优店 */,
 				2E16D0221E5C30660029B0A5 /* 小目标记录 */,
 				2E4E8BC71E22288600AC022A /* 汇赚宝 */,
 				2E6E48211E164D7200FD2CA7 /* shoppingList */,
@@ -2827,7 +2827,7 @@
 			path = AboutUs;
 			sourceTree = "<group>";
 		};
-		2EF9DBFF1E1CC83F005E2943 /* ShopOrder */ = {
+		2EF9DBFF1E1CC83F005E2943 /* 我的优店 */ = {
 			isa = PBXGroup;
 			children = (
 				2EF9DC001E1CC877005E2943 /* ZHShopOrderVC.h */,
@@ -2835,6 +2835,7 @@
 				2E2227811E2F100900B6F209 /* ZHShopOrderDetailVC.h */,
 				2E2227821E2F100900B6F209 /* ZHShopOrderDetailVC.m */,
 			);
+			name = "我的优店";
 			path = ShopOrder;
 			sourceTree = "<group>";
 		};

@@ -37,8 +37,10 @@
 //根据单价 和 数量计算总价
 + (NSMutableAttributedString *)calculatePriceWithQBB:(NSNumber *)qbb GWB:(NSNumber *)gwb RMB:(NSNumber *)rmb count:(NSInteger)count;
 
+//如下表现形式
 // 人民币 100 呈阶梯装
 // 购物币 100
+// 钱宝币 100
 + (NSMutableAttributedString *)stepPriceWithQBB:(NSNumber *)qbb GWB:(NSNumber *)gwb RMB:(NSNumber *)rmb bounds:(CGRect)bounds count:(NSInteger)count;
 
 + (NSAttributedString *)QBBWithBouns:(CGRect)bouns;

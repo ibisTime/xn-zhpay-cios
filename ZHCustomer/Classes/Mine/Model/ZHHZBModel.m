@@ -21,12 +21,17 @@
     
 }
 
-- (void)setID:(NSString *)ID {
+//- (void)setID:(NSString *)ID {
+//
+//    _ID = [ID copy];
+//
+//}
 
-    _ID = [ID copy];
+- (NSString *)mobile {
+
+    return self.user[@"mobile"];
 
 }
-
 
 - (NSString *)getStatusName {
 

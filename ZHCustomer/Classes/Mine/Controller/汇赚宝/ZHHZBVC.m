@@ -83,27 +83,48 @@
     http.parameters[@"token"] = [ZHUser user].token;
     [http postWithSuccess:^(id responseObject) {
     
-        NSDictionary *data = responseObject[@"data"];
+        NSArray *data = responseObject[@"data"];
         if (data.count > 0) {
             
-            self.HZBModel = [ZHHZBModel  tl_objectWithDictionary:data];
+            self.HZBModel = [ZHHZBModel  tl_objectWithDictionary:data[0]];
             [self.tl_placeholderView removeFromSuperview];
             
             
             [self setUpUI];
-            [self getOtherInfo];
+//            [self getOtherInfo];
             
-            if (self.buyVC.view) {
+            
+            NSDictionary *addressDict = @{@"隶属辖区" : [[ZHUser user] detailAddress]};
+            
+           
+            
+            NSDictionary *historyYYDict = @{@"历史被摇次数" : [ self.HZBModel.totalRockNum stringValue]};
+            NSDictionary *todayYYDict = @{@"今日被摇次数" : [self.HZBModel.periodRockNum stringValue]};
+            
+//            NSDictionary *HBYJDict = @{@"摇一摇红包业绩" : [(NSNumber *)allDict[@"yyTotalAmount"] convertToRealMoney]};
+//            
+//            
+//            
+//            NSDictionary *historyHBDict = @{@"历史定向红包" : [allDict[@"historyHbTimes"] stringValue]};
+//            NSDictionary *todayHBDict = @{@"今日定向红包" : [allDict[@"todayHbTimes"] stringValue]};
+//            //贡献值 -- 红包业绩
+//            NSDictionary *GXZDict =  @{@"发一发红包业绩" : [(NSNumber *)allDict[@"ffTotalHbAmount"] convertToRealMoney]};
+            
+            [self.hzbInfos addObjectsFromArray:@[addressDict,historyYYDict,todayYYDict]];
+            
+            
+            [self.hzbTableView reloadData];
+            
+            
+            
+            if (_buyVC && _buyVC.view) {
                 
                 [self.buyVC.view removeFromSuperview];
-                
+                [self.buyVC removeFromParentViewController];
+
             }
             
-            if (self.buyVC) {
-                
-                [self.buyVC removeFromParentViewController];
-                
-            }
+    
             
         } else { //还没有汇赚宝
             
@@ -117,6 +138,7 @@
         if (self.hzbTableView ) {
             [self.hzbTableView endRefreshHeader];
         }
+        
     }];
     
     

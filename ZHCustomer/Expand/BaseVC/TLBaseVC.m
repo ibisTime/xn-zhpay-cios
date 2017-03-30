@@ -53,6 +53,23 @@
     
 }
 
+
+- (void)tl_showPlaceholder {
+
+    if (self.tl_placeholderView) {
+        [self.view addSubview:self.tl_placeholderView];
+    }
+
+}
+
+- (void)tl_hiddenPlaceholder {
+
+    if (self.tl_placeholderView) {
+        [self.tl_placeholderView removeFromSuperview];
+    }
+
+}
+
 #pragma mark- 站位操作
 - (void)tl_placeholderOperation {
 

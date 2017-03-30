@@ -293,7 +293,7 @@
     //获取汇赚宝位置
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    http.code = @"808457";
+    http.code = @"615117";
     http.parameters[@"token"] = [ZHUser user].token;
     http.parameters[@"longitude"] = self.lon;
     http.parameters[@"latitude"] = self.lat;

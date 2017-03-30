@@ -50,7 +50,7 @@
     
     //--//
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808070";
+    helper.code = @"808068";
     helper.parameters[@"token"] = [ZHUser user].token; //大类
     helper.parameters[@"applyUser"] = [ZHUser user].userId;
     
@@ -62,14 +62,16 @@
     
         helper.parameters[@"status"] = @"3";
 
-    } else if(self.status == ZHOrderStatusWillSend)  {//全部
+    } else if(self.status == ZHOrderStatusWillSend)  {
         
         helper.parameters[@"status"] = @"2";
      
-    } else {
+    } else {//全部
     
     
     }
+    
+//    1待支付 2 已支付待发货 3 已发货待收货 4 已收货 91用户取消 92 商户取消 93 快递异常
     
 //    if (self.statusCode) {
 //        helper.parameters[@"status"] = self.statusCode;

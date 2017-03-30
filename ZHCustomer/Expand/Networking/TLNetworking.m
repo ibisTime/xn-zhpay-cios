@@ -99,6 +99,11 @@
         
         self.parameters[@"systemCode"] = [[self class] systemCode];
         self.parameters[@"companyCode"] = [[self class] systemCode];
+//        if ([ZHUser user]) {
+//            
+//            self.parameters[@"companyCode"] = [ZHUser user].userId;
+//
+//        }
         
         if (!self.kind || self.kind.length <= 0 ) {
             
@@ -120,7 +125,8 @@
         }
         return nil;
     }
-    TLLog(@"%@",self.code);
+    
+  TLLog(@"%@",self.code);
   return [self.manager POST:self.url parameters:self.parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 //      TLLog(@"%@",responseObject);
 
@@ -176,6 +182,11 @@
        
        if(failure){
            failure(error);
+       }
+       
+       if (error.code == -1009) { //网路断开连接
+           
+           
        }
        
    }];

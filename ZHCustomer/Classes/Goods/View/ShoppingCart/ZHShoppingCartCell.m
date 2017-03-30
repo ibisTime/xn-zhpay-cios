@@ -23,6 +23,7 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
 
 @property (nonatomic,strong) ZHStepView  *stepView;
 @property (nonatomic,strong) UIButton *deleteBtn;
+@property (nonatomic, strong) UIActivityIndicatorView *activity;
 
 @end
 
@@ -89,11 +90,16 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
 - (void)setItem:(ZHCartGoodsModel *)item {
     
     _item = item;
-    [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[_item.advPic convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
-    self.nameLbl.text = _item.productName;
+    [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[_item.product.advPic convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
+    self.nameLbl.text = _item.product.name;
 //    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_item.qbb GWB:_item.gwb RMB:_item.rmb];
     
-    self.priceLbl.attributedText  = [ZHCurrencyHelper totalPriceAttr2WithQBB:_item.qbb GWB:_item.gwb RMB:_item.rmb bouns:CGRectMake(0, -2, 15, 15)];
+    self.priceLbl.attributedText  = [ZHCurrencyHelper stepPriceWithQBB:_item.qbb GWB:_item.gwb
+                                                        RMB:_item.rmb bounds:CGRectMake(0, -2, 15, 15)
+                                                                                         count:1];
+                                     
+                                     
+//                                     totalPriceAttr2WithQBB:_item.qbb GWB:_item.gwb RMB:_item.rmb bouns:CGRectMake(0, -2, 15, 15)];
     
     self.stepView.count = [_item.quantity integerValue];
     
@@ -112,7 +118,7 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
 
 + (CGFloat)rowHeight {
     
-    return 110;
+    return 140;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -153,9 +159,13 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
                                            font:FONT(15)
                                       textColor:[UIColor zh_themeColor]];
         [self addSubview:self.priceLbl];
+        self.priceLbl.numberOfLines = 0;
+        
+       
+   
         
         //
-        self.stepView = [[ZHStepView alloc] initWithFrame:CGRectMake(self.nameLbl.x, self.priceLbl.yy + 12, 145, 25) type:ZHStepViewTypeSimple];
+        self.stepView = [[ZHStepView alloc] initWithFrame:CGRectMake(self.priceLbl.x,self.coverImageV.yy + 10, 145, 25) type:ZHStepViewTypeSimple];
         [self addSubview:self.stepView];
         
         __weak typeof(self) weakself = self;
@@ -168,6 +178,8 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
             if (weakself.isSelected) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:kSelectedCartGoodsCountChangeNotification object:nil];
             }
+
+            [weakself.activity startAnimating];
             TLNetworking *http = [TLNetworking new];
             http.code = @"808042";
             http.parameters[@"code"] = weakself.item.code;
@@ -176,9 +188,11 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
             [http postWithSuccess:^(id responseObject) {
                 
                 [ZHCartManager manager].count = [ZHCartManager manager].count - dValue;
-                
+                [weakself.activity stopAnimating];
+
             } failure:^(NSError *error) {
-                
+                [weakself.activity stopAnimating];
+                [TLAlert alertWithHUDText:@"编辑购物车失败"];
             }];
 
         
@@ -190,6 +204,28 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
         [self.deleteBtn addTarget:self action:@selector(deleteSelf) forControlEvents:UIControlEventTouchUpInside];
         self.deleteBtn.centerY = self.stepView.centerY;
         [self addSubview:self.deleteBtn];
+        
+        
+        [self.priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLbl.mas_left);
+            make.right.equalTo(self.mas_right).offset(-10);
+            make.top.equalTo(self.nameLbl.mas_bottom).offset(3);
+            make.bottom.lessThanOrEqualTo(self.coverImageV.mas_bottom);
+        }];
+        
+        //
+        self.activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.coverImageV.x, 110, 20, 20)];
+        self.activity.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+//        self.activity.backgroundColor = [UIColor orangeColor];
+        [self addSubview:self.activity];
+//        self.activity.hidesWhenStopped = YES;
+        [self.activity mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_right).offset(-10);
+            make.top.equalTo(self.mas_top).offset(10);
+            
+            make.width.mas_equalTo(20);
+            make.height.mas_equalTo(20);
+        }];
         
         //
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, [[self class] rowHeight] - LINE_HEIGHT, SCREEN_WIDTH, LINE_HEIGHT)];

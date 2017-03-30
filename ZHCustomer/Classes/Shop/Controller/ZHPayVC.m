@@ -17,6 +17,7 @@
 #import "ZHPaySceneManager.h"
 #import "TLWXManager.h"
 #import "ZHCurrencyModel.h"
+#import "TLAlipayManager.h"
 
 @interface ZHPayVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -25,12 +26,11 @@
 @property (nonatomic,strong) UILabel* tempAttrLbl;
 
 @property (nonatomic,strong) TLTextField *amountTf;
-@property (nonatomic,strong) NSMutableArray <ZHCoupon *>*coupons;
+
+
+
 
 @property (nonatomic,strong) ZHPayInfoCell *couponsCell;
-
-@property (nonatomic,strong) ZHCoupon *selectedCoupon;
-
 @property (nonatomic,strong) UILabel *priceLbl;
 
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
@@ -45,34 +45,46 @@
 
 
 #pragma mark- textField--代理
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    
+
     if (!textField.text && textField.text.length <= 0) {
         
-          self.priceLbl.text = @"0";
-        return;
+        self.priceLbl.text = @"0";
+        return ;
     }
     
     if (self.selectedCoupon) {
         
-        if ([textField.text greaterThanOrEqual:self.selectedCoupon.ticketKey1]) {
+        if ([textField.text greaterThanOrEqual:self.selectedCoupon.storeTicket.key1]) {
             
-            CGFloat num = [textField.text floatValue] - [[self.selectedCoupon.ticketKey2 convertToRealMoney] floatValue];
+            CGFloat value1 = [textField.text floatValue];
+            CGFloat value2 = [[self.selectedCoupon.storeTicket.key2 convertToRealMoney] floatValue];
+            
+            CGFloat num = value1 - value2;
+            
             self.priceLbl.text = [NSString stringWithFormat:@"%.2f",num];
             
         } else {
-        
-           self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
-        
+            
+            self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
+            
         }
         
     } else {
-    
+        
         self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
         
     }
-  
+    
+
 }
+
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+//
+//}
+
+
 
 - (void)canclePay {
 
@@ -155,30 +167,7 @@
     
     if (self.type == ZHPayVCTypeShop) { //优店
         
-        //查询折扣券
-        //0 未使用 1.已使用 2.已过期
-        //  isExist用户是否拥有此折扣券 ，1代表有了，0 没有
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"808228";
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"status"] = @"0";
-        http.parameters[@"start"] = @"1";
-        http.parameters[@"limit"] = @"1000";
-        http.parameters[@"storeCode"] = self.shop.code;
-        http.parameters[@"token"] = [ZHUser user].token;
-        [http postWithSuccess:^(id responseObject) {
-            
-            self.coupons = [ZHCoupon tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
-            
-            if (self.coupons.count > 0) {
-                self.selectedCoupon = self.coupons[0];
-            }
-            
-        } failure:^(NSError *error) {
-            
-            
-        }];
+   
         
     }
     
@@ -210,26 +199,46 @@
         });
         
     };
-    
+#pragma mark- 支付宝支付回调
+    [[TLAlipayManager manager] setPayCallBack:^(BOOL isSuccess, NSDictionary *resultDict){
+        
+        if (isSuccess) {
+            
+            [TLAlert alertWithHUDText:@"支付成功"];
+            
+            if (self.paySucces) {
+                self.paySucces();
+            }
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            
+        } else {
+        
+            [TLAlert alertWithHUDText:@"支付失败"];
+
+        
+        }
+        
+    }];
+
 
     
 #pragma mark- 除汇赚宝外  获得余额
     //首先获得总额
-    TLNetworking *http2 = [TLNetworking new];
-    http2.code = @"808801";
-    http2.parameters[@"userId"] = [ZHUser user].userId;
-    http2.parameters[@"token"] = [ZHUser user].token;
-    [http2 postWithSuccess:^(id responseObject) {
-        
-      NSNumber *surplusMoney =  responseObject[@"data"];
-      self.pays[0].payName = [NSString stringWithFormat:@"余额(%@)",[surplusMoney convertToRealMoney]];
-      [self.payTableView reloadData];
-        
-        
-    } failure:^(NSError *error) {
-        
-        
-    }];
+//    TLNetworking *http2 = [TLNetworking new];
+//    http2.code = @"808801";
+//    http2.parameters[@"userId"] = [ZHUser user].userId;
+//    http2.parameters[@"token"] = [ZHUser user].token;
+//    [http2 postWithSuccess:^(id responseObject) {
+//        
+//      NSNumber *surplusMoney =  responseObject[@"data"];
+//      self.pays[0].payName = [NSString stringWithFormat:@"余额(%@)",[surplusMoney convertToRealMoney]];
+//      [self.payTableView reloadData];
+//        
+//        
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
     
 }
 
@@ -288,22 +297,26 @@
 #pragma mark- 优店支付
 - (void)shopPay:(NSString *)payType {
 
+//    if (payType) {
+//        <#statements#>
+//    }
+//    
+//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
     
-    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-        
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
         http.code = @"808241";
         http.parameters[@"userId"] = [ZHUser user].userId;
         http.parameters[@"storeCode"] = self.shop.code;
-        if (self.selectedCoupon && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.ticketKey1]) {
+    
+        if (self.selectedCoupon && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.storeTicket.key1]) {
             
             http.parameters[@"ticketCode"] = self.selectedCoupon.code; //优惠券编号
         }
-        
+    
         http.parameters[@"amount"] = [self.amountTf.text convertToSysMoney];
         http.parameters[@"token"] = [ZHUser user].token;
-        http.parameters[@"ip"] = data[@"ip"];
+//        http.parameters[@"ip"] = data[@"ip"];
         http.parameters[@"payType"] = payType;
         
         //        payType = http.parameters[@"payType"];
@@ -315,6 +328,11 @@
                 
                 [self wxPayWithInfo:responseObject[@"data"]];
                 
+            } else if([payType isEqualToString: @"3"]) {
+            
+                [self aliPayWithInfo:responseObject[@"data"]];
+                
+            
             } else {
                 
                 [TLAlert alertWithHUDText:@"支付成功"];
@@ -323,13 +341,24 @@
             
         } failure:^(NSError *error) {
             
+            
         }];
-        
-    } abnormality:nil failure:^(NSError *error) {
-        
-        
-    }];
     
+        
+//    } abnormality:nil failure:^(NSError *error) {
+//        
+//        
+//    }];
+
+}
+
+- (void)aliPayWithInfo:(NSDictionary *)info {
+
+
+    //支付宝回调
+    [TLAlipayManager payWithOrderStr:info[@"signOrder"]];
+    
+
 }
 
 
@@ -452,13 +481,14 @@
         selectedVC.coupons = self.coupons;
         selectedVC.selected = ^(ZHCoupon *coupon) {
         
-            self.couponsCell.infoLbl.text = [NSString stringWithFormat:@"满 %@ 减 %@",[coupon.ticketKey1 convertToRealMoney],[coupon.ticketKey2 convertToRealMoney]];
+            self.couponsCell.infoLbl.text = [NSString stringWithFormat:@"满 %@减 %@",[coupon.storeTicket.key1 convertToSimpleRealMoney],[coupon.storeTicket.key2 convertToSimpleRealMoney]];
             self.selectedCoupon = coupon;
             
             //重新计算金额
-            if (self.amountTf.text && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.ticketKey1]) {
+            if (self.amountTf.text && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.storeTicket.key1]) {
                 
-                CGFloat num = [self.amountTf.text floatValue] - [[self.selectedCoupon.ticketKey2 convertToRealMoney] floatValue];
+                CGFloat num = [self.amountTf.text floatValue] - [[self.selectedCoupon.storeTicket.key2 convertToRealMoney] floatValue];
+                
                 self.priceLbl.text = [NSString stringWithFormat:@"%.2f",num];
                 
             } else {
@@ -485,6 +515,15 @@
    
 }
 
+- (NSMutableArray<ZHCoupon *> *)coupons {
+
+    if (!_coupons) {
+        
+        _coupons = [[NSMutableArray alloc] init];
+    }
+    
+    return _coupons;
+}
 
 //
 - (void)setUpUI {
@@ -622,7 +661,8 @@
         infoCell.titleLbl.text = @"使用抵扣券";
         if (self.coupons.count > 0) {
             
-            infoCell.infoLbl.text =  [NSString stringWithFormat:@"满 %@ 减 %@",[self.coupons[0].ticketKey1 convertToSimpleRealMoney],[self.coupons[0].ticketKey2 convertToSimpleRealMoney]];
+//            infoCell.infoLbl.text =  [NSString stringWithFormat:@"满 %@ 减 %@",[self.coupons[0].ticketKey1 convertToSimpleRealMoney],[self.coupons[0].ticketKey2 convertToSimpleRealMoney]];
+            infoCell.infoLbl.text = @"请选择折扣券";
             
         } else {
         
@@ -671,22 +711,22 @@
     
 }
 
-- (UILabel *)tempAttrLbl {
-    
-    if (!_tempAttrLbl) {
-        
-        _tempAttrLbl  = [UILabel  labelWithFrame:CGRectMake(0, 0, self.amountTf.width, self.amountTf.height)
-                                    textAligment:NSTextAlignmentLeft
-                                 backgroundColor:[UIColor whiteColor]
-                                            font:[UIFont secondFont]
-                                       textColor:[UIColor zh_themeColor]];
-        _tempAttrLbl.backgroundColor = [UIColor whiteColor];
-        _tempAttrLbl.numberOfLines = 0;
-        
-    }
-    return _tempAttrLbl;
-    
-}
+//- (UILabel *)tempAttrLbl {
+//    
+//    if (!_tempAttrLbl) {
+//        
+//        _tempAttrLbl  = [UILabel  labelWithFrame:CGRectMake(0, 0, self.amountTf.width, self.amountTf.height)
+//                                    textAligment:NSTextAlignmentLeft
+//                                 backgroundColor:[UIColor whiteColor]
+//                                            font:[UIFont secondFont]
+//                                       textColor:[UIColor zh_themeColor]];
+//        _tempAttrLbl.backgroundColor = [UIColor whiteColor];
+//        _tempAttrLbl.numberOfLines = 0;
+//        
+//    }
+//    return _tempAttrLbl;
+//    
+//}
 
 
 

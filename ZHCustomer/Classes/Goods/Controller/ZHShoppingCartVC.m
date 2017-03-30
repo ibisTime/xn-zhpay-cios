@@ -96,7 +96,6 @@
         }];
         
         [ZHCartManager manager].count = [ZHCartManager manager].count - count;
-//        [goods[0].quantity integerValue];
         
     };
     imvc.priceAttr = self.totalPriceLbl.attributedText;

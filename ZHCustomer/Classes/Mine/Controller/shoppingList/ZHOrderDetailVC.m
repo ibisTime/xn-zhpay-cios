@@ -90,7 +90,7 @@
         //商品购买
         
         ZHPayVC *payVC = [[ZHPayVC alloc] init];
-        payVC.orderCode = self.order.code;
+//        payVC.orderCode = self.order.code;
         payVC.orderAmount = self.order.amount1; //把人民币传过去
     
 //    payVC.amoutAttr = [ZHCurrencyHelper stepPriceWithQBB:self.order.amount3 GWB:self.order.amount2 RMB:self.order.amount1 bounds:CGRectMake(0, 0, 10, 10) count:1];

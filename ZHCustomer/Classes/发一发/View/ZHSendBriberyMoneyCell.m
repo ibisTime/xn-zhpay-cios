@@ -54,7 +54,7 @@
     }
     
     self.receiverPeopleLbl.text = receiverText;
-    self.nameLbl.text = _briberMoney.advTitle;
+    self.nameLbl.text = _briberMoney.slogan;
     self.numberLbl.text = [NSString stringWithFormat:@"红包编号%@",_briberMoney.code];
         
 }

@@ -56,13 +56,13 @@
     if (_shopOrderModel.storeTicket) {
         
         self.couponsLbl.attributedText = [_shopOrderModel.storeTicket discountInfoDescription01IsIng:YES];
-      price = [@([_shopOrderModel.amount1 longLongValue] + [_shopOrderModel.storeTicket.key2 longLongValue]) convertToRealMoney];
+      price = [@([_shopOrderModel.payAmount1 longLongValue] + [_shopOrderModel.storeTicket.key2 longLongValue]) convertToRealMoney];
         
 //        self.priceLbl.text = [NSString stringWithFormat:@"消费：￥%@",price];
 
     } else {
         
-       price = [_shopOrderModel.amount1 convertToRealMoney];
+       price = [_shopOrderModel.payAmount1 convertToRealMoney];
        self.couponsLbl.text = @"没有使用折扣券";
         
     }
@@ -75,9 +75,8 @@
 
     //@"使用满100减10折扣券";
 
-    
-    NSMutableAttributedString *attrPrSF = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"实付：￥%@",[_shopOrderModel.amount1 convertToRealMoney]]];
-    [attrPrSF addAttribute:NSForegroundColorAttributeName value:[UIColor zh_themeColor] range:NSMakeRange(3, [_shopOrderModel.amount1 convertToRealMoney].length + 1)];
+    NSMutableAttributedString *attrPrSF = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"实付：￥%@",[_shopOrderModel.payAmount1 convertToRealMoney]]];
+    [attrPrSF addAttribute:NSForegroundColorAttributeName value:[UIColor zh_themeColor] range:NSMakeRange(3, [_shopOrderModel.payAmount1 convertToRealMoney].length + 1)];
     self.discountPriceLbl.attributedText = attrPrSF;
 
 }

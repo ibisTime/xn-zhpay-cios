@@ -15,4 +15,7 @@
 - (UIView *)tl_placholderViewWithTitle:(NSString *)title opTitle:(NSString *)opTitle;
 - (void)tl_placeholderOperation;
 
+- (void)tl_showPlaceholder;
+- (void)tl_hiddenPlaceholder;
+
 @end

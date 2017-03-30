@@ -31,18 +31,23 @@
     //先查出
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    http.code = @"615115";
+    http.code = @"615105";
     http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"1";
     http.parameters[@"token"] = [ZHUser user].token;
 
     [http postWithSuccess:^(id responseObject) {
         
-        NSDictionary *dict = responseObject[@"data"][0];
+        NSArray *arr =  responseObject[@"data"][@"list"];
+        if (arr.count <= 0) {
+            [TLAlert alertWithMsg:@"暂无汇赚宝"];
+            return ;
+        }
+        NSDictionary *dict = arr[0];
         self.HZBModel = [ZHHZBModel tl_objectWithDictionary:dict];
         [self setUpUI];
         
-//        self.priceLbl.text = [NSString stringWithFormat:@"价格: %@ 元",[self.HZBModel.price convertToRealMoney]];
+        self.priceLbl.text = [NSString stringWithFormat:@"价格: %@ 元",[self.HZBModel.price convertToRealMoney]];
         
     } failure:^(NSError *error) {
         

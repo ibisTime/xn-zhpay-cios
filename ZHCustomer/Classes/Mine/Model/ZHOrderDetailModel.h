@@ -15,6 +15,8 @@
 @property (nonatomic,strong) NSNumber *quantity;
 
 
+
+@property (nonatomic, strong) NSDictionary *product;
 @property (nonatomic,copy) NSString *code;
 @property (nonatomic,copy) NSString *advPic;
 @property (nonatomic,copy) NSString *orderCode;

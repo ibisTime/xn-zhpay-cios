@@ -37,6 +37,7 @@
 @end
 
 @implementation ZHImmediateBuyVC
+
 - (ZHAddressChooseView *)chooseView {
 
     if (!_chooseView) {
@@ -89,15 +90,6 @@
      
         self.totalPriceLbl.attributedText = self.priceAttr;
         
-    }  else if (self.type == ZHIMBuyTypeYYDBChooseAddress) { //一元夺宝地址选择
-    
-        
-//       self.tableV.tableFooterView = nil;
-       self.title = @"选择收货地址";
-       [self.buyBtn setTitle:@"确认地址" forState:UIControlStateNormal];
-        self.tableV.tableFooterView.alpha = 0.0;
-    
-        
     }
     
 
@@ -125,18 +117,32 @@
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
         http.code = @"808051";
-        http.parameters[@"receiver"] = self.currentAddress.addressee;
-        http.parameters[@"reMobile"] = self.currentAddress.mobile;
-        http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
-        http.parameters[@"applyUser"] = [ZHUser user].userId;
+        
+        http.parameters[@"cartCodeList"] = codes ;
+
+        
+        NSMutableDictionary *pojo = [NSMutableDictionary dictionary];
+        pojo[@"receiver"] = self.currentAddress.addressee;
+        pojo[@"reMobile"] = self.currentAddress.mobile;
+        pojo[@"reAddress"] = self.currentAddress.totalAddress;
+        pojo[@"applyUser"] = [ZHUser user].userId;
+        
+        pojo[@"companyCode"] = @"CD-CZH000001";
+        pojo[@"systemCode"] = @"CD-CZH000001";
+        
+        http.parameters[@"pojo"] = pojo;
+//        http.parameters[@"receiver"] = self.currentAddress.addressee;
+//        http.parameters[@"reMobile"] = self.currentAddress.mobile;
+//        http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
+//        http.parameters[@"applyUser"] = [ZHUser user].userId;
+        
         http.parameters[@"token"] = [ZHUser user].token;
         if ([self.enjoinTf.text valid]) {
             
-          http.parameters[@"applyNote"] = self.enjoinTf.text;
+          pojo[@"applyNote"] = self.enjoinTf.text;
             
         }
         
-       http.parameters[@"cartCodeList"] = codes ;
        [http postWithSuccess:^(id responseObject) {
            
 //           NSString *ddCode = responseObject[@"data"];
@@ -152,13 +158,15 @@
            //商品购买
            ZHPayVC *payVC = [[ZHPayVC alloc] init];
            //订单编号
-           payVC.codeList = responseObject[@"data"][@"codeList"];
+           
+           NSString *编号  = responseObject[@"data"];
+//           payVC.codeList = responseObject[@"data"][@"codeList"];
            
            //传人民币过去
            __block  long long totalRmb = 0;
            [self.cartGoodsRoom enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                
-               totalRmb += [obj.price1 longLongValue]*[obj.quantity integerValue];
+               totalRmb += [obj.rmb longLongValue]*[obj.quantity integerValue];
                
            }];
 //           NSNumber *rmb = self.cartGoodsRoom[0].price1;
@@ -207,16 +215,32 @@
         http.code = @"808050";
         http.parameters[@"productCode"] = goods.code;
         http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",goods.count];
+        
+        NSMutableDictionary *pojo = [NSMutableDictionary dictionary];
+        pojo[@"receiver"] = self.currentAddress.addressee;
+        pojo[@"reMobile"] = self.currentAddress.mobile;
+        pojo[@"reAddress"] = self.currentAddress.totalAddress;
+        pojo[@"applyUser"] = [ZHUser user].userId;
+
+        pojo[@"companyCode"] = @"CD-CZH000001";
+        pojo[@"systemCode"] = @"CD-CZH000001";
+
+        
+        http.parameters[@"pojo"] = pojo;
+        
+//        http.parameters[@"receiver"] =
+//        http.parameters[@"reMobile"] = self.currentAddress.mobile;
+//        http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
+//        http.parameters[@"applyUser"] = [ZHUser user].userId;
+
         //根据收货地址
-        http.parameters[@"receiver"] = self.currentAddress.addressee;
-        http.parameters[@"reMobile"] = self.currentAddress.mobile;
-        http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
-        http.parameters[@"applyUser"] = [ZHUser user].userId;
         http.parameters[@"token"] = [ZHUser user].token;
         if ([self.enjoinTf.text valid]) {
             
-            http.parameters[@"applyNote"] = self.enjoinTf.text;
+            pojo[@"applyNote"] = self.enjoinTf.text;
+            
         }
+        
         [http postWithSuccess:^(id responseObject) {
             
             //订单编号
@@ -224,7 +248,7 @@
             
             //商品购买
             ZHPayVC *payVC = [[ZHPayVC alloc] init];
-            payVC.orderCode = orderCode;
+//            payVC.orderCode = orderCode;
             NSNumber *rmb = self.goodsRoom[0].price1;
             payVC.orderAmount = @([rmb longLongValue]*self.goodsRoom[0].count); //把人民币传过去
             payVC.amoutAttr = self.totalPriceLbl.attributedText;
@@ -249,66 +273,7 @@
         return;
     }
     
-//     if (self.type == ZHIMBuyTypeYYDB && self.treasureRoom) { //一元夺宝购买
-//        //商品购买
-//        ZHPayVC *payVC = [[ZHPayVC alloc] init];
-////        payVC.orderCode = orderCode;
-//        payVC.type = ZHPayVCTypeYYDB;
-//        NSNumber *rmb = self.treasureRoom[0].price1;
-//        payVC.orderAmount = @([rmb longLongValue]*self.treasureRoom[0].count); //把人民币传过去
-//        payVC.treasureModel = self.treasureRoom[0];
-//        payVC.amoutAttr = self.totalPriceLbl.attributedText;
-//
-//        payVC.paySucces = ^(){
-//            
-//            //夺宝
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"dbBuySuccess" object:nil];
-//            
-//            [TLAlert alertWithHUDText:@"参与夺宝成功"];
-//            [self.navigationController popViewControllerAnimated:YES];
-//            
-//        };
-//        
-//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-//        [self presentViewController:nav animated:YES completion:nil];
-//        
-//         return;
-//         
-//    }
-    
-    
-    if (self.type == ZHIMBuyTypeYYDBChooseAddress) { //地址选择
-        
-        if (!self.currentAddress) {
-            
-            [TLAlert alertWithHUDText:@"请选择收货地址"];
-            return;
-        }
-        
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"808307";
-        http.parameters[@"code"] = self.yydbResCode;
-        http.parameters[@"receiver"] = self.currentAddress.addressee;
-        http.parameters[@"reMobile"] = self.currentAddress.mobile;
-        http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
 
-        [http postWithSuccess:^(id responseObject) {
-            
-            [TLAlert alertWithHUDText:@"添加收货地址成功"];
-            [self.navigationController popViewControllerAnimated:YES];
-            if (self.chooseYYDBSuccess) {
-                self.chooseYYDBSuccess();
-            }
-            
-        } failure:^(NSError *error) {
-            
-            
-        }];
-
-        return;
-    }
-    
     
 }
 

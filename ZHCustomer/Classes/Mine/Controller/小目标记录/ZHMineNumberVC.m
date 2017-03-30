@@ -50,7 +50,7 @@
     //
     if (self.isMineHistory) { //我的记录
        
-        if ([self.historyModel.jewel.status isEqual:@0]) { //还未揭晓
+        if ([self.dbModel.status isEqual:@0]) { //还未揭晓
             
             UIButton *shareBtn = [UIButton zhBtnWithFrame:CGRectMake(0, SCREEN_HEIGHT - 55 - 64, SCREEN_WIDTH - 45, 45) title:@"追加"];
             [self.view addSubview:shareBtn];
@@ -82,8 +82,8 @@
         
         TLNetworking *http = [TLNetworking new];
 
-        http.code = @"808318";
-        http.parameters[@"jewelCode"] = self.historyModel.jewel.code;
+        http.code = @"61502821";
+        http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"start"] = @"1";
         http.parameters[@"limit"] = @"40";
         http.parameters[@"userId"] = self.isMineHistory ? [ZHUser user].userId : nil;
@@ -109,7 +109,7 @@
         
         TLNetworking *http = [TLNetworking new];
         http.code = @"808318";
-        http.parameters[@"jewelCode"] = self.historyModel.jewel.code;
+        http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
         http.parameters[@"limit"] = @"40";
         http.parameters[@"userId"] = self.isMineHistory ? [ZHUser user].userId : nil;
@@ -146,7 +146,7 @@
     
     
     //中奖号码
-    if ([self.historyModel.jewel.status isEqual:@1]) {
+    if ([self.dbModel.status isEqual:@1]) {
         
         
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, numberCollectionView.yy, SCREEN_WIDTH, 100)];
@@ -187,16 +187,16 @@
             make.top.equalTo(winPeopleLbl.mas_bottom).offset(8);
         }];
         
-        numberLbl.attributedText = [self convertStrWithStr:[NSString stringWithFormat:@"中奖号码: %@",self.historyModel.jewel.winNumber ] value:@{
+        numberLbl.attributedText = [self convertStrWithStr:[NSString stringWithFormat:@"中奖号码: %@",self.dbModel.winNumber ] value:@{
                                 NSForegroundColorAttributeName : [UIColor zh_themeColor]
-                                                                                                                                             } range:NSMakeRange(6,self.historyModel.jewel.winNumber.length)];
+                                                                                                                                             } range:NSMakeRange(6,self.dbModel.winNumber.length)];
         
         
-        winTimeLbl.text = [NSString stringWithFormat:@"揭晓时间: %@",[self.historyModel.jewel.winDatetime convertToDetailDate]];
+        winTimeLbl.text = [NSString stringWithFormat:@"揭晓时间: %@",[self.dbModel.winDatetime convertToDetailDate]];
         //
         if (!self.isMineHistory) {
             
-            winPeopleLbl.text = [NSString stringWithFormat:@"中奖者: %@",self.historyModel.jewel.winUser];
+            winPeopleLbl.text = [NSString stringWithFormat:@"中奖者: %@",self.dbModel.winUser];
         }
 
         
@@ -221,7 +221,7 @@
 
     //调到宝贝
     ZHDuoBaoDetailVC *detailVC = [[ZHDuoBaoDetailVC alloc] init];
-    detailVC.dbModel = self.historyModel.jewel;
+    detailVC.dbModel = self.dbModel;
     [self.navigationController pushViewController:detailVC animated:YES];
     
 
@@ -260,7 +260,7 @@
         
     }
     cell.type = [NSString stringWithFormat:@"%ld",indexPath.row  + 1];
-    cell.dbModel = self.historyModel.jewel;
+    cell.dbModel = self.dbModel;
     return cell;
     
     

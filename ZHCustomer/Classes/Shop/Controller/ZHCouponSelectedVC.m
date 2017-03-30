@@ -51,8 +51,9 @@
     }
     
     ZHCoupon *coupon = self.coupons[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"满 %@减 %@",[coupon.ticketKey1 convertToSimpleRealMoney],[coupon.ticketKey2 convertToSimpleRealMoney]];
+    cell.textLabel.text = [NSString stringWithFormat:@"满 %@减 %@",[coupon.storeTicket.key1 convertToSimpleRealMoney],[coupon.storeTicket.key2 convertToSimpleRealMoney]];
     return cell;
 
+    
 }
 @end

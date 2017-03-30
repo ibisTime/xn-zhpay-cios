@@ -10,4 +10,16 @@
 
 @implementation ZHOrderDetailModel
 
+- (NSString *)productName {
+
+    return self.product[@"name"];
+}
+
+- (NSString *)advPic {
+
+    return self.product[@"advPic"];
+
+    
+}
+
 @end

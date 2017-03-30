@@ -12,7 +12,6 @@
 #import "AppDelegate+JPush.h"
 
 #import "UMMobClick/MobClick.h"
-#import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
 #import "IQKeyboardManager.h"
 #import "ChatViewController.h"
@@ -25,6 +24,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "ChatManager.h"
 #import "ZHCartManager.h"
+#import "TLAlipayManager.h"
 
 //#ifdef NSFoundationVersionNumber_iOS_9_x_Max
 //#import <UserNotifications/UserNotifications.h>
@@ -232,13 +232,7 @@ void UncaughtExceptionHandler(NSException *exception){
     
     if ([url.host isEqualToString:@"safepay"]) {
         
-        //跳转支付宝钱包进行支付，处理支付结果
-        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-            
-            NSLog(@"result = %@",resultDic);
-            
-        }];
-        
+        [TLAlipayManager hadleCallBackWithUrl:url];
         return YES;
 
     } else {
@@ -249,6 +243,9 @@ void UncaughtExceptionHandler(NSException *exception){
     //
     
 }
+
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     

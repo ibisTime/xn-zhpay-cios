@@ -102,12 +102,42 @@
         return;
     }
     
-    //支付
-    ZHPayVC *payVC = [[ZHPayVC alloc] init];
-    payVC.shop = self.shop;
-    payVC.type = ZHPayVCTypeShop;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-    [self presentViewController:nav animated:YES completion:nil];
+    //先查询在该商家上是否有折扣券
+    //查询折扣券
+    //0=未使用；1=已使用；2=已过期
+    //  isExist用户是否拥有此折扣券 ，1代表有了，0 没有
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"808265";
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    http.parameters[@"status"] = @"0";
+    http.parameters[@"start"] = @"1";
+    http.parameters[@"limit"] = @"1000";
+    http.parameters[@"storeCode"] = self.shop.code;
+    http.parameters[@"token"] = [ZHUser user].token;
+    [http postWithSuccess:^(id responseObject) {
+        
+        NSArray <ZHCoupon *> *coupons = [ZHCoupon tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+        
+        //支付
+        ZHPayVC *payVC = [[ZHPayVC alloc] init];
+        payVC.shop = self.shop;
+        payVC.type = ZHPayVCTypeShop;
+        
+        if (coupons && coupons.count > 0) {
+            payVC.coupons = [coupons mutableCopy];
+
+        }
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+        [self presentViewController:nav animated:YES completion:nil];
+        
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+    
+
     
 
 }

@@ -46,6 +46,26 @@
 
 @end
 
+//advPic = "OSS_1490855916926_128_128.png";
+//code = J201703301611126465;
+//companyCode = "CD-CZH000001";
+//fromAmount = 10000;
+//fromCurrency = FRB;
+//investNum = 100;
+//maxNum = 1000;
+//periods = 5;
+//slogan = "\U5ba3\U4f20\U6587\U5b57";
+//startDatetime = "Mar 30, 2017 4:11:12 PM";
+//status = 1;
+//systemCode = "CD-CZH000001";
+//templateCode = JT201703232129414347;
+//toAmount = 10000;
+//toCurrency = FRB;
+//totalNum = 100;
+//winDatetime = "Mar 30, 2017 4:11:49 PM";
+//winNumber = 10000023;
+//winUser = U2017032915445414717;
+
 
 //code = JR201702221356574805;
 //investDatetime = "Feb 22, 2017 1:56:57 PM";

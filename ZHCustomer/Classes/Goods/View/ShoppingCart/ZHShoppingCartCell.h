@@ -14,6 +14,7 @@
 
 + (CGFloat)rowHeight;
 @property (nonatomic,strong) ZHCartGoodsModel *item;
+
 @property (nonatomic,copy) void(^deleteFromCart)(ZHCartGoodsModel *item);
 
 @end

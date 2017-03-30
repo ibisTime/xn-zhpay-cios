@@ -61,35 +61,39 @@
         
         }
 
-        //判断是否购买了汇赚宝
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"808456";
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"token"] = [ZHUser user].token;
-        [http postWithSuccess:^(id responseObject) {
-            
-            NSDictionary *data = responseObject[@"data"];
-            if (data.allKeys.count > 0) { //已经购买了汇转吧
-                //            [self.bgImageV removeFromSuperview];
-                
-                [self hasHZBUI];
-                [self.briberyMoneyTableV beginRefreshing];
-                
-            } else { //还没有股份
-                
-                [self.view addSubview:self.bgImageV];
-                [self.bgImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.edges.equalTo(self.view);
-                }];
-                
-            }
-            
-        } failure:^(NSError *error) {
-            
-            
-        }];
+//        //判断是否购买了汇赚宝
+//        TLNetworking *http = [TLNetworking new];
+//        http.showView = self.view;
+//        http.code = @"615135";
+//        http.parameters[@"owner"] = [ZHUser user].userId;
+////        http.parameters[@"userId"] = [ZHUser user].userId;
+//        http.parameters[@"token"] = [ZHUser user].token;
+//        [http postWithSuccess:^(id responseObject) {
+//            
+//            NSDictionary *data = responseObject[@"data"];
+//            if (data.allKeys.count > 0) { //已经购买了汇转吧
+//                //            [self.bgImageV removeFromSuperview];
+//                
+//                [self hasHZBUI];
+//                [self.briberyMoneyTableV beginRefreshing];
+//                
+//            } else { //还没有股份
+//                
+//                [self.view addSubview:self.bgImageV];
+//                [self.bgImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+//                    make.edges.equalTo(self.view);
+//                }];
+//                
+//            }
+//            
+//        } failure:^(NSError *error) {
+//            
+//            
+//        }];
     
+        [self hasHZBUI];
+        [self.briberyMoneyTableV beginRefreshing];
+        
     } else if(self.displayType == ZHBriberyMoneyVCTypeHistory){
     
 //        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史记录" style:UIBarButtonItemStylePlain target:self action:@selector(history)];
@@ -235,7 +239,7 @@
 
     //// 0=待转发 1=待领取 2=已领取   3=已失效
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808475";
+    helper.code = @"615135";
     helper.parameters[@"owner"] = [ZHUser user].userId;
     
     if (self.displayType == ZHBriberyMoneyVCTypeHistory) {
@@ -357,7 +361,7 @@
             
             //用户发送成功之后---选择留在微信。无法获取，回调事件
             TLNetworking *http = [TLNetworking new];
-            http.code = @"808470";
+            http.code = @"615130";
             http.parameters[@"code"] = self.briberyMoneyRooms[indexPath.row].code;
             http.parameters[@"userId"] = [ZHUser user].userId;
             [http postWithSuccess:^(id responseObject) {

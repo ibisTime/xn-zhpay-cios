@@ -14,9 +14,7 @@
 typedef NS_ENUM(NSInteger,ZHIMBuyType){
     
     ZHIMBuyTypeSingle = 0, //单个商品
-    ZHIMBuyTypeAll, //购物车商品
-    ZHIMBuyTypeYYDB,
-    ZHIMBuyTypeYYDBChooseAddress //作为一元夺宝 选择地址界面
+    ZHIMBuyTypeAll //购物车商品
     
 };
 
@@ -27,18 +25,15 @@ typedef NS_ENUM(NSInteger,ZHIMBuyType){
 //普通商品
 @property (nonatomic,strong) NSArray<ZHGoodsModel *> *goodsRoom;
 
-//购物商品
-//@property (nonatomic,strong) NSArray<ZHTreasureModel*> *treasureRoom;
-
 //购物车商品
 @property (nonatomic,strong) NSArray<ZHCartGoodsModel *> *cartGoodsRoom;
 
 @property (nonatomic,copy) NSAttributedString *priceAttr;
 
 //一元夺宝，
-@property (nonatomic,copy) NSString *yydbResCode;
+//@property (nonatomic,copy) NSString *yydbResCode;
 
-@property (nonatomic,copy) void(^chooseYYDBSuccess)();
+//@property (nonatomic,copy) void(^chooseYYDBSuccess)();
 
 @property (nonatomic,copy) void(^placeAnOrderSuccess)();
 

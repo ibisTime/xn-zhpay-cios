@@ -4,10 +4,11 @@
 //
 //  Created by  tianlei on 2017/2/22.
 //  Copyright © 2017年  tianlei. All rights reserved.
-//
+//  ---- 往期揭晓的控制器
 
 #import "ZHDBHistoryRecordVC.h"
 #import "ZHDBHistoryModel.h"
+
 #import "ZHDuoBaoCell.h"
 #import "ZHMineNumberVC.h"
 
@@ -47,8 +48,8 @@
     
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808310";
-//    0待开奖，1已中奖，2未中奖
+    helper.code = @"615015";
+    //0 募集中，1 已揭晓
     helper.parameters[@"status"] = @"1";
     helper.parameters[@"templateCode"] = self.dbModel.templateCode;
 //    helper.parameters[@"jewelCode"] =  self.dbModel.code;
@@ -99,7 +100,7 @@
     
     ZHDBHistoryModel *historyModel = [[ZHDBHistoryModel alloc] init];
     historyModel.jewel = self.dbHistoryRooms[indexPath.row];
-    mineNumberVC.historyModel =  historyModel;
+    mineNumberVC.dbModel =  historyModel;
     
     [self.navigationController pushViewController:mineNumberVC animated:YES];
     

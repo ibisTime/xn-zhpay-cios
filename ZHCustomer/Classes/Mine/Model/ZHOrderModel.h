@@ -45,6 +45,54 @@
 //买家嘱托
 @end
 
+
+//最新
+//{
+//    amount1 = 10000;
+//    amount2 = 10000;
+//    amount3 = 10000;
+//    applyDatetime = "Mar 29, 2017 9:18:24 PM";
+//    applyUser = U2017032915445414717;
+//    code = DD201703292118247828731;
+//    companyCode = "CD-CZH000001";
+//    payAmount1 = 0;
+//    payAmount2 = 0;
+//    payAmount3 = 0;
+//    productOrderList =                 (
+//                                        {
+//                                            code = CD201703292118247827;
+//                                            companyCode = "CD-CZH000001";
+//                                            orderCode = DD201703292118247828731;
+//                                            price1 = 10000;
+//                                            price2 = 10000;
+//                                            price3 = 10000;
+//                                            product =                         {
+//                                                advPic = "ANDROID_1490779593774_612_344.jpg";
+//                                                name = "we bare bears";
+//                                            };
+//                                            productCode = CP201703291727333540;
+//                                            quantity = 1;
+//                                            systemCode = "CD-CZH000001";
+//                                        }
+//                                        );
+//    promptTimes = 0;
+//    reAddress = "\U6d59\U6c5f\U7701\U676d\U5dde\U5e02\U4e0a\U57ce\U533a\U604d\U604d\U60da\U60da\U604d\U604d\U60da\U60da";
+//    reMobile = 13868074590;
+//    receiver = "\U9690\U9690\U7ea6\U7ea6";
+//    remark = "\U8ba2\U5355\U65b0\U63d0\U4ea4\Uff0c\U5f85\U652f\U4ed8";
+//    status = 1;
+//    systemCode = "CD-CZH000001";
+//    type = 1;
+//    updateDatetime = "Mar 29, 2017 9:18:24 PM";
+//    updater = U2017032915445414717;
+//    yunfei = 0;
+//}
+
+
+
+
+
+//---------------//
 //填写快递号
 //填写单号
 //amount1 = 2000;
