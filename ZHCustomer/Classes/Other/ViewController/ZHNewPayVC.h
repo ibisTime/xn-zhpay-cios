@@ -15,7 +15,9 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
     
 
     ZHPayViewCtrlTypeHZB = 0, //汇赚宝
-    ZHPayViewCtrlTypeNewYYDB //2.0版本的一元夺宝
+    ZHPayViewCtrlTypeNewYYDB, //2.0版本的一元夺宝
+    ZHPayViewCtrlTypeNewGoods //购物车支付 和 单个商品支付
+
     
 };
 
@@ -31,14 +33,18 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 @property (nonatomic,strong) ZHHZBModel *HZBModel;
 
 
-//人民币价格
 //各种总金额----富文本
 @property (nonatomic,copy) NSAttributedString *amoutAttr;
-@property (nonatomic,strong) NSNumber *orderAmount;
+
+//人民币价格
+@property (nonatomic,strong) NSNumber *rmbAmount;
+
 
 //2.0一元夺宝所需要的支付模型
 @property (nonatomic,strong) ZHDBModel *dbModel;
 
+//商品支付
+@property (nonatomic, copy) NSArray <NSString *>*goodsCodeList;
 
 
 @end

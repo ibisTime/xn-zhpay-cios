@@ -26,6 +26,8 @@
 		2E1762BA1E23B7DC00CAE489 /* ZHAdvDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1762B91E23B7DC00CAE489 /* ZHAdvDetailVC.m */; };
 		2E1762BD1E2486D100CAE489 /* ZHBannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1762BC1E2486D100CAE489 /* ZHBannerModel.m */; };
 		2E1762C01E24893B00CAE489 /* TLWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1762BF1E24893B00CAE489 /* TLWebVC.m */; };
+		2E1F4B531E8F87C2007E02D3 /* ZHShopTypeDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F4B521E8F87C2007E02D3 /* ZHShopTypeDisplayView.m */; };
+		2E1F4B591E8F9EC5007E02D3 /* ZHShopTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F4B581E8F9EC5007E02D3 /* ZHShopTypeModel.m */; };
 		2E22277E1E2DBB0A00B6F209 /* ZHSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E22277D1E2DBB0A00B6F209 /* ZHSearchVC.m */; };
 		2E2227801E2E846100B6F209 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E22277F1E2E846100B6F209 /* MetalKit.framework */; };
 		2E2227831E2F100900B6F209 /* ZHShopOrderDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2227821E2F100900B6F209 /* ZHShopOrderDetailVC.m */; };
@@ -422,6 +424,10 @@
 		2E1762BC1E2486D100CAE489 /* ZHBannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHBannerModel.m; sourceTree = "<group>"; };
 		2E1762BE1E24893B00CAE489 /* TLWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLWebVC.h; sourceTree = "<group>"; };
 		2E1762BF1E24893B00CAE489 /* TLWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLWebVC.m; sourceTree = "<group>"; };
+		2E1F4B511E8F87C2007E02D3 /* ZHShopTypeDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShopTypeDisplayView.h; sourceTree = "<group>"; };
+		2E1F4B521E8F87C2007E02D3 /* ZHShopTypeDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShopTypeDisplayView.m; sourceTree = "<group>"; };
+		2E1F4B571E8F9EC5007E02D3 /* ZHShopTypeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShopTypeModel.h; sourceTree = "<group>"; };
+		2E1F4B581E8F9EC5007E02D3 /* ZHShopTypeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShopTypeModel.m; sourceTree = "<group>"; };
 		2E22277C1E2DBB0A00B6F209 /* ZHSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHSearchVC.h; sourceTree = "<group>"; };
 		2E22277D1E2DBB0A00B6F209 /* ZHSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHSearchVC.m; sourceTree = "<group>"; };
 		2E22277F1E2E846100B6F209 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
@@ -1163,6 +1169,15 @@
 				2E1762B01E236DCF00CAE489 /* TLWXManager.m */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		2E1F4B4D1E8F8762007E02D3 /* ShopTypeChoose */ = {
+			isa = PBXGroup;
+			children = (
+				2E1F4B511E8F87C2007E02D3 /* ZHShopTypeDisplayView.h */,
+				2E1F4B521E8F87C2007E02D3 /* ZHShopTypeDisplayView.m */,
+			);
+			path = ShopTypeChoose;
 			sourceTree = "<group>";
 		};
 		2E2264301E4DA8B400C7126E /* HyphenateSDK */ = {
@@ -1987,7 +2002,7 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		2E6E48211E164D7200FD2CA7 /* shoppingList */ = {
+		2E6E48211E164D7200FD2CA7 /* 购物清单 */ = {
 			isa = PBXGroup;
 			children = (
 				2E6E48221E164D8800FD2CA7 /* ZHShoppingListVC.h */,
@@ -1997,6 +2012,7 @@
 				2E6E48361E17AB3100FD2CA7 /* ZHOrderDetailVC.h */,
 				2E6E48371E17AB3100FD2CA7 /* ZHOrderDetailVC.m */,
 			);
+			name = "购物清单";
 			path = shoppingList;
 			sourceTree = "<group>";
 		};
@@ -2411,7 +2427,7 @@
 				2EF9DBFF1E1CC83F005E2943 /* 我的优店 */,
 				2E16D0221E5C30660029B0A5 /* 小目标记录 */,
 				2E4E8BC71E22288600AC022A /* 汇赚宝 */,
-				2E6E48211E164D7200FD2CA7 /* shoppingList */,
+				2E6E48211E164D7200FD2CA7 /* 购物清单 */,
 				2EF892A11E51C08D0068CE16 /* AboutUs */,
 				2E6E47E41E13BCBB00FD2CA7 /* Account */,
 				2E6E484C1E1B3EFC00FD2CA7 /* Wallet */,
@@ -2524,6 +2540,8 @@
 			children = (
 				2E875D0C1E0D1573007F97A5 /* ZHShop.h */,
 				2E875D0D1E0D1573007F97A5 /* ZHShop.m */,
+				2E1F4B571E8F9EC5007E02D3 /* ZHShopTypeModel.h */,
+				2E1F4B581E8F9EC5007E02D3 /* ZHShopTypeModel.m */,
 				2E1762BB1E2486D100CAE489 /* ZHBannerModel.h */,
 				2E1762BC1E2486D100CAE489 /* ZHBannerModel.m */,
 			);
@@ -2533,6 +2551,7 @@
 		2EC2ABB61E0CC8BF003EF503 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2E1F4B4D1E8F8762007E02D3 /* ShopTypeChoose */,
 				2E6E47791E10109100FD2CA7 /* Pay */,
 				2E875D1B1E0D31C5007F97A5 /* ShopDetail */,
 				2EC2ABD31E0CD28E003EF503 /* ZHShopCell.h */,
@@ -3292,6 +3311,7 @@
 				2E2265B31E4DACB200C7126E /* FixFopen.c in Sources */,
 				2E22655D1E4DACB100C7126E /* EMCDDeviceManager+Media.m in Sources */,
 				2E4E8BCD1E2228C600AC022A /* ZHBuyHZBVC.m in Sources */,
+				2E1F4B591E8F9EC5007E02D3 /* ZHShopTypeModel.m in Sources */,
 				2E875D241E0D4F8F007F97A5 /* ZHTextDetailCell.m in Sources */,
 				2E9A778C1E54492F009D8FAA /* TLPerson.m in Sources */,
 				2EC96B101E2780480079165A /* TLTool.m in Sources */,
@@ -3325,6 +3345,7 @@
 				2E2265AE1E4DACB200C7126E /* EaseMessageReadManager.m in Sources */,
 				2E875D0E1E0D1573007F97A5 /* ZHShop.m in Sources */,
 				2E2265841E4DACB200C7126E /* DACircularProgressView.m in Sources */,
+				2E1F4B531E8F87C2007E02D3 /* ZHShopTypeDisplayView.m in Sources */,
 				2EC2ADDC1E0CF55A003EF503 /* UILable+convience.m in Sources */,
 				2EF9DBEE1E1B8584005E2943 /* ZHWalletCell.m in Sources */,
 				2E2265AF1E4DACB200C7126E /* EaseEmoji.m in Sources */,

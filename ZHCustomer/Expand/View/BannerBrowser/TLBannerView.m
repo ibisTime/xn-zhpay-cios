@@ -64,6 +64,24 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
 
 }
 
+- (UIPageControl *)pageCtrl {
+
+    if (!_pageCtrl) {
+        
+        CGFloat pageControlHeight = 35;
+        UIPageControl *tmpPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pageControlHeight, self.frame.size.width, pageControlHeight)];
+        [self addSubview:tmpPageControl];
+        tmpPageControl.hidesForSinglePage = YES;
+        tmpPageControl.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        tmpPageControl.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"#cccccc"];
+        tmpPageControl.pageIndicatorTintColor = [UIColor colorWithHexString:@"#fe4332"];
+        _pageCtrl = tmpPageControl;
+        
+    }
+    
+    return _pageCtrl;
+
+}
 
 - (void)setImgUrls:(NSArray *)imgUrls {
 
@@ -89,46 +107,35 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
         
         if (_isAuto) {
             
-            CGFloat pageControlHeight = 35;
-            UIPageControl *tmpPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pageControlHeight, self.frame.size.width, pageControlHeight)];
-            [self addSubview:tmpPageControl];
-            tmpPageControl.hidesForSinglePage = YES;
-            tmpPageControl.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-            tmpPageControl.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"#cccccc"];
-            tmpPageControl.pageIndicatorTintColor = [UIColor colorWithHexString:@"#fe4332"];
+      
+            [self.pageCtrl removeFromSuperview];
             
+            //
             if (self.urls.count - 2 >= 2) {
                 
-                tmpPageControl.numberOfPages = self.urls.count - 2;
+                self.pageCtrl.numberOfPages = self.urls.count - 2;
 
             } else {
                 
-                tmpPageControl.numberOfPages = 1;
+                self.pageCtrl.numberOfPages = 1;
 
-            
             }
-            [self addSubview:tmpPageControl];
+            //
+            [self.pageControl updateCurrentPageDisplay];
+            [self addSubview:self.pageCtrl];
             
-            _pageControl = tmpPageControl;
             
         }
         
         _currentPage = 1;
-        
-        
         
         //销毁原来的定时器
         
         if (!self.timer) {
         
             __weak typeof(self) weakself = self;
-//          NSTimer *tmpTimer = [NSTimer tl_scheduledTimerWithTimeInterval:SCROLL_TIME_INTERVAL repeats:YES block:^(NSTimer *timer) {
-//              
-//              [weakself pageScroll];
-//              
-//            }];
             
-            NSTimer *tmpTimer = [NSTimer scheduledTimerWithTimeInterval:SCROLL_TIME_INTERVAL target:weakself selector:@selector(pageScroll) userInfo:nil repeats:YES];
+            NSTimer *tmpTimer = [NSTimer timerWithTimeInterval:SCROLL_TIME_INTERVAL target:weakself selector:@selector(pageScroll) userInfo:nil repeats:YES];
 //
             [[NSRunLoop currentRunLoop] addTimer:tmpTimer forMode:NSRunLoopCommonModes];
             self.timer = tmpTimer;

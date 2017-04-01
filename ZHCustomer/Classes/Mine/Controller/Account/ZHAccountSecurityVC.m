@@ -15,7 +15,7 @@
 #import "ZHAboutUsVC.h"
 #import "ZHMsgVC.h"
 #import "ZHBankCardListVC.h"
-
+#import "ZHAddressChooseVC.h"
 
 #define LEFT_W 100
 @interface ZHAccountSecurityVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -45,7 +45,7 @@
     tableV.dataSource = self;
     tableV.backgroundColor = [UIColor zh_backgroundColor];
     
-    self.names = @[@"昵称",@"手机号",@"实名认证",@"修改登录密码",@"支付密码",@"银行卡",@"系统公告",@"关于我们"];
+    self.names = @[@"昵称",@"手机号",@"实名认证",@"修改登录密码",@"支付密码",@"银行卡",@"系统公告",@"收货地址",@"关于我们"];
     
     self.nameLbl.text = [ZHUser user].nickname;
     self.mobileLbl.text = [ZHUser user].mobile;
@@ -162,7 +162,16 @@
         }
         break;
             
-        case 7: {//关于我们
+        case 7: {//收货地址
+            
+            ZHAddressChooseVC *vc = [[ZHAddressChooseVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+            
+        }
+            break;
+            
+        case 8: {//关于我们
             
             ZHAboutUsVC *vc = [[ZHAboutUsVC alloc] init];
             [self.navigationController pushViewController:vc animated:YES];

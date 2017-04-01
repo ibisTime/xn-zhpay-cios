@@ -22,15 +22,52 @@
 
 //鼓励
 @property (nonatomic, strong) UILabel *motivationLbl;
+@property (nonatomic, strong) UIImageView *navBarImageView;
 
 @end
 
 @implementation ZHMineEarningsVC
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    self.navBarImageView.alpha = 1;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.tintColor = [UIColor zh_textColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{
+                                                                      NSForegroundColorAttributeName : [UIColor zh_textColor]
+                                                                      }];
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    
+    self.navBarImageView.alpha = 0;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{
+                                                                      NSForegroundColorAttributeName : [UIColor whiteColor]
+                                                                      }];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的收益";
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    
+    self.navBarImageView=(UIImageView *)self.navigationController.navigationBar.subviews.firstObject;
+    self.navBarImageView.alpha = 0;
     
     UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mine_earnings_bg"]];
     [self.view  addSubview:bgImageView];

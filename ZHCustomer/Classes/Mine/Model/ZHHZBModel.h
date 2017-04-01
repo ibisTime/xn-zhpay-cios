@@ -21,7 +21,11 @@
 @property (nonatomic,copy, readonly) NSString *mobile;
 
 @property (nonatomic,copy) NSString *shareUrl;
+
+//携带的用户信息
 @property (nonatomic, strong) NSDictionary *user;
+
+@property (nonatomic, copy,readonly) NSString *nickname;
 
 
 //我的HUB

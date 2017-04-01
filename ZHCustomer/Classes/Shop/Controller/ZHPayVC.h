@@ -15,17 +15,17 @@
 //#import "ZHTreasureModel.h"
 #import "ZHDBModel.h"
 
-typedef NS_ENUM(NSInteger,ZHPayVCType){
-
-    ZHPayVCTypeShop = 0,
-    ZHPayVCTypeGoods //商品购买
-
-};
+//typedef NS_ENUM(NSInteger,ZHPayVCType){
+//
+////    ZHPayVCTypeShop = 0,
+////    ZHPayVCTypeGoods //商品购买
+//
+//};
 @interface ZHPayVC : TLBaseVC
 
 //优店支付所需要的模型
 @property (nonatomic,strong) ZHShop *shop;
-@property (nonatomic,assign) ZHPayVCType type;
+//@property (nonatomic,assign) ZHPayVCType type;
 
 //
 @property (nonatomic,copy) void(^paySucces)();

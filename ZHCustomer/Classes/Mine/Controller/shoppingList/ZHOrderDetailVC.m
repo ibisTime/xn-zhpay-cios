@@ -92,8 +92,6 @@
         ZHPayVC *payVC = [[ZHPayVC alloc] init];
 //        payVC.orderCode = self.order.code;
         payVC.orderAmount = self.order.amount1; //把人民币传过去
-    
-//    payVC.amoutAttr = [ZHCurrencyHelper stepPriceWithQBB:self.order.amount3 GWB:self.order.amount2 RMB:self.order.amount1 bounds:CGRectMake(0, 0, 10, 10) count:1];
     payVC.amoutAttr = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:self.order.amount1];
     
         payVC.paySucces = ^(){
@@ -106,7 +104,7 @@
             }
             
         };
-        payVC.type = ZHPayVCTypeGoods;
+//        payVC.type = ZHPayVCTypeGoods;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
         [self presentViewController:nav animated:YES completion:nil];
         

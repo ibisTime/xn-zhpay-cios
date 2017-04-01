@@ -20,25 +20,22 @@
 @property (nonatomic, copy) NSString *fromCurrency; //单价币种
 @property (nonatomic, strong) NSNumber *toAmount; //中奖金额
 @property (nonatomic, copy) NSString *toCurrency; //中奖币种
+
 @property (nonatomic, strong, readonly) NSNumber *amount; //中奖金额
 @property (nonatomic, copy, readonly) NSString *currency; //中奖币种
 @property (nonatomic, strong, readonly) NSNumber *price; //购买金额
+
 @property (nonatomic, strong) NSNumber *maxNum; //每人最大投
 @property (nonatomic, strong) NSNumber *periods;//期数
-
-
-
-
-
 @property (nonatomic, strong) NSNumber *investNum;
 @property (nonatomic, strong) NSNumber *totalNum;
 
 
 //0 募集中，1--已揭晓
 @property (nonatomic, strong) NSNumber *status;
+
 //反向次数
 @property (nonatomic, assign) NSInteger count;
-
 
 //历史记录可能出现的字段
 @property (nonatomic, copy) NSString *winDatetime; //获奖时间

@@ -14,6 +14,7 @@
  NSString *const kGWB = @"GWB";
  NSString *const kHBYJ  = @"HBYJ";
  NSString *const kHBB  = @"HBB";
+
  NSString *const kCNY = @"CNY";
 
 @implementation ZHCurrencyModel

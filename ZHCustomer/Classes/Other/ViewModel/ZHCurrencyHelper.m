@@ -282,7 +282,7 @@
 
 + (NSAttributedString *)totalRMBWithPrice:(NSNumber *)price count:(NSInteger)count {
 
-    NSString *priceStr = [NSString stringWithFormat:@"￥%@",[@([price longLongValue]*count) convertToRealMoney]];
+    NSString *priceStr = [NSString stringWithFormat:@"%@",[@([price longLongValue]*count) convertToRealMoney]];
     NSAttributedString *attr = [[NSAttributedString alloc] initWithString:priceStr attributes:@{
                                                                                                 NSForegroundColorAttributeName: [UIColor zh_themeColor]
 

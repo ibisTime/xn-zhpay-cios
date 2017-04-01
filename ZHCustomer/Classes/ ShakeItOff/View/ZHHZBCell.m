@@ -93,11 +93,19 @@
 - (void)setHzb:(ZHHZBModel *)hzb {
 
     _hzb = hzb;
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 的汇赚宝",_hzb.mobile]];
+//    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 的汇赚宝",_hzb.mobile]];
+//    [attrStr addAttributes:@{
+//                             NSForegroundColorAttributeName : [UIColor zh_themeColor]
+//                             
+//                             } range:NSMakeRange(0, _hzb.mobile.length)];
+//    
+    
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 的汇赚宝",_hzb.nickname]];
     [attrStr addAttributes:@{
                              NSForegroundColorAttributeName : [UIColor zh_themeColor]
                              
-                             } range:NSMakeRange(0, _hzb.mobile.length)];
+                             } range:NSMakeRange(0, _hzb.nickname.length)];
+    
     
     self.contentLbl.attributedText = attrStr;
     

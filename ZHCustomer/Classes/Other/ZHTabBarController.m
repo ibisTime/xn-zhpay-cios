@@ -45,7 +45,7 @@
     }
     
 
-//            self.selectedIndex = 2;
+            self.selectedIndex = 2;
 
     //消息变更
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMsgChange) name:kUnreadMsgChangeNotification object:nil];
@@ -128,20 +128,24 @@
         [self presentViewController:nav animated:YES completion:nil];
         return NO;
         
-    } else if([sendToSendNav isEqual:viewController]) {
-        
-        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        loginVC.loginSuccess = ^(){
-            
-            self.selectedIndex = 1;
-            
-        };
-        [self presentViewController:nav animated:YES completion:nil];
-        
+    }
     
-        return NO;
-    } else {
+//    else if([sendToSendNav isEqual:viewController]) {
+//        
+//        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
+//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+//        loginVC.loginSuccess = ^(){
+//            
+//            self.selectedIndex = 1;
+//            
+//        };
+//        [self presentViewController:nav animated:YES completion:nil];
+//        
+//    
+//        return NO;
+//    }
+    
+    else {
     
         return YES;
     }
@@ -167,6 +171,9 @@
     [tabBarItem setTitleTextAttributes:@{
                                          NSForegroundColorAttributeName : [UIColor zh_themeColor]
                                          } forState:UIControlStateSelected];
+    [tabBarItem setTitleTextAttributes:@{
+                                         NSForegroundColorAttributeName : [UIColor zh_textColor]
+                                         } forState:UIControlStateNormal];
     vc.tabBarItem =tabBarItem;
     ZHNavigationController *navigationController = [[ZHNavigationController alloc] initWithRootViewController:vc];
     

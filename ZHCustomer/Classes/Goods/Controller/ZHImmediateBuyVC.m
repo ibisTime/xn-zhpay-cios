@@ -13,7 +13,8 @@
 #import "ZHOrderGoodsCell.h"
 #import "ZHCurrencyHelper.h"
 #import "ZHAddressChooseView.h"
-#import "ZHPayVC.h"
+#import "ZHNewPayVC.h"
+
 //#import "IQKeyboardManager.h"
 
 
@@ -120,23 +121,17 @@
         
         http.parameters[@"cartCodeList"] = codes ;
 
-        
         NSMutableDictionary *pojo = [NSMutableDictionary dictionary];
         pojo[@"receiver"] = self.currentAddress.addressee;
         pojo[@"reMobile"] = self.currentAddress.mobile;
         pojo[@"reAddress"] = self.currentAddress.totalAddress;
         pojo[@"applyUser"] = [ZHUser user].userId;
-        
         pojo[@"companyCode"] = @"CD-CZH000001";
         pojo[@"systemCode"] = @"CD-CZH000001";
         
         http.parameters[@"pojo"] = pojo;
-//        http.parameters[@"receiver"] = self.currentAddress.addressee;
-//        http.parameters[@"reMobile"] = self.currentAddress.mobile;
-//        http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
-//        http.parameters[@"applyUser"] = [ZHUser user].userId;
-        
         http.parameters[@"token"] = [ZHUser user].token;
+        
         if ([self.enjoinTf.text valid]) {
             
           pojo[@"applyNote"] = self.enjoinTf.text;
@@ -145,10 +140,6 @@
         
        [http postWithSuccess:^(id responseObject) {
            
-//           NSString *ddCode = responseObject[@"data"];
-//           [TLAlert alertWithHUDText:@"购买成功"];
-//           [self.navigationController popToRootViewControllerAnimated:YES];
-           
            if (self.placeAnOrderSuccess) {
                
                self.placeAnOrderSuccess();
@@ -156,11 +147,8 @@
            }
            
            //商品购买
-           ZHPayVC *payVC = [[ZHPayVC alloc] init];
+           ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
            //订单编号
-           
-           NSString *编号  = responseObject[@"data"];
-//           payVC.codeList = responseObject[@"data"][@"codeList"];
            
            //传人民币过去
            __block  long long totalRmb = 0;
@@ -169,11 +157,9 @@
                totalRmb += [obj.rmb longLongValue]*[obj.quantity integerValue];
                
            }];
-//           NSNumber *rmb = self.cartGoodsRoom[0].price1;
-           
-//           payVC.orderAmount = @([rmb longLongValue]*[self.cartGoodsRoom[0].quantity integerValue]); //把人民币传过去
-           payVC.orderAmount = @(totalRmb);
+           payVC.rmbAmount = @(totalRmb);
            //
+           payVC.goodsCodeList = responseObject[@"data"];
            payVC.amoutAttr = self.totalPriceLbl.attributedText;
            payVC.paySucces = ^(){
                
@@ -182,7 +168,7 @@
                
            };
            //购物车支付 和 普通商品 购买方式相同
-           payVC.type = ZHPayVCTypeGoods;
+           payVC.type = ZHPayViewCtrlTypeNewGoods;
            
            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
            [self presentViewController:nav animated:YES completion:nil];
@@ -225,13 +211,8 @@
         pojo[@"companyCode"] = @"CD-CZH000001";
         pojo[@"systemCode"] = @"CD-CZH000001";
 
-        
         http.parameters[@"pojo"] = pojo;
-        
-//        http.parameters[@"receiver"] =
-//        http.parameters[@"reMobile"] = self.currentAddress.mobile;
-//        http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
-//        http.parameters[@"applyUser"] = [ZHUser user].userId;
+
 
         //根据收货地址
         http.parameters[@"token"] = [ZHUser user].token;
@@ -247,10 +228,10 @@
             NSString *orderCode = responseObject[@"data"];
             
             //商品购买
-            ZHPayVC *payVC = [[ZHPayVC alloc] init];
-//            payVC.orderCode = orderCode;
+            ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
+            payVC.goodsCodeList = @[orderCode];
             NSNumber *rmb = self.goodsRoom[0].price1;
-            payVC.orderAmount = @([rmb longLongValue]*self.goodsRoom[0].count); //把人民币传过去
+            payVC.rmbAmount = @([rmb longLongValue]*self.goodsRoom[0].count); //把人民币传过去
             payVC.amoutAttr = self.totalPriceLbl.attributedText;
 
             payVC.paySucces = ^(){
@@ -261,7 +242,7 @@
                 [self.navigationController popViewControllerAnimated:YES];
                 
             };
-            payVC.type = ZHPayVCTypeGoods;
+            payVC.type = ZHPayViewCtrlTypeNewGoods;
             
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
             [self presentViewController:nav animated:YES completion:nil];

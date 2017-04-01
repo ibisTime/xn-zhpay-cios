@@ -140,7 +140,7 @@
     payVC.amoutAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@",[self.HZBModel.price convertToRealMoney]]
                                                              attributes:@{
                                                                           NSForegroundColorAttributeName : [UIColor zh_themeColor]                              }];
-    payVC.orderAmount = self.HZBModel.price;
+    payVC.rmbAmount = self.HZBModel.price;
     payVC.paySucces = ^(){
         
         //        [self.navigationController popViewControllerAnimated:YES];

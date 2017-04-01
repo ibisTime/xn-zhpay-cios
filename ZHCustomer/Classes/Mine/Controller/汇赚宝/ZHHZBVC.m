@@ -93,10 +93,8 @@
             [self setUpUI];
 //            [self getOtherInfo];
             
-            
+            [self.hzbInfos removeAllObjects];
             NSDictionary *addressDict = @{@"隶属辖区" : [[ZHUser user] detailAddress]};
-            
-           
             
             NSDictionary *historyYYDict = @{@"历史被摇次数" : [ self.HZBModel.totalRockNum stringValue]};
             NSDictionary *todayYYDict = @{@"今日被摇次数" : [self.HZBModel.periodRockNum stringValue]};

@@ -95,13 +95,12 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     helper.parameters[@"jewelCode"] = self.dbModel.code;
 //    helper.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
 //    helper.parameters[@"limit"] = @"20";
-    helper.parameters[@"status"] = @"payed";
+//    helper.parameters[@"status"] = @"payed";
     
     helper.tableView = tableView;
     [helper modelClass:[ZHDBHistoryModel class]];
     
     //
-    
     [self.detailTableView addRefreshAction:^{
         
         //刷新详情
@@ -165,6 +164,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
         
     };
     
+    //根据外传数据，改变UI
     [self data];
     self.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:1];
     
@@ -397,7 +397,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     self.dbModel.count = self.countChangeView.count;
     payVC.dbModel = self.dbModel;
     payVC.amoutAttr = self.totalPriceLbl.attributedText; //展示
-    payVC.orderAmount = @([self.dbModel.price longLongValue]*self.countChangeView.count);
+    payVC.rmbAmount = @([self.dbModel.price longLongValue]*self.countChangeView.count);
     payVC.paySucces = ^(){
         
         //刷新详情

@@ -122,8 +122,6 @@
         //支付
         ZHPayVC *payVC = [[ZHPayVC alloc] init];
         payVC.shop = self.shop;
-        payVC.type = ZHPayVCTypeShop;
-        
         if (coupons && coupons.count > 0) {
             payVC.coupons = [coupons mutableCopy];
 
@@ -138,14 +136,14 @@
     }];
     
 
-    
-
 }
+
 
 -(void)onResp:(BaseResp*)resp{
  
     
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 

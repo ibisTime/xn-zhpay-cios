@@ -14,6 +14,7 @@
 #import "SGQRCodeTool.h"
 #import "ZHShareView.h"
 #import "AppConfig.h"
+#import "ZHCurrencyModel.h"
 
 @interface ZHAdvDetailVC ()<WKNavigationDelegate>
 
@@ -157,17 +158,17 @@
             [http postWithSuccess:^(id responseObject) {
                 
                 NSDictionary *dict = responseObject[@"data"];
-                NSString *type = dict[@"type"];
-                NSNumber *quantity = dict[@"quantity"];
+                NSString *type = dict[@"yyCurrency"];
+                NSString *quantity = [dict[@"yyAmount"] convertToRealMoney];
                 
                 //              1=红包币 2=钱包币 3购物币
                 NSString *hintStr;
                 
-                if ([type isEqualToString:@"1"]) {
+                if ([type isEqualToString:kQBB]) {
                     
                     hintStr = @"钱包币";
                     
-                } else if([type isEqualToString:@"2" ]){
+                } else if([type isEqualToString:kGWB]){
                     
                     hintStr =@"购物币";
                     

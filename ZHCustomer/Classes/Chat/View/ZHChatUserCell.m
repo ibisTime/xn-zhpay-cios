@@ -64,26 +64,26 @@
     
     NSString *str;
     UIColor *backgroundColor = [UIColor whiteColor];
-    if ([_referral.refeereLevel isEqualToString:@"-1"]  ) {
+    
+     if ([_referral.refeereLevel isEqualToString:@"-1"]) {
         
         str = @"P1";
+        backgroundColor = [UIColor colorWithHexString:@"#f95c63"];
+        
+        
+    } else if ([_referral.refeereLevel isEqualToString:@"1"]  ) {
+        
+        str = @"C1";
         backgroundColor = [UIColor colorWithHexString:@"#fc8461"];
         
-    } else if([_referral.refeereLevel isEqualToString:@"1"]) {
-    
-        str = @"C1";
-        backgroundColor = [UIColor colorWithHexString:@"#73cb98"];
-
-    } else if ([_referral.refeereLevel isEqualToString:@"-2"]) {
-    
-        str = @"P2";
-        backgroundColor = [UIColor colorWithHexString:@"#f95c63"];
-
-
-
-    } if ([_referral.refeereLevel isEqualToString:@"2"]) {
+    }  else if([_referral.refeereLevel isEqualToString:@"2"]) {
     
         str = @"C2";
+        backgroundColor = [UIColor colorWithHexString:@"#73cb98"];
+
+    } else  if ([_referral.refeereLevel isEqualToString:@"3"]) {
+    
+        str = @"C3";
         backgroundColor = [UIColor colorWithHexString:@"#60d4e5"];
 
 

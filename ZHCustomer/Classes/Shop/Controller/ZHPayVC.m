@@ -121,39 +121,30 @@
     
     //--//
     self.paySceneManager = [[ZHPaySceneManager alloc] init];
-    switch (self.type) {
-        case ZHPayVCTypeShop: { //店铺消费
-        
-            self.paySceneManager.isInitiative = YES;
-            
-            //1.第一组
-            ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
-            priceItem.headerHeight = 10.0;
-            priceItem.footerHeight = 0.1;
-            priceItem.rowNum = 1;
-            
-            //2.优惠券
-            ZHPaySceneUIItem *couponItem = [[ZHPaySceneUIItem alloc] init];
-            couponItem.headerHeight = 10.0;
-            couponItem.footerHeight = 10.0;
-            couponItem.rowNum = 1;
-            
-            //3.支付
-            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-            payFuncItem.headerHeight = 30.0;
-            payFuncItem.footerHeight = 0.1;
-            payFuncItem.rowNum = self.pays.count;
-            
-            self.paySceneManager.groupItems = @[priceItem,couponItem,payFuncItem];
-        
-        } break;
-            
-        
-//
-        default: [TLAlert alertWithHUDText:@"您还没有选择支付场景"];
-//
-    }
     
+    self.paySceneManager.isInitiative = YES;
+    
+    //1.第一组
+    ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
+    priceItem.headerHeight = 10.0;
+    priceItem.footerHeight = 0.1;
+    priceItem.rowNum = 1;
+    
+    //2.优惠券
+    ZHPaySceneUIItem *couponItem = [[ZHPaySceneUIItem alloc] init];
+    couponItem.headerHeight = 10.0;
+    couponItem.footerHeight = 10.0;
+    couponItem.rowNum = 1;
+    
+    //3.支付
+    ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
+    payFuncItem.headerHeight = 30.0;
+    payFuncItem.footerHeight = 0.1;
+    payFuncItem.rowNum = self.pays.count;
+    
+    self.paySceneManager.groupItems = @[priceItem,couponItem,payFuncItem];
+    
+
     
     //界面
     [self setUpUI];
@@ -162,13 +153,6 @@
     //----//----//
     if (self.navigationController) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(canclePay)];
-    }
-    
-    
-    if (self.type == ZHPayVCTypeShop) { //优店
-        
-   
-        
     }
     
 //    self.priceLbl.attributedText = [ZHCurrencyHelper totalPriceAttrWithQBB:@"100" GWB:@"200" RMB:@"300" ];
@@ -284,13 +268,8 @@
             break;
     }
 
-   
-    
-    if (self.type == ZHPayVCTypeShop) {
-        
         [self shopPay:payType];
-        
-    }
+
     
 }
 
@@ -475,7 +454,7 @@
 #pragma mark - tableView代理
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (self.type == ZHPayVCTypeShop && indexPath.section == 1 && self.coupons.count > 0) { //选择折扣券
+    if ( indexPath.section == 1 && self.coupons.count > 0) { //选择折扣券
         
         ZHCouponSelectedVC *selectedVC = [[ZHCouponSelectedVC alloc] init];
         selectedVC.coupons = self.coupons;
@@ -605,19 +584,11 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-    if (self.type == ZHPayVCTypeShop) {
         
         if (section == 2) {
             return [self payFuncHeaderView];
         }
         
-    } else {
-        
-        if (section == 1) {
-            return [self payFuncHeaderView];
-        }
-        
-    }
  
     return nil;
 
@@ -627,7 +598,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if ((self.type == ZHPayVCTypeShop && indexPath.section == 2) || (self.type != ZHPayVCTypeShop && indexPath.section == 1)) {
+    if (indexPath.section == 2) {
         
        static NSString * payFuncCellId = @"ZHPayFuncCell";
        ZHPayFuncCell  *cell = [tableView dequeueReusableCellWithIdentifier:payFuncCellId];
@@ -655,7 +626,7 @@
         
         [infoCell addSubview:self.amountTf];
 
-    } else if (indexPath.section == 1 && self.type == ZHPayVCTypeShop) {
+    } else if (indexPath.section == 1 ) {
         
         //
         infoCell.titleLbl.text = @"使用抵扣券";

@@ -36,7 +36,15 @@
     if ([_urlString hasPrefix:@"http:"]) { //网络图片
         
         NSURL *url = [NSURL URLWithString:urlString];
-        [_imageIV sd_setImageWithURL:url placeholderImage:nil];
+        if ([urlString containsString:@".gif"]) {
+            
+            [_imageIV sd_setImageWithURL:url placeholderImage:nil];
+
+        } else {
+        
+            [_imageIV sd_setImageWithURL:url placeholderImage:nil];
+
+        }
         
     } else { //本地图片
     

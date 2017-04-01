@@ -13,5 +13,6 @@
 - (instancetype)initWithFrame:(CGRect)frame funcImage:(NSString *)imgName funcName:(NSString *)funcName;
 @property (nonatomic,copy)  void(^selected)(NSInteger index);
 @property (nonatomic,assign) NSInteger index;
+@property (nonatomic, strong) UIButton *funcBtn;
 
 @end

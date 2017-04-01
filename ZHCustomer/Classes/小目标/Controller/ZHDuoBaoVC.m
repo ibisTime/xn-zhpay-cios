@@ -37,13 +37,21 @@
 
 @implementation ZHDuoBaoVC
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
 
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     if (self.isFirst) {
         [self.dbTableView beginRefreshing];
         self.isFirst = NO;
     }
+    
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+
 
 }
 

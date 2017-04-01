@@ -66,6 +66,12 @@
         
         //2.顶部的大类和小类切换
         [self setUpUI];
+        //购物车初始值
+        if (self.msgBadgeView && [ZHUser user].userId) {
+            
+            self.msgBadgeView.msgCount = [ZHCartManager manager].count;
+            
+        }
         self.segmentView.selectedIndex = 1;
 
         
@@ -142,6 +148,13 @@
             
             [self setUpUI];
             self.segmentView.selectedIndex = 1;
+#pragma mark- 购物车初始化
+            //购物车初始值
+            if (self.msgBadgeView && [ZHUser user].userId) {
+                
+                self.msgBadgeView.msgCount = [ZHCartManager manager].count;
+                
+            }
 
         }
         
@@ -318,13 +331,11 @@
     [self.view addSubview:self.goShoppingCartBtn];
     
     
-    //购物车初始值
-    if (self.msgBadgeView) {
-        
-        self.msgBadgeView.msgCount = [ZHCartManager manager].count;
-    }
+
     
 }
+
+
 
 
 @end

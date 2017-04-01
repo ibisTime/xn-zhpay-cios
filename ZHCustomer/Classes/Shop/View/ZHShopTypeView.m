@@ -14,6 +14,7 @@
 
     if (self = [super initWithFrame:frame]) {
         
+        self.backgroundColor = [UIColor whiteColor];
         UIView *bgView = self;
         bgView.backgroundColor = [UIColor whiteColor];
         
@@ -22,6 +23,8 @@
         funcBtn.centerX = bgView.width/2.0;
         [funcBtn setImage:[UIImage imageNamed:imgName] forState:UIControlStateNormal];
         [funcBtn addTarget:self action:@selector(selectedAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.funcBtn = funcBtn;
         
         CGFloat h = [[UIFont thirdFont] lineHeight];
         UILabel *nameLbl = [UILabel labelWithFrame:CGRectMake(0, funcBtn.yy + 7, bgView.width, h) textAligment:NSTextAlignmentCenter backgroundColor:[UIColor clearColor] font:[UIFont thirdFont] textColor:[UIColor zh_textColor]];

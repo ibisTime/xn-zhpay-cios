@@ -18,7 +18,6 @@
 @property (nonatomic, strong) NSMutableArray <ZHDBModel *>*dbHistoryRooms;
 @property (nonatomic, assign) BOOL isFirst;
 
-
 @end
 
 @implementation ZHDBHistoryRecordVC
@@ -98,9 +97,10 @@
     ZHMineNumberVC *mineNumberVC = [[ZHMineNumberVC alloc] init];
     mineNumberVC.isMineHistory = NO;
     
-    ZHDBHistoryModel *historyModel = [[ZHDBHistoryModel alloc] init];
-    historyModel.jewel = self.dbHistoryRooms[indexPath.row];
-    mineNumberVC.dbModel =  historyModel;
+//    ZHDBHistoryModel *historyModel = [[ZHDBHistoryModel alloc] init];
+//    historyModel.jewel = ;
+    
+    mineNumberVC.dbModel =  self.dbHistoryRooms[indexPath.row];
     
     [self.navigationController pushViewController:mineNumberVC animated:YES];
     

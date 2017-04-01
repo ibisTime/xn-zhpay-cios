@@ -27,6 +27,11 @@
 //
 //}
 
+- (NSString *)nickname {
+
+    return self.user[@"nickname"];
+}
+
 - (NSString *)mobile {
 
     return self.user[@"mobile"];

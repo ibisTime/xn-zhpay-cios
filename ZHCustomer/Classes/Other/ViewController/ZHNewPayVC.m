@@ -16,6 +16,12 @@
 #import "TLWXManager.h"
 #import "ZHCurrencyModel.h"
 #import "TLGroupModel.h"
+#import "TLAlipayManager.h"
+
+
+#define PAY_TYPE_DEFAULT_PAY_CODE @"1"
+#define PAY_TYPE_WX_PAY_CODE @"2"
+#define PAY_TYPE_ALI_PAY_CODE @"3"
 
 @interface ZHNewPayVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -24,6 +30,7 @@
 @property (nonatomic,strong) UILabel* tempAttrLbl;
 
 @property (nonatomic,strong) TLTextField *amountTf;
+
 @property (nonatomic,strong) UILabel *priceLbl;
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
 
@@ -77,7 +84,7 @@
     NSInteger count = imgs.count;
     
     //只有一种支付，
-    if ([self.orderAmount isEqual:@0]) {
+    if ([self.rmbAmount isEqual:@0]) {
         
         count = 1;
         
@@ -148,7 +155,7 @@
           case ZHPayViewCtrlTypeNewYYDB: { //2.0版本的一元夺宝
             
             self.paySceneManager.isInitiative = NO;
-            self.paySceneManager.amount = [self.orderAmount convertToSimpleRealMoney];
+            self.paySceneManager.amount = [self.rmbAmount convertToSimpleRealMoney];
             
             //1.第一组
             ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
@@ -184,6 +191,48 @@
             
         } break;
             
+        case ZHPayViewCtrlTypeNewGoods: { //2.0版本的一元夺宝
+            
+            self.paySceneManager.isInitiative = NO;
+            self.paySceneManager.amount = [self.rmbAmount convertToSimpleRealMoney];
+            
+            //1.第一组
+            ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
+            priceItem.headerHeight = 10.0;
+            priceItem.footerHeight = 10.0;
+            priceItem.rowNum = 1;
+            
+            //2.支付
+            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
+            payFuncItem.headerHeight = 30.0;
+            payFuncItem.footerHeight = 0.1;
+            payFuncItem.rowNum = self.pays.count;
+            self.paySceneManager.groupItems = @[priceItem,payFuncItem];
+            [self setUpUI];
+            self.amountTf.enabled = self.paySceneManager.isInitiative;
+            
+            if (self.amoutAttr) {
+                
+                [self.amountTf addSubview:self.tempAttrLbl];
+                self.amountTf.placeholder = nil;
+                self.tempAttrLbl.attributedText = self.amoutAttr;
+                self.priceLbl.attributedText = self.amoutAttr;
+                self.amountTf.text = self.paySceneManager.amount;
+                self.amountTf.textColor = [UIColor clearColor];
+                
+            } else {
+                
+                self.amountTf.text = self.paySceneManager.amount;
+                self.priceLbl.text = self.paySceneManager.amount;
+                
+            }
+            
+            
+        } break;
+            
+            
+            
+            
         default: [TLAlert alertWithHUDText:@"您还没有选择支付场景"];
             
     }
@@ -215,10 +264,31 @@
             }
             
             
-            
         });
         
     };
+    
+#pragma mark- 支付宝支付回调
+    [[TLAlipayManager manager] setPayCallBack:^(BOOL isSuccess, NSDictionary *resultDict){
+        
+        if (isSuccess) {
+            
+            [TLAlert alertWithHUDText:@"支付成功"];
+            
+            if (self.paySucces) {
+                self.paySucces();
+            }
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            
+        } else {
+            
+            [TLAlert alertWithHUDText:@"支付失败"];
+            
+            
+        }
+        
+    }];
+    
     
 #pragma mark- 购买汇赚宝获取分润
     if (self.type == ZHPayViewCtrlTypeHZB) {
@@ -294,19 +364,19 @@
     switch (type) {
         case ZHPayTypeAlipay: {
             
-            payType = @"3";
+            payType = PAY_TYPE_ALI_PAY_CODE;
             
         }
             break;
         case ZHPayTypeWeChat: {
             
-            payType = @"2";
+            payType = PAY_TYPE_WX_PAY_CODE;
         }
             break;
             
         case ZHPayTypeOther: {
             
-            payType = @"1";
+            payType = PAY_TYPE_DEFAULT_PAY_CODE;
         }
             break;
     }
@@ -319,6 +389,9 @@
         
         [self newYydbPay:payType];
         
+    } else if (self.type == ZHPayViewCtrlTypeNewGoods) {
+    
+        [self goodsPay:payType];
     }
     
 
@@ -390,6 +463,40 @@
     }];
     
 }
+
+- (void)goodsPay:(NSString *)payType {
+
+    if (!self.goodsCodeList) {
+        
+        NSLog(@"请填写订单信息");
+        return;
+    }
+    
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"808052";
+    http.parameters[@"codeList"] = self.goodsCodeList;
+    http.parameters[@"payType"] = payType;
+    
+    [http postWithSuccess:^(id responseObject) {
+        
+        [TLAlert alertWithHUDText:@"购买成功"];
+        [self.navigationController dismissViewControllerAnimated:YES completion:^{
+            
+            if (self.paySucces) {
+                self.paySucces();
+            }
+            
+        }];
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+    
+
+}
+
 
 #pragma mark- 汇赚宝支付
 - (void)hzbPay:(NSString *)payType {

@@ -50,7 +50,6 @@
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
     
-
     if ([AppConfig config].runEnv == RunEnvDev) {
         
         [TLRealmPlayground play];
@@ -65,8 +64,8 @@
     [wxManager registerApp];
     
     //HUD
-    [SVProgressHUD setMinimumDismissTimeInterval:2];
-    [SVProgressHUD setMaximumDismissTimeInterval:10];
+    [SVProgressHUD setMinimumDismissTimeInterval:2.5];
+    [SVProgressHUD setMaximumDismissTimeInterval:5];
     
     //推送注册
     [self jpushInitWithLaunchOption:launchOptions];
@@ -104,7 +103,6 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     self.window.rootViewController = [[ZHTabBarController alloc] init];
-    
     //获取商品的分类，
 //    ZHGoodsCategoryManager *categoryManager = [ZHGoodsCategoryManager manager];
 //    [categoryManager getAllCategory];

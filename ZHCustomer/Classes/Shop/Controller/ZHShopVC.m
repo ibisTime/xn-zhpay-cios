@@ -19,7 +19,10 @@
 #import "ZHSearchVC.h"
 #import "ZHMsgVC.h"
 #import <MapKit/MapKit.h>
+#import "ZHShopTypeDisplayView.h"
 #import <CoreLocation/CoreLocation.h>
+#import "ZHShopTypeModel.h"
+#import "UIButton+WebCache.h"
 
 #import "TLWebVC.h"
 
@@ -41,12 +44,15 @@
 @property (nonatomic,assign) BOOL isFirst;
 
 @property (nonatomic,strong) CLLocationManager *sysLocationManager;
+@property (nonatomic, strong) UIScrollView *shopTypeScrollView;
 //
 @property (nonatomic,copy) NSString *lon;
 @property (nonatomic,copy) NSString *lat;
 @property (nonatomic,copy) NSString *cityName;
 @property (nonatomic,strong) MBProgressHUD *hud;
 @property (nonatomic,strong) NSMutableArray <ZHBannerModel *>*bannerRoom;
+@property (nonatomic,strong) NSMutableArray <ZHShopTypeView *>*shopTypeRooms;
+
 @property (nonatomic,strong) NSMutableArray *bannerPics; //图片
 @property (nonatomic,strong) TLBannerView *bannerView;
 
@@ -123,29 +129,6 @@
         
     };
     
-#pragma mark- 获取顶部banner图
-    TLNetworking *http = [TLNetworking new];
-    http.code = @"806052";
-    http.parameters[@"type"] = @"2";
-    [http postWithSuccess:^(id responseObject) {
-        
-        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-        //组装数据
-        weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
-        
-        //取出图片
-        [weakSelf.bannerRoom enumerateObjectsUsingBlock:^(ZHBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
-        }];
-        
-        weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
-        
-        
-    } failure:^(NSError *error) {
-      
-        
-    }];
-    
 #pragma mark- 系统公告
     [self getSysMsg];
     
@@ -161,27 +144,9 @@
         
         //公告
         [weakSelf getSysMsg];
+        
         //广告图
-        TLNetworking *http = [TLNetworking new];
-        http.code = @"806052";
-        http.parameters[@"type"] = @"2";
-        [http postWithSuccess:^(id responseObject) {
-            
-        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-        //组装数据
-        weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
-            
-        //取出图片
-        [weakSelf.bannerRoom enumerateObjectsUsingBlock:^(ZHBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-           [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
-        }];
-         
-            
-        weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
-         
-        } failure:^(NSError *error) {
-            
-        }];
+        [weakSelf getBanner];
 
         
         //店铺数据
@@ -223,11 +188,139 @@
     
 //    [self.sysLocationManager startUpdatingLocation];
     
+    [self getType];
+    
+}
+
+#pragma mark- 获得店铺类型
+- (void)getType {
+
+    NSInteger count = 7 ;
+    if (count > 8) {
+        //两页显示，左右滑动
+         self.shopTypeScrollView.contentSize = CGSizeMake(2*SCREEN_WIDTH, self.shopTypeScrollView.height);
+        
+    } else {
+        //一页显示，
+    
+     self.shopTypeScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.shopTypeScrollView.height);
+    }
+   
+    //
+    if (self.shopTypeRooms.count > 0) {
+        
+        [self.shopTypeRooms performSelector:@selector(removeFromSuperview)];
+
+    }
     
 
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"808007";
+    http.parameters[@"status"] = @"1";
+    http.parameters[@"type"] = @"2";
+     
+    [http postWithSuccess:^(id responseObject) {
+        
+        NSArray <ZHShopTypeModel *>* models = [ZHShopTypeModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+        
+        
+        //
+//        NSArray *imgNames = @[@"美食",@"KTV",@"美发",@"便利店",@"足浴",@"酒店",@"亲子",@"蔬果"];
+        CGFloat margin = 0.5;
+        
+        
+        //
+        CGFloat w = (SCREEN_WIDTH - 3*margin)/4.0;
+        CGFloat h = 97;
+        
+        __weak typeof(self) weakSelf = self;
+        for (NSInteger i = 0; i < models.count; i ++) {
+            
+            CGFloat x = (w + margin)*(i%4);
+            CGFloat y = (97 + margin)*(i/4);
+            ZHShopTypeView *shopTypeView = [[ZHShopTypeView alloc] initWithFrame:CGRectMake(x, y, w, h)
+                                            
+                                                                       funcImage:nil
+                                                                        funcName:models[i].name];
+            [self.shopTypeScrollView  addSubview:shopTypeView];
+            
+            [self.shopTypeRooms addObject:shopTypeView];
+            [shopTypeView.funcBtn sd_setImageWithURL:[NSURL URLWithString:[models[i].pic convertImageUrl]] forState:UIControlStateNormal];
+            shopTypeView.index = i;
+            shopTypeView.selected = ^(NSInteger index) {
+                
+                [weakSelf selectedShopType:models[index].code];
+                
+            };
+            
+        }
+        
+    } failure:^(NSError *error) {
+        
+    }];
+
+    
+    
+//        //
+//        NSArray *imgNames = @[@"美食",@"KTV",@"美发",@"便利店",@"足浴",@"酒店",@"亲子",@"蔬果"];
+//        CGFloat margin = 0.5;
+//    
+//    
+//        //
+//        CGFloat w = (SCREEN_WIDTH - 3*margin)/4.0;
+//        CGFloat h = 97;
+//    
+//        __weak typeof(self) weakSelf = self;
+//        for (NSInteger i = 0; i < imgNames.count; i ++) {
+//    
+//            CGFloat x = (w + margin)*(i%4);
+//            CGFloat y = (97 + margin)*(i/4);
+//            ZHShopTypeView *shopTypeView = [[ZHShopTypeView alloc] initWithFrame:CGRectMake(x, y, w, h) funcImage:imgNames[i] funcName:imgNames[i]];
+//            [self.shopTypeScrollView  addSubview:shopTypeView];
+//            [self.shopTypeRooms addObject:shopTypeView];
+//            shopTypeView.index = i;
+//            shopTypeView.selected = ^(NSInteger index) {
+//    
+//                [weakSelf selectedShopType:index];
+//            
+//            };
+//            
+//        }
 
 }
 
+- (void)getBanner {
+
+
+    //
+    
+    
+    //广告图
+    __weak typeof(self) weakSelf = self;
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"806052";
+    http.parameters[@"type"] = @"2";
+    [http postWithSuccess:^(id responseObject) {
+        
+        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+        //组装数据
+        weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
+        
+        //取出图片
+        [weakSelf.bannerRoom enumerateObjectsUsingBlock:^(ZHBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
+        }];
+        
+        
+        weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
+        
+    } failure:^(NSError *error) {
+        
+    }];
+
+
+}
 
 - (void)getSysMsg {
 
@@ -427,14 +520,14 @@
     
 }
 
-- (void)selectedShopType:(NSInteger)index {
+- (void)selectedShopType:(NSString *)code {
 
     ZHShopListVC *listVC = [[ZHShopListVC alloc] init];
-    listVC.title = self.types[index];
+//    listVC.title = self.types[index];
     listVC.lon = self.lon;
     listVC.lat = self.lat;
     listVC.cityName = self.cityName;
-    listVC.type = [NSString stringWithFormat:@"%ld",index + 1];
+    listVC.type = code;
     [self.navigationController pushViewController:listVC animated:YES];
 
 }
@@ -522,6 +615,8 @@
 #pragma mark- dasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
+    
+//    return 0;
     return self.shops.count;
 
 }
@@ -539,6 +634,17 @@
     return cell;
 }
 
+- (NSMutableArray<ZHShopTypeView *> *)shopTypeRooms {
+
+    if (!_shopTypeRooms) {
+        
+        _shopTypeRooms = [[NSMutableArray alloc] init];
+    }
+    
+    return _shopTypeRooms;
+
+}
+
 
 - (void)setUpTableViewHeader {
 
@@ -552,34 +658,30 @@
     self.bannerView = bannerView;
     
     
+    
     //中部分类
-    NSArray *imgNames = @[@"美食",@"KTV",@"美发",@"便利店",@"足浴",@"酒店",@"亲子",@"蔬果"];
-    UIView *frameV = nil;
+    
+    CGFloat h = 2*(SCREEN_WIDTH - 1.5)/4.0 + 0.5;
     
     CGFloat margin = 0.5;
-    CGFloat w = (SCREEN_WIDTH - 3*margin)/4.0;
-    CGFloat h = 97;
-    __weak typeof(self) weakSelf = self;
-    for (NSInteger i = 0; i < imgNames.count; i ++) {
-        
+    //
+    UIScrollView *shopTypeScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, bannerView.yy, SCREEN_WIDTH, h)];
+    shopTypeScrollView.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
+    [bgView addSubview:shopTypeScrollView];
+    self.shopTypeScrollView = shopTypeScrollView;
     
-        CGFloat x = (w + margin)*(i%4);
-        CGFloat y = (h + margin)*(i/4) + 180;
-        ZHShopTypeView *shopTypeView = [[ZHShopTypeView alloc] initWithFrame:CGRectMake(x, y, w, h) funcImage:imgNames[i] funcName:imgNames[i]];
-        [bgView addSubview:shopTypeView];
-        frameV = shopTypeView;
-        shopTypeView.index = i;
-        shopTypeView.selected = ^(NSInteger index) {
-        
-            [weakSelf selectedShopType:index];
-        
-        };
-    }
-
-   //底部--公告
+    //底部--公告
     [bgView addSubview:self.announcementsView];
-    self.announcementsView.y = frameV.yy + margin;
+    self.announcementsView.y = shopTypeScrollView.yy + margin;
     
+//    ZHShopTypeDisplayView *typeDisplayView = [[ZHShopTypeDisplayView alloc] init];
+//    [bgView addSubview:typeDisplayView];
+//    typeDisplayView.y = bannerView.yy;
+//    
+//    //底部--公告
+//    [bgView addSubview:self.announcementsView];
+//    self.announcementsView.y = typeDisplayView.yy + margin;
+
 }
 
 #pragma mark- 查看公告
