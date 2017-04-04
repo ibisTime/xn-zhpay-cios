@@ -30,8 +30,6 @@ typedef NS_ENUM(NSUInteger, ZHBriberyMoneyStatus) {
 @property (nonatomic, copy) NSString *receiveCurrency;
 
 @property (nonatomic, strong) NSNumber *receiveAmount;
-@property (nonatomic, copy) NSString *receiver; //领取人
-@property (nonatomic, copy) NSString *receiverMobile; //领取人
 
 
 
@@ -42,28 +40,53 @@ typedef NS_ENUM(NSUInteger, ZHBriberyMoneyStatus) {
 @property (nonatomic, copy) NSString *createDatetime;
 @property (nonatomic, copy) NSString *remark;
 
+
+@property (nonatomic, strong) NSDictionary *ownerUser; //所属用户
+@property (nonatomic, strong) NSDictionary *receiverUser; //受到用户
+@property (nonatomic, copy, readonly) NSString *receiverUserName;
+@property (nonatomic, copy, readonly) NSString *receiverMobile;
+
+
+
 @end
 
 
-//code = HM201703301257326994454;
+//code = HM201704042024164784437;
 //companyCode = "CD-CZH000001";
-//createDatetime = "Mar 30, 2017 12:00:00 AM";
-//hzbCode = H201703301257284684;
+//createDatetime = "Apr 4, 2017 12:00:00 AM";
+//hzbCode = H201704042024004361;
 //owner = U2017032915445414717;
 //ownerAmount = 5000;
 //ownerCurrency = HBYJ;
 //ownerUser =                 {
+//    area = "\U4f59\U676d\U533a";
+//    city = "\U676d\U5dde\U5e02";
 //    identityFlag = 1;
 //    loginName = 13868074590;
 //    mobile = 13868074590;
 //    nickname = 45414717;
+//    photo = "IOS_1490927644354443_750_1334.jpg";
+//    province = "\U6d59\U6c5f\U7701";
 //    userId = U2017032915445414717;
 //    userReferee = U2017010713451027748;
 //};
 //receiveAmount = 5000;
 //receiveCurrency = GXJL;
-//remark = "\U7a0b\U5e8f\U6bcf\U65e5\U81ea\U52a8\U751f\U6210\U7684\U5b9a\U5411\U7ea2\U5305";
+//receiveDatetime = "Apr 4, 2017 8:37:46 PM";
+//receiver = U2017040319554119943;
+//receiverUser =                 {
+//    area = "\U4f59\U676d\U533a";
+//    city = "\U676d\U5dde\U5e02";
+//    identityFlag = 0;
+//    loginName = 15737935671;
+//    mobile = 15737935671;
+//    nickname = 54119943;
+//    province = "\U6d59\U6c5f\U7701";
+//    userId = U2017040319554119943;
+//    userReferee = U2017032915445414717;
+//};
+//remark = "\U8be5\U7ea2\U5305\U5df2\U7ecf\U88ab\U9886\U53d6";
 //slogan = "\U5c0f\U5c0f\U5fc3\U610f";
-//status = 0;
+//status = 2;
 //systemCode = "CD-CZH000001";
 

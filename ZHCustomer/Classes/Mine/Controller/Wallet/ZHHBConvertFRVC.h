@@ -13,9 +13,10 @@
 
 typedef NS_ENUM(NSInteger,ZHCurrencyConvertType) {
 
-    ZHCurrencyConvertHBToFR = 0,
+//    ZHCurrencyConvertHBToFR = 0,
     
-    ZHCurrencyConvertHBYJToFR,
+//    ZHCurrencyConvertHBYJToFR,
+     ZHCurrencyConvertHBToGXJL = 0,
     ZHCurrencyConvertHBYJToGXJL
     
 };

@@ -201,9 +201,8 @@
         //
         if (!self.isMineHistory) {
             
-            winPeopleLbl.text = [NSString stringWithFormat:@"中奖者: %@",self.dbModel.winUser];
+            winPeopleLbl.text = [NSString stringWithFormat:@"中奖者: %@",self.dbModel.winUserNickName];
         }
-
         
     }
     

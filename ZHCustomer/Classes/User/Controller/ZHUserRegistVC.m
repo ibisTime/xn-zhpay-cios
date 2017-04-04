@@ -324,7 +324,7 @@
 
 #pragma mark- 定位不成功是选择地址
 - (void)chooseAddress {
-
+    [self.view endEditing:YES];
     [[UIApplication sharedApplication].keyWindow addSubview:self.addressPicker];
     
 }

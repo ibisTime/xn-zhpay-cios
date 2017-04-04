@@ -121,7 +121,7 @@
     ZHCurrencyConvertView *currencyConvertView = [[ZHCurrencyConvertView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
     billTableView.tableHeaderView = currencyConvertView;
     
-    [currencyConvertView.leftBtn addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
+//    [currencyConvertView.leftBtn addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
     
     [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
     
@@ -155,16 +155,16 @@
             [TLAlert alertWithHUDText:@"去消费"];
         };
     
-    } else if ([self.currencyModel.currency isEqualToString:kHBB]) {//红包币转分润
+    } else if ([self.currencyModel.currency isEqualToString:kHBB]) {//红包币转贡献值
     
         hiddenLeft = YES;
-        rightTitle = @"转分润";
+        rightTitle = @"转贡献值";
         
         self.rightAciton = ^(){
             
             ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
-            vc.title = @"转分润";
-            vc.type = ZHCurrencyConvertHBToFR;
+            vc.title = @"转贡献值";
+            vc.type = ZHCurrencyConvertHBToGXJL;
             vc.amount = weakself.currencyModel.amount;
             
             vc.success = ^(){
@@ -179,34 +179,58 @@
         
      
         
-    } else if ([self.currencyModel.currency isEqualToString:kHBYJ]) {//转贡献，或者分润
+    } else if ([self.currencyModel.currency isEqualToString:kHBYJ]) {//转贡献
     
-        hiddenLeft = NO;
-        leftTitle = @"转贡献";
-        rightTitle = @"转分润";
+//        hiddenLeft = NO;
+//        leftTitle = @"转贡献";
+//        rightTitle = @"转分润";
         
+        hiddenRight = NO;
+        rightTitle = @"转贡献";
+
         self.rightAciton = ^(){
         
+//            ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
+//            vc.success = ^(){
+//                
+//                [weakSelf.billTV beginRefreshing];
+//
+//            };
+//            vc.title = @"转分润";
+//            vc.type = ZHCurrencyConvertHBYJToFR;
+//            
+//            vc.amount = weakself.currencyModel.amount;
+//            [weakself.navigationController pushViewController:vc animated:YES];
+        
+//            [weakSelf leftAction];
+            //只可能 红包业绩转贡献
             ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
             vc.success = ^(){
                 
                 [weakSelf.billTV beginRefreshing];
-
+                
             };
-            vc.title = @"转分润";
-            vc.type = ZHCurrencyConvertHBYJToFR;
             
-            vc.amount = weakself.currencyModel.amount;
-            [weakself.navigationController pushViewController:vc animated:YES];
-        
-        
+            vc.title = @"转贡献";
+            vc.type = ZHCurrencyConvertHBYJToGXJL;
+            
+            
+            //    vc.title = @"转分润";
+            //    vc.type = ZHCurrencyConvertHBYJToFR;
+            //
+            vc.amount = weakSelf.currencyModel.amount;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+            
         };
+        
         
     }
     
-    currencyConvertView.leftBtn.hidden = hiddenLeft;
+//    currencyConvertView.leftBtn.hidden = hiddenLeft;
     currencyConvertView.rightBtn.hidden = hiddenRight;
-    [currencyConvertView.leftBtn setTitle:leftTitle forState:UIControlStateNormal];
+//    [currencyConvertView.leftBtn setTitle:leftTitle forState:UIControlStateNormal];
+    
+    
     [currencyConvertView.rightBtn setTitle:rightTitle forState:UIControlStateNormal];
 
 
@@ -250,23 +274,7 @@
 }
 
 - (void)leftAction {
-    //只可能 红包业绩转贡献
-    ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
-    vc.success = ^(){
-        
-        [self.billTV beginRefreshing];
-        
-    };
-    
-    vc.title = @"转贡献值";
-    vc.type = ZHCurrencyConvertHBYJToGXJL;
-        
 
-//    vc.title = @"转分润";
-//    vc.type = ZHCurrencyConvertHBYJToFR;
-//    
-    vc.amount = self.currencyModel.amount;
-    [self.navigationController pushViewController:vc animated:YES];
 
  
     

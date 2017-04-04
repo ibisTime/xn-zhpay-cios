@@ -151,6 +151,7 @@
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808217";
     helper.parameters[@"status"] = kShopOpenStatus;
+    helper.parameters[@"uiLocation"] = @"1";
     helper.tableView = self.shopTableView;
     [helper modelClass:[ZHShop class]];
     self.pageDataHelper = helper;

@@ -13,10 +13,12 @@
 #import "ZHHZBModel.h"
 #import "ZHRealNameAuthVC.h"
 #import <WebKit/WebKit.h>
+#import "ZHCurrencyModel.h"
 
 @interface ZHBuyHZBVC ()<WKNavigationDelegate>
 
 @property (nonatomic,strong) ZHHZBModel *HZBModel;
+@property (nonatomic, strong) UIImageView *hzbImageView;
 @property (nonatomic, strong) UILabel *priceLbl;
 
 
@@ -47,7 +49,10 @@
         self.HZBModel = [ZHHZBModel tl_objectWithDictionary:dict];
         [self setUpUI];
         
-        self.priceLbl.text = [NSString stringWithFormat:@"价格: %@ 元",[self.HZBModel.price convertToRealMoney]];
+        //
+        [self.hzbImageView sd_setImageWithURL:[NSURL URLWithString:[self.HZBModel.pic convertImageUrl]] placeholderImage:[UIImage imageNamed:@"hzb_tree"]];
+        
+//        self.priceLbl.text = [NSString stringWithFormat:@"价格: %@ 元",[self.HZBModel.price convertToRealMoney]];
         
     } failure:^(NSError *error) {
         
@@ -130,30 +135,68 @@
         return;
     }
     
-    //只能使用 --- 人民币 或者 ---分润----- 购买
-    //    ZHPayVC *payVC = [[ZHPayVC alloc] init];
-    //    payVC.type = ZHPayVCTypeHZB;
     
-    ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
-    payVC.type = ZHPayViewCtrlTypeHZB;
-    payVC.HZBModel = self.HZBModel;
-    payVC.amoutAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@",[self.HZBModel.price convertToRealMoney]]
-                                                             attributes:@{
-                                                                          NSForegroundColorAttributeName : [UIColor zh_themeColor]                              }];
-    payVC.rmbAmount = self.HZBModel.price;
-    payVC.paySucces = ^(){
+    //获取账户信息
+    TLNetworking *http = [TLNetworking new];
+    //        http.showView = self.view;
+    http.code = @"802503";
+    http.parameters[@"token"] = [ZHUser user].token;
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    
+    [http postWithSuccess:^(id responseObject) {
         
-        //        [self.navigationController popViewControllerAnimated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"HZBBuySuccess" object:nil];
+        //只能使用 --- 人民币 或者 ---分润----- 购买
+        //    ZHPayVC *payVC = [[ZHPayVC alloc] init];
+        //    payVC.type = ZHPayVCTypeHZB;
         
-    };
+        NSArray <NSDictionary *>*accountArr = responseObject[@"data"];
+        if (accountArr.count <=0 ) {
+            return ;
+            
+        }
+     
+        
+        
+        ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
+        payVC.type = ZHPayViewCtrlTypeHZB;
+        payVC.HZBModel = self.HZBModel;
+        payVC.amoutAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@",[self.HZBModel.price convertToRealMoney]]
+                                                                 attributes:@{
+                                                                              NSForegroundColorAttributeName : [UIColor zh_themeColor]                              }];
+        
+        //传价格
+        payVC.rmbAmount = self.HZBModel.price;
+        
+        //传余额
+        [accountArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if ([obj[@"currency"] isEqualToString:kFRB]) {
+                
+                payVC.balanceString = [NSString stringWithFormat:@"余额（分润%@）",[obj[@"amount"] convertToRealMoney]];
+                
+            }
+            
+        }];
+        
+        payVC.paySucces = ^(){
+            
+            //        [self.navigationController popViewControllerAnimated:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"HZBBuySuccess" object:nil];
+            
+        };
+        
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+        [self presentViewController:nav animated:YES completion:nil];
+        
+        
+    } failure:^(NSError *error) {
+        
+        
+        
+    }];
     
-    
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-    [self presentViewController:nav animated:YES completion:nil];
- 
-    
-    
+
 }
 
 
@@ -237,6 +280,7 @@
     treeView.centerX = self.view.width/2.0;
     treeView.image = [UIImage imageNamed:@"hzb_tree"];
     [self.view addSubview:treeView];
+    self.hzbImageView = treeView;
     
     //价格lbl
     UILabel *priceLbl = [UILabel labelWithFrame:CGRectZero
@@ -246,6 +290,7 @@
                                       textColor:[UIColor zh_textColor]];
     [treeView addSubview:priceLbl];
     self.priceLbl = priceLbl;
+    
     [priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.equalTo(self.view.mas_left).offset(20);

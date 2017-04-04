@@ -75,12 +75,17 @@
     [self.view addSubview:self.browseView];
     
     //--//
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, self.browseView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - self.browseView.height) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectZero delegate:self dataSource:self];
     [self.view addSubview:tableView];
     self.dbTableView = tableView;
     tableView.rowHeight = 145;
     tableView.backgroundColor = [UIColor zh_backgroundColor];
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无商品"];
+    
+    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.top.equalTo(self.browseView.mas_bottom);
+    }];
     
     //头部
 //    tableView.tableHeaderView = self.tableHeaderView;

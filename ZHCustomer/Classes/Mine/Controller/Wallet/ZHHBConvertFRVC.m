@@ -7,6 +7,7 @@
 //
 
 #import "ZHHBConvertFRVC.h"
+#import "ZHCurrencyModel.h"
 
 @interface ZHHBConvertFRVC ()
 
@@ -82,25 +83,43 @@
         TLNetworking *http = [TLNetworking new];
  
         http.showView = self.view;
-        http.code = @"802518";
+        http.code = @"802410";
         http.parameters[@"token"] = [ZHUser user].token;
         http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"transAmount"] = [NSString stringWithFormat:@"-%@",[self.convertMoneytf.text convertToSysMoney]];
+    
+        http.parameters[@"fromAmount"] = [self.convertMoneytf.text convertToSysMoney];
+
+
+//        http.parameters[@"transAmount"] = [NSString stringWithFormat:@"-%@",[self.convertMoneytf.text convertToSysMoney]];
 //    [NSString stringWithFormat:@"%.f",[self.convertMoneytf.text floatValue]*1000];
     
-//      50=红包兑分润 52=红包业绩兑分润 54=红包业绩兑贡献值
+//      50=红包兑分润 52=红包业绩兑分润   54=红包业绩兑贡献值
         switch (self.type) {
                 
-            case ZHCurrencyConvertHBToFR:
-                http.parameters[@"bizType"] = @"50";
+//            case ZHCurrencyConvertHBToFR:
+//                http.parameters[@"bizType"] = @"50";
+//                break;
+//                
+//            case ZHCurrencyConvertHBYJToFR:
+//                http.parameters[@"bizType"] = @"52";
+//                break;
+               
+            case ZHCurrencyConvertHBToGXJL: {
+                
+//                http.parameters[@"bizType"] = @"54";
+                http.parameters[@"fromCurrency"] = kHBB;
+                http.parameters[@"toCurrency"] = kGXB;
+                
+            }
                 break;
                 
-            case ZHCurrencyConvertHBYJToFR:
-                http.parameters[@"bizType"] = @"52";
-                break;
-                
-            case ZHCurrencyConvertHBYJToGXJL:
-                http.parameters[@"bizType"] = @"54";
+            case ZHCurrencyConvertHBYJToGXJL: {
+            
+//                http.parameters[@"bizType"] = @"54";
+                http.parameters[@"fromCurrency"] = kHBYJ;
+                http.parameters[@"toCurrency"] = kGXB;
+
+            }
                 break;
         }
 

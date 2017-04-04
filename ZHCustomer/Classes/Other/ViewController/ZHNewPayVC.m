@@ -64,32 +64,47 @@
         
     }
     
+//    if (!self.balanceString) {
+//        
+//        NSLog(@"请传入余额字符串");
+//    }
+    
     //--//
-    NSArray *imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+    NSArray *imgs ;
     NSArray *payNames;
     if (self.type == ZHPayViewCtrlTypeHZB) {
         
-        payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+        payNames  = @[self.balanceString,@"微信支付",@"支付宝"]; //余额(可用100)
+        imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+        
+    } else if(self.type == ZHPayViewCtrlTypeNewYYDB) {
+    
+        payNames  = @[@"余额"]; //余额(可用100)
+        imgs = @[@"zh_pay"];
         
     } else {
         
         payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+        imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+
         
     }
+    
     NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
     NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
     self.pays = [NSMutableArray array];
     
     //隐藏掉支付宝
-    NSInteger count = imgs.count;
+    NSInteger count = payNames.count;
     
     //只有一种支付，
-    if ([self.rmbAmount isEqual:@0]) {
-        
-        count = 1;
-        
-    }
+//    if ([self.rmbAmount isEqual:@0]) {
+//        
+//        count = 1;
+//        
+//    }
     
+    //只创建可以支付的支付方式，， 一元夺宝只有 余额支付 就显示余额
     for (NSInteger i = 0; i < count; i ++) {
         
         ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
@@ -191,7 +206,7 @@
             
         } break;
             
-        case ZHPayViewCtrlTypeNewGoods: { //2.0版本的一元夺宝
+        case ZHPayViewCtrlTypeNewGoods: { //普通商品支付
             
             self.paySceneManager.isInitiative = NO;
             self.paySceneManager.amount = [self.rmbAmount convertToSimpleRealMoney];
@@ -229,8 +244,6 @@
             
             
         } break;
-            
-            
             
             
         default: [TLAlert alertWithHUDText:@"您还没有选择支付场景"];
@@ -284,15 +297,13 @@
             
             [TLAlert alertWithHUDText:@"支付失败"];
             
-            
         }
         
     }];
     
     
 #pragma mark- 购买汇赚宝获取分润
-    if (self.type == ZHPayViewCtrlTypeHZB) {
-        
+//    if (self.type == ZHPayViewCtrlTypeHZB) {
 //        TLNetworking *http = [TLNetworking new];
 ////        http.showView = self.view;
 //        http.code = @"802503";
@@ -314,9 +325,9 @@
 //        } failure:^(NSError *error) {
 //            
 //        }];
-
-        return;
-    }
+//
+//        return;
+//    }
     
     
 #pragma mark- 获得余额
@@ -338,6 +349,7 @@
 //    }];
     
 }
+
 
 #pragma mark- 支付
 - (void)pay {
@@ -387,7 +399,8 @@
         
     } if (self.type == ZHPayViewCtrlTypeNewYYDB) {
         
-        [self newYydbPay:payType];
+        //特殊
+        [self newYydbPay:@"9"];
         
     } else if (self.type == ZHPayViewCtrlTypeNewGoods) {
     
@@ -421,11 +434,20 @@
     
 }
 
+- (void)aliPayWithInfo:(NSDictionary *)info {
+    
+    
+    //支付宝回调
+    [TLAlipayManager payWithOrderStr:info[@"signOrder"]];
+    
+    
+}
+
 #pragma mark- 2.0新一元夺宝支付
 - (void)newYydbPay:(NSString *)payType {
     
-    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-        
+//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
+    
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
         http.code = @"615020";
@@ -433,34 +455,37 @@
         http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];
         http.parameters[@"payType"] = payType;
-        http.parameters[@"ip"] = data[@"ip"];
-        
         //---//
         [http postWithSuccess:^(id responseObject) {
             
-            if ([payType isEqualToString: @"2"]) {
-                
-                [self wxPayWithInfo:responseObject[@"data"]];
-                
-            } else {
-                
-                [TLAlert alertWithHUDText:@"支付成功"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                if (self.paySucces) {
-                    self.paySucces();
-                }
-            }
+//            if ([payType isEqualToString: @"2"]) {
+//                
+//                [self wxPayWithInfo:responseObject[@"data"]];
+//                
+//            } else {
+//                
+//                [TLAlert alertWithHUDText:@"支付成功"];
+//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//                if (self.paySucces) {
+//                    self.paySucces();
+//                }
+//            }
             
+            [TLAlert alertWithHUDText:@"支付成功"];
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            if (self.paySucces) {
+                self.paySucces();
+            }
             
             
         } failure:^(NSError *error) {
             
         }];
         
-    } abnormality:nil failure:^(NSError *error) {
-        
-        
-    }];
+//    } abnormality:nil failure:^(NSError *error) {
+//        
+//        
+//    }];
     
 }
 
@@ -501,8 +526,8 @@
 #pragma mark- 汇赚宝支付
 - (void)hzbPay:(NSString *)payType {
     
-    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-        
+//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
+    
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
         http.code = @"615110";
@@ -510,14 +535,17 @@
         http.parameters[@"payType"] = payType;
         http.parameters[@"token"] = [ZHUser user].token;
         http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"ip"] = data[@"ip"];
-        
+//        http.parameters[@"ip"] = data[@"ip"];
+    
         [http postWithSuccess:^(id responseObject) {
             
-            if ([payType isEqualToString:@"2"]) {
+            if ([payType isEqualToString:PAY_TYPE_WX_PAY_CODE]) {
                 
                 [self wxPayWithInfo:responseObject[@"data"]];
                 
+            } else if([payType isEqualToString:PAY_TYPE_ALI_PAY_CODE]){
+            
+                [self aliPayWithInfo:responseObject[@"data"]];
             } else {
                 
                 [TLAlert alertWithHUDText:@"购买成功"];
@@ -531,15 +559,15 @@
                 
             }
             
-            
         } failure:^(NSError *error) {
             
         }];
         
-    } abnormality:nil failure:^(NSError *error) {
-        
-        
-    }];
+//    } abnormality:nil failure:^(NSError *error) {
+//        
+//        
+//    }];
+    
     
 }
 

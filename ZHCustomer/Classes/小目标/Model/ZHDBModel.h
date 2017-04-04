@@ -16,6 +16,8 @@
 @property (nonatomic, copy) NSString *advPic;
 @property (nonatomic, copy) NSString *slogan;
 @property (nonatomic, copy) NSString *templateCode;
+
+//from to 相对平台而言 ----
 @property (nonatomic, strong) NSNumber *fromAmount; //单价
 @property (nonatomic, copy) NSString *fromCurrency; //单价币种
 @property (nonatomic, strong) NSNumber *toAmount; //中奖金额
@@ -38,12 +40,20 @@
 @property (nonatomic, assign) NSInteger count;
 
 //历史记录可能出现的字段
+@property (nonatomic, strong) NSDictionary *user; //获奖用户
+
+@property (nonatomic, copy, readonly) NSString *winUserNickName; //获奖时间
 @property (nonatomic, copy) NSString *winDatetime; //获奖时间
 @property (nonatomic, copy) NSString *winNumber; //获奖号码
 @property (nonatomic, copy) NSString *winUser; //获奖用户
 
 - (NSString *)getPriceDetail;
+
+- (NSString *)getPriceCurrencyName;
+
 - (float )getProgress;
+
+//剩余人数
 - (NSInteger)getSurplusPeople;
 
 //advPic = "\U5ba3\U4f20\U56feupdate";

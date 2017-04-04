@@ -38,7 +38,7 @@
     [super viewWillDisappear:animated];
     
     self.navBarImageView.alpha = 1;
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.tintColor = [UIColor zh_textColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{
                                                                       NSForegroundColorAttributeName : [UIColor zh_textColor]
@@ -142,9 +142,6 @@
     [http postWithSuccess:^(id responseObject) {
         
         //创建UI
-     
-        
-        
         //
         self.myEarningRoom = [ZHEarningModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         

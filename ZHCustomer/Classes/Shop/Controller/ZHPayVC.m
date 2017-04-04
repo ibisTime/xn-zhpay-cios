@@ -23,7 +23,6 @@
 
 @property (nonatomic,strong) NSMutableArray <ZHPayFuncModel *>*pays;
 
-@property (nonatomic,strong) UILabel* tempAttrLbl;
 
 @property (nonatomic,strong) TLTextField *amountTf;
 
@@ -94,10 +93,15 @@
     [super viewDidLoad];
     self.title = @"支付";
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    if (!self.balanceString) {
+        NSLog(@"请传入余额");
+        return;
+    }
     //--//
     NSArray *imgs = @[@"zh_pay",@"we_chat",@"alipay"];
     NSArray *payNames;
-    payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+    payNames  = @[self.balanceString,@"微信支付",@"支付宝"]; //余额(可用100)
 
     NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
     NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
@@ -176,8 +180,6 @@
                 
             }
 
-            
-            
         });
         
     };
@@ -310,7 +312,12 @@
             } else {
                 
                 [TLAlert alertWithHUDText:@"支付成功"];
+                
+                if (self.paySucces) {
+                    self.paySucces();
+                }
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                
             }
             
         } failure:^(NSError *error) {

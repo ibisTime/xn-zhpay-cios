@@ -45,9 +45,9 @@
         }];
         
         //
-        self.leftBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"left"];
-        [self addSubview:self.leftBtn];
-        self.leftBtn.titleLabel.font = FONT(13);
+//        self.leftBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"left"];
+//        [self addSubview:self.leftBtn];
+//        self.leftBtn.titleLabel.font = FONT(13);
         
         self.rightBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"right"];
         [self addSubview:self.rightBtn];
@@ -62,15 +62,15 @@
             make.height.mas_equalTo(30);
             
             make.right.equalTo(self.mas_right).offset(-15);
-            make.left.equalTo(self.leftBtn.mas_right).offset(30);
+//            make.left.equalTo(self.leftBtn.mas_right).offset(30);
         }];
         
-        [self.leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.mas_centerY);
-            make.width.mas_equalTo(56);
-            make.height.mas_equalTo(30);
-            make.right.equalTo(self.rightBtn.mas_left).offset(-30);
-        }];
+//        [self.leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self.mas_centerY);
+//            make.width.mas_equalTo(56);
+//            make.height.mas_equalTo(30);
+//            make.right.equalTo(self.rightBtn.mas_left).offset(-30);
+//        }];
         
         
 //        self.moneyLbl.text = @"钱";

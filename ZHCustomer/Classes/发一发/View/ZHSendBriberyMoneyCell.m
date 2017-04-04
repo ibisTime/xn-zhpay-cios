@@ -44,7 +44,7 @@
     } else if (status == ZHBriberyMoneyStatusReceiverd ) { //已领取
     
         self.bgImageV.image = [UIImage imageNamed:@"已领取背景"];
-        receiverText = [NSString stringWithFormat:@"领取人:%@",_briberMoney.receiverMobile];
+        receiverText = [NSString stringWithFormat:@"领取人:%@   手机号:%@",_briberMoney.receiverUserName,_briberMoney.receiverMobile];
 
     } else if (status == ZHBriberyMoneyStatusOutOfDate) { //过期
         

@@ -10,4 +10,15 @@
 
 @implementation ZHBriberyMoney
 
+
+- (NSString *)receiverUserName {
+
+    return self.receiverUser[@"nickname"] ? : @"???";
+}
+
+- (NSString *)receiverMobile {
+    
+    return self.receiverUser[@"mobile"] ? : @"???";
+
+}
 @end

@@ -28,13 +28,13 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
 
 @property (nonatomic, strong) TLBannerView *bannerView;
 
-@property (nonatomic, strong) UILabel *priceLbl;
+@property (nonatomic, strong) UILabel *priceLbl; //单价
 @property (nonatomic, strong) UILabel *numberLbl;
 
 @property (nonatomic, strong) ZHProgressView *progressView;
 
 @property (nonatomic, strong) UILabel *maxNumLbl; //最大 数目
-@property (nonatomic, strong) UILabel *totalCountLbl; //总需
+@property (nonatomic, strong) UILabel *totalCountLbl; //总价
 @property (nonatomic, strong) UILabel *surplusCountLbl; //剩余
 @property (nonatomic, strong) ZHStepView *countChangeView; //剩余
 
@@ -77,6 +77,9 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     [super viewDidLoad];
     
     self.isFirst = YES;
+    
+    //
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
     
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
     [self.view addSubview:tableView];
@@ -141,8 +144,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     //头部
     [self tableViewHeaderView];
     
-    //
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
+  
                                                
     //
     __weak typeof(self) weakself = self;
@@ -150,7 +152,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     self.countChangeView.countChange = ^(NSUInteger count){
     
         //
-       weakself.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:count];
+        weakself.totalPriceLbl.attributedText = [weakSelf calculateTotalPriceWithPrice:weakself.dbModel.price count:count];
     
     };
     
@@ -160,14 +162,30 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     
 //        NSInteger count = [weakself.dbModel getSurplusPeople];
 //        weakself.countChangeView.count = count;
-        weakself.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:weakSelfCountChangeView.count];
+        weakself.totalPriceLbl.attributedText = [weakSelf calculateTotalPriceWithPrice:weakself.dbModel.price count:weakSelfCountChangeView.count];
+    
         
     };
     
     //根据外传数据，改变UI
     [self data];
-    self.totalPriceLbl.attributedText = [ZHCurrencyHelper totalRMBWithPrice:weakself.dbModel.price count:1];
     
+    
+    //给初值
+//    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[self.dbModel getPriceCurrencyName]];
+//    [attr appendAttributedString:[ZHCurrencyHelper totalPriceWithPrice:weakself.dbModel.price count:1]];
+    
+    self.totalPriceLbl.attributedText = [self calculateTotalPriceWithPrice:weakself.dbModel.price count:1];
+    
+
+}
+
+- (NSMutableAttributedString *)calculateTotalPriceWithPrice:(NSNumber *)price count:(NSInteger)count {
+
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[self.dbModel getPriceCurrencyName] attributes:@{NSForegroundColorAttributeName : [UIColor zh_themeColor]}];
+    [attr appendAttributedString:[ZHCurrencyHelper totalPriceWithPrice:price count:count]];
+    
+    return attr;
 
 }
 

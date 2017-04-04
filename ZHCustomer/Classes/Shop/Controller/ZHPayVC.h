@@ -26,22 +26,9 @@
 
 //优店支付所需要的模型
 @property (nonatomic,strong) ZHShop *shop;
-//@property (nonatomic,assign) ZHPayVCType type;
 
 //
 @property (nonatomic,copy) void(^paySucces)();
-
-//月卡
-//@property (nonatomic,strong) ZHMonthCardModel *monthCardModel;
-
-//汇赚宝
-//@property (nonatomic,strong) ZHHZBModel *HZBModel;
-
-//普通商品的订单编号和价格
-//订单编号
-//@property (nonatomic,copy) NSString *orderCode;
-//@property (nonatomic,copy) NSArray *codeList;
-
 
 //这里的折扣券 只能是我的折扣券
 @property (nonatomic,strong) NSMutableArray <ZHMineCouponModel *>*coupons;
@@ -50,14 +37,7 @@
 //人民币价格
 //各种总金额----富文本
 @property (nonatomic,copy) NSAttributedString *amoutAttr;
-
 @property (nonatomic,strong) NSNumber *orderAmount;
-
-//一元夺宝所需要的支付模型
-//@property (nonatomic,strong) ZHTreasureModel *treasureModel;
-
-//2.0一元夺宝所需要的支付模型
-//@property (nonatomic,strong) ZHDBModel *dbModel;
-
+@property (nonatomic, copy) NSString *balanceString;
 
 @end

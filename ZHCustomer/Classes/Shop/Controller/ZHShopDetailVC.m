@@ -19,6 +19,7 @@
 #import "ZHCouponsMgtVC.h"
 #import "ZHCouponsDetailVC.h"
 #import "ZHMineCouponModel.h"
+#import "ZHCurrencyModel.h"
 
 @interface ZHShopDetailVC ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -118,15 +119,46 @@
         
         NSArray <ZHMineCouponModel *> *coupons = [ZHMineCouponModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
         
-        //支付
-        ZHPayVC *payVC = [[ZHPayVC alloc] init];
-        payVC.shop = self.shop;
-        if (coupons && coupons.count > 0) {
-            payVC.coupons = [coupons mutableCopy];
-
-        }
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-        [self presentViewController:nav animated:YES completion:nil];
+        
+        TLNetworking *http = [TLNetworking new];
+        //        http.showView = self.view;
+        http.code = @"802503";
+        http.parameters[@"token"] = [ZHUser user].token;
+        http.parameters[@"userId"] = [ZHUser user].userId;
+        
+        [http postWithSuccess:^(id responseObject) {
+            
+            //传余额
+            NSArray *accountArr = responseObject[@"data"];
+         
+            
+            //支付
+            ZHPayVC *payVC = [[ZHPayVC alloc] init];
+            payVC.shop = self.shop;
+            if (coupons && coupons.count > 0) {
+                payVC.coupons = [coupons mutableCopy];
+                
+            }
+            [accountArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                
+                if ([obj[@"currency"] isEqualToString:kFRB]) {
+                    
+                    payVC.balanceString = [NSString stringWithFormat:@"余额（分润%@）",[obj[@"amount"] convertToRealMoney]];
+                    
+                }
+                
+            }];
+            
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+            [self presentViewController:nav animated:YES completion:nil];
+            
+        } failure:^(NSError *error) {
+            
+        }];
+     
+            
+       
+     
         
         
     } failure:^(NSError *error) {
