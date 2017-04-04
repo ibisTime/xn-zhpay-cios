@@ -15,8 +15,10 @@
 #import "ZHUserLoginVC.h"
 #import "ZHMapController.h"
 #import "WXApi.h"
+
 #import "ZHCouponsMgtVC.h"
 #import "ZHCouponsDetailVC.h"
+#import "ZHMineCouponModel.h"
 
 @interface ZHShopDetailVC ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -77,9 +79,6 @@
         
     } else if(indexPath.section == 1) { //折扣券查询
     
-//        ZHCouponsMgtVC *couponsVC = [[ZHCouponsMgtVC alloc] init];
-//        couponsVC.shop = self.shop;
-//        [self.navigationController pushViewController:couponsVC animated:YES];
         
         ZHCouponsDetailVC *couponsDetail = [[ZHCouponsDetailVC alloc] init];
         couponsDetail.coupon = self.shop.storeTickets[indexPath.row];
@@ -117,7 +116,7 @@
     http.parameters[@"token"] = [ZHUser user].token;
     [http postWithSuccess:^(id responseObject) {
         
-        NSArray <ZHCoupon *> *coupons = [ZHCoupon tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+        NSArray <ZHMineCouponModel *> *coupons = [ZHMineCouponModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
         
         //支付
         ZHPayVC *payVC = [[ZHPayVC alloc] init];
@@ -265,10 +264,9 @@
          cell.mainLbl.attributedText = attr;
         
         cell.subLbl.text = [coupon discountInfoDescription01];
-//        [NSString stringWithFormat:@"满 %@减 %@",[coupon.key1 covertToRealMoney],[coupon.key2 covertToRealMoney]];
-//        [self.shop discountDescription];
         
         return cell;
+        
     } else {
         
         if (indexPath.row == 0) {

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ZHEarningModel;
 
 @interface ZHProfitCell : UITableViewCell
+
+@property (nonatomic, strong) ZHEarningModel *earningModel;
 
 @end

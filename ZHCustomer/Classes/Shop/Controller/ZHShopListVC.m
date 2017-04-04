@@ -64,7 +64,7 @@
     helper.parameters[@"longitude"] = self.lon;
     helper.parameters[@"latitude"] = self.lat;
     helper.parameters[@"city"] = self.cityName;
-    helper.parameters[@"status"] = @"2";
+    helper.parameters[@"status"] = kShopOpenStatus;
     
     helper.tableView = self.shopTableView;
     helper.parameters[@"type"] = self.type;

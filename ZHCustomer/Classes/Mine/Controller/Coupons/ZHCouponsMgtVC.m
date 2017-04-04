@@ -10,13 +10,15 @@
 //#import "ZHCouponsAddVC.h"
 #import "ZHCouponsCell.h"
 #import "TLPageDataHelper.h"
-#import "ZHCoupon.h"
+//#import "ZHCoupon.h"
+#import "ZHMineCouponModel.h"
+
 #import "ZHCouponsDetailVC.h"
 
 @interface ZHCouponsMgtVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) TLTableView *couponsTableView;
-@property (nonatomic,strong) NSMutableArray *coupons; //优惠券
+@property (nonatomic,strong) NSMutableArray <ZHMineCouponModel *>*coupons; //优惠券
 @property (nonatomic,assign) BOOL isFirst;
 
 @end
@@ -52,7 +54,7 @@
 
     }
     
-    [goodsHelper modelClass:[ZHCoupon class]];
+    [goodsHelper modelClass:[ZHMineCouponModel class]];
     [self.couponsTableView addRefreshAction:^{
         
         [goodsHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
@@ -102,8 +104,7 @@
     //
     
     ZHCouponsDetailVC *detailVC = [[ZHCouponsDetailVC alloc] init];
-    detailVC.coupon = self.coupons[indexPath.row];
-    detailVC.isMine = YES;
+    detailVC.mineCoupon = self.coupons[indexPath.row];
     [self.navigationController pushViewController:detailVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -123,8 +124,8 @@
     if (!cell) {
         cell = [[ZHCouponsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:couponsCellId];
     }
-    ZHCoupon *coupon = self.coupons[indexPath.row];
-    cell.coupon = coupon;
+    ZHMineCouponModel *mineCoupon = self.coupons[indexPath.row];
+    cell.mineCoupon = mineCoupon;
     return cell;
 }
 

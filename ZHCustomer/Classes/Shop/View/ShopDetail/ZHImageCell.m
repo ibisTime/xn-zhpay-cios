@@ -42,7 +42,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.imageV.height = self.height - 10;
+    self.imageV.height = self.height;
 
 }
 

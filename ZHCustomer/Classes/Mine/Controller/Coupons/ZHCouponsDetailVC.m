@@ -8,7 +8,9 @@
 
 #import "ZHCouponsDetailVC.h"
 #import "ZHUserLoginVC.h"
-#import "ZHCouponsCell.h"
+
+//#import "ZHCouponsCell.h"
+
 #import "ZHShop.h"
 
 @interface ZHCouponsDetailVC ()
@@ -117,58 +119,68 @@
     }];
     
 
-    
-    NSString *price1Str;
-    NSString *price2Str;
-    if (_coupon.key1) {
+    if (self.coupon) {
         
-        price1Str = [_coupon.key1 convertToSimpleRealMoney];
-        price2Str = [_coupon.key2 convertToSimpleRealMoney];
+        NSString *  price1Str = [_coupon.key1 convertToSimpleRealMoney];
+        NSString *  price2Str = [_coupon.key2 convertToSimpleRealMoney];
         
         
-    } else {
+        //
+        NSMutableAttributedString *attr1Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"满 %@",price1Str]];
+        [attr1Str addAttributes:@{
+                                  NSForegroundColorAttributeName : [UIColor zh_themeColor]
+                                  } range:NSMakeRange(2, price1Str.length)];
+        //--//
+        NSMutableAttributedString *attr2Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"减 %@",price2Str]];
+        [attr2Str addAttributes:@{
+                                  NSForegroundColorAttributeName : [UIColor zh_themeColor]
+                                  } range:NSMakeRange(2, price2Str.length)];
         
-        price1Str = [_coupon.ticketKey1 convertToSimpleRealMoney];
-        price2Str = [_coupon.ticketKey2 convertToSimpleRealMoney];
-        
-    }
-    //
-    NSMutableAttributedString *attr1Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"满 %@",price1Str]];
-    [attr1Str addAttributes:@{
-                              NSForegroundColorAttributeName : [UIColor zh_themeColor]
-                              } range:NSMakeRange(2, price1Str.length)];
-    //--//
-    NSMutableAttributedString *attr2Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"减 %@",price2Str]];
-    [attr2Str addAttributes:@{
-                              NSForegroundColorAttributeName : [UIColor zh_themeColor]
-                              } range:NSMakeRange(2, price2Str.length)];
-    
-    //价格字符串
-    self.price1Lbl.attributedText = attr1Str;
-    self.price2Lbl.attributedText = attr2Str;
-
-    
-    
-    if (self.coupon.storeTicket) {
-        
-        self.titleLbl.text = [NSString  stringWithFormat:@"起始日期%@",[_coupon.storeTicket.validateStart converDate]];
-        self.timeLbl.text = [NSString  stringWithFormat:@"有效期至%@",[_coupon.storeTicket.validateEnd converDate]];
-        
-    } else {
+        //价格字符串
+        self.price1Lbl.attributedText = attr1Str;
+        self.price2Lbl.attributedText = attr2Str;
         
         self.titleLbl.text = [NSString  stringWithFormat:@"起始日期%@",[_coupon.validateStart converDate]];
-        self.timeLbl.text = [NSString  stringWithFormat:@"有效期至%@",[_coupon.validateEnd converDate]];
-  
-    }
-    
-    if (self.isMine) { //我的
+         self.timeLbl.text = [NSString  stringWithFormat:@"有效期至%@",[_coupon.validateEnd converDate]];
         
-        if ([self.coupon.status isEqualToString:@"0"]) { //未使用
+        //底部购买按钮
+        UIButton *buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 49 -64, SCREEN_WIDTH, 49) title:@"购买" backgroundColor:[UIColor zh_themeColor]];
+        [self.view addSubview:buyBtn];
+        [buyBtn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.backgroundImageView.image = [UIImage imageNamed:@"抵扣券ing"];
+        descLbl.text = self.coupon.desc;
+        
+    } else {
+    
+        NSString *  price1Str = [self.mineCoupon.storeTicket.key1 convertToSimpleRealMoney];
+        NSString *  price2Str = [self.mineCoupon.storeTicket.key2 convertToSimpleRealMoney];
+        
+        
+        //
+        NSMutableAttributedString *attr1Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"满 %@",price1Str]];
+        [attr1Str addAttributes:@{
+                                  NSForegroundColorAttributeName : [UIColor zh_themeColor]
+                                  } range:NSMakeRange(2, price1Str.length)];
+        //--//
+        NSMutableAttributedString *attr2Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"减 %@",price2Str]];
+        [attr2Str addAttributes:@{
+                                  NSForegroundColorAttributeName : [UIColor zh_themeColor]
+                                  } range:NSMakeRange(2, price2Str.length)];
+        
+        //价格字符串
+        self.price1Lbl.attributedText = attr1Str;
+        self.price2Lbl.attributedText = attr2Str;
+        
+        self.titleLbl.text = [NSString  stringWithFormat:@"起始日期%@",[self.mineCoupon.storeTicket.validateStart converDate]];
+        self.timeLbl.text = [NSString  stringWithFormat:@"有效期至%@",[self.mineCoupon.storeTicket.validateEnd converDate]];
+    
+        if ([self.mineCoupon.status isEqualToString:@"0"]) { //未使用
             
             self.soldOutImageView.image = [UIImage new];
             self.backgroundImageView.image = [UIImage imageNamed:@"抵扣券ing"];
             
-        } else if([self.coupon.status isEqualToString:@"1"]){ //已经使用
+        } else if([self.mineCoupon.status isEqualToString:@"1"]){ //已经使用
             
             self.soldOutImageView.image = [UIImage imageNamed:@"已使用"];
             self.backgroundImageView.image = [UIImage imageNamed:@"抵扣券ed"];
@@ -181,23 +193,10 @@
         }
         
         //详情
-        descLbl.text = [NSString stringWithFormat:@"%@\n%@\n%@",self.coupon.store.name,self.coupon.store.bookMobile,self.coupon.storeTicket.desc];
-        
-    } else { //商家的
-        
-        UIButton *buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 49 -64, SCREEN_WIDTH, 49) title:@"购买" backgroundColor:[UIColor zh_themeColor]];
-        [self.view addSubview:buyBtn];
-        [buyBtn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
+        descLbl.text = [NSString stringWithFormat:@"%@\n%@\n%@",self.mineCoupon.store.name,self.mineCoupon.store.bookMobile,self.mineCoupon.storeTicket.desc];
     
-        self.backgroundImageView.image = [UIImage imageNamed:@"抵扣券ing"];
-        descLbl.text = self.coupon.desc;
-
     }
     
-
-    
-
-
 }
 
 - (void)buy {

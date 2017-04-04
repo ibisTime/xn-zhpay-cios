@@ -7,11 +7,17 @@
 //
 
 #import "TLBaseVC.h"
-#import "ZHCoupon.h"
+
+//#import "ZHCoupon.h"
+#import "ZHMineCouponModel.h"
 
 @interface ZHCouponsDetailVC : TLBaseVC
 
+//商家
 @property (nonatomic,strong) ZHCoupon *coupon;
-@property (nonatomic,assign) BOOL isMine;
+
+//我的
+@property (nonatomic, strong) ZHMineCouponModel *mineCoupon;
+//@property (nonatomic,assign) BOOL isMine;
 
 @end

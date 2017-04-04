@@ -66,7 +66,7 @@
 - (void)introduce {
 
     TLHTMLStrVC *vc = [[TLHTMLStrVC alloc] init];
-    vc.type = ZHHTMLTypeShakeItOfIntroduce;
+    vc.type = ZHHTMLTypeSendBrebireMoneyIntroduce;
     vc.title = @"玩法介绍";
     [self.navigationController pushViewController:vc animated:YES];
 

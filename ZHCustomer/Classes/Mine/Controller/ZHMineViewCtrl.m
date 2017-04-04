@@ -315,19 +315,19 @@
     
     //我的收益 汇赚宝
     CGFloat w0 = (SCREEN_WIDTH - 1)/2.0;
-    UIButton *earningBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.headerView.yy,w0, 45) title:@"我的收益" backgroundColor:[UIColor whiteColor]];
-    [earningBtn setTitleColor:[UIColor zh_themeColor] forState:UIControlStateNormal];
+    UIButton *earningBtn = [self twoBtnWithFrame:CGRectMake(0, self.headerView.yy,w0, 50) title:@"我的收益" imagName:@"我的收益"];
+    
+    [earningBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
     [earningBtn addTarget:self action:@selector(lookMineEarnings) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:earningBtn];
-    earningBtn.titleLabel.font = FONT(15);
 
+    [headerView addSubview:earningBtn];
     
     //
-    UIButton *hzbBtn = [[UIButton alloc] initWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 45) title:@"汇赚宝" backgroundColor:[UIColor whiteColor]];
-    hzbBtn.titleLabel.font = FONT(15);
-    [hzbBtn setTitleColor:[UIColor zh_themeColor] forState:UIControlStateNormal];
+    UIButton *hzbBtn = [self twoBtnWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 50) title:@"汇赚宝" imagName:@"汇赚宝"];
     [hzbBtn addTarget:self action:@selector(lookMineHZB) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:hzbBtn];
+    
+
     
 //    //钱包
 //    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"购物币"];
@@ -363,6 +363,19 @@
 //    }
     
     self.mineTableView.tableHeaderView.height = hzbBtn.yy + 10;
+
+}
+
+- (UIButton *)twoBtnWithFrame:(CGRect)frame title:(NSString *)title imagName:(NSString *)imageName {
+
+    UIButton *hzbBtn = [[UIButton alloc] initWithFrame:frame title:title backgroundColor:[UIColor whiteColor]];
+    hzbBtn.titleLabel.font = FONT(14);
+    [hzbBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
+
+    hzbBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    [hzbBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+
+    return hzbBtn;
 
 }
 

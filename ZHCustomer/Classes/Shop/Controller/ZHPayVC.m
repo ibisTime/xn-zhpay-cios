@@ -27,10 +27,9 @@
 
 @property (nonatomic,strong) TLTextField *amountTf;
 
-
-
-
 @property (nonatomic,strong) ZHPayInfoCell *couponsCell;
+
+//底部总价
 @property (nonatomic,strong) UILabel *priceLbl;
 
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
@@ -83,7 +82,6 @@
 //- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 //
 //}
-
 
 
 - (void)canclePay {
@@ -295,11 +293,8 @@
     
         http.parameters[@"amount"] = [self.amountTf.text convertToSysMoney];
         http.parameters[@"token"] = [ZHUser user].token;
-//        http.parameters[@"ip"] = data[@"ip"];
         http.parameters[@"payType"] = payType;
-        
-        //        payType = http.parameters[@"payType"];
-        
+    
         [http postWithSuccess:^(id responseObject) {
             
             
@@ -322,12 +317,6 @@
             
             
         }];
-    
-        
-//    } abnormality:nil failure:^(NSError *error) {
-//        
-//        
-//    }];
 
 }
 
@@ -366,91 +355,6 @@
 }
 
 
-
-
-
-
-#pragma mark- 普通商品支付
-//- (void)goodsPay:(NSString *)payType {
-//
-//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-//        
-//        if (self.codeList) { //购物车批量购买
-//            
-//            TLNetworking *http = [TLNetworking new];
-//            http.showView = self.view;
-//            http.code = @"808060";
-//            http.parameters[@"codeList"] = self.codeList;
-//            http.parameters[@"payType"] = payType;
-//            http.parameters[@"ip"] = data[@"ip"];
-//            http.parameters[@"token"] = [ZHUser user].token;
-//            http.parameters[@"applyUser"] = [ZHUser user].userId;
-//
-//        
-//            [http postWithSuccess:^(id responseObject) {
-//                
-//                if ([payType isEqualToString: @"2"]) {
-//                    
-//                    [self wxPayWithInfo:responseObject[@"data"]];
-//                    
-//                } else {
-//                    
-//                    [TLAlert alertWithHUDText:@"支付成功"];
-//                    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//                    if (self.paySucces) {
-//                        self.paySucces();
-//                    }
-//                }
-//                
-//            } failure:^(NSError *error) {
-//                
-//                
-//            }];
-//            
-//            return;
-//        }
-//        
-//        //单个商品购买
-//        TLNetworking *http = [TLNetworking new];
-//        http.showView = self.view;
-////        http.code = @"808052";
-//        http.code = @"808059";
-//        http.parameters[@"payType"] = payType;
-//        http.parameters[@"code"] = self.orderCode;
-//        http.parameters[@"token"] = [ZHUser user].token;
-//        http.parameters[@"ip"] = data[@"ip"];
-//
-//        [http postWithSuccess:^(id responseObject) {
-//            
-//            if ([payType isEqualToString: @"2"]) {
-//
-//                [self wxPayWithInfo:responseObject[@"data"]];
-//
-//            } else {
-//                
-//                [TLAlert alertWithHUDText:@"支付成功"];
-//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//                if (self.paySucces) {
-//                    self.paySucces();
-//                }
-//            }
-// 
-//        } failure:^(NSError *error) {
-//            
-//            
-//        }];
-//
-//    } abnormality:^{
-//       
-//        
-//    } failure:^(NSError *error) {
-//        
-//        [TLAlert alertWithHUDText:@"获取支付信息失败"];
-//        
-//    }];
-//    
-//}
-
 #pragma mark - tableView代理
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -458,7 +362,7 @@
         
         ZHCouponSelectedVC *selectedVC = [[ZHCouponSelectedVC alloc] init];
         selectedVC.coupons = self.coupons;
-        selectedVC.selected = ^(ZHCoupon *coupon) {
+        selectedVC.selected = ^(ZHMineCouponModel *coupon) {
         
             self.couponsCell.infoLbl.text = [NSString stringWithFormat:@"满 %@减 %@",[coupon.storeTicket.key1 convertToSimpleRealMoney],[coupon.storeTicket.key2 convertToSimpleRealMoney]];
             self.selectedCoupon = coupon;
@@ -494,7 +398,7 @@
    
 }
 
-- (NSMutableArray<ZHCoupon *> *)coupons {
+- (NSMutableArray<ZHMineCouponModel *> *)coupons {
 
     if (!_coupons) {
         
@@ -631,8 +535,7 @@
         //
         infoCell.titleLbl.text = @"使用抵扣券";
         if (self.coupons.count > 0) {
-            
-//            infoCell.infoLbl.text =  [NSString stringWithFormat:@"满 %@ 减 %@",[self.coupons[0].ticketKey1 convertToSimpleRealMoney],[self.coupons[0].ticketKey2 convertToSimpleRealMoney]];
+        
             infoCell.infoLbl.text = @"请选择折扣券";
             
         } else {
@@ -681,24 +584,6 @@
     return _amountTf;
     
 }
-
-//- (UILabel *)tempAttrLbl {
-//    
-//    if (!_tempAttrLbl) {
-//        
-//        _tempAttrLbl  = [UILabel  labelWithFrame:CGRectMake(0, 0, self.amountTf.width, self.amountTf.height)
-//                                    textAligment:NSTextAlignmentLeft
-//                                 backgroundColor:[UIColor whiteColor]
-//                                            font:[UIFont secondFont]
-//                                       textColor:[UIColor zh_themeColor]];
-//        _tempAttrLbl.backgroundColor = [UIColor whiteColor];
-//        _tempAttrLbl.numberOfLines = 0;
-//        
-//    }
-//    return _tempAttrLbl;
-//    
-//}
-
 
 
 

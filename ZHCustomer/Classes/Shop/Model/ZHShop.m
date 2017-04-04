@@ -10,6 +10,8 @@
 
 #define ZH_SHOP_INFO_KEY @"ZH_SHOP_INFO_KEY"
 
+
+NSString *const kShopOpenStatus = @"2";
 NSString *const kShopInfoChange = @"zh_shop_info_change";
 
 @interface ZHShop()
@@ -163,17 +165,12 @@ NSString *const kShopInfoChange = @"zh_shop_info_change";
 
   NSDictionary *dict =  @{
       @"0" : @"待审核",
-      @"1" : @"已签约",
-      @"2" : @"已签约",
-      @"3" : @"已签约",
+      @"1" : @"待上架",
+      @"2" : @"开店",
+      @"3" : @"关店",
       @"91" : @"审核不通过",
 
       };
-    //"0",   "待审核"
-    //"91",  "审核不通过"
-    //"1", "已上架，关店"
-    //"2", "已上架，开店"
-    //"3", "已下架，关店"
     return dict[self.status];
 }
 
@@ -216,7 +213,7 @@ NSString *const kShopInfoChange = @"zh_shop_info_change";
             CGSize size = [obj imgSizeByImageName:obj];
             CGFloat scale = size.width*1.0/size.height;
             
-            [hs addObject:@((SCREEN_WIDTH - 30)/scale + 10)];
+            [hs addObject:@((SCREEN_WIDTH - 30)/scale)];
             
         }];
         _imgHeights = hs;

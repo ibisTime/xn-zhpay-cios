@@ -50,10 +50,11 @@
         cell.textLabel.textColor = [UIColor zh_themeColor];
     }
     
-    ZHCoupon *coupon = self.coupons[indexPath.row];
+    ZHMineCouponModel *coupon = self.coupons[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"满 %@减 %@",[coupon.storeTicket.key1 convertToSimpleRealMoney],[coupon.storeTicket.key2 convertToSimpleRealMoney]];
     return cell;
 
-    
 }
+
+
 @end

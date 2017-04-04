@@ -27,18 +27,11 @@
     NSString *prc1;
     NSString *prc2;
 
-    if (self.storeTicket) { //我的折扣券
-        
-        prc1 = [self.storeTicket.key1 convertToSimpleRealMoney];
-        prc2 = [self.storeTicket.key2 convertToSimpleRealMoney];
-
-        
-    } else { //商铺折扣
+ 
         
         prc1 = [self.key1 convertToSimpleRealMoney];
         prc2 = [self.key2 convertToSimpleRealMoney];
         
-    }
     
     
     
@@ -58,29 +51,26 @@
 - (NSString *)discountInfoDescription01 {
     
     
-    if (self.storeTicket) { //我的折扣券
-        
-     return [NSString stringWithFormat:@"满 %@ 减 %@",[self.storeTicket.key1 convertToSimpleRealMoney],[self.storeTicket.key2 convertToSimpleRealMoney]];
-        
-    } else { //商铺折扣
-        
+
      return [NSString stringWithFormat:@"满 %@ 减 %@",[self.key1 convertToSimpleRealMoney],[self.key2 convertToSimpleRealMoney]];
         
-    }
     
 }
 - (NSString *)discountInfoDescription02 {
 
     
-    if (self.storeTicket) { //我的折扣券
+//    if (self.storeTicket) { //我的折扣券
+    
+        return [NSString stringWithFormat:@"满 %@\n减 %@",[self.key1 convertToSimpleRealMoney],[self.key2 convertToSimpleRealMoney]];
         
-        return [NSString stringWithFormat:@"满 %@\n减 %@",[self.storeTicket.key1 convertToSimpleRealMoney],[self.storeTicket.key2 convertToSimpleRealMoney]];
-        
-    } else { //商铺这口儿去年前
-        
-        return [NSString stringWithFormat:@"满 %@\n减 %@",[self.ticketKey1 convertToSimpleRealMoney],[self.ticketKey2 convertToSimpleRealMoney]];
-        
-    }
+//    }
+    
+    
+//    else { //商铺这口儿去年前
+//        
+//        return [NSString stringWithFormat:@"满 %@\n减 %@",[self.ticketKey1 convertToSimpleRealMoney],[self.ticketKey2 convertToSimpleRealMoney]];
+//        
+//    }
     
 
 }

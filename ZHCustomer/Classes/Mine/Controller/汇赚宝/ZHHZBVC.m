@@ -91,13 +91,13 @@
             
             
             [self setUpUI];
-//            [self getOtherInfo];
+            [self getOtherInfo];
             
-            [self.hzbInfos removeAllObjects];
-            NSDictionary *addressDict = @{@"隶属辖区" : [[ZHUser user] detailAddress]};
-            
-            NSDictionary *historyYYDict = @{@"历史被摇次数" : [ self.HZBModel.totalRockNum stringValue]};
-            NSDictionary *todayYYDict = @{@"今日被摇次数" : [self.HZBModel.periodRockNum stringValue]};
+//            [self.hzbInfos removeAllObjects];
+//            NSDictionary *addressDict = @{@"隶属辖区" : [[ZHUser user] detailAddress]};
+//            
+//            NSDictionary *historyYYDict = @{@"历史被摇次数" : [ self.HZBModel.totalRockNum stringValue]};
+//            NSDictionary *todayYYDict = @{@"今日被摇次数" : [self.HZBModel.periodRockNum stringValue]};
             
 //            NSDictionary *HBYJDict = @{@"摇一摇红包业绩" : [(NSNumber *)allDict[@"yyTotalAmount"] convertToRealMoney]};
 //            
@@ -108,10 +108,10 @@
 //            //贡献值 -- 红包业绩
 //            NSDictionary *GXZDict =  @{@"发一发红包业绩" : [(NSNumber *)allDict[@"ffTotalHbAmount"] convertToRealMoney]};
             
-            [self.hzbInfos addObjectsFromArray:@[addressDict,historyYYDict,todayYYDict]];
+//            [self.hzbInfos addObjectsFromArray:@[addressDict,historyYYDict,todayYYDict]];
             
             
-            [self.hzbTableView reloadData];
+//            [self.hzbTableView reloadData];
             
             
             
@@ -162,10 +162,13 @@
 
     //获取统计信息
     TLNetworking *httpGetInfo = [TLNetworking new];
-    httpGetInfo.code = @"808802";
+    httpGetInfo.code = @"615119";
     httpGetInfo.parameters[@"userId"] = [ZHUser user].userId;
     httpGetInfo.parameters[@"token"] = [ZHUser user].token;
     [httpGetInfo postWithSuccess:^(id responseObject) {
+        
+        
+       
         
         if (self.hzbTableView ) {
             [self.hzbTableView endRefreshHeader];
@@ -175,6 +178,13 @@
         [self.hzbInfos removeAllObjects];
         
         NSDictionary *allDict = responseObject[@"data"];
+//        ffTotalHbAmount = 0;
+//        historyHbTimes = 0;
+//        historyYyTimes = 0;
+//        todayHbTimes = 0;
+//        todayYyTimes = 0;
+        
+//        yyTotalAmount = 0;
         
 //        NSArray *titles = @[@"隶属辖区",@"历史被摇次数",@"今日被摇次数",@"红包业绩",@"历史定向红包",@"今日定向红包",@"贡献值"];
 //        NSArray *keys = @[];

@@ -1,0 +1,13 @@
+//
+//  ZHMineCouponModel.m
+//  ZHCustomer
+//
+//  Created by  tianlei on 2017/4/3.
+//  Copyright © 2017年  tianlei. All rights reserved.
+//
+
+#import "ZHMineCouponModel.h"
+
+@implementation ZHMineCouponModel
+
+@end

@@ -114,40 +114,29 @@
         }];
         
         
-        
     }
     return self;
 
 }
 
-- (void)setCoupon:(ZHCoupon *)coupon {
 
-    _coupon = coupon;
-    
-//    if (_coupon.key1) {
-//        
-//            self.infoLbl.text = [NSString stringWithFormat:@"满%@\n减%@",[_coupon.key1 convertToRealMoney],[_coupon.key2 convertToRealMoney]];
-//    } else {
-//        
-//           self.infoLbl.text = [NSString stringWithFormat:@"满%@\n减%@",[_coupon.ticketKey1 convertToRealMoney],[_coupon.ticketKey2 convertToRealMoney]];
+#warning -可删除
+//- (void)setCoupon:(ZHCoupon *)coupon {
+//
+//    _coupon = coupon;
 //    
-//    }
-    
+//    
+//    self.infoLbl.text = [NSString stringWithFormat:@"满%@\n减%@",[_coupon.key1 convertToRealMoney],[_coupon.key2 convertToRealMoney]];
+//    
 //    NSString *price1Str;
 //    NSString *price2Str;
-//    if (_coupon.key1) {
-//        
+////
 //        price1Str = [_coupon.key1 convertToSimpleRealMoney];
 //        price2Str = [_coupon.key2 convertToSimpleRealMoney];
 //        
 //        
-//    } else {
-//        
-//        price1Str = [_coupon.ticketKey1 convertToSimpleRealMoney];
-//        price2Str = [_coupon.ticketKey2 convertToSimpleRealMoney];
-//        
-//    }
-//    //
+//
+////    //
 //    NSMutableAttributedString *attr1Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"满 %@",price1Str]];
 //    [attr1Str addAttributes:@{
 //                              NSForegroundColorAttributeName : [UIColor zh_themeColor]
@@ -157,50 +146,83 @@
 //    [attr2Str addAttributes:@{
 //                              NSForegroundColorAttributeName : [UIColor zh_themeColor]
 //                              } range:NSMakeRange(2, price2Str.length)];
-//    
+//
 //    //价格字符串
-//    self.price1Lbl.attributedText = attr1Str;
-//    self.price2Lbl.attributedText = attr2Str;
-
-  
-    if (self.coupon.storeTicket) {
-        
-        self.time1Lbl.text = _coupon.store.bookMobile;
-//        [NSString  stringWithFormat:@"起始日期: %@",[_coupon.storeTicket.validateStart converDate]];
-        self.time2Lbl.text = [NSString  stringWithFormat:@"有效期至: %@",[_coupon.storeTicket.validateEnd converDate]];
-        
-    } else {
-        
-        self.time1Lbl.text =
-        self.time1Lbl.text = _coupon.store.bookMobile;
+////    self.price1Lbl.attributedText = attr1Str;
+////    self.price2Lbl.attributedText = attr2Str;
+//
+//  
+//
+////        self.time1Lbl.text = _coupon.bookMobile;
 //        [NSString  stringWithFormat:@"起始日期: %@",[_coupon.validateStart converDate]];
-        self.time2Lbl.text = [NSString  stringWithFormat:@"有效期至: %@",[_coupon.validateEnd converDate]];
-        
-    }
+//        self.time2Lbl.text = [NSString  stringWithFormat:@"有效期至: %@",[_coupon.validateEnd converDate]];
+//        
+////   }
+//
+//    
+//
+//  
+////    self.titleLbl.text = self.coupon.store.name;
+//    
+//}
+
+- (void)setMineCoupon:(ZHMineCouponModel *)mineCoupon {
+
+    _mineCoupon = mineCoupon;
+    
+    
+    
+    self.infoLbl.text = [NSString stringWithFormat:@"满%@\n减%@",[_mineCoupon.storeTicket.key1 convertToRealMoney],[_mineCoupon.storeTicket.key2 convertToRealMoney]];
+    
+    NSString *price1Str;
+    NSString *price2Str;
+    //
+    price1Str = [_mineCoupon.storeTicket.key1 convertToSimpleRealMoney];
+    price2Str = [_mineCoupon.storeTicket.key2 convertToSimpleRealMoney];
+    
+    
+    
+    //    //
+    NSMutableAttributedString *attr1Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"满 %@",price1Str]];
+    [attr1Str addAttributes:@{
+                              NSForegroundColorAttributeName : [UIColor zh_themeColor]
+                              } range:NSMakeRange(2, price1Str.length)];
+    //--//
+    NSMutableAttributedString *attr2Str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"减 %@",price2Str]];
+    [attr2Str addAttributes:@{
+                              NSForegroundColorAttributeName : [UIColor zh_themeColor]
+                              } range:NSMakeRange(2, price2Str.length)];
+    
+    
+    //店铺名称
+    self.titleLbl.text = _mineCoupon.store.name;
+    
+    //时间
+    
+     self.time1Lbl.text = [NSString  stringWithFormat:@"起始日期: %@",[_mineCoupon.storeTicket.validateStart converDate]];
+     self.time2Lbl.text = [NSString  stringWithFormat:@"有效期至: %@",[_mineCoupon.storeTicket.validateEnd converDate]];
 
     
-
-    if ([coupon.status isEqualToString:@"0"]) { //未使用
+    //状态
+    if ([_mineCoupon.status isEqualToString:@"0"]) { //未使用
         
         self.soldOutImageView.image = [UIImage new];
         self.backgroundImageView.image = [UIImage imageNamed:@"抵扣券ing"];
-        self.infoLbl.attributedText = [self.coupon discountInfoDescription01IsIng:YES];
-
+        self.infoLbl.attributedText = [self.mineCoupon.storeTicket discountInfoDescription01IsIng:YES];
         
-    } else if([coupon.status isEqualToString:@"1"]){ //已经使用
+        
+    } else if([_mineCoupon.status isEqualToString:@"1"]){ //已经使用
         
         self.soldOutImageView.image = [UIImage imageNamed:@"已使用"];
         self.backgroundImageView.image = [UIImage imageNamed:@"抵扣券ed"];
-    self.infoLbl.attributedText = [self.coupon discountInfoDescription01IsIng:NO];
+        self.infoLbl.attributedText = [self.mineCoupon.storeTicket  discountInfoDescription01IsIng:NO];
         
     } else { //2   ---- 已过期
         
         self.soldOutImageView.image = [UIImage imageNamed:@"已过期"];
         self.backgroundImageView.image = [UIImage imageNamed:@"抵扣券ed"];
-        self.infoLbl.attributedText = [self.coupon discountInfoDescription01IsIng:NO];
+        self.infoLbl.attributedText = [self.mineCoupon.storeTicket  discountInfoDescription01IsIng:NO];
     }
-    self.titleLbl.text = self.coupon.store.name;
-    
 
 }
 

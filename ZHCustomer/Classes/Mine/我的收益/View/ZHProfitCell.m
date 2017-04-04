@@ -7,6 +7,7 @@
 //
 
 #import "ZHProfitCell.h"
+#import "ZHEarningModel.h"
 
 @interface ZHProfitCell()
 
@@ -29,18 +30,47 @@
         
         [self setUpUI];
         
-        self.todayProfitLbl.attributedText = [self attrWithString:@"今日返利：7.43" contentStr:nil];
+    
         
-        self.stateLbl.text = @"返利中";
-        self.totalProfitLbl.attributedText= [self attrWithString: @"返利总额：39.3" contentStr:nil];
-        self.obtainProfitLbl.attributedText = [self attrWithString:@"已收返利：100"contentStr:nil];
-        self.conditionLbl.attributedText =
-          [self attrWithString:@"获得条件：满500消费额" contentStr:nil];;
-        self.timeLbl.text = @"2032-32-32";
+     
    
     }
     return self;
 
+}
+
+- (void)setEarningModel:(ZHEarningModel *)earningModel {
+
+    _earningModel = earningModel;
+    
+    //状态
+    self.stateLbl.text = [_earningModel getStatusName];
+    
+    //返利总额
+    self.totalProfitLbl.attributedText= [self attrWithString:[NSString stringWithFormat: @"返利总额：%@",[_earningModel.profitAmount convertToRealMoney]] contentStr:nil];
+    
+    
+    //已收返利
+    self.obtainProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"已收返利：%@",[self detailMoneyWithMoney:_earningModel.backAmount]] contentStr:nil];
+                                           
+//    [_earningModel.backAmount convertToRealMoney]
+    //
+    self.todayProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"今日返利：%@",[self detailMoneyWithMoney:_earningModel.todayAmount]] contentStr:nil];;
+//    [_earningModel.todayAmount convertToRealMoney]
+    
+    //固定
+    self.conditionLbl.attributedText =
+    [self attrWithString: [NSString stringWithFormat:@"获得条件：满%@消费额",[_earningModel.costAmount convertToRealMoney]] contentStr:nil];
+    
+    //时间
+    self.timeLbl.text = [_earningModel.createDatetime convertDate];
+
+}
+
+- (NSString *)detailMoneyWithMoney:(NSNumber *)money {
+
+
+    return [NSString stringWithFormat:@"%.3lf",[money longLongValue]/1000.0];
 }
 
 - (NSAttributedString *)attrWithString:(NSString *)str contentStr:(NSString *)contentStr {
@@ -138,7 +168,7 @@
         make.right.equalTo(self.stateLbl);
         make.top.equalTo(self.conditionLbl.mas_top);
         
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-15);
+//        make.bottom.equalTo(self.contentView.mas_bottom).offset(-15);
     }];
     
     

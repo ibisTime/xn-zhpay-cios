@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ZHCoupon.h"
+#import "ZHMineCouponModel.h"
 
 @interface ZHCouponsCell : UITableViewCell
 
-@property (nonatomic,strong) ZHCoupon *coupon;
+@property (nonatomic, strong) ZHMineCouponModel *mineCoupon;
 
 @end

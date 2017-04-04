@@ -8,6 +8,8 @@
 
 #import "ZHMineEarningsVC.h"
 #import "ZHProfitDetailVC.h"
+#import "ZHEarningModel.h"
+#import "ZHCurrencyModel.h"
 
 @interface ZHMineEarningsVC ()
 
@@ -23,6 +25,9 @@
 //鼓励
 @property (nonatomic, strong) UILabel *motivationLbl;
 @property (nonatomic, strong) UIImageView *navBarImageView;
+
+@property (nonatomic, copy) NSArray <ZHEarningModel *>*myEarningRoom;
+
 
 @end
 
@@ -57,6 +62,8 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{
                                                                       NSForegroundColorAttributeName : [UIColor whiteColor]
                                                                       }];
+    
+    
 }
 
 - (void)viewDidLoad {
@@ -65,7 +72,133 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     
+    [self setUpUI];
+    self.motivationLbl.text = @"冲一冲\n再500元消费额\n您将新获得一个分红权";
     
+    
+    self.amountLbl.text = @"--";
+    self.todayEarningsLbl.text = @"--";
+    self.profitCountLbl.text = @"--";
+    
+    
+    //查询资金池
+//    TLPageDataHelper *pageDataHelper = [[TLPageDataHelper alloc] init];
+//    pageDataHelper.code = @"802524";
+//    pageDataHelper.tableView = billTableView;
+//    pageDataHelper.parameters[@"token"] = [ZHUser user].token;
+//    //    类型C=C端用户；B=B端用户；P=平台
+//    pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
+//    pageDataHelper.parameters[@"type"] = @"C";
+//    
+//    pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
+    
+//    TLNetworking *http = [TLNetworking new];
+//    http.showView = self.view;
+//    http.code = @"802524";
+//    
+//    http.parameters[@"userId"] = [ZHUser user].userId;
+//    http.parameters[@"token"] = [ZHUser user].token;
+//    
+//    http.parameters[@"accountNumber"] = <#value#>;
+//    [http postWithSuccess:^(id responseObject) {
+//        
+//    } failure:^(NSError *error) {
+//        
+//    }];
+    
+    //资金池查询
+    TLNetworking *poolhttp = [TLNetworking new];
+    poolhttp.showView = self.view;
+    poolhttp.code = @"802503";
+    poolhttp.parameters[@"userId"] = @"USER_POOL_ZHPAY";
+    poolhttp.parameters[@"accountNumber"] = @"A2017100000000000001";
+    poolhttp.parameters[@"token"] = [ZHUser user].token;
+//    poolhttp.parameters[@"type"] = @"C";
+//    poolhttp.parameters[@"start"] = @"1";
+//    poolhttp.parameters[@"limit"] = @"10";
+
+    [poolhttp postWithSuccess:^(id responseObject) {
+        
+        NSArray *arr = responseObject[@"data"];
+        if (arr.count > 0) {
+            
+            ZHCurrencyModel *currencyModel = [ZHCurrencyModel tl_objectWithDictionary:arr[0]];
+            self.amountLbl.text = [currencyModel.amount convertToRealMoney];
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        
+    }];
+
+    
+    //我的分红权查询
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"808417";
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    http.parameters[@"token"] = [ZHUser user].token;
+    [http postWithSuccess:^(id responseObject) {
+        
+        //创建UI
+     
+        
+        
+        //
+        self.myEarningRoom = [ZHEarningModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+        
+        //分红权个数
+        self.profitCountLbl.text = [NSString stringWithFormat:@"%ld",self.myEarningRoom.count];
+        //
+    
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+
+    
+    //今日分红权个数及收益统计
+    TLNetworking *todayProfitHttp = [TLNetworking new];
+    todayProfitHttp.showView = self.view;
+    todayProfitHttp.code = @"808419";
+    todayProfitHttp.parameters[@"userId"] = [ZHUser user].userId;
+    todayProfitHttp.parameters[@"token"] = [ZHUser user].token;
+    [todayProfitHttp postWithSuccess:^(id responseObject) {
+        
+//        responseObject[@"data"][@"stockCount"]
+    self.todayEarningsLbl.text = [responseObject[@"data"][@"todayProfitAmount"] convertToRealMoney];
+
+//    stockCount: 今日分红权个数,
+//    todayProfitAmount: 今日分红权收益
+    } failure:^(NSError *error) {
+        
+    }];
+
+
+   
+    
+}
+
+#pragma mark- 查看分红权
+- (void)lookDetail {
+
+    if (self.myEarningRoom.count <= 0) {
+        
+        [TLAlert alertWithHUDText:@"您还没有分红权"];
+        return;
+    }
+    
+    ZHProfitDetailVC *vc = [ZHProfitDetailVC new];
+    vc.myEarningRoom = self.myEarningRoom;
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
+- (void)setUpUI {
+
+
     self.navBarImageView=(UIImageView *)self.navigationController.navigationBar.subviews.firstObject;
     self.navBarImageView.alpha = 0;
     
@@ -84,10 +217,10 @@
     
     //
     self.amountLbl = [UILabel labelWithFrame:CGRectZero
-                                  textAligment:NSTextAlignmentCenter
-                               backgroundColor:[UIColor clearColor]
-                                          font:FONT(35)
-                                     textColor:[UIColor whiteColor]];
+                                textAligment:NSTextAlignmentCenter
+                             backgroundColor:[UIColor clearColor]
+                                        font:FONT(35)
+                                   textColor:[UIColor whiteColor]];
     [bgImageView addSubview:self.amountLbl];
     [self.amountLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(bgImageView);
@@ -119,35 +252,35 @@
     
     //
     UILabel *profitHintLbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(14) lineHeight])
-                                  textAligment:NSTextAlignmentCenter
-                               backgroundColor:[UIColor clearColor]
-                                          font:FONT(14)
-                                     textColor:[UIColor whiteColor]];
+                                        textAligment:NSTextAlignmentCenter
+                                     backgroundColor:[UIColor clearColor]
+                                                font:FONT(14)
+                                           textColor:[UIColor whiteColor]];
     [headerFooterView addSubview:profitHintLbl];
     profitHintLbl.text = @"分红权（个）";
     
     //分红个数
     self.profitCountLbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(14) lineHeight])
-                                  textAligment:NSTextAlignmentCenter
-                               backgroundColor:[UIColor clearColor]
-                                          font:FONT(16)
-                                     textColor:[UIColor whiteColor]];
+                                     textAligment:NSTextAlignmentCenter
+                                  backgroundColor:[UIColor clearColor]
+                                             font:FONT(16)
+                                        textColor:[UIColor whiteColor]];
     [headerFooterView addSubview:self.profitCountLbl];
     
     
     UILabel *todayEarningsHintLbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(14) lineHeight])
-                                  textAligment:NSTextAlignmentCenter
-                               backgroundColor:[UIColor clearColor]
-                                          font:FONT(14)
-                                     textColor:[UIColor whiteColor]];
+                                               textAligment:NSTextAlignmentCenter
+                                            backgroundColor:[UIColor clearColor]
+                                                       font:FONT(14)
+                                                  textColor:[UIColor whiteColor]];
     [headerFooterView addSubview:todayEarningsHintLbl];
     todayEarningsHintLbl.text = @"今日收益（元）";
     
     self.todayEarningsLbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(14) lineHeight])
-                                  textAligment:NSTextAlignmentCenter
-                               backgroundColor:[UIColor clearColor]
-                                          font:FONT(16)
-                                     textColor:[UIColor whiteColor]];
+                                       textAligment:NSTextAlignmentCenter
+                                    backgroundColor:[UIColor clearColor]
+                                               font:FONT(16)
+                                          textColor:[UIColor whiteColor]];
     [headerFooterView addSubview:self.todayEarningsLbl];
     
     //约束
@@ -198,10 +331,10 @@
     //
     
     self.motivationLbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(14) lineHeight])
-                                       textAligment:NSTextAlignmentCenter
-                                    backgroundColor:[UIColor clearColor]
-                                               font:FONT(16)
-                                          textColor:[UIColor zh_textColor]];
+                                    textAligment:NSTextAlignmentCenter
+                                 backgroundColor:[UIColor clearColor]
+                                            font:FONT(16)
+                                       textColor:[UIColor zh_textColor]];
     [self.view addSubview:self.motivationLbl];
     self.motivationLbl.numberOfLines = 0;
     
@@ -212,19 +345,6 @@
         make.top.equalTo(iconImageView.mas_bottom).offset(20);
         
     }];
-
-    self.motivationLbl.text = @"冲一冲\n再500元消费额\n您将新获得一个分红权";
-    self.amountLbl.text = @"100.22";
-    self.profitCountLbl.text = @"332";
-    self.todayEarningsLbl.text = @"33.32";
-    
-}
-
-- (void)lookDetail {
-
-    ZHProfitDetailVC *vc = [ZHProfitDetailVC new];
-    [self.navigationController pushViewController:vc animated:YES];
-
 }
 
 

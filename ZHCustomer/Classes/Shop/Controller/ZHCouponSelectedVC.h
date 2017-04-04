@@ -7,11 +7,11 @@
 //  折扣券选择
 
 #import "TLBaseVC.h"
-#import "ZHCoupon.h"
+#import "ZHMineCouponModel.h"
 
 @interface ZHCouponSelectedVC : TLBaseVC
 
-@property (nonatomic,strong) NSMutableArray <ZHCoupon *>*coupons;
-@property (nonatomic,copy)  void(^selected)(ZHCoupon *coupon);
+@property (nonatomic,strong) NSMutableArray <ZHMineCouponModel *>*coupons;
+@property (nonatomic,copy)  void(^selected)(ZHMineCouponModel *coupon);
 
 @end

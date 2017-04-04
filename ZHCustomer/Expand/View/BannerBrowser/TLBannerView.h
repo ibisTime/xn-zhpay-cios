@@ -23,6 +23,7 @@
 
 @property (nonatomic,weak)  NSTimer *timer;
 
-@property (nonatomic, strong) UIPageControl *pageCtrl;
+//@property (nonatomic, strong) UIPageControl *pageCtrl;
+
 @end
 

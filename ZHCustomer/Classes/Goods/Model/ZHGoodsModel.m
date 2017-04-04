@@ -78,7 +78,7 @@
             CGSize size = [obj imgSizeByImageName:obj];
             CGFloat scale = size.width*1.0/size.height;
             
-            [hs addObject:@((SCREEN_WIDTH - 30)/scale + 10)];
+            [hs addObject:@((SCREEN_WIDTH - 30)/scale)];
             
         }];
         _imgHeights = hs;

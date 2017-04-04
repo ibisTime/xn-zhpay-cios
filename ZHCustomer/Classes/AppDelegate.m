@@ -139,17 +139,26 @@
 #pragma mark- 退出登录
 - (void)userLoginOut {
     
-    [self userLoginOutCancleLocation];
-
-    [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
-    
-    [[ZHUser user] loginOut];
+    //chat
     [[ChatManager defaultManager] chatLoginOut];
+    //
     [[ZHCartManager manager] reset];
 
+    [self userLoginOutCancleLocation];
+
+//    [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
+
+    //用户 数据清除放在最后
+    [[ZHUser user] loginOut];
+
     //重置位置信息
-    UITabBarController *tbc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    tbc.selectedIndex = 2;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        UITabBarController *tbc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        tbc.selectedIndex = 2;
+        
+    });
+
     
 }
 

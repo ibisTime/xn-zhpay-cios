@@ -255,6 +255,12 @@
 		2E875D211E0D4AEE007F97A5 /* ZHDiscountInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E875D201E0D4AEE007F97A5 /* ZHDiscountInfoCell.m */; };
 		2E875D241E0D4F8F007F97A5 /* ZHTextDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E875D231E0D4F8F007F97A5 /* ZHTextDetailCell.m */; };
 		2E875D271E0D59CD007F97A5 /* ZHImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E875D261E0D59CD007F97A5 /* ZHImageCell.m */; };
+		2E917AEA1E923508003ED4A8 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E917AE71E923508003ED4A8 /* city.plist */; };
+		2E917AEB1E923508003ED4A8 /* HYCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917AE91E923508003ED4A8 /* HYCityViewController.m */; };
+		2E917AEE1E9238BD003ED4A8 /* ZHShopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917AED1E9238BD003ED4A8 /* ZHShopManager.m */; };
+		2E917AF11E9246B5003ED4A8 /* ZHMineCouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917AF01E9246B5003ED4A8 /* ZHMineCouponModel.m */; };
+		2E917AF41E9272E6003ED4A8 /* ZHEarningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917AF31E9272E6003ED4A8 /* ZHEarningModel.m */; };
+		2E917AF71E92748B003ED4A8 /* ZHSingleProfitFlowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917AF61E92748B003ED4A8 /* ZHSingleProfitFlowVC.m */; };
 		2E989CBC1E1E810900F3643A /* ZHCouponsMgtVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CBB1E1E810900F3643A /* ZHCouponsMgtVC.m */; };
 		2E989CBF1E1E813B00F3643A /* ZHCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CBE1E1E813B00F3643A /* ZHCouponsCell.m */; };
 		2E989CC21E1E815A00F3643A /* ZHCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CC11E1E815A00F3643A /* ZHCoupon.m */; };
@@ -874,6 +880,18 @@
 		2E875D231E0D4F8F007F97A5 /* ZHTextDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHTextDetailCell.m; sourceTree = "<group>"; };
 		2E875D251E0D59CD007F97A5 /* ZHImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHImageCell.h; sourceTree = "<group>"; };
 		2E875D261E0D59CD007F97A5 /* ZHImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHImageCell.m; sourceTree = "<group>"; };
+		2E917AE51E9231DA003ED4A8 /* ZHStatusHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZHStatusHeader.h; sourceTree = "<group>"; };
+		2E917AE71E923508003ED4A8 /* city.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = city.plist; sourceTree = "<group>"; };
+		2E917AE81E923508003ED4A8 /* HYCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYCityViewController.h; sourceTree = "<group>"; };
+		2E917AE91E923508003ED4A8 /* HYCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYCityViewController.m; sourceTree = "<group>"; };
+		2E917AEC1E9238BD003ED4A8 /* ZHShopManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShopManager.h; sourceTree = "<group>"; };
+		2E917AED1E9238BD003ED4A8 /* ZHShopManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShopManager.m; sourceTree = "<group>"; };
+		2E917AEF1E9246B5003ED4A8 /* ZHMineCouponModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMineCouponModel.h; sourceTree = "<group>"; };
+		2E917AF01E9246B5003ED4A8 /* ZHMineCouponModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHMineCouponModel.m; sourceTree = "<group>"; };
+		2E917AF21E9272E6003ED4A8 /* ZHEarningModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEarningModel.h; sourceTree = "<group>"; };
+		2E917AF31E9272E6003ED4A8 /* ZHEarningModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEarningModel.m; sourceTree = "<group>"; };
+		2E917AF51E92748B003ED4A8 /* ZHSingleProfitFlowVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHSingleProfitFlowVC.h; sourceTree = "<group>"; };
+		2E917AF61E92748B003ED4A8 /* ZHSingleProfitFlowVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHSingleProfitFlowVC.m; sourceTree = "<group>"; };
 		2E989CBA1E1E810900F3643A /* ZHCouponsMgtVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHCouponsMgtVC.h; sourceTree = "<group>"; };
 		2E989CBB1E1E810900F3643A /* ZHCouponsMgtVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHCouponsMgtVC.m; sourceTree = "<group>"; };
 		2E989CBD1E1E813B00F3643A /* ZHCouponsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHCouponsCell.h; sourceTree = "<group>"; };
@@ -1697,6 +1715,8 @@
 		2E4E8BD11E223A1100AC022A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2E917AEC1E9238BD003ED4A8 /* ZHShopManager.h */,
+				2E917AED1E9238BD003ED4A8 /* ZHShopManager.m */,
 				2E4E8BD21E223A2B00AC022A /* ZHPaySceneManager.h */,
 				2E4E8BD31E223A2B00AC022A /* ZHPaySceneManager.m */,
 				2E4E8BDB1E2261A900AC022A /* ZHPaySceneUIItem.h */,
@@ -1774,6 +1794,8 @@
 			isa = PBXGroup;
 			children = (
 				2E5983C21E66795B00DE8F3C /* Pay */,
+				2E917AEF1E9246B5003ED4A8 /* ZHMineCouponModel.h */,
+				2E917AF01E9246B5003ED4A8 /* ZHMineCouponModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2116,6 +2138,16 @@
 			path = ShopDetail;
 			sourceTree = "<group>";
 		};
+		2E917AE61E923508003ED4A8 /* CityChange */ = {
+			isa = PBXGroup;
+			children = (
+				2E917AE71E923508003ED4A8 /* city.plist */,
+				2E917AE81E923508003ED4A8 /* HYCityViewController.h */,
+				2E917AE91E923508003ED4A8 /* HYCityViewController.m */,
+			);
+			path = CityChange;
+			sourceTree = "<group>";
+		};
 		2E989CB91E1E80BA00F3643A /* Coupons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2167,6 +2199,8 @@
 				2EBB38341E8366E9003D8BED /* ZHMineEarningsVC.m */,
 				2EBB38351E8366E9003D8BED /* ZHProfitDetailVC.h */,
 				2EBB38361E8366E9003D8BED /* ZHProfitDetailVC.m */,
+				2E917AF51E92748B003ED4A8 /* ZHSingleProfitFlowVC.h */,
+				2E917AF61E92748B003ED4A8 /* ZHSingleProfitFlowVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2174,6 +2208,8 @@
 		2EBB38311E8366AB003D8BED /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2E917AF21E9272E6003ED4A8 /* ZHEarningModel.h */,
+				2E917AF31E9272E6003ED4A8 /* ZHEarningModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2504,6 +2540,7 @@
 		2EC2ABB31E0CC8BF003EF503 /* Shop */ = {
 			isa = PBXGroup;
 			children = (
+				2E917AE61E923508003ED4A8 /* CityChange */,
 				2EC2ABB41E0CC8BF003EF503 /* Controller */,
 				2EC2ABB51E0CC8BF003EF503 /* Model */,
 				2EC2ABB61E0CC8BF003EF503 /* View */,
@@ -2565,6 +2602,7 @@
 		2EC2ABB81E0CC91D003EF503 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				2E917AE51E9231DA003ED4A8 /* ZHStatusHeader.h */,
 				2EC2ABB91E0CC946003EF503 /* ZHTabBarController.h */,
 				2EC2ABBA1E0CC946003EF503 /* ZHTabBarController.m */,
 				2EC2ABBC1E0CC964003EF503 /* ZHNavigationController.h */,
@@ -2969,6 +3007,7 @@
 				2E5945571E2871A500331BAF /* QRCodeTopRight@2x.png in Resources */,
 				2EC2AB9F1E0CC8A7003EF503 /* Info.plist in Resources */,
 				2E59455D1E2871D600331BAF /* QRCodeTopLeft@2x.png in Resources */,
+				2E917AEA1E923508003ED4A8 /* city.plist in Resources */,
 				2EC2AB971E0CC76F003EF503 /* LaunchScreen.storyboard in Resources */,
 				2E59455B1E2871C400331BAF /* QRCodebottomLeft@2x.png in Resources */,
 				2E22674A1E50A73D00C7126E /* AlipaySDK.bundle in Resources */,
@@ -3067,6 +3106,7 @@
 				2E5983B91E658AE600DE8F3C /* ZHDBBrowserCoreView.m in Sources */,
 				2E2265961E4DACB200C7126E /* PSTCollectionView.m in Sources */,
 				2E22658B1E4DACB200C7126E /* EMSDWebImagePrefetcher.m in Sources */,
+				2E917AF41E9272E6003ED4A8 /* ZHEarningModel.m in Sources */,
 				2EF892A41E51C0A80068CE16 /* ZHAboutUsVC.m in Sources */,
 				2E989CC51E1F3DF500F3643A /* ZHCouponsDetailVC.m in Sources */,
 				2E6E48051E14E72300FD2CA7 /* AddressPickerView.m in Sources */,
@@ -3123,6 +3163,7 @@
 				2E6908851E5ABAFA003D3C69 /* ZHWalletView.m in Sources */,
 				2E6C3E031E2C60AB006A7AA2 /* TLImagePicker.m in Sources */,
 				2E6E47F41E13C64900FD2CA7 /* ZHPwdRelatedVC.m in Sources */,
+				2E917AF11E9246B5003ED4A8 /* ZHMineCouponModel.m in Sources */,
 				2E2265B41E4DACB200C7126E /* EaseConversationListViewController.m in Sources */,
 				2E16D01B1E5C10DE0029B0A5 /* ZHDuoBaoRecordCell.m in Sources */,
 				2EBCF51F1E49A37B003A3A5E /* ZHEvaluateModel.m in Sources */,
@@ -3226,11 +3267,13 @@
 				2EC2AE4A1E0CF55A003EF503 /* TLBannerView.m in Sources */,
 				2E6E479E1E114C1800FD2CA7 /* ZHGoodsDetailVC.m in Sources */,
 				2EC2AE551E0CF55A003EF503 /* TLAlert.m in Sources */,
+				2E917AEE1E9238BD003ED4A8 /* ZHShopManager.m in Sources */,
 				2E6E479B1E1112BE00FD2CA7 /* ZHDefaultGoodsVC.m in Sources */,
 				2E4E8BCA1E2228B000AC022A /* ZHHZBVC.m in Sources */,
 				2E2265AC1E4DACB200C7126E /* EaseChineseToPinyin.m in Sources */,
 				2E875D1E1E0D31EA007F97A5 /* ZHShopInfoCell.m in Sources */,
 				2E22657E1E4DACB200C7126E /* MWGridViewController.m in Sources */,
+				2E917AEB1E923508003ED4A8 /* HYCityViewController.m in Sources */,
 				2E2265B91E4DACB200C7126E /* EaseViewController.m in Sources */,
 				2E2265C11E4DACB200C7126E /* EaseBubbleView+Image.m in Sources */,
 				2E6E48281E164DE300FD2CA7 /* ZHSegmentView.m in Sources */,
@@ -3252,6 +3295,7 @@
 				2EC2ADDF1E0CF55A003EF503 /* ChatViewController.m in Sources */,
 				2EBB38261E826EE4003D8BED /* ZHNewMineWalletVC.m in Sources */,
 				2E6E477F1E101F7000FD2CA7 /* ZHPayFuncCell.m in Sources */,
+				2E917AF71E92748B003ED4A8 /* ZHSingleProfitFlowVC.m in Sources */,
 				2EC2ADDA1E0CF55A003EF503 /* UIColor+Extension.m in Sources */,
 				2E6E47D71E13A1E200FD2CA7 /* ZHSettingModel.m in Sources */,
 				2E2265CC1E4DACB200C7126E /* EaseFacialView.m in Sources */,

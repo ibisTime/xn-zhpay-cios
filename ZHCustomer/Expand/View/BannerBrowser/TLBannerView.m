@@ -14,11 +14,12 @@
 
 @interface TLBannerView ()<UICollectionViewDataSource,UICollectionViewDelegate>
 
-@property (nonatomic,strong) NSMutableArray *urls;
-@property (nonatomic,strong) UIPageControl *pageControl;
-@property (nonatomic,assign) NSUInteger currentPage;
-@property (nonatomic,strong) UICollectionView *bannerCollectionView;
+@property (nonatomic, strong) NSMutableArray *urls;
+@property (nonatomic, assign) NSUInteger currentPage;
+@property (nonatomic, strong) UICollectionView *bannerCollectionView;
 
+
+@property (nonatomic, strong) UIPageControl *pageControl;
 
 @end
 
@@ -38,7 +39,6 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
         _urls = [NSMutableArray array];
         _isAuto = YES;
         
-        
         UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
         fl.itemSize = frame.size;
         fl.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -54,34 +54,31 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
         [self.bannerCollectionView  registerClass:[TLBannerCell class] forCellWithReuseIdentifier:XNBannerCellID];
         self.bannerCollectionView.showsHorizontalScrollIndicator = NO;
         [self.bannerCollectionView  setContentOffset:CGPointMake(self.frame.size.width, 0)];
-        
-
-    
-        
 
     }
+    
     return self;
 
 }
 
-- (UIPageControl *)pageCtrl {
-
-    if (!_pageCtrl) {
-        
-        CGFloat pageControlHeight = 35;
-        UIPageControl *tmpPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pageControlHeight, self.frame.size.width, pageControlHeight)];
-        [self addSubview:tmpPageControl];
-        tmpPageControl.hidesForSinglePage = YES;
-        tmpPageControl.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-        tmpPageControl.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"#cccccc"];
-        tmpPageControl.pageIndicatorTintColor = [UIColor colorWithHexString:@"#fe4332"];
-        _pageCtrl = tmpPageControl;
-        
-    }
-    
-    return _pageCtrl;
-
-}
+//- (UIPageControl *)pageCtrl {
+//
+//    if (!_pageCtrl) {
+//        
+//        CGFloat pageControlHeight = 35;
+//        UIPageControl *tmpPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pageControlHeight, self.frame.size.width, pageControlHeight)];
+//        [self addSubview:tmpPageControl];
+//        tmpPageControl.hidesForSinglePage = YES;
+//        tmpPageControl.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+//        tmpPageControl.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"#cccccc"];
+//        tmpPageControl.pageIndicatorTintColor = [UIColor colorWithHexString:@"#fe4332"];
+//        _pageCtrl = tmpPageControl;
+//        
+//    }
+//    
+//    return _pageCtrl;
+//
+//}
 
 - (void)setImgUrls:(NSArray *)imgUrls {
 
@@ -108,26 +105,49 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
         if (_isAuto) {
             
       
-            [self.pageCtrl removeFromSuperview];
+            //移除指示
+            [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                
+                if ([obj isKindOfClass:[UIPageControl class]]) {
+                    [obj removeFromSuperview];
+                }
+                
+            }];
+            
+            //添加
+            CGFloat pageControlHeight = 35;
+            UIPageControl *tmpPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pageControlHeight, self.frame.size.width, pageControlHeight)];
+            [self addSubview:tmpPageControl];
+            tmpPageControl.hidesForSinglePage = YES;
+            
+            tmpPageControl.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+            
+            tmpPageControl.pageIndicatorTintColor = [UIColor colorWithHexString:@"#cccccc"];
+            tmpPageControl.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"#fe4332"];
+            
+
             
             //
             if (self.urls.count - 2 >= 2) {
                 
-                self.pageCtrl.numberOfPages = self.urls.count - 2;
+                tmpPageControl.numberOfPages = self.urls.count - 2;
 
             } else {
                 
-                self.pageCtrl.numberOfPages = 1;
-
+                tmpPageControl.numberOfPages = 1;
+                
             }
-            //
-            [self.pageControl updateCurrentPageDisplay];
-            [self addSubview:self.pageCtrl];
+            
+            //添加指示
+            [self addSubview:tmpPageControl];
+            self.pageControl = tmpPageControl;
             
             
         }
         
         _currentPage = 1;
+        self.pageControl.currentPage = 0;
+        
         
         //销毁原来的定时器
         
@@ -147,7 +167,6 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
         
     }
     
-
 }
 
 //- (void)setIsAuto:(BOOL)isAuto
@@ -172,7 +191,9 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
     [self.bannerCollectionView  setContentOffset:CGPointMake(_currentPage * self.frame.size.width, 0) animated:YES];
     
     if (_currentPage == self.urls.count - 1) {
+        
         _currentPage = 0;
+        
     }
     
 }

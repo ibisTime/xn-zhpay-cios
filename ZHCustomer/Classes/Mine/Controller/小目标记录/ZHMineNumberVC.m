@@ -82,8 +82,13 @@
         
         TLNetworking *http = [TLNetworking new];
 
-        http.code = @"61502821";
-        http.parameters[@"jewelCode"] = self.dbModel.code;
+        
+        http.code = @"615028";
+        //    helper.parameters[@"templateCode"] = self.dbModel.templateCode;
+        http.parameters[@"jewelCode"] =  self.dbModel.code;
+        
+//        http.code = @"61502821";
+//        http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"start"] = @"1";
         http.parameters[@"limit"] = @"40";
         http.parameters[@"userId"] = self.isMineHistory ? [ZHUser user].userId : nil;
@@ -108,7 +113,7 @@
         
         
         TLNetworking *http = [TLNetworking new];
-        http.code = @"808318";
+        http.code = @"615028";
         http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
         http.parameters[@"limit"] = @"40";

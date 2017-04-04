@@ -9,15 +9,20 @@
 #import "TLBaseModal.h"
 #import "ZHCoupon.h"
 
+
 @interface ZHShop : TLBaseModal
+
+//TOCHECK("0", "待审核"), UNPASS("91", "审核不通过"),
+//PASS("1", "审核通过待上架"),
+//ON_OPEN( "2", "已上架，开店"),
+//ON_CLOSE("3", "已上架，关店"),
+//OFF("4", "已下架");
 
 //从本地读取店铺信息，有返回yes,并初始化用户信息 否则返回NO
 - (BOOL)getInfo;
 
 
-
 @property (nonatomic,copy)  NSString *code;
-
 @property (nonatomic,copy) NSString *advPic; //封面图
 @property (nonatomic,copy) NSString *type; //地址
 @property (nonatomic,copy) NSString *name;
@@ -79,4 +84,7 @@
 @end
 
 FOUNDATION_EXTERN  NSString *const kShopInfoChange;
+
+FOUNDATION_EXTERN  NSString *const kShopOpenStatus;
+
 

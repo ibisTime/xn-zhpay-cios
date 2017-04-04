@@ -4,16 +4,17 @@
 //
 //  Created by  tianlei on 2016/12/25.
 //  Copyright © 2016年  tianlei. All rights reserved.
-//  负责普通商品和优店的支付
+//  只负责优店支付
 
 #import "TLBaseVC.h"
 #import "ZHShopVC.h"
-#import "ZHShop.h"
+
 #import "ZHMonthCardModel.h"
 #import "ZHPaySceneManager.h"
 #import "ZHHZBModel.h"
 //#import "ZHTreasureModel.h"
 #import "ZHDBModel.h"
+#import "ZHMineCouponModel.h"
 
 //typedef NS_ENUM(NSInteger,ZHPayVCType){
 //
@@ -42,9 +43,9 @@
 //@property (nonatomic,copy) NSArray *codeList;
 
 
-//折扣券
-@property (nonatomic,strong) NSMutableArray <ZHCoupon *>*coupons;
-@property (nonatomic,strong) ZHCoupon *selectedCoupon;
+//这里的折扣券 只能是我的折扣券
+@property (nonatomic,strong) NSMutableArray <ZHMineCouponModel *>*coupons;
+@property (nonatomic,strong) ZHMineCouponModel *selectedCoupon;
 
 //人民币价格
 //各种总金额----富文本
