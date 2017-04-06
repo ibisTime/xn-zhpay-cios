@@ -14,7 +14,7 @@
 
 @property (nonatomic,assign) NSInteger count;
 
-- (void)getCount;
+- (void)getCartCount;
 - (void)reset;
 
 @end

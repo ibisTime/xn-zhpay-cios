@@ -208,7 +208,7 @@
                            backgroundColor:[UIColor clearColor]
                                       font:FONT(12)
                                  textColor:[UIColor whiteColor]];
-    lbl.text = @"可用余额(元)";
+    lbl.text = @"可用余额";
     [bgV addSubview:lbl];
     
     //

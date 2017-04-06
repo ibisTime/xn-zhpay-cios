@@ -34,6 +34,8 @@
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     http.code = @"615105";
+//    0 待上架 1 已上架 2 已下架
+    http.parameters[@"status"] = @"1";
     http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"1";
     http.parameters[@"token"] = [ZHUser user].token;
@@ -52,7 +54,7 @@
         //
         [self.hzbImageView sd_setImageWithURL:[NSURL URLWithString:[self.HZBModel.pic convertImageUrl]] placeholderImage:[UIImage imageNamed:@"hzb_tree"]];
         
-//        self.priceLbl.text = [NSString stringWithFormat:@"价格: %@ 元",[self.HZBModel.price convertToRealMoney]];
+        self.priceLbl.text = [NSString stringWithFormat:@"价格: %@ 元",[self.HZBModel.price convertToRealMoney]];
         
     } failure:^(NSError *error) {
         

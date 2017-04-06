@@ -141,7 +141,9 @@ NSString *const kSelectedAllCartGoodsNotification = @"kSelectedAllCartGoodsNotif
         self.selectedBtn.centerY = [[self class] rowHeight]/2.0;
         //
         self.coverImageV = [[UIImageView alloc] initWithFrame:CGRectMake(self.selectedBtn.xx + 11, LEFT_MARGIN, 80, 80)];
+        self.coverImageV.contentMode = UIViewContentModeScaleAspectFill;
         self.coverImageV.backgroundColor = [UIColor whiteColor];
+        self.coverImageV.clipsToBounds = YES;
         [self addSubview:self.coverImageV];
         
         //

@@ -110,7 +110,7 @@
     NSInteger count = imgs.count;
     
  
-    
+ //全部转换为支付模型
     for (NSInteger i = 0; i < count; i ++) {
         
         ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
@@ -118,7 +118,11 @@
         zhPay.payName = payNames[i];
         zhPay.isSelected = [status[i] boolValue];
         zhPay.payType = [payType[i] integerValue];
-        [self.pays addObject:zhPay];
+        if ( zhPay.payType != ZHPayTypeWeChat) {
+            
+            [self.pays addObject:zhPay];
+
+        }
     }
     
     //--//

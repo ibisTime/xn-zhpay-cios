@@ -74,7 +74,6 @@
 - (void)buySuccess {
     
 //    [self setUpUI];
-//
 //    return;
 
     TLNetworking *http = [TLNetworking new];
@@ -239,18 +238,33 @@
         
     }];
     
+    //--//
     //
     ZHBusinessCardView *cardV = [[ZHBusinessCardView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90)];
     
-    //--//
+    //汇赚宝数据赋值
     self.hzbTableView.tableHeaderView = cardV;
-        cardV.headerImageV.image = [UIImage imageNamed:@"树"];
-        cardV.titleTf.text = [ZHUser user].realName;
-        cardV.subTitleTf.text =  [self.HZBModel getStatusName];
+    cardV.headerImageV.image = [UIImage imageNamed:@"树"];
+    cardV.titleTf.text = [ZHUser user].realName;
+    cardV.subTitleTf.text =  [self.HZBModel getStatusName];
+    
 
     
+    NSString *title;
+    if ([self.HZBModel isAbandon]) {
+        
+        title = @"查看历史";
+
+        
+    } else {
+    
+        title = @"发定向红包";
+
+
+    }
+    
     //发红包Btn
-    UIButton *sendBtn = [UIButton zhBtnWithFrame:CGRectMake(20,self.hzbTableView.yy , SCREEN_WIDTH - 40, 45) title:@"发定向红包"];
+    UIButton *sendBtn = [UIButton zhBtnWithFrame:CGRectMake(20,self.hzbTableView.yy , SCREEN_WIDTH - 40, 45) title:title];
     [self.view addSubview:sendBtn];
     [sendBtn addTarget:self action:@selector(sendBriberyMoney) forControlEvents:UIControlEventTouchUpInside];
     
@@ -259,7 +273,17 @@
 - (void)sendBriberyMoney {
 
     ZHBriberyMoneyVC *vc = [[ZHBriberyMoneyVC alloc] init];
-    vc.displayType = ZHBriberyMoneyVCTypeSecondUI;
+    
+    if ([self.HZBModel isAbandon]) {
+        
+        vc.displayType = ZHBriberyMoneyVCTypeHistory;
+
+    } else {
+    
+        vc.displayType = ZHBriberyMoneyVCTypeSecondUI;
+
+    }
+    
     [self.navigationController pushViewController:vc animated:YES];
 
 }

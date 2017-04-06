@@ -8,24 +8,27 @@
 
 #import "ZHCartManager.h"
 #import "ZHCartGoodsModel.h"
+
  NSString *const kShoopingCartCountChangeNotification = @"zh_kShoopingCartCountChangeNotification";
 
 @implementation ZHCartManager
 
 + (instancetype)manager {
 
-    static  ZHCartManager *manager = nil;
+    static ZHCartManager *manager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
         manager = [[ZHCartManager alloc] init];
-        manager.count = 0;
+        
+        //此处有崩溃历史，由于在set方法中会post notification,,这时还没有完成该对象初始化--会出现严重后果
+//        manager.count = 0;
         
     });
 
     return manager;
-    
 }
+
 
 - (void)setCount:(NSInteger)count {
 
@@ -37,7 +40,7 @@
     }
    
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kShoopingCartCountChangeNotification object:nil];    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShoopingCartCountChangeNotification object:nil];
     
 }
 
@@ -47,7 +50,7 @@
 
 }
 
-- (void)getCount {
+- (void)getCartCount {
 
     TLNetworking *http = [TLNetworking new];
     http.isShowMsg = NO;
@@ -67,9 +70,8 @@
             [goods enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 totalCount  = totalCount + [obj.quantity integerValue];
             }];
-            self.count = totalCount;
             
-//            [[NSNotificationCenter defaultCenter] postNotificationName:kShoopingCartCountChangeNotification object:nil];
+            self.count = totalCount;
             
         } failure:^(NSError *error) {
             
@@ -77,8 +79,6 @@
         }];
         
     }
-
-
 
 }
 

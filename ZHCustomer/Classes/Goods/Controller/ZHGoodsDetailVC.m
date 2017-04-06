@@ -142,18 +142,13 @@
     //
     self.bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     
-    
-
-    
-
-    
         //拍普通商品，价格在上面
         self.bannerView.imgUrls = self.goods.pics;
         self.nameLbl.text = self.goods.name;
         self.advLbl.text = self.goods.slogan;
         self.priceLbl.text = self.goods.totalPrice;
         self.buyView.countView.msgCount = [ZHCartManager manager].count;
-    
+      
 //    }
     
     //扩大

@@ -72,6 +72,9 @@
     //--//
     NSArray *imgs ;
     NSArray *payNames;
+    NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+    NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
+    
     if (self.type == ZHPayViewCtrlTypeHZB) {
         
         payNames  = @[self.balanceString,@"微信支付",@"支付宝"]; //余额(可用100)
@@ -79,19 +82,31 @@
         
     } else if(self.type == ZHPayViewCtrlTypeNewYYDB) {
     
-        payNames  = @[@"余额"]; //余额(可用100)
-        imgs = @[@"zh_pay"];
+        //
+        if ([self.rmbAmount isEqual:@0]) { //不是人民币价格
+            
+            payNames  = @[self.balanceString]; //余额(可用100)
+            imgs = @[@"zh_pay"];
+            
+        } else {//人民币价格
+        
+            payNames  = @[@"微信支付",@"支付宝"]; //余额(可用100)
+            imgs = @[@"we_chat",@"alipay"];
+            payType = @[@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            status = @[@(NO),@(YES)];
+          
+        }
+      
         
     } else {
         
         payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
         imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-
+        
         
     }
     
-    NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-    NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
+  
     self.pays = [NSMutableArray array];
     
     //隐藏掉支付宝
@@ -112,7 +127,11 @@
         zhPay.payName = payNames[i];
         zhPay.isSelected = [status[i] boolValue];
         zhPay.payType = [payType[i] integerValue];
-        [self.pays addObject:zhPay];
+        if ( zhPay.payType != ZHPayTypeWeChat) {
+            
+            [self.pays addObject:zhPay];
+            
+        }
     }
     
     //--//
@@ -301,52 +320,7 @@
         
     }];
     
-    
-#pragma mark- 购买汇赚宝获取分润
-//    if (self.type == ZHPayViewCtrlTypeHZB) {
-//        TLNetworking *http = [TLNetworking new];
-////        http.showView = self.view;
-//        http.code = @"802503";
-//        http.parameters[@"userId"] = [ZHUser user].userId;
-//        http.parameters[@"token"] = [ZHUser user].token;
-//        http.parameters[@"currency"] = kFRB;
-//        [http postWithSuccess:^(id responseObject) {
-//            
-//            NSNumber *surplusMoney =  responseObject[@"data"][0][@"amount"];
-//            
-////            CGFloat rate =  1.0/[responseObject[@"data"][@"rate"] floatValue];
-////        
-////            
-////             self.pays[0].payName = [NSString stringWithFormat:@"分润(%@) (1分润=%@人民币)",[surplusMoney convertToRealMoney],responseObject[@"data"][@"rate"]];
-//            
-//            self.pays[0].payName = [NSString stringWithFormat:@"分润(%@)",[surplusMoney convertToRealMoney]];
-//            [self.payTableView reloadData];
-//            
-//        } failure:^(NSError *error) {
-//            
-//        }];
-//
-//        return;
-//    }
-    
-    
-#pragma mark- 获得余额
-    //首先获得总额
-//    TLNetworking *http2 = [TLNetworking new];
-//    http2.code = @"808801";
-//    http2.parameters[@"userId"] = [ZHUser user].userId;
-//    http2.parameters[@"token"] = [ZHUser user].token;
-//    [http2 postWithSuccess:^(id responseObject) {
-//        
-//        NSNumber *surplusMoney =  responseObject[@"data"];
-//        self.pays[0].payName = [NSString stringWithFormat:@"余额(%@)",[surplusMoney convertToRealMoney]];
-//        [self.payTableView reloadData];
-//        
-//        
-//    } failure:^(NSError *error) {
-//        
-//        
-//    }];
+
     
 }
 
@@ -400,7 +374,14 @@
     } if (self.type == ZHPayViewCtrlTypeNewYYDB) {
         
         //特殊
-        [self newYydbPay:@"9"];
+        if (type == ZHPayTypeOther) {
+            [self newYydbPay:@"90"];
+
+        } else {
+            
+            [self newYydbPay:payType];
+
+        }
         
     } else if (self.type == ZHPayViewCtrlTypeNewGoods) {
     
@@ -436,7 +417,6 @@
 
 - (void)aliPayWithInfo:(NSDictionary *)info {
     
-    
     //支付宝回调
     [TLAlipayManager payWithOrderStr:info[@"signOrder"]];
     
@@ -446,7 +426,7 @@
 #pragma mark- 2.0新一元夺宝支付
 - (void)newYydbPay:(NSString *)payType {
     
-//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
+    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
     
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
@@ -455,37 +435,41 @@
         http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];
         http.parameters[@"payType"] = payType;
+        http.parameters[@"ip"] = data[@"ip"];
         //---//
         [http postWithSuccess:^(id responseObject) {
             
-//            if ([payType isEqualToString: @"2"]) {
-//                
-//                [self wxPayWithInfo:responseObject[@"data"]];
-//                
-//            } else {
-//                
-//                [TLAlert alertWithHUDText:@"支付成功"];
-//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//                if (self.paySucces) {
-//                    self.paySucces();
-//                }
-//            }
+            if ([payType isEqualToString: @"2"]) {
+                
+                [self wxPayWithInfo:responseObject[@"data"]];
+                
+            } else if([payType isEqualToString:PAY_TYPE_ALI_PAY_CODE]){
             
-            [TLAlert alertWithHUDText:@"支付成功"];
-            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-            if (self.paySucces) {
-                self.paySucces();
+                [self aliPayWithInfo:responseObject[@"data"]];
+                
+            } else {
+                
+                [TLAlert alertWithHUDText:@"支付成功"];
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                if (self.paySucces) {
+                    self.paySucces();
+                }
             }
             
-            
+//            [TLAlert alertWithHUDText:@"支付成功"];
+//            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//            if (self.paySucces) {
+//                self.paySucces();
+//            }
+//
         } failure:^(NSError *error) {
             
         }];
         
-//    } abnormality:nil failure:^(NSError *error) {
-//        
-//        
-//    }];
+    } abnormality:nil failure:^(NSError *error) {
+        
+        
+    }];
     
 }
 

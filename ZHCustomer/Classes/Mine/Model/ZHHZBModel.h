@@ -8,6 +8,11 @@
 
 #import "TLBaseModel.h"
 
+//我的汇赚宝状态：TO_PAY("0", "待支付"),
+//ACTIVATED("1", "激活"),
+//OFFLINE("91", "人为下架"),
+//DIED("92","正常耗尽");
+
 @interface ZHHZBModel : TLBaseModel
 
 @property (nonatomic,copy) NSString *code;
@@ -41,7 +46,7 @@
 @property (nonatomic, strong) NSNumber *backAmount2;
 @property (nonatomic, strong) NSNumber *backAmount3;
 
-
+- (BOOL)isAbandon;
 
 //backAmount1 = 0;
 //backAmount2 = 0;

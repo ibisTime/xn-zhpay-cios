@@ -37,7 +37,10 @@
 //人民币价格
 //各种总金额----富文本
 @property (nonatomic,copy) NSAttributedString *amoutAttr;
+
 @property (nonatomic,strong) NSNumber *orderAmount;
+
+//余额的字符串，外面获取余额
 @property (nonatomic, copy) NSString *balanceString;
 
 @end

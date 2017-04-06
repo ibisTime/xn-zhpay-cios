@@ -180,7 +180,7 @@
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left);
         make.width.equalTo(self.mas_width);
-        make.height.mas_equalTo(@(LINE_HEIGHT));
+        make.height.mas_equalTo(@(1));
         make.bottom.equalTo(self.mas_bottom);
     }];
 

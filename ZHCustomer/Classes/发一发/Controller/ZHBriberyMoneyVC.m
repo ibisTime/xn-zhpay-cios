@@ -108,58 +108,57 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyHZBSuccess) name:@"HZBBuySuccess" object:nil];
     
-    //用户登录
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginSuccess) name:kUserLoginNotification object:nil];
-    
-    //用户退出
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:kUserLoginOutNotification object:nil];
-    
-}
-
-- (void)userLoginOut {
-    
-    self.briberyMoneyRooms = nil;
-    [self.briberyMoneyTableV beginRefreshing];
+//    //用户登录
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginSuccess) name:kUserLoginNotification object:nil];
+//    
+//    //用户退出
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:kUserLoginOutNotification object:nil];
     
 }
 
-- (void)userLoginSuccess {
-    
-    [self.bgImageV removeFromSuperview];
-    
-    //判断是否购买了汇赚宝
-    TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
-    http.code = @"808456";
-    http.parameters[@"userId"] = [ZHUser user].userId;
-    http.parameters[@"token"] = [ZHUser user].token;
-    [http postWithSuccess:^(id responseObject) {
-        
-        NSDictionary *data = responseObject[@"data"];
-        if (data.allKeys.count > 0) { //已经购买了汇转吧
-            //            [self.bgImageV removeFromSuperview];
-            
-            [self hasHZBUI];
-            [self.briberyMoneyTableV beginRefreshing];
-            
-        } else { //还没有股份
-            
-            [self.view addSubview:self.bgImageV];
-            [self.bgImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.view);
-            }];
-            
-        }
-        
-    } failure:^(NSError *error) {
-        
-        
-    }];
-    
 
+#warning -- 解决发红包在首页时，出现的不能及时刷新的问题
+//- (void)userLoginOut {
+//    
+//    self.briberyMoneyRooms = nil;
+//    [self.briberyMoneyTableV beginRefreshing];
+//    
+//}
+
+//- (void)userLoginSuccess {
+//    
+//    [self.bgImageV removeFromSuperview];
+
+//    //判断是否购买了汇赚宝
+//    TLNetworking *http = [TLNetworking new];
+//    http.showView = self.view;
+//    http.code = @"808456";
+//    http.parameters[@"userId"] = [ZHUser user].userId;
+//    http.parameters[@"token"] = [ZHUser user].token;
+//    [http postWithSuccess:^(id responseObject) {
+//        
+//        NSDictionary *data = responseObject[@"data"];
+//        if (data.allKeys.count > 0) { //已经购买了汇转吧
+//            //            [self.bgImageV removeFromSuperview];
+//            
+//            [self hasHZBUI];
+//            [self.briberyMoneyTableV beginRefreshing];
+//            
+//        } else { //还没有股份
+//            
+//            [self.view addSubview:self.bgImageV];
+//            [self.bgImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.edges.equalTo(self.view);
+//            }];
+//            
+//        }
+//        
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
     
-    
-}
+//}
 
 #pragma mark- 汇赚宝 进入, 查看历史记录选项
 - (void)history {

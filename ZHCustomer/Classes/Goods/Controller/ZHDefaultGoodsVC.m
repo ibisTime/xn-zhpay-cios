@@ -65,10 +65,11 @@
     
     //// 0 待发布 1 已上架 2已下架
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808025";
-//    helper.parameters[@"category"] = @"FL201600000000000001"; //大类
+    helper.code = @"808028";
+    
     helper.parameters[@"type"] = self.categoryCode;
-//    helper.parameters[@"status"] = @"1";
+    helper.parameters[@"status"] = @"3";
+    helper.isDeliverCompanyCode = NO;
     helper.tableView = self.goodsTableView;
     [helper modelClass:[ZHGoodsModel class]];
     
@@ -103,6 +104,7 @@
     }];
     
     [self.goodsTableView endRefreshingWithNoMoreData_tl];
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

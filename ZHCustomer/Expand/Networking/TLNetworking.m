@@ -70,6 +70,7 @@
     
        _manager = [[self class] HTTPSessionManager];
         _isShowMsg = YES;
+        _isDeliverCompanyCode = YES;
         self.parameters = [NSMutableDictionary dictionary];
         
     }
@@ -98,7 +99,13 @@
         }
         
         self.parameters[@"systemCode"] = [[self class] systemCode];
-        self.parameters[@"companyCode"] = [[self class] systemCode];
+        
+        if (self.isDeliverCompanyCode) {
+            
+            self.parameters[@"companyCode"] = [[self class] systemCode];
+
+        }
+        
 //        if ([ZHUser user]) {
 //            
 //            self.parameters[@"companyCode"] = [ZHUser user].userId;

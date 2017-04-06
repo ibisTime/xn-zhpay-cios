@@ -47,6 +47,6 @@
 
 //
 + (NSAttributedString *)totalRMBWithPrice:(NSNumber *)price count:(NSInteger)count;
-+ (NSAttributedString *)totalPriceWithPrice:(NSNumber *)price count:(NSInteger)count ;
++ (NSAttributedString *)totalPriceWithPrice:(NSNumber *)price count:(NSInteger)count;
 
 @end

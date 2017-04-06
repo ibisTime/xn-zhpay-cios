@@ -31,6 +31,7 @@
         self.refreshed = NO;
         self.objs = [[NSMutableArray alloc] init];
         self.parameters = [NSMutableDictionary dictionary];
+        self.isDeliverCompanyCode = YES;
         
     }
     return self;
@@ -42,6 +43,7 @@
     
     TLNetworking *http = [TLNetworking new];
     http.code = self.code;
+    http.isDeliverCompanyCode = self.isDeliverCompanyCode;
     http.parameters = self.parameters;
     http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
     http.parameters[@"limit"] = [NSString stringWithFormat:@"%ld",self.limit];;
@@ -109,6 +111,7 @@
     TLNetworking *http = [TLNetworking new];
     http.code = self.code;
     http.parameters = self.parameters;
+    http.isDeliverCompanyCode = self.isDeliverCompanyCode;
     http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
     http.parameters[@"limit"] = [NSString stringWithFormat:@"%ld",self.limit];;
     [http postWithSuccess:^(id responseObject) {

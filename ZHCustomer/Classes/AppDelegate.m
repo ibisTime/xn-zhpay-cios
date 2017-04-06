@@ -23,6 +23,7 @@
 #import "TLRealmPlayground.h"
 #import <CoreLocation/CoreLocation.h>
 #import "ChatManager.h"
+
 #import "ZHCartManager.h"
 #import "TLAlipayManager.h"
 
@@ -49,12 +50,7 @@
     //-- --//
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
-    
-    if ([AppConfig config].runEnv == RunEnvDev) {
-        
-        [TLRealmPlayground play];
-        
-    }
+
     
     //初始化环信
     [self chatInit];
@@ -104,10 +100,8 @@
     [self.window makeKeyAndVisible];
     self.window.rootViewController = [[ZHTabBarController alloc] init];
     //获取商品的分类，
-//    ZHGoodsCategoryManager *categoryManager = [ZHGoodsCategoryManager manager];
-//    [categoryManager getAllCategory];
     
-    NSSetUncaughtExceptionHandler(*UncaughtExceptionHandler);
+//    NSSetUncaughtExceptionHandler(*UncaughtExceptionHandler);
     
     //友盟异常捕获
     UMConfigInstance.appKey = @"586b96bf82b6352a6b00044b";
@@ -131,7 +125,7 @@
 
     [JPUSHService setAlias:[ZHUser user].userId callbackSelector:nil object:nil];
     
-    [[ZHCartManager manager] getCount];
+    [[ZHCartManager manager] getCartCount];
 
     TLLog(@"%@",[ZHUser user].userId);
 }
@@ -141,12 +135,13 @@
     
     //chat
     [[ChatManager defaultManager] chatLoginOut];
-    //
+    
+    //重置购物车
     [[ZHCartManager manager] reset];
 
     [self userLoginOutCancleLocation];
 
-//    [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
+    [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
 
     //用户 数据清除放在最后
     [[ZHUser user] loginOut];

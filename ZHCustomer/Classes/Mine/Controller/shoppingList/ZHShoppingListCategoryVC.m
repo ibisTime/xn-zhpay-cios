@@ -51,9 +51,10 @@
     //--//
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808068";
-    helper.parameters[@"token"] = [ZHUser user].token; //大类
+    helper.parameters[@"token"] = [ZHUser user].token;
     helper.parameters[@"applyUser"] = [ZHUser user].userId;
-    
+    helper.isDeliverCompanyCode = NO;
+  
     if (self.status == ZHOrderStatusWillPay) {
         
         helper.parameters[@"status"] = @"1";

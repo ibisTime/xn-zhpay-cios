@@ -30,13 +30,11 @@
 @property (nonatomic,strong) ZHGoodsCategoryVC *zeroBuyVC;
 @property (nonatomic, strong) ZHSegmentView *segmentView;
 
+//
 @property (nonatomic,strong) TLMsgBadgeView *msgBadgeView;
-
 
 @end
 
-//FL201700000000000001
-//FL201700000000000002
 
 @implementation ZHGoodsVC
 {
@@ -57,31 +55,8 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search"] style:UIBarButtonItemStylePlain target:self action:@selector(search)];
 
-    
-    // 判断底部滑动的时候，是否已经加载过控制器
-    //1.判断小类是否已经加载完成
-    ZHGoodsCategoryManager *manager = [ZHGoodsCategoryManager manager];
-    
-    if (manager.lysgCategories && manager.dshjCategories) {
-        
-        //2.顶部的大类和小类切换
-        [self setUpUI];
-        //购物车初始值
-        if (self.msgBadgeView && [ZHUser user].userId) {
-            
-            self.msgBadgeView.msgCount = [ZHCartManager manager].count;
-            
-        }
-        self.segmentView.selectedIndex = 1;
-
-        
-    } else {
-        
-        //去请求
-        [self reload];
-    
-    }
-    
+    //去请求类别
+    [self reload];
   
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
@@ -93,6 +68,11 @@
 
     if (self.msgBadgeView) {
         
+//      NSLog(@"%@--%ld",[ZHCartManager manager],[ZHCartManager manager].count);
+        NSLog(@"%@",[ZHCartManager manager]);
+
+        
+        //--//
         self.msgBadgeView.msgCount = [ZHCartManager manager].count;
 
     }
@@ -104,7 +84,9 @@
 - (void)reload {
 
     __block  NSInteger count = 0;
-       dispatch_group_enter(_getCategoryGroup);
+    
+    //获取剁手合集的小类
+    dispatch_group_enter(_getCategoryGroup);
         //获取分类接口
         TLNetworking *http = [TLNetworking new];
         http.code = @"808007";
@@ -123,8 +105,8 @@
             
         }];
     
+    //获取零元试购的小类
     dispatch_group_enter(_getCategoryGroup);
-    //获取分类接口
     TLNetworking *http1 = [TLNetworking new];
     http1.code = @"808007";
     http1.showView = self.view;
@@ -133,6 +115,7 @@
         
         count ++;
         dispatch_group_leave(_getCategoryGroup);
+        
         [ZHGoodsCategoryManager manager].lysgCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
     } failure:^(NSError *error) {
@@ -147,6 +130,8 @@
         if (count == 2) {
             
             [self setUpUI];
+            
+            //
             self.segmentView.selectedIndex = 1;
 #pragma mark- 购物车初始化
             //购物车初始值
@@ -223,6 +208,24 @@
 
 - (BOOL)segmentSwitch:(NSInteger)idx {
 
+    if (idx == 0) {
+    
+        //添加剁手合集 控制器
+        static  ZHGoodsCategoryVC *dshjVC;
+
+        if (!dshjVC) {
+           
+            dshjVC = [[ZHGoodsCategoryVC alloc] init];
+            [self addChildViewController:dshjVC];
+            dshjVC.smallCategories = [ZHGoodsCategoryManager manager].dshjCategories;
+            [self.switchScrollView addSubview:dshjVC.view];
+            
+        }
+  
+    
+    
+    } else
+    
     if (idx == 1) {
         
         static  ZHDuoBaoVC *duobaoVC;
@@ -236,7 +239,7 @@
             [self.switchScrollView addSubview:duobaoVC.view];
         }
         
-    }
+    } else
     
     
     if (idx == 2) {
@@ -318,21 +321,12 @@
     self.switchScrollView.pagingEnabled = YES;
     self.switchScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, self.switchScrollView.height);
     self.switchScrollView.scrollEnabled = NO;
-    
-    //添加剁手合集分类
-    ZHGoodsCategoryVC *dshjVC = [[ZHGoodsCategoryVC alloc] init];
-    [self addChildViewController:dshjVC];
-    
-    //小类赋值
-    dshjVC.smallCategories = [ZHGoodsCategoryManager manager].dshjCategories;
-    [self.switchScrollView addSubview:dshjVC.view];
+
     
     //添加购物车--按钮
     [self.view addSubview:self.goShoppingCartBtn];
     
-    
 
-    
 }
 
 

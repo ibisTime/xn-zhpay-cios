@@ -128,9 +128,12 @@
         
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
-        http.code = @"808027";
+        http.code = @"808028";
         http.parameters[@"status"] = @"3";
         http.parameters[@"name"] = searchBar.text;
+        http.parameters[@"start"] = @"1";
+        http.parameters[@"limit"] = @"10000";
+        http.isDeliverCompanyCode = NO;
         [http postWithSuccess:^(id responseObject) {
             
             self.goods = [ZHGoodsModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];

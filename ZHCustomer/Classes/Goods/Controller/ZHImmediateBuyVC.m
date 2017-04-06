@@ -236,9 +236,7 @@
 
             payVC.paySucces = ^(){
                 
-
-                
-                [TLAlert alertWithHUDText:@"支付成功"];
+//                [TLAlert alertWithHUDText:@"支付成功"];
                 [self.navigationController popViewControllerAnimated:YES];
                 
             };

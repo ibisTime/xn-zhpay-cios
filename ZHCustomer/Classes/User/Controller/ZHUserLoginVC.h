@@ -10,7 +10,6 @@
 
 @interface ZHUserLoginVC : ZHAccountBaseVC
 
-
 @property (nonatomic,copy) void(^loginSuccess)();
 
 

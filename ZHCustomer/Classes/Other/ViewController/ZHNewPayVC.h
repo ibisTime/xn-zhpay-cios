@@ -38,17 +38,14 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 //需要显示的余额
 @property (nonatomic, copy) NSString *balanceString;
 
-
 //汇赚宝支付只需传该模型
 @property (nonatomic,strong) ZHHZBModel *HZBModel;
-
 
 //各种总金额----富文本
 @property (nonatomic,copy) NSAttributedString *amoutAttr;
 
-//人民币价格
+//人民币价格，商品为币种组合可能包含人民币。 小目标为单一币种，可能是人民币标价
 @property (nonatomic,strong) NSNumber *rmbAmount;
-
 
 //2.0一元夺宝所需要的支付模型
 @property (nonatomic,strong) ZHDBModel *dbModel;

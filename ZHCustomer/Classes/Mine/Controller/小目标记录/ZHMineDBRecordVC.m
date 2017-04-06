@@ -51,7 +51,7 @@
     //    0待开奖，1已中奖，2未中奖
 //    helper.parameters[@"status"] = @"1";
     helper.parameters[@"userId"] = [ZHUser user].userId;
-    helper.parameters[@"jewelStatus "] = @"all";
+    helper.parameters[@"jewelStatus"] = @"all";
     helper.tableView = tableView;
     [helper modelClass:[ZHDBModel class]];
     

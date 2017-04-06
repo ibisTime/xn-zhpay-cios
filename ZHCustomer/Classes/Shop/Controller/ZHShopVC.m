@@ -229,7 +229,7 @@
     if (self.shopTypeRooms.count > 0) {
         
         [self.shopTypeRooms makeObjectsPerformSelector:@selector(removeFromSuperview)];
-
+        [self.shopTypeRooms removeAllObjects];
     }
     
 

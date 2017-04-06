@@ -14,13 +14,14 @@
 + (instancetype)manager;
 
 
-- (void)getAllCategory;
+//- (void)getAllCategory;
+
 //大类名称
-- (void)getBigCategory;
+//- (void)getBigCategory;
 
 //剁手合集的小类
-- (void)getDSHJCategory;
-- (void)getZeroBuyCategory;
+//- (void)getDSHJCategory;
+//- (void)getZeroBuyCategory;
 
 
 @property (nonatomic,strong) NSArray <ZHCategoryModel *>*bigCategories;

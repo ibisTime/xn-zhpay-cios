@@ -220,12 +220,12 @@
     
     [http postWithSuccess:^(id responseObject) {
        
-        [TLAlert alertWithHUDText:@"注册成功"];
+//        [TLAlert alertWithHUDText:@"注册成功"];
         NSString *tokenId = responseObject[@"data"][@"token"];
         NSString *userId = responseObject[@"data"][@"userId"];
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
             //获取用户信息
             TLNetworking *http = [TLNetworking new];
             http.showView = self.view;
@@ -256,7 +256,7 @@
                 
             }];
             
-        });
+//        });
   
         
     } failure:^(NSError *error) {

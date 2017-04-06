@@ -8,14 +8,23 @@
 
 #import "ZHSingleProfitFlowVC.h"
 #import "ZHEarningModel.h"
+#import "TLPageDataHelper.h"
+#import "ZHEarningFlowCell.h"
+
 
 @interface ZHSingleProfitFlowVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) TLTableView *flowTableView;
-
+@property (nonatomic, strong) NSMutableArray<ZHEarningFlowModel *> *flowModels;
 @end
 
 @implementation ZHSingleProfitFlowVC
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [self.flowTableView beginRefreshing];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,17 +42,19 @@
         make.edges.mas_equalTo(UIEdgeInsetsZero);
     }];
     
-    tableView.estimatedRowHeight = 150;
+    tableView.estimatedRowHeight = 50;
     self.flowTableView = tableView;
     
-    
+    tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录"];
+
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808425";
     helper.parameters[@"fundCode"] = self.earnModel.fundCode;
     helper.parameters[@"stockCode"] = self.earnModel.code;
     helper.parameters[@"toUser"] = [ZHUser user].userId;
-
+    helper.tableView = self.flowTableView;
+    [helper modelClass:[ZHEarningFlowModel class]];
     
       __weak typeof(self) weakSelf = self;
         [self.flowTableView addRefreshAction:^{
@@ -51,6 +62,7 @@
             //店铺数据
             [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
     
+                weakSelf.flowModels = objs;
                 [weakSelf.flowTableView reloadData_tl];
     
             } failure:^(NSError *error) {
@@ -65,6 +77,7 @@
     
             [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
     
+                weakSelf.flowModels = objs;
                 [weakSelf.flowTableView reloadData_tl];
     
             } failure:^(NSError *error) {
@@ -78,31 +91,30 @@
     
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    
-    ZHSingleProfitFlowVC *singleProfitVC = [[ZHSingleProfitFlowVC alloc] init];
-    [self.navigationController pushViewController:singleProfitVC animated:YES];
-    
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    ZHSingleProfitFlowVC *singleProfitVC = [[ZHSingleProfitFlowVC alloc] init];
+//    [self.navigationController pushViewController:singleProfitVC animated:YES];
+//    
+//}
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 10;
+    return self.flowModels.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellId"];
+    ZHEarningFlowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZHEarningFlowCellID"];
+    
     if (!cell) {
         
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellId"];
+        cell = [[ZHEarningFlowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ZHEarningFlowCellID"];
         
     }
-    
+    cell.flowModel = self.flowModels[indexPath.row];
     return cell;
     
 }

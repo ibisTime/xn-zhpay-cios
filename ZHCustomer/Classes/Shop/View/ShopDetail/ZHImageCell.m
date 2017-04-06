@@ -7,6 +7,7 @@
 //
 
 #import "ZHImageCell.h"
+#import "BPPhotoBrowser.h"
 
 @interface ZHImageCell()
 
@@ -24,13 +25,30 @@
         self.imageV = [[UIImageView alloc] initWithFrame:CGRectMake(15, 0, SCREEN_WIDTH - 30, 100)];
         self.imageV.clipsToBounds = YES;
         self.imageV.contentMode = UIViewContentModeScaleAspectFill;
+        self.imageV.userInteractionEnabled = YES;
         [self addSubview:self.imageV];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scaleImg)];
+        [self.imageV addGestureRecognizer:tap];
     }
     
     return self;
     
 }
+
+- (void)scaleImg {
+
+    BPPhotoBrowser *photoB = [[BPPhotoBrowser alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    photoB.image = self.imageV.image;
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        [[UIApplication sharedApplication].keyWindow addSubview:photoB];
+        
+    }];
+
+}
+
 
 - (void)setUrl:(NSString *)url {
 
@@ -39,6 +57,7 @@
     [self.imageV sd_setImageWithURL:[NSURL URLWithString:[url convertImageUrl]] placeholderImage:[UIImage imageNamed:@"img_paceholder"]];
 
 }
+
 
 - (void)layoutSubviews {
     [super layoutSubviews];

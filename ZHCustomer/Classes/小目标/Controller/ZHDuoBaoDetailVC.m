@@ -20,6 +20,7 @@
 #import "AppConfig.h"
 #import "TLHTMLStrVC.h"
 #import <WebKit/WebKit.h>
+#import "ZHCurrencyModel.h"
 
 
 NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationName";
@@ -406,31 +407,85 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
 
     [(UIControl *)btn.nextResponder removeFromSuperview];
     
-//    ZHPayVC *payVC = [[ZHPayVC alloc] init];
-//    payVC.type = ZHPayVCTypeNewYYDB;
-
-    ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
-    payVC.type = ZHPayViewCtrlTypeNewYYDB;
+    //现获取相应余额
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"802503";
+    http.parameters[@"token"] = [ZHUser user].token;
+    http.parameters[@"userId"] = [ZHUser user].userId;
     
-    self.dbModel.count = self.countChangeView.count;
-    payVC.dbModel = self.dbModel;
-    payVC.amoutAttr = self.totalPriceLbl.attributedText; //展示
-    payVC.rmbAmount = @([self.dbModel.price longLongValue]*self.countChangeView.count);
-    payVC.paySucces = ^(){
+    [http postWithSuccess:^(id responseObject) {
         
-        //刷新详情
-        [self.detailTableView beginRefreshing];
-        //刷新外部列表
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kRefreshDBListNotificationName object:nil];
+        NSArray <ZHCurrencyModel *>*accountArr = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
-
-    };
-    
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-    
-    [self presentViewController:nav animated:YES completion:nil];
-
-
+        if (accountArr.count <=0 ) {
+            return ;
+            
+        }
+   
+        
+        ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
+        payVC.type = ZHPayViewCtrlTypeNewYYDB;
+        self.dbModel.count = self.countChangeView.count;
+        payVC.dbModel = self.dbModel;
+        //
+        payVC.amoutAttr = self.totalPriceLbl.attributedText; //展示
+        
+        [accountArr enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            
+            if ([self.dbModel.fromCurrency isEqualToString:kCNY]) {
+                
+                //人民币标价,余额显示分润
+                if ([obj.currency isEqualToString:kFRB]) {
+                    
+                    payVC.balanceString = [NSString stringWithFormat:@"余额(%@%@)",@"分润",[obj.amount convertToRealMoney]];
+                    *stop = YES;
+                }
+                
+            } else {
+            
+                if ([obj.currency isEqualToString:self.dbModel.fromCurrency]) {
+                    
+                    
+                    payVC.balanceString = [NSString stringWithFormat:@"余额(%@%@)",[self.dbModel getPriceCurrencyName],[obj.amount convertToRealMoney]];
+                    *stop = YES;
+                }
+            
+            }
+          
+        }];
+   
+        
+        if ([self.dbModel.fromCurrency isEqualToString:kCNY]) {
+            
+            payVC.rmbAmount = @([self.dbModel.fromAmount longLongValue]*self.countChangeView.count);
+            
+        } else {
+            
+            payVC.rmbAmount = @0;
+            
+        }
+        
+        payVC.paySucces = ^(){
+            
+            //刷新详情
+            [self.detailTableView beginRefreshing];
+            //刷新外部列表
+            [[NSNotificationCenter defaultCenter] postNotificationName:kRefreshDBListNotificationName object:nil];
+            
+            
+        };
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+        
+        [self presentViewController:nav animated:YES completion:nil];
+        
+        
+    } failure:^(NSError *error) {
+        
+    }];
+        
 }
 
 - (void)deleteMask:(UIControl *)ctrl {

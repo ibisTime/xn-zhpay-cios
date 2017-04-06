@@ -116,7 +116,7 @@
     //先添加一个
     
    ZHDefaultGoodsVC *defaultVC = [[ZHDefaultGoodsVC alloc] init];
-  ZHCategoryModel *model = self.smallCategories[0];
+   ZHCategoryModel *model = self.smallCategories[0];
     //先设置code  如果先设置frame,则viewDidLoad就会优先调用
    defaultVC.categoryCode = model.code;
    [self addChildViewController:defaultVC];
