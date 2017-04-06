@@ -158,12 +158,12 @@
     } else if ([self.currencyModel.currency isEqualToString:kHBB]) {//红包币转贡献值
     
         hiddenLeft = YES;
-        rightTitle = @"转贡献值";
+        rightTitle = @"转贡献";
         
         self.rightAciton = ^(){
             
             ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
-            vc.title = @"转贡献值";
+            vc.title = @"转贡献";
             vc.type = ZHCurrencyConvertHBToGXJL;
             vc.amount = weakself.currencyModel.amount;
             

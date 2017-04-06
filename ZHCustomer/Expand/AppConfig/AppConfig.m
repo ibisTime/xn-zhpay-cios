@@ -47,7 +47,7 @@ void TLLog(NSString *format, ...) {
            self.addr = @"http://139.224.200.54:5601"; //test
            //分享的基础连接
 //            http://121.43.101.148:5603/share/share-receive.html?code=xxx&userReferee=xxx
-           self.shareBaseUrl = @"http://121.43.101.148:5603";
+           self.shareBaseUrl = @"http://139.224.200.54:5603";
 
         }break;
             
@@ -64,8 +64,9 @@ void TLLog(NSString *format, ...) {
             
             self.qiniuDomain = @"http://oi99f4peg.bkt.clouddn.com";
             self.chatKey = @"tianleios#cd-test";
-            self.addr = @"http://139.224.200.54:5601";
-            self.shareBaseUrl = @"http://139.224.200.54:5603";
+            
+            self.addr = @"http://118.178.124.16:5601";
+            self.shareBaseUrl = @"http://118.178.124.16:5603";
 
         }break;
 

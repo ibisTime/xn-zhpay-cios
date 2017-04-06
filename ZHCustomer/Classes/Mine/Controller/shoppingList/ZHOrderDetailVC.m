@@ -210,24 +210,23 @@
 
 - (void)goCommentWithCode:(NSString *)code {
 
-    
     UIAlertController *actionSheetCtrl = [UIAlertController alertControllerWithTitle:@"" message:@"请对该商品做出评价" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *hpAction = [UIAlertAction actionWithTitle:@"好评" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self commentWithType:@"A" code:code];
     }];
     
-    UIAlertAction *zpAction = [UIAlertAction actionWithTitle:@"中评" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        [self commentWithType:@"B" code:code];
-
-        
-    }];
-    
-    UIAlertAction *cpAction = [UIAlertAction actionWithTitle:@"差评" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        [self commentWithType:@"C" code:code];
-        
-    }];
+//    UIAlertAction *zpAction = [UIAlertAction actionWithTitle:@"中评" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        
+//        [self commentWithType:@"B" code:code];
+//
+//        
+//    }];
+//    
+//    UIAlertAction *cpAction = [UIAlertAction actionWithTitle:@"差评" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        
+//        [self commentWithType:@"C" code:code];
+//        
+//    }];
     
     UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
@@ -242,8 +241,8 @@
     }];
     
     [actionSheetCtrl addAction:hpAction];
-    [actionSheetCtrl addAction:zpAction];
-    [actionSheetCtrl addAction:cpAction];
+//    [actionSheetCtrl addAction:zpAction];
+//    [actionSheetCtrl addAction:cpAction];
     [actionSheetCtrl addAction:cancleAction];
     
     [self presentViewController:actionSheetCtrl animated:YES completion:nil];
@@ -253,13 +252,13 @@
 
 - (void)commentWithType:(NSString *)type code:(NSString *)code {
     
+    
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    http.code = @"808320";
-    http.parameters[@"jewelCode"] = code ? : self.order.productOrderList[0].productCode; //宝贝编号
-    http.parameters[@"orderCode"] = self.order.code;
-    http.parameters[@"interacter"] = [ZHUser user].userId; //评价人
-    http.parameters[@"evaluateType"] = type;
+    http.code = @"808240";
+    http.parameters[@"storeCode"] = self.order.productOrderList[0].code;
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    http.parameters[@"type"] = @"3";
     [http postWithSuccess:^(id responseObject) {
         
         [TLAlert alertWithHUDText:@"评价成功"];
@@ -273,10 +272,23 @@
         
     } failure:^(NSError *error) {
         
+        
     }];
 
-//    [TLAlert alertWithTitle:nil Message:@"请对该商品做出评价" confirmMsg:@"好评" CancleMsg:@"拒绝" cancle:^(UIAlertAction *action) {
+    
+    
+    ///////////`````````````````````````````//////////////////////
+    //进行评论
+//    TLNetworking *http = [TLNetworking new];
+//    http.showView = self.view;
+//    http.code = @"808320";
+//    http.parameters[@"jewelCode"] = code ? : self.order.productOrderList[0].productCode; //宝贝编号
+//    http.parameters[@"orderCode"] = self.order.code;
+//    http.parameters[@"interacter"] = [ZHUser user].userId; //评价人
+//    http.parameters[@"evaluateType"] = type;
+//    [http postWithSuccess:^(id responseObject) {
 //        
+//        [TLAlert alertWithHUDText:@"评价成功"];
 //        [self.navigationController popViewControllerAnimated:YES];
 //        
 //        if (self.confirmReceiveSuccess) {
@@ -285,11 +297,13 @@
 //            
 //        }
 //        
-//    } confirm:^(UIAlertAction *action) {
-//        
-//
+//    } failure:^(NSError *error) {
 //        
 //    }];
+
+    
+    
+
 }
 
 - (UIView *)footerView {

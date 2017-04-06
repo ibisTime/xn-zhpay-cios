@@ -110,8 +110,8 @@
         http.parameters[@"name"] = searchBar.text;
         http.parameters[@"status"] = @"2";
         if (self.lat) {
-            http.parameters[@"userLongitude"] = self.lon;
-            http.parameters[@"userLatitude"] = self.lat;
+            http.parameters[@"longitude"] = self.lon;
+            http.parameters[@"latitude"] = self.lat;
         }
         [http postWithSuccess:^(id responseObject) {
             

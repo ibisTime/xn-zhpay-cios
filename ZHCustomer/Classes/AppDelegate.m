@@ -94,6 +94,7 @@
     [manager.disabledToolbarClasses addObject:[ZHUserLoginVC class]];
     [manager.disabledToolbarClasses addObject:[ZHUserRegistVC class]];
 
+    
     //
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];

@@ -87,28 +87,29 @@
 - (void)setEvaluateModel:(ZHEvaluateModel *)evaluateModel {
     _evaluateModel = evaluateModel;
     
-    if ([self.evaluateModel.interacterUser[@"photo"] isKindOfClass:[NSNull class]]) {
+    if ([evaluateModel.photo isKindOfClass:[NSNull class]]) {
         self.avatar.image = [UIImage imageNamed:@"user_placeholder"];
 
     } else {
     
-        [self.avatar sd_setImageWithURL:[NSURL URLWithString:[self.evaluateModel.interacterUser[@"photo"] convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"user_placeholder"]];
+        [self.avatar sd_setImageWithURL:[NSURL URLWithString:[evaluateModel.photo convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"user_placeholder"]];
                                                                    
     }
     
-    self.nameLbl.text = self.evaluateModel.interacterUser[@"nickname"];
+    self.nameLbl.text = evaluateModel.nickname;
     
     NSString *evaluteText = @"好评";
-    if([_evaluateModel.evaluateType isEqualToString:@"A"]){ //好评
-        
-        
-    } else if([_evaluateModel.evaluateType isEqualToString:@"B"]) { //中评
-        evaluteText = @"中评";
-        
-    } else { //差评
-        evaluteText = @"差评";
-        
-    }
+    
+//    if([_evaluateModel.evaluateType isEqualToString:@"A"]){ //好评
+//        
+//        
+//    } else if([_evaluateModel.evaluateType isEqualToString:@"B"]) { //中评
+//        evaluteText = @"中评";
+//        
+//    } else { //差评
+//        evaluteText = @"差评";
+//        
+//    }
     
     self.evaluateLbl.text = evaluteText;
     self.evaluateImageV.image = [UIImage imageNamed:evaluteText];

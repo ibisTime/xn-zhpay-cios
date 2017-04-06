@@ -10,4 +10,14 @@
 
 @implementation ZHEvaluateModel
 
+- (NSString *)nickname {
+
+    return self.user[@"nickname"];
+
+}
+
+- (NSString *)photo {
+
+    return self.user[@"photo"];
+}
 @end

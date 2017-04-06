@@ -360,6 +360,7 @@
     sysMsgHttp.parameters[@"limit"] = @"1";
     sysMsgHttp.parameters[@"toKind"] = @"1";
     sysMsgHttp.parameters[@"smsType"] = @"1";
+    sysMsgHttp.parameters[@"status"] = @"1";
     sysMsgHttp.parameters[@"fromSystemCode"] = @"CD-CZH000001";
     
     [sysMsgHttp postWithSuccess:^(id responseObject) {

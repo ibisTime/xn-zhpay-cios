@@ -11,6 +11,8 @@
 
 @interface ZHGoodsParameterVC ()<UITableViewDelegate,UITableViewDataSource>
 
+@property (nonatomic, strong) TLTableView *paramTableView;
+
 @end
 
 @implementation ZHGoodsParameterVC
@@ -18,16 +20,49 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    [self.view addSubview:tableView];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    tableView.estimatedRowHeight = 60;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.paramTableView = [TLTableView tableViewWithframe:CGRectZero delegate:self dataSource:self];
+    [self.view addSubview:self.paramTableView];
+    self.paramTableView.delegate = self;
+    self.paramTableView.dataSource = self;
+    self.paramTableView.estimatedRowHeight = 60;
+    self.paramTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.paramTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero);
     }];
+    
+    
+//    TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
+//    
+//    __weak typeof(self) weakSelf = self;
+//    [self.paramTableView addRefreshAction:^{
+//        
+//        [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
+//            
+//            weakSelf.goods = objs;
+//            [weakSelf.paramTableView reloadData_tl];
+//            
+//        } failure:^(NSError *error) {
+//            
+//            
+//        }];
+//        
+//    }];
+//    
+//    //---//
+//    [self.paramTableView addLoadMoreAction:^{
+//        
+//        [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
+//            
+//            weakSelf.goods = objs;
+//            [weakSelf.goodsTableView reloadData_tl];
+//            
+//        } failure:^(NSError *error) {
+//            
+//            
+//        }];
+//        
+//    }];
     
     
 }

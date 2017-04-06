@@ -89,6 +89,7 @@
         
     }];
     
+    //---//
     [self.goodsTableView addLoadMoreAction:^{
         
         [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {

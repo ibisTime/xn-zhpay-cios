@@ -280,21 +280,22 @@
         
         _clearingView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 49 - 64, SCREEN_WIDTH, 49)];
         _clearingView.backgroundColor = [UIColor whiteColor];
-        UIButton *chooseAllBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 0, 20, 20)];
-        [chooseAllBtn setImage:[UIImage imageNamed:@"address_unselected"] forState:UIControlStateNormal];
-        [chooseAllBtn addTarget:self action:@selector(chooseAll) forControlEvents:UIControlEventTouchUpInside];
-        chooseAllBtn.centerY = _clearingView.height/2.0;
-        [_clearingView addSubview:chooseAllBtn];
-        self.chooseAllBtn = chooseAllBtn;
         
-        //
-        UILabel *hintLbl = [UILabel labelWithFrame:CGRectMake(chooseAllBtn.xx + 10, 0, 40, _clearingView.height) textAligment:NSTextAlignmentLeft backgroundColor:[UIColor whiteColor] font:[UIFont secondFont] textColor:[UIColor zh_textColor]];
-        [_clearingView addSubview:hintLbl];
-        hintLbl.text = @"全选";
-        hintLbl.userInteractionEnabled = YES;
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseAll)];
-        [hintLbl addGestureRecognizer:tap];
+//        UIButton *chooseAllBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 0, 20, 20)];
+//        [chooseAllBtn setImage:[UIImage imageNamed:@"address_unselected"] forState:UIControlStateNormal];
+//        [chooseAllBtn addTarget:self action:@selector(chooseAll) forControlEvents:UIControlEventTouchUpInside];
+//        chooseAllBtn.centerY = _clearingView.height/2.0;
+//        [_clearingView addSubview:chooseAllBtn];
+//        self.chooseAllBtn = chooseAllBtn;
+//        
+//        //
+//        UILabel *hintLbl = [UILabel labelWithFrame:CGRectMake(chooseAllBtn.xx + 10, 0, 40, _clearingView.height) textAligment:NSTextAlignmentLeft backgroundColor:[UIColor whiteColor] font:[UIFont secondFont] textColor:[UIColor zh_textColor]];
+//        [_clearingView addSubview:hintLbl];
+//        hintLbl.text = @"全选";
+//        hintLbl.userInteractionEnabled = YES;
+//        
+//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseAll)];
+//        [hintLbl addGestureRecognizer:tap];
         
         
         //结算按钮
@@ -315,7 +316,7 @@
         
         self.totalPriceLbl = moneyLbl;
         [moneyLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(hintLbl.mas_right);
+            make.left.equalTo(_clearingView.mas_left).offset(10);
             make.top.equalTo(_clearingView.mas_top);
             make.bottom.equalTo(_clearingView.mas_bottom);
             make.right.equalTo(clearBtn.mas_left).offset(-5);

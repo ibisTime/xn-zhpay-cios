@@ -40,8 +40,9 @@
 
     }
     
-
 }
+
+
 
 
 - (void)viewDidLoad {
@@ -60,8 +61,8 @@
     tableView.rowHeight = [ZHEvaluateCell rowHeight];
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808325";
-    helper.parameters[@"jewelCode"] = self.goodsCode; //大类
+    helper.code = @"808029";
+    helper.parameters[@"productCode"] = self.goodsCode; //大类
     
     helper.tableView = self.evaluateTableView;
     [helper modelClass:[ZHEvaluateModel class]];
@@ -71,86 +72,87 @@
     [self.evaluateTableView addRefreshAction:^{
         
         
-        TLNetworking *http = [TLNetworking new];
-        http.code = @"808325";
-        http.parameters[@"jewelCode"] = weakSelf.goodsCode;
-        
-        http.parameters[@"start"] = @"1";
-        http.parameters[@"limit"] = @"30";
-        [http postWithSuccess:^(id responseObject) {
-            
-            [weakSelf.evaluateTableView resetNoMoreData_tl];
-
-            weakSelf.start = 2;
-
-            weakSelf.evaluateView.percent = [responseObject[@"data"][@"goodRate"] floatValue];
-            weakSelf.alreadlyLbl.text = [NSString stringWithFormat:@"购买人次(%@)",responseObject[@"data"][@"buyNums"]];
-            NSArray *arr =  responseObject[@"data"][@"page"][@"list"];
-            
-            weakSelf.buyerItems = [ZHEvaluateModel mj_objectArrayWithKeyValuesArray:arr];
-            
-            [weakSelf.evaluateTableView reloadData_tl];
-            [weakSelf.evaluateTableView endRefreshHeader];
-            
-            
-            
-            
-        } failure:^(NSError *error) {
-            
-            
-        }];
-
-//        [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
+//        TLNetworking *http = [TLNetworking new];
+//        http.code = @"808325";
+//        http.parameters[@"jewelCode"] = weakSelf.goodsCode;
+//        
+//        http.parameters[@"start"] = @"1";
+//        http.parameters[@"limit"] = @"30";
+//        [http postWithSuccess:^(id responseObject) {
 //            
-//            weakSelf.buyerItems = objs;
+//            [weakSelf.evaluateTableView resetNoMoreData_tl];
+//
+//            weakSelf.start = 2;
+//
+//            weakSelf.evaluateView.percent = [responseObject[@"data"][@"goodRate"] floatValue];
+//            weakSelf.alreadlyLbl.text = [NSString stringWithFormat:@"购买人次(%@)",responseObject[@"data"][@"buyNums"]];
+//            NSArray *arr =  responseObject[@"data"][@"page"][@"list"];
+//            
+//            weakSelf.buyerItems = [ZHEvaluateModel mj_objectArrayWithKeyValuesArray:arr];
+//            
 //            [weakSelf.evaluateTableView reloadData_tl];
+//            [weakSelf.evaluateTableView endRefreshHeader];
+//            
+//            
+//            
 //            
 //        } failure:^(NSError *error) {
 //            
 //            
 //        }];
+
+        [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            weakSelf.buyerItems = objs;
+            [weakSelf.evaluateTableView reloadData_tl];
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
         
     }];
     
     [self.evaluateTableView addLoadMoreAction:^{
         
-        TLNetworking *http = [TLNetworking new];
-        http.code = @"808325";
-        http.parameters[@"jewelCode"] = weakSelf.goodsCode;
-        
-        http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",weakSelf.start];
-        http.parameters[@"limit"] = @"30";
-        [http postWithSuccess:^(id responseObject) {
-            
-            weakSelf.start ++;
-            
-            NSArray *arr = responseObject[@"data"][@"page"][@"list"];
-            if (arr.count <= 0) {
-                
-                [weakSelf.evaluateTableView endRefreshingWithNoMoreData_tl];
-
-                
-            } else {
-            
-                [weakSelf.buyerItems addObjectsFromArray: [ZHEvaluateModel mj_objectArrayWithKeyValuesArray:arr]];
-               
-                [weakSelf.evaluateTableView reloadData_tl];
-                [weakSelf.evaluateTableView endRefreshHeader];
-            }
-                        
-        } failure:^(NSError *error) {
-            
-            
-        }];
-//        [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
+//        TLNetworking *http = [TLNetworking new];
+//        http.code = @"808325";
+//        http.parameters[@"jewelCode"] = weakSelf.goodsCode;
+//        
+//        http.parameters[@"start"] = [NSString stringWithFormat:@"%ld",weakSelf.start];
+//        http.parameters[@"limit"] = @"30";
+//        [http postWithSuccess:^(id responseObject) {
 //            
-//            weakSelf.buyerItems = objs;
-//            [weakSelf.evaluateTableView reloadData_tl];
+//            weakSelf.start ++;
 //            
+//            NSArray *arr = responseObject[@"data"][@"page"][@"list"];
+//            if (arr.count <= 0) {
+//                
+//                [weakSelf.evaluateTableView endRefreshingWithNoMoreData_tl];
+//
+//                
+//            } else {
+//            
+//                [weakSelf.buyerItems addObjectsFromArray: [ZHEvaluateModel mj_objectArrayWithKeyValuesArray:arr]];
+//               
+//                [weakSelf.evaluateTableView reloadData_tl];
+//                [weakSelf.evaluateTableView endRefreshHeader];
+//            }
+//                        
 //        } failure:^(NSError *error) {
 //            
 //            
 //        }];
+        
+        [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            weakSelf.buyerItems = objs;
+            [weakSelf.evaluateTableView reloadData_tl];
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
         
     }];
     
@@ -168,6 +170,7 @@
     
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *zhEvaluateCellId = @"ZHEvaluateCellID";
@@ -182,8 +185,8 @@
     
     return cell;
     
-    
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     

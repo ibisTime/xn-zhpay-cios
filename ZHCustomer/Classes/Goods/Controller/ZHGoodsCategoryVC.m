@@ -116,6 +116,10 @@
     //先添加一个
     
    ZHDefaultGoodsVC *defaultVC = [[ZHDefaultGoodsVC alloc] init];
+    if (self.smallCategories.count <= 0) {
+        NSLog(@"又大类 没小类");
+        return;
+    }
    ZHCategoryModel *model = self.smallCategories[0];
     //先设置code  如果先设置frame,则viewDidLoad就会优先调用
    defaultVC.categoryCode = model.code;
