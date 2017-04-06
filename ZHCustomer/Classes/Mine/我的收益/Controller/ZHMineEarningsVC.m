@@ -174,6 +174,26 @@
     }];
 
 
+    //我的下一个分红权查询
+    TLNetworking *nextHttp = [TLNetworking new];
+    nextHttp.showView = self.view;
+    nextHttp.code = @"808418";
+    nextHttp.parameters[@"userId"] = [ZHUser user].userId;
+    [nextHttp postWithSuccess:^(id responseObject) {
+        
+        NSDictionary *dict = responseObject[@"data"];
+        if (dict.allKeys <= 0) {
+            return ;
+        }
+        
+        NSNumber *costAmount =  responseObject[@"data"][@"costAmount"];
+        CGFloat needMoney =  500 - [costAmount longLongValue]/1000.0;
+        self.motivationLbl.text = [NSString stringWithFormat:@"冲一冲\n再%.2f元消费额\n您将新获得一个分红权",needMoney];
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
    
     
 }

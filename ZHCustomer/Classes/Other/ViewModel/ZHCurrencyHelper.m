@@ -68,6 +68,37 @@
 
 }
 
++ (NSMutableAttributedString *)calculatePriceWithQBB:(NSNumber *)qbb GWB:(NSNumber *)gwb RMB:(NSNumber *)rmb count:(NSInteger)count addPostageRmb:(NSNumber *)postage {
+
+
+    
+    NSNumber *price1 = rmb;
+    NSNumber *price2 = gwb;
+    NSNumber *price3 = qbb;
+    NSInteger num = count;
+    
+    //把空的剔除掉
+    NSString *rmbStr = nil;
+    NSString *qbbStr = nil;
+    NSString *gwbStr = nil;
+    
+    if (![price1 isEqual:@0]) {
+        rmbStr = [NSString stringWithFormat:@"%.2f",([price1 longValue]*num + [postage longValue])/1000.0];
+    }
+    
+    if (![price3 isEqual:@0]) {
+        qbbStr = [NSString stringWithFormat:@"%.2f",[price3 longValue]*num/1000.0];
+    }
+    
+    if (![price2 isEqual:@0]) {
+        gwbStr = [NSString stringWithFormat:@"%.2f",[price2 longValue]*num/1000.0];
+    }
+    
+    return [self totalPriceAttrWithQBB:qbbStr GWB:gwbStr RMB:rmbStr];
+
+
+}
+
 
 + (NSMutableAttributedString *)calculatePriceWithQBB:(NSNumber *)qbb GWB:(NSNumber *)gwb RMB:(NSNumber *)rmb count:(NSInteger)count {
 

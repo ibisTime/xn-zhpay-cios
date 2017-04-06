@@ -82,6 +82,7 @@
         
         //获得城市
 //        if (placemark.locality) {
+        
         if (error) {
             
 
@@ -91,7 +92,6 @@
             self.city = placemark.locality ? : placemark.administrativeArea; //市
             self.area = placemark.subLocality; //区
 
-            
         }
         
         [self setUpUI];
@@ -400,7 +400,8 @@
     //定位成功 隐藏地址选择
     if (self.province && self.city && self.area) {
         
-        self.addressTf.height = 0.1;
+//        self.addressTf.height = 0.1;
+        self.addressTf.text = [NSString stringWithFormat:@"%@ %@ %@",self.province,self.city,self.area];
         
     } else {
     

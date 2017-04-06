@@ -27,9 +27,6 @@
 
 @property (nonatomic,strong) NSMutableArray <ZHPayFuncModel *>*pays;
 
-@property (nonatomic,strong) UILabel* tempAttrLbl;
-
-@property (nonatomic,strong) TLTextField *amountTf;
 
 @property (nonatomic,strong) UILabel *priceLbl;
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
@@ -50,19 +47,6 @@
     [super viewDidLoad];
     self.title = @"支付";
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    
-    {
-        TLGroupModel *group0 = [[TLGroupModel alloc] init];
-        group0.headerHeight = 10.0;
-        group0.footerHeight = 10.0;
-        
-        TLGroupModel *group1 = [[TLGroupModel alloc] init];
-        group1.headerHeight = 30.0;
-        group1.footerHeight = 0.1;
-        group1.headerView = [self payFuncHeaderView];
-
-        
-    }
     
 //    if (!self.balanceString) {
 //        
@@ -119,6 +103,7 @@
 //        
 //    }
     
+    
     //只创建可以支付的支付方式，， 一元夺宝只有 余额支付 就显示余额
     for (NSInteger i = 0; i < count; i ++) {
         
@@ -163,26 +148,17 @@
             }
             [self setUpUI];
             
-            self.amountTf.enabled = self.paySceneManager.isInitiative;
-            
-            if (self.amoutAttr) {
-                
-                [self.amountTf addSubview:self.tempAttrLbl];
-                self.amountTf.placeholder = nil;
-                self.tempAttrLbl.attributedText = self.amoutAttr;
-                self.priceLbl.attributedText = self.amoutAttr;
-                self.amountTf.text = self.paySceneManager.amount;
-                self.amountTf.textColor = [UIColor clearColor];
-                
-            } else {
-                
-                self.amountTf.text = self.paySceneManager.amount;
-                self.priceLbl.text = self.paySceneManager.amount;
-                
-            }
-            
-//            self.amountTf.text = self.paySceneManager.amount;
-//            self.priceLbl.text = self.paySceneManager.amount;
+
+//            if (self.amoutAttr) {
+//                
+//
+//                self.tempAttrLbl.attributedText = self.amoutAttr;
+//                
+//            } else {
+//                
+//                self.priceLbl.text = self.paySceneManager.amount;
+//                
+//            }
             
         } break;
             
@@ -204,23 +180,17 @@
             payFuncItem.rowNum = self.pays.count;
             self.paySceneManager.groupItems = @[priceItem,payFuncItem];
             [self setUpUI];
-            self.amountTf.enabled = self.paySceneManager.isInitiative;
             
-            if (self.amoutAttr) {
-                
-                [self.amountTf addSubview:self.tempAttrLbl];
-                self.amountTf.placeholder = nil;
-                self.tempAttrLbl.attributedText = self.amoutAttr;
-                self.priceLbl.attributedText = self.amoutAttr;
-                self.amountTf.text = self.paySceneManager.amount;
-                self.amountTf.textColor = [UIColor clearColor];
-                
-            } else {
-                
-                self.amountTf.text = self.paySceneManager.amount;
-                self.priceLbl.text = self.paySceneManager.amount;
-                
-            }
+//            if (self.amoutAttr) {
+//            
+////                self.tempAttrLbl.attributedText = self.amoutAttr;
+//                self.priceLbl.attributedText = self.amoutAttr;
+//                
+//            } else {
+//                
+//                self.priceLbl.text = self.paySceneManager.amount;
+//                
+//            }
             
             
         } break;
@@ -234,7 +204,16 @@
             ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
             priceItem.headerHeight = 10.0;
             priceItem.footerHeight = 10.0;
-            priceItem.rowNum = 1;
+            
+            if (self.postage) {
+                
+                priceItem.rowNum = 2;
+
+            } else {
+            
+                priceItem.rowNum = 1;
+
+            }
             
             //2.支付
             ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
@@ -243,27 +222,22 @@
             payFuncItem.rowNum = self.pays.count;
             self.paySceneManager.groupItems = @[priceItem,payFuncItem];
             [self setUpUI];
-            self.amountTf.enabled = self.paySceneManager.isInitiative;
             
-            if (self.amoutAttr) {
-                
-                [self.amountTf addSubview:self.tempAttrLbl];
-                self.amountTf.placeholder = nil;
-                self.tempAttrLbl.attributedText = self.amoutAttr;
-                self.priceLbl.attributedText = self.amoutAttr;
-                self.amountTf.text = self.paySceneManager.amount;
-                self.amountTf.textColor = [UIColor clearColor];
-                
-            } else {
-                
-                self.amountTf.text = self.paySceneManager.amount;
-                self.priceLbl.text = self.paySceneManager.amount;
-                
-            }
+            self.priceLbl.attributedText = self.amoutAttrAddPostage;
+
             
+//            if (self.amoutAttr) {
+//                
+//                //
+////                self.tempAttrLbl.attributedText = self.amoutAttrAddPostage;
+//                
+//            } else {
+//                
+//                self.priceLbl.text = self.paySceneManager.amount;
+//                
+//            }
             
         } break;
-            
             
         default: [TLAlert alertWithHUDText:@"您还没有选择支付场景"];
             
@@ -339,12 +313,12 @@
     }];
     
     
-    if (![self.amountTf.text valid]) {
-        
-        [TLAlert alertWithHUDText:@"请输入消费金额"];
-        return;
-        
-    }
+//    if (![self.amountTf.text valid]) {
+//        
+//        [TLAlert alertWithHUDText:@"请输入消费金额"];
+//        return;
+//        
+//    }
     
     NSString *payType;
     switch (type) {
@@ -456,12 +430,6 @@
                 }
             }
             
-//            [TLAlert alertWithHUDText:@"支付成功"];
-//            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//            if (self.paySucces) {
-//                self.paySucces();
-//            }
-//
         } failure:^(NSError *error) {
             
         }];
@@ -473,6 +441,7 @@
     
 }
 
+//尖货支付
 - (void)goodsPay:(NSString *)payType {
 
     if (!self.goodsCodeList) {
@@ -489,21 +458,32 @@
     
     [http postWithSuccess:^(id responseObject) {
         
-        [TLAlert alertWithHUDText:@"购买成功"];
-        [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        if ([payType isEqualToString:PAY_TYPE_ALI_PAY_CODE]) {
             
-            if (self.paySucces) {
-                self.paySucces();
-            }
-            
-        }];
+            [self aliPayWithInfo:responseObject[@"data"]];
+
+        } else if([payType isEqualToString:PAY_TYPE_WX_PAY_CODE]) {
+        
+        
+        } else {
+        
+            [TLAlert alertWithHUDText:@"购买成功"];
+            [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                
+                if (self.paySucces) {
+                    self.paySucces();
+                }
+                
+            }];
+        
+        }
+     
         
     } failure:^(NSError *error) {
         
         
     }];
     
-
 }
 
 
@@ -681,20 +661,29 @@
         
     }
     
-    //支付金额-- 和优惠券
+    //支付金额
     ZHPayInfoCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"id2"];
     
     if (!infoCell) {
         
         infoCell = [[ZHPayInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"id2"];
     }
-    if (indexPath.section == 0) {
+    
+    if (indexPath.row == 0) {
         
         infoCell.titleLbl.text = @"消费金额";
         infoCell.hidenArrow = YES;
+        infoCell.infoLbl.textAlignment = NSTextAlignmentLeft;
+        infoCell.infoLbl.attributedText = self.amoutAttr;
+//        [infoCell addSubview:self.amountTf];
         
-        [infoCell addSubview:self.amountTf];
-        
+    } else if (self.postage && indexPath.row == 1) {
+    
+        infoCell.titleLbl.text = @"邮费(元)";
+        infoCell.hidenArrow = YES;
+        infoCell.infoLbl.textAlignment = NSTextAlignmentLeft;
+        infoCell.infoLbl.text = [self.postage convertToRealMoney];
+    
     }
     
     return infoCell;
@@ -722,35 +711,7 @@
     return headView;
 }
 
-- (TLTextField *)amountTf {
-    
-    if (!_amountTf) {
-        
-        _amountTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 0, SCREEN_WIDTH - 100, 50)];
-        _amountTf.backgroundColor = [UIColor whiteColor];
-        _amountTf.placeholder = @"请输入消费金额";
-        _amountTf.delegate = self;
-        _amountTf.keyboardType = UIKeyboardTypeDecimalPad;
-    }
-    return _amountTf;
-    
-}
 
-- (UILabel *)tempAttrLbl {
-    
-    if (!_tempAttrLbl) {
-        
-        _tempAttrLbl  = [UILabel  labelWithFrame:CGRectMake(0, 0, self.amountTf.width, self.amountTf.height)
-                                    textAligment:NSTextAlignmentLeft
-                                 backgroundColor:[UIColor whiteColor]
-                                            font:[UIFont secondFont]
-                                       textColor:[UIColor zh_themeColor]];
-        _tempAttrLbl.backgroundColor = [UIColor whiteColor];
-        _tempAttrLbl.numberOfLines = 0;
-        
-    }
-    return _tempAttrLbl;
-    
-}
+
 
 @end

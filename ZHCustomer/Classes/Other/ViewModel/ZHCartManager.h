@@ -17,6 +17,8 @@
 - (void)getCartCount;
 - (void)reset;
 
++ (void)getPostage:(void(^)(NSNumber *))success failure:(void(^)())failure;
+
 @end
 
 

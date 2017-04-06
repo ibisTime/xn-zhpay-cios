@@ -61,6 +61,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
     
+ 
+    
 }
 
 #pragma mark- 数量改变通知
@@ -71,7 +73,6 @@
 //      NSLog(@"%@--%ld",[ZHCartManager manager],[ZHCartManager manager].count);
         NSLog(@"%@",[ZHCartManager manager]);
 
-        
         //--//
         self.msgBadgeView.msgCount = [ZHCartManager manager].count;
 
@@ -91,6 +92,7 @@
         TLNetworking *http = [TLNetworking new];
         http.code = @"808007";
         http.showView = self.view;
+        http.parameters[@"status"] = @"1";
         http.parameters[@"parentCode"] = @"FL201700000000000001";
         [http postWithSuccess:^(id responseObject) {
             count ++;
@@ -109,6 +111,7 @@
     dispatch_group_enter(_getCategoryGroup);
     TLNetworking *http1 = [TLNetworking new];
     http1.code = @"808007";
+    http1.parameters[@"status"] = @"1";
     http1.showView = self.view;
     http1.parameters[@"parentCode"] = @"FL201700000000000002";
     [http1 postWithSuccess:^(id responseObject) {

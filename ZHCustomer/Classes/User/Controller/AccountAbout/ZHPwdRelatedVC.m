@@ -85,6 +85,12 @@
         
         [self.captchaView.captchaBtn begin];
         
+        if (self.type == ZHPwdTypeTradeReset) {
+            
+            [[ZHUser user] updateUserInfo];
+            
+        }
+        
     } failure:^(NSError *error) {
         
     }];

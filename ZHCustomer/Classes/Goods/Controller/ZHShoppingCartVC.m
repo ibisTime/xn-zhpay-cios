@@ -83,23 +83,34 @@
         return;
     }
     
-    ZHImmediateBuyVC *imvc = [[ZHImmediateBuyVC alloc] init];
-    imvc.type = ZHIMBuyTypeAll;
-    imvc.cartGoodsRoom = goods;
-    imvc.placeAnOrderSuccess = ^(){
     
-      __block  NSInteger count = 0;
-        [goods enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            count += [obj.quantity integerValue];
-            
-        }];
+    //现获取单个邮费
+    [ZHCartManager getPostage:^(NSNumber *postage) {
         
-        [ZHCartManager manager].count = [ZHCartManager manager].count - count;
+        ZHImmediateBuyVC *imvc = [[ZHImmediateBuyVC alloc] init];
+        imvc.type = ZHIMBuyTypeAll;
+        imvc.cartGoodsRoom = goods;
+        imvc.postage = postage;
+        imvc.placeAnOrderSuccess = ^(){
+            
+            __block  NSInteger count = 0;
+            [goods enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                
+                count += [obj.quantity integerValue];
+                
+            }];
+            
+            [ZHCartManager manager].count = [ZHCartManager manager].count - count;
+            
+        };
+        imvc.priceAttr = self.totalPriceLbl.attributedText;
+        [self.navigationController pushViewController:imvc animated:YES];
         
-    };
-    imvc.priceAttr = self.totalPriceLbl.attributedText;
-    [self.navigationController pushViewController:imvc animated:YES];
+    } failure:^{
+        
+        
+    }];
+
     
 }
 
@@ -134,25 +145,9 @@
     }];
     //
 
-//    NSString *qbbStr ;
-//    NSString *gwbStr ;
-//    NSString *rmbStr ;
-//
-//    if (qbb != 0) {
-//        qbbStr = [NSString stringWithFormat:@"%.f",qbb/1000.0];
-//    }
-//    
-//    if (rmb != 0) {
-//        rmbStr = [NSString stringWithFormat:@"%.f",rmb/1000.0];
-//    }
-//    
-//    if (gwb != 0) {
-//        gwbStr = [NSString stringWithFormat:@"%.f",gwb/1000.0];
-//    }
+
     
     self.totalPriceLbl.attributedText = [ZHCurrencyHelper totalPriceAttr2WithQBB:@(qbb) GWB:@(gwb) RMB:@(rmb) bouns:CGRectMake(0, -3, 15, 15)];
-    
-//    [ZHCurrencyHelper totalPriceAttrWithQBB:qbbStr GWB:gwbStr RMB:rmbStr bouns:CGRectMake(0, -3, 15, 15)];
     
 }
 

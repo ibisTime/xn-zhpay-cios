@@ -32,6 +32,7 @@
         [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.mas_left).offset(15);
             make.centerY.equalTo(self);
+            make.width.mas_equalTo(70);
         }];
         
         //
@@ -63,6 +64,16 @@
         }];
         
         //
+        
+        UIView *line = [[UIView alloc] init];
+        line.backgroundColor = [UIColor zh_lineColor];
+        [self addSubview:line];
+        [line mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(15);
+            make.width.equalTo(self.mas_width);
+            make.height.mas_equalTo(LINE_HEIGHT);
+            make.bottom.equalTo(self.mas_bottom);
+        }];
         
     }
     

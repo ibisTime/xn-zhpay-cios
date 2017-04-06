@@ -11,7 +11,6 @@
 #import "ZHHZBModel.h"
 #import "ZHDBModel.h"
 
-
 //正汇系统无人民币概念
 typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
     
@@ -23,7 +22,6 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
     
     //各种都有
     ZHPayViewCtrlTypeNewGoods //购物车支付 和 单个商品支付
-
     
 };
 
@@ -44,6 +42,9 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 //各种总金额----富文本
 @property (nonatomic,copy) NSAttributedString *amoutAttr;
 
+//加上邮费的金额
+@property (nonatomic,copy) NSAttributedString *amoutAttrAddPostage;
+
 //人民币价格，商品为币种组合可能包含人民币。 小目标为单一币种，可能是人民币标价
 @property (nonatomic,strong) NSNumber *rmbAmount;
 
@@ -52,6 +53,9 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 
 //商品支付
 @property (nonatomic, copy) NSArray <NSString *>*goodsCodeList;
+
+//邮费
+@property (nonatomic, strong) NSNumber *postage;
 
 
 @end

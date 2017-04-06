@@ -4,12 +4,11 @@
 //
 //  Created by  tianlei on 2016/12/27.
 //  Copyright © 2016年  tianlei. All rights reserved.
-//
+//  单个购买和购物车购买 --- 都会归流到该 --- 控制器
 
 #import "TLBaseVC.h"
 #import "ZHGoodsModel.h"
 #import "ZHCartGoodsModel.h"
-//#import "ZHTreasureModel.h"
 
 typedef NS_ENUM(NSInteger,ZHIMBuyType){
     
@@ -28,15 +27,13 @@ typedef NS_ENUM(NSInteger,ZHIMBuyType){
 //购物车商品
 @property (nonatomic,strong) NSArray<ZHCartGoodsModel *> *cartGoodsRoom;
 
+
+//购物车专用
 @property (nonatomic,copy) NSAttributedString *priceAttr;
-
-//一元夺宝，
-//@property (nonatomic,copy) NSString *yydbResCode;
-
-//@property (nonatomic,copy) void(^chooseYYDBSuccess)();
+@property (nonatomic,copy) NSAttributedString *priceAttrAddPostage;
 
 @property (nonatomic,copy) void(^placeAnOrderSuccess)();
 
-
+@property (nonatomic, strong) NSNumber *postage;
 
 @end

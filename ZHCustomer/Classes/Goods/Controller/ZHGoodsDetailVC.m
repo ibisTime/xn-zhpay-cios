@@ -16,6 +16,7 @@
 //#import "ZHTreasureProgressVC.h"//夺宝进度
 #import "ZHEvaluateListVC.h" //评价列表
 #import "ZHSingleDetailVC.h" //详情列表
+#import "ZHGoodsParameterVC.h"
 
 #import "ZHShoppingCartVC.h"
 #import "ZHUserLoginVC.h"
@@ -34,6 +35,9 @@
 @property (nonatomic,strong) UILabel *nameLbl;
 @property (nonatomic,strong) UILabel *advLbl;
 @property (nonatomic,strong) UILabel *priceLbl;
+@property (nonatomic,strong) UILabel *postageLbl;
+
+
 
 @property (nonatomic,strong) UIView *line1;
 @property (nonatomic,strong) UIView *line2;
@@ -44,11 +48,11 @@
 @property (nonatomic,strong) UIView *switchView;
 
 //顶部切换相关
-@property (nonatomic,strong) UIView *switchLine;
-@property (nonatomic,strong) UIButton *lastBtn;
-
-@property (nonatomic,strong) UIView *detailView;
-@property (nonatomic,strong) UIView *evaluateViwe;
+@property (nonatomic, strong) UIView *switchLine;
+@property (nonatomic, strong) UIButton *lastBtn;
+@property (nonatomic, strong) UIView *detailView;
+@property (nonatomic, strong) UIView *evaluateViwe;
+@property (nonatomic, strong) UIView *goodsArgsView;
 
 
 @end
@@ -81,6 +85,11 @@
             
         case 2: //评价
         
+            [self.view bringSubviewToFront:self.goodsArgsView];
+            
+            break;
+            
+        case 3 :
             [self.view bringSubviewToFront:self.evaluateViwe];
             break;
             
@@ -148,8 +157,7 @@
         self.advLbl.text = self.goods.slogan;
         self.priceLbl.text = self.goods.totalPrice;
         self.buyView.countView.msgCount = [ZHCartManager manager].count;
-      
-//    }
+        self.postageLbl.text = @"邮费:10元";
     
     //扩大
     self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.stepView.yy + 10);
@@ -159,6 +167,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(treasureSuccess) name:@"dbBuySuccess" object:nil];
     
     self.buyView.kefuMsgHintView.hidden = ![ChatManager defaultManager].isHaveKefuUnredMsg;
+    
+    //
+    [ZHCartManager  getPostage:^(NSNumber *postage) {
+        
+        self.postageLbl.text = [NSString stringWithFormat:@"邮费：%@元",         [postage convertToRealMoney]];
+
+    } failure:^{
+        
+    }];
     
 }
 
@@ -204,14 +221,22 @@
     }
 
         //查看数量
+    
+    
+    [ZHCartManager getPostage:^(NSNumber *postage) {
         
         ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
         buyVC.type = ZHIMBuyTypeSingle;
+        buyVC.postage = postage;
         self.goods.count = self.stepView.count;
         buyVC.goodsRoom = @[self.goods];
         [self.navigationController pushViewController:buyVC animated:YES];
         
-
+    } failure:^{
+        
+        
+    }];
+    
     
 }
 
@@ -349,6 +374,24 @@
     
 }
 
+- (UIView *)goodsArgsView {
+
+    if (!_goodsArgsView) {
+        
+        ZHGoodsParameterVC *vc = [ZHGoodsParameterVC new];
+        vc.view.frame = self.bgScrollView.frame;
+
+        [self addChildViewController:vc];
+        [self.view addSubview:vc.view];
+        
+        _goodsArgsView = vc.view;
+        
+    }
+    
+    return _goodsArgsView;
+
+}
+
 - (void)setUpUI {
 
     //轮播图
@@ -420,38 +463,46 @@
     }];
     
     
-
+    //
+    self.postageLbl = [UILabel labelWithFrame:CGRectZero
+                               textAligment:NSTextAlignmentLeft
+                            backgroundColor:[UIColor whiteColor]
+                                       font:FONT(14)
+                                  textColor:[UIColor zh_textColor]];
+    [self.bgScrollView addSubview:self.postageLbl];
+    [self.postageLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.priceLbl.mas_bottom).offset(11);
+        make.left.equalTo(self.bgScrollView.mas_left).offset(15);
+    }];
+    
     //
     UIView *priceBottomLine = [[UIView alloc] init];
     priceBottomLine.backgroundColor = [UIColor zh_lineColor];
     [self.bgScrollView addSubview:priceBottomLine];
     [priceBottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.priceLbl.mas_bottom).offset(11);
+        
+        make.top.equalTo(self.postageLbl.mas_bottom).offset(11);
         make.left.equalTo(self.bgScrollView.mas_left);
         make.width.mas_equalTo(@(SCREEN_WIDTH));
         make.height.mas_equalTo(@(1));
-    }];
-    
-    
-
-
-        ZHStepView *stepV = [[ZHStepView alloc] initWithFrame:CGRectZero type:ZHStepViewTypeDefault];
-        self.stepView = stepV;
-        self.stepView.isDefault = YES;
-
-        [self.bgScrollView addSubview:self.stepView];
-        [stepV mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.left.equalTo(self.bgScrollView.mas_left).offset(LEFT_MARGIN);
-            make.top.equalTo(priceBottomLine.mas_bottom).offset(20);
-            make.width.mas_equalTo(@250);
-            make.height.mas_equalTo(@25);
-        }];
         
-//    }
+    }];
+   
+   //
+   ZHStepView *stepV = [[ZHStepView alloc] initWithFrame:CGRectZero type:ZHStepViewTypeDefault];
+   self.stepView = stepV;
+   self.stepView.isDefault = YES;
 
-
-
+   [self.bgScrollView addSubview:self.stepView];
+   [stepV mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+        make.left.equalTo(self.bgScrollView.mas_left).offset(LEFT_MARGIN);
+        make.top.equalTo(priceBottomLine.mas_bottom).offset(20);
+        make.width.mas_equalTo(@250);
+        make.height.mas_equalTo(@25);
+   }];
+   
+    
 }
 
 
@@ -461,7 +512,7 @@
     
     if (!_switchView) {
         
-        _switchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 190, 34)];
+        _switchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 160, 34)];
         _switchView.backgroundColor = [UIColor whiteColor];
         
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _switchView.width, 40)];
@@ -469,10 +520,10 @@
         self.switchLine.backgroundColor = [UIColor zh_themeColor];
         [bgView addSubview:self.switchLine];
         
-        NSArray *types = @[@"商品",@"详情",@"评价"];
+        NSArray *types = @[@"商品",@"详情",@"规格",@"评价"];
         for (NSInteger i = 0; i < types.count; i ++) {
             
-            CGFloat x = _switchView.width/3.0;
+            CGFloat x = _switchView.width/types.count;
             UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(i*x, 2, x, 28) title:types[i] backgroundColor:[UIColor whiteColor]];
             btn.titleLabel.font = FONT(17);
             [bgView addSubview:btn];

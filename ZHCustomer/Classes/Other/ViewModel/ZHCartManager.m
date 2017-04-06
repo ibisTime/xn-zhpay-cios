@@ -12,7 +12,10 @@
  NSString *const kShoopingCartCountChangeNotification = @"zh_kShoopingCartCountChangeNotification";
 
 @implementation ZHCartManager
+{
+    NSNumber *_postage;
 
+}
 + (instancetype)manager {
 
     static ZHCartManager *manager = nil;
@@ -81,5 +84,30 @@
     }
 
 }
+
++ (void)getPostage:(void(^)(NSNumber *))success failure:(void(^)())failure {
+
+    //
+    //获取邮费
+    TLNetworking *http = [TLNetworking new];
+    http.showView = [UIApplication sharedApplication].keyWindow;
+    http.code = @"808917";
+    http.parameters[@"key"] = @"SP_YUNFEI";
+    http.parameters[@"token"] = [ZHUser user].token;
+    [http postWithSuccess:^(id responseObject) {
+        
+        if (success) {
+            NSString *postageStr = responseObject[@"data"][@"cvalue"];
+            success(@([postageStr intValue]*1000));
+        }
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+
+
+}
+
 
 @end

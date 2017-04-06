@@ -14,6 +14,7 @@
 #import "ZHCurrencyHelper.h"
 #import "ZHAddressChooseView.h"
 #import "ZHNewPayVC.h"
+#import "ZHCartManager.h"
 
 //#import "IQKeyboardManager.h"
 
@@ -64,28 +65,21 @@
     
     //根据有无地址创建UI
     [self getAddress];
+    
+    if (!self.goodsRoom && !self.cartGoodsRoom) {
+        
+        NSLog(@"请传递购物模型");
+        return;
+    }
  
     if (self.type == ZHIMBuyTypeSingle) { //---单买
         
-        NSNumber *price1 ;
-        NSNumber *price2;
-        NSNumber *price3;
-        NSInteger num;
-        if (self.goodsRoom) {
-           
-            ZHGoodsModel *goods = self.goodsRoom[0];
-
-           price1 = goods.price1;
-           price2 = goods.price2;
-           price3 = goods.price3;
-           num =  goods.count; //数量
-        }
-     
-
-   self.totalPriceLbl.attributedText = [ZHCurrencyHelper calculatePriceWithQBB:price3
-                                                                           GWB:price2
-                                                                           RMB:price1
-                                                                         count:num];
+        
+        ZHGoodsModel *goods = self.goodsRoom[0];
+       self.totalPriceLbl.attributedText = [ZHCurrencyHelper calculatePriceWithQBB:goods.price3
+                                                                           GWB:goods.price2
+                                                                           RMB:goods.price1
+                                                                         count:goods.count ];
         
     } else if(self.type == ZHIMBuyTypeAll) {//购物车购买
      
@@ -94,9 +88,7 @@
     }
     
 
-    
 }
-
 
 #pragma mark- 立即购买行为
 - (void)buyAction {
@@ -146,32 +138,66 @@
                
            }
            
-           //商品购买
-           ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
-           //订单编号
-           
-           //传人民币过去
-           __block  long long totalRmb = 0;
-           [self.cartGoodsRoom enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+           NSArray *goodsCodeList = responseObject[@"data"];
+
                
-               totalRmb += [obj.rmb longLongValue]*[obj.quantity integerValue];
+               //商品购买
+               ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
+               //订单编号
+               
+               //传人民币过去
+               __block  long long totalRmb = 0;
+               [self.cartGoodsRoom enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                   
+                   totalRmb += [obj.rmb longLongValue]*[obj.quantity integerValue];
+                   
+               }];
+               
+               payVC.rmbAmount = @(totalRmb);
+           
+               //
+               payVC.goodsCodeList = goodsCodeList;
+           
+               //不包含邮费的价格
+               payVC.amoutAttr = self.priceAttr;
+           
+           
+           __block  long qbb = 0;
+           __block  long gwb = 0;
+           __block  long rmb = 0;
+           //
+           [self.cartGoodsRoom enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+               if (obj.isSelected) {
+                   
+                   qbb += obj.totalQBB;
+                   gwb += obj.totalGWB;
+                   rmb += obj.totalRMB;
+                   
+               }
                
            }];
-           payVC.rmbAmount = @(totalRmb);
-           //
-           payVC.goodsCodeList = responseObject[@"data"];
-           payVC.amoutAttr = self.totalPriceLbl.attributedText;
-           payVC.paySucces = ^(){
-               
-               [TLAlert alertWithHUDText:@"支付成功"];
-               [self.navigationController popToRootViewControllerAnimated:YES];
-               
-           };
-           //购物车支付 和 普通商品 购买方式相同
-           payVC.type = ZHPayViewCtrlTypeNewGoods;
            
-           UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-           [self presentViewController:nav animated:YES completion:nil];
+           
+           //包含邮费的价格
+            payVC.amoutAttrAddPostage = [ZHCurrencyHelper totalPriceAttr2WithQBB:@(qbb) GWB: @(gwb) RMB:@(rmb + [self.postage longLongValue]*goodsCodeList.count) bouns:CGRectMake(0, -3, 15, 15)];
+           
+               //邮费
+               payVC.postage = @([self.postage longLongValue]*goodsCodeList.count);
+
+           
+               payVC.paySucces = ^(){
+                   
+                   [TLAlert alertWithHUDText:@"支付成功"];
+                   [self.navigationController popToRootViewControllerAnimated:YES];
+                   
+               };
+               //购物车支付 和 普通商品 购买方式相同
+               payVC.type = ZHPayViewCtrlTypeNewGoods;
+               
+               UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+               [self presentViewController:nav animated:YES completion:nil];
+           
+        
 
        } failure:^(NSError *error) {
            
@@ -232,19 +258,35 @@
             payVC.goodsCodeList = @[orderCode];
             NSNumber *rmb = self.goodsRoom[0].price1;
             payVC.rmbAmount = @([rmb longLongValue]*self.goodsRoom[0].count); //把人民币传过去
-            payVC.amoutAttr = self.totalPriceLbl.attributedText;
+            
+            
+            ZHGoodsModel *goods = self.goodsRoom[0];
 
+            //不加邮费的价格
+            payVC.amoutAttr = [ZHCurrencyHelper calculatePriceWithQBB:goods.price3
+                                                                  GWB:goods.price2
+                                                                  RMB:goods.price1
+                                                                count:goods.count];
+            //加邮费的价格
+            payVC.amoutAttrAddPostage = [ZHCurrencyHelper calculatePriceWithQBB:goods.price3
+                                                                            GWB:goods.price2
+                                                                            RMB:goods.price1
+                                                                          count:goods.count addPostageRmb:self.postage];
+            //邮费
+            payVC.postage = self.postage;
+            
+            
             payVC.paySucces = ^(){
-                
-//                [TLAlert alertWithHUDText:@"支付成功"];
-                [self.navigationController popViewControllerAnimated:YES];
-                
+                    
+               [self.navigationController popViewControllerAnimated:YES];
+                    
             };
             payVC.type = ZHPayViewCtrlTypeNewGoods;
-            
+                
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
             [self presentViewController:nav animated:YES completion:nil];
             
+          
         } failure:^(NSError *error) {
             
         }];

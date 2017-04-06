@@ -168,7 +168,6 @@
         //获取店铺类型
         [weakSelf getType];
 
-        
         //店铺数据
         [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
@@ -176,9 +175,10 @@
             [weakSelf.shopTableView reloadData_tl];
 
         } failure:^(NSError *error) {
-            
+        
             
         }];
+        
         
     }];
 
