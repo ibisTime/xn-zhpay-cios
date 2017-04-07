@@ -28,6 +28,7 @@
 @property (nonatomic,strong) NSMutableArray <ZHPayFuncModel *>*pays;
 
 
+//底部价格
 @property (nonatomic,strong) UILabel *priceLbl;
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
 
@@ -149,16 +150,16 @@
             [self setUpUI];
             
 
-//            if (self.amoutAttr) {
-//                
-//
-//                self.tempAttrLbl.attributedText = self.amoutAttr;
-//                
-//            } else {
-//                
-//                self.priceLbl.text = self.paySceneManager.amount;
-//                
-//            }
+            if (self.amoutAttr) {
+                
+
+                self.priceLbl.text = self.paySceneManager.amount;
+
+            } else {
+                
+                self.priceLbl.text = self.paySceneManager.amount;
+                
+            }
             
         } break;
             
@@ -181,16 +182,15 @@
             self.paySceneManager.groupItems = @[priceItem,payFuncItem];
             [self setUpUI];
             
-//            if (self.amoutAttr) {
-//            
-////                self.tempAttrLbl.attributedText = self.amoutAttr;
-//                self.priceLbl.attributedText = self.amoutAttr;
-//                
-//            } else {
-//                
-//                self.priceLbl.text = self.paySceneManager.amount;
-//                
-//            }
+            if (self.amoutAttr) {
+            
+                self.priceLbl.attributedText = self.amoutAttr;
+                
+            } else {
+                
+                self.priceLbl.text = self.paySceneManager.amount;
+                
+            }
             
             
         } break;

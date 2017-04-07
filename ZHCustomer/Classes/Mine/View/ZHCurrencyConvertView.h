@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ZHCurrencyConvertView : UIView
+@property (nonatomic, strong) UILabel *topHintLbl;
 
 @property (nonatomic,strong) UILabel *typeLbl;
 @property (nonatomic,strong) UILabel *moneyLbl;

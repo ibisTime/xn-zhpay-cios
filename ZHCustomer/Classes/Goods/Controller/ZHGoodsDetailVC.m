@@ -25,6 +25,8 @@
 #import "ZHCartManager.h"
 #import "MJRefresh.h"
 #import "ChatManager.h"
+#import "ZHShareView.h"
+#import "AppConfig.h"
 
 @interface ZHGoodsDetailVC ()<ZHBuyToolViewDelegate>
 
@@ -84,14 +86,17 @@
             break;
             
         case 2: //评价
-        
+
             [self.view bringSubviewToFront:self.goodsArgsView];
-            
+
             break;
             
         case 3 :
+
             [self.view bringSubviewToFront:self.evaluateViwe];
+
             break;
+            
             
     }
     
@@ -126,6 +131,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];    
     self.navigationItem.titleView = self.switchView;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
     
     //客服消息变更
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kefuUnreadMsgChange:) name:kKefuUnreadMsgChangeNotification object:nil];
@@ -178,6 +185,32 @@
     }];
     
 }
+
+
+-(void)share {
+    
+    ZHShareView *shareView = [[ZHShareView alloc] init];
+    shareView.wxShare = ^(BOOL isSuccess, int code){
+        
+        if (isSuccess) {
+            
+            [TLAlert alertWithHUDText:@"分享成功"];
+            
+        }
+        
+    };
+    
+//     http://121.43.101.148:5603/share/share-product.html?code=CP201704071617018969
+    shareView.title = @"正汇钱包";
+    shareView.content = self.goods.name;
+    shareView.shareUrl = [NSString stringWithFormat:@"%@/share/share-product.html?code=%@",[AppConfig config].shareBaseUrl,self.goods.code];
+    
+    [shareView show];
+    
+    
+    
+}
+
 
 - (void)treasureSuccess{
 
@@ -360,8 +393,7 @@
     
         
         evaluateListVC.goodsCode = self.goods.code;
-
-        
+        evaluateListVC.peopleNum = self.goods.boughtCount;
         evaluateListVC.view.frame = self.bgScrollView.frame;
         [self addChildViewController:evaluateListVC];
         [self.view addSubview:evaluateListVC.view];
@@ -380,7 +412,7 @@
         
         ZHGoodsParameterVC *vc = [ZHGoodsParameterVC new];
         vc.view.frame = self.bgScrollView.frame;
-
+        vc.productCode = self.goods.code;
         [self addChildViewController:vc];
         [self.view addSubview:vc.view];
         

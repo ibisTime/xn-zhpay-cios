@@ -79,7 +79,14 @@
     NSString *coverUrl = [_shop.advPic convertThumbnailImageUrl];
     
     [self.coverImageView sd_setImageWithURL:[[NSURL alloc] initWithString:coverUrl] placeholderImage:nil];
-    self.nameLbl.text = _shop.name;
+    if ([_shop.level isEqualToString:@"2"]) {
+        
+        self.nameLbl.text = [NSString stringWithFormat:@"%@(公益)",_shop.name];
+
+    } else {
+        self.nameLbl.text = _shop.name;
+
+    }
     self.advLbl.text = _shop.slogan;
     self.discountLbl.text = [_shop discountDescription];
     

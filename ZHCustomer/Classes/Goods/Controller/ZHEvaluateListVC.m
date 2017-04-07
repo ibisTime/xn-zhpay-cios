@@ -63,7 +63,7 @@
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808029";
     helper.parameters[@"productCode"] = self.goodsCode; //大类
-    
+    helper.parameters[@"type"] = @"3";
     helper.tableView = self.evaluateTableView;
     [helper modelClass:[ZHEvaluateModel class]];
     
@@ -158,7 +158,7 @@
     
     [self.evaluateTableView endRefreshingWithNoMoreData_tl];
     
-    self.alreadlyLbl.text = @"购买人数(0)";
+    self.alreadlyLbl.text = [NSString stringWithFormat:@"购买人数(%@)",self.peopleNum];
     
 }
 

@@ -27,7 +27,7 @@
                                  textAligment:NSTextAlignmentLeft
                               backgroundColor:[UIColor whiteColor]
                                          font:FONT(15)
-                                    textColor:[UIColor zh_textColor2]];
+                                    textColor:[UIColor colorWithHexString:@"#606060"]];
         [self.contentView addSubview:self.valueLbl];
         self.valueLbl.numberOfLines = 0;
         

@@ -45,12 +45,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvTest;
     
-    //-- --//
+    //--pppp--//
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
-
     
     //初始化环信
     [self chatInit];
@@ -70,9 +69,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:kUserLoginOutNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogin) name:kUserLoginNotification object:nil];
     
-//    //开始监听位置
-//    ZHLocationManager *locationManager = [ZHLocationManager manager];
-//    [locationManager.mapLocationManager startUpdatingLocation];
+//  //开始监听位置
+//  ZHLocationManager *locationManager = [ZHLocationManager manager];
+//  [locationManager.mapLocationManager startUpdatingLocation];
     
     UINavigationBar *navBar = [UINavigationBar appearance];
     navBar.barTintColor = [UIColor whiteColor];
@@ -94,7 +93,6 @@
     [manager.disabledToolbarClasses addObject:[ZHUserLoginVC class]];
     [manager.disabledToolbarClasses addObject:[ZHUserRegistVC class]];
 
-    
     //
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];

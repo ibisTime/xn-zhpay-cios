@@ -8,15 +8,23 @@
 
 #import "ZHGoodsParameterVC.h"
 #import "ZHParameterCell.h"
+#import "ZHGoodsKeyValue.h"
 
 @interface ZHGoodsParameterVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) TLTableView *paramTableView;
+@property (nonatomic, copy) NSArray <ZHGoodsKeyValue *>*keyValueArray;
 
 @end
 
 @implementation ZHGoodsParameterVC
 
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    [self.paramTableView beginRefreshing];
+
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -26,54 +34,49 @@
     self.paramTableView.dataSource = self;
     self.paramTableView.estimatedRowHeight = 60;
     self.paramTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+     self.paramTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无产品参数"];
+
     [self.paramTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsZero);
     }];
     
     
-//    TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-//    
-//    __weak typeof(self) weakSelf = self;
-//    [self.paramTableView addRefreshAction:^{
-//        
-//        [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
-//            
-//            weakSelf.goods = objs;
-//            [weakSelf.paramTableView reloadData_tl];
-//            
-//        } failure:^(NSError *error) {
-//            
-//            
-//        }];
-//        
-//    }];
-//    
-//    //---//
-//    [self.paramTableView addLoadMoreAction:^{
-//        
-//        [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
-//            
-//            weakSelf.goods = objs;
-//            [weakSelf.goodsTableView reloadData_tl];
-//            
-//        } failure:^(NSError *error) {
-//            
-//            
-//        }];
-//        
-//    }];
+    __weak typeof(self) weakSelf = self;
+    [self.paramTableView addRefreshAction:^{
+        
+        //查看产品参数
+        TLNetworking *http = [TLNetworking new];
+        http.code = @"808037";
+        http.parameters[@"productCode"] = weakSelf.productCode;
+        [http postWithSuccess:^(id responseObject) {
+            
+            weakSelf.keyValueArray = [ZHGoodsKeyValue tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+            [weakSelf.paramTableView reloadData_tl];
+            
+            [weakSelf.paramTableView endRefreshHeader];
+            
+        } failure:^(NSError *error) {
+            
+            [weakSelf.paramTableView reloadData_tl];
+            [weakSelf.paramTableView endRefreshHeader];
+            
+        }];
+        
+        
+    }];
     
     
 }
 
 
+//
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 10;
+    return self.keyValueArray.count;
 
 }
 
+//
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     ZHParameterCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZHParameterCellId"];
@@ -84,8 +87,8 @@
         
     }
     
-    cell.keyLbl.text = @"发觉你发只适合砸出只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉你发节";
-    cell.valueLbl.text = @"只适合砸出只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉只适合砸出你发觉你发觉";
+    cell.keyLbl.text = self.keyValueArray[indexPath.row].dkey;
+    cell.valueLbl.text = self.keyValueArray[indexPath.row].dvalue;
 
     return cell;
 

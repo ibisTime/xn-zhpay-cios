@@ -26,6 +26,7 @@
 #import "HYCityViewController.h"
 #import "ZHNavigationController.h"
 #import "TLWebVC.h"
+#import "ZHShareView.h"
 
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
 
@@ -65,6 +66,7 @@
 
 @end
 
+
 @implementation ZHShopVC
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -103,14 +105,19 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.isLocationSuccess = NO;
 
+    
+    
     //顶部视图
     [self setUpSearchView];
     self.isFirst = YES;
+    
     
     //先读取上次城市名称
     NSString *cityName =  [[NSUserDefaults standardUserDefaults] objectForKey:USER_CITY_NAME_KEY];

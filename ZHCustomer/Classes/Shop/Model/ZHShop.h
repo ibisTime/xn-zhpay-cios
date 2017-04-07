@@ -29,6 +29,9 @@
 @property (nonatomic,copy) NSString *province;
 @property (nonatomic,copy) NSString *city;
 @property (nonatomic,copy) NSString *area;
+
+@property (nonatomic, copy) NSString *level;
+
 @property (nonatomic,copy) NSString *address;//详细地址
 
 @property (nonatomic,copy) NSString *longitude;//经度

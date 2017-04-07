@@ -11,5 +11,6 @@
 @interface ZHEvaluateListVC : TLBaseVC
 
 @property (nonatomic, copy) NSString *goodsCode;
+@property (nonatomic, strong) NSNumber *peopleNum;
 
 @end

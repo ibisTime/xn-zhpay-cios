@@ -77,6 +77,15 @@
 //        self.typeLbl.text = @"累死你个";
         
         
+        
+        self.topHintLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentRight backgroundColor:[UIColor whiteColor] font:FONT(11) textColor:[UIColor zh_textColor]];
+        [self addSubview:self.topHintLbl];
+        
+        [self.topHintLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.right.equalTo(self.mas_right).offset(-10);
+            make.top.equalTo(self.mas_top).offset(5);
+        }];
   
         
         

@@ -20,6 +20,9 @@
 #import "ZHCouponsDetailVC.h"
 #import "ZHMineCouponModel.h"
 #import "ZHCurrencyModel.h"
+#import "ZHShareView.h"
+#import "AppConfig.h"
+
 
 @interface ZHShopDetailVC ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -27,11 +30,17 @@
 
 @end
 
+
 @implementation ZHShopDetailVC
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
+    ///////
     
     UITableView *shopDetailTV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStyleGrouped];
     shopDetailTV.delegate = self;
@@ -90,6 +99,30 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
+
+
+-(void)share {
+    
+    ZHShareView *shareView = [[ZHShareView alloc] init];
+    shareView.wxShare = ^(BOOL isSuccess, int code){
+        
+        if (isSuccess) {
+            
+            [TLAlert alertWithHUDText:@"分享成功"];
+            
+        }
+        
+    };
+    
+    shareView.title = @"正汇钱包";
+    shareView.content = self.shop.name;
+    shareView.shareUrl = [NSString stringWithFormat:@"%@/share/store.html?code=%@",[AppConfig config].shareBaseUrl,self.shop.code];
+    [shareView show];
+    
+    
+}
+
+
 
 #pragma mark - 买单
 - (void)buy {

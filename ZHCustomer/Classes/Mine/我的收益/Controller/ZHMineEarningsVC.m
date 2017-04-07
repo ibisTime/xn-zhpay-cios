@@ -230,7 +230,7 @@
                                           font:FONT(14)
                                      textColor:[UIColor whiteColor]];
     [bgImageView addSubview:hintLbl];
-    hintLbl.text = @"理财基金(元)";
+    hintLbl.text = @"公益基金(元)";
     
     //
     self.amountLbl = [UILabel labelWithFrame:CGRectZero

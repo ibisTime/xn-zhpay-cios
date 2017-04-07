@@ -268,6 +268,7 @@
 		2E917B321E953396003ED4A8 /* ZHProfitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B2B1E953396003ED4A8 /* ZHProfitCell.m */; };
 		2E917B381E962107003ED4A8 /* ZHGoodsParameterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B371E962107003ED4A8 /* ZHGoodsParameterVC.m */; };
 		2E917B3B1E9621AB003ED4A8 /* ZHParameterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B3A1E9621AB003ED4A8 /* ZHParameterCell.m */; };
+		2E917B4A1E97B62A003ED4A8 /* ZHGoodsKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B491E97B629003ED4A8 /* ZHGoodsKeyValue.m */; };
 		2E989CBC1E1E810900F3643A /* ZHCouponsMgtVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CBB1E1E810900F3643A /* ZHCouponsMgtVC.m */; };
 		2E989CBF1E1E813B00F3643A /* ZHCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CBE1E1E813B00F3643A /* ZHCouponsCell.m */; };
 		2E989CC21E1E815A00F3643A /* ZHCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CC11E1E815A00F3643A /* ZHCoupon.m */; };
@@ -910,6 +911,8 @@
 		2E917B371E962107003ED4A8 /* ZHGoodsParameterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHGoodsParameterVC.m; sourceTree = "<group>"; };
 		2E917B391E9621AB003ED4A8 /* ZHParameterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHParameterCell.h; sourceTree = "<group>"; };
 		2E917B3A1E9621AB003ED4A8 /* ZHParameterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHParameterCell.m; sourceTree = "<group>"; };
+		2E917B481E97B629003ED4A8 /* ZHGoodsKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHGoodsKeyValue.h; sourceTree = "<group>"; };
+		2E917B491E97B629003ED4A8 /* ZHGoodsKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHGoodsKeyValue.m; sourceTree = "<group>"; };
 		2E989CBA1E1E810900F3643A /* ZHCouponsMgtVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHCouponsMgtVC.h; sourceTree = "<group>"; };
 		2E989CBB1E1E810900F3643A /* ZHCouponsMgtVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHCouponsMgtVC.m; sourceTree = "<group>"; };
 		2E989CBD1E1E813B00F3643A /* ZHCouponsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHCouponsCell.h; sourceTree = "<group>"; };
@@ -2427,6 +2430,8 @@
 		2EC2ABAD1E0CC8BF003EF503 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2E917B481E97B629003ED4A8 /* ZHGoodsKeyValue.h */,
+				2E917B491E97B629003ED4A8 /* ZHGoodsKeyValue.m */,
 				2E6E47901E10F39C00FD2CA7 /* ZHGoodsModel.h */,
 				2E6E47911E10F39C00FD2CA7 /* ZHGoodsModel.m */,
 				2E11982D1E2F9E1400879365 /* ZHTreasureRecord.h */,
@@ -3399,6 +3404,7 @@
 				2E6E480D1E14F5E900FD2CA7 /* ZHReceivingAddress.m in Sources */,
 				2EC2AE541E0CF55A003EF503 /* TLTimeButton.m in Sources */,
 				2EC2AE701E0CF5B3003EF503 /* ZHAccountTf.m in Sources */,
+				2E917B4A1E97B62A003ED4A8 /* ZHGoodsKeyValue.m in Sources */,
 				2E6E48061E14E72300FD2CA7 /* City.m in Sources */,
 				2E9A77891E5441C9009D8FAA /* TLRealmPlayground.m in Sources */,
 				2E875D1A1E0D2B00007F97A5 /* ZHShopDetailVC.m in Sources */,

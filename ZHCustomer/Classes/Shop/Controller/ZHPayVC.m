@@ -554,6 +554,10 @@
             infoCell.infoLbl.text = @"还没有折扣券";
 
         }
+        [infoCell.titleLbl mas_updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.width.mas_equalTo(100);
+        }];
         self.couponsCell = infoCell;
         infoCell.hidenArrow = NO;
     

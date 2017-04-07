@@ -10,4 +10,6 @@
 
 @interface ZHGoodsParameterVC : TLBaseVC
 
+@property (nonatomic, copy) NSString *productCode;
+
 @end

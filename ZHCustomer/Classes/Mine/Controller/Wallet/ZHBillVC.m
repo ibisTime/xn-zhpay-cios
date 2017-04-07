@@ -24,6 +24,7 @@
 @property (nonatomic,assign) BOOL isFirst;
 
 @property (nonatomic,copy)  void(^rightAciton)();
+@property (nonatomic, strong) ZHCurrencyConvertView *currencyConvertView;
 
 @end
 
@@ -120,7 +121,7 @@
     
     ZHCurrencyConvertView *currencyConvertView = [[ZHCurrencyConvertView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
     billTableView.tableHeaderView = currencyConvertView;
-    
+    self.currencyConvertView = currencyConvertView;
 //    [currencyConvertView.leftBtn addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
     
     [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
@@ -234,6 +235,23 @@
     [currencyConvertView.rightBtn setTitle:rightTitle forState:UIControlStateNormal];
 
 
+    
+    if ([self.currencyModel.currency isEqualToString:kHBB] || [self.currencyModel.currency isEqualToString:kHBYJ]) {
+        
+        
+        TLNetworking *masOpTimesHttp = [TLNetworking new];
+        masOpTimesHttp.showView = self.view;
+        masOpTimesHttp.code = @"802027";
+        masOpTimesHttp.parameters[@"key"] = @"EXCTIMES";
+        [masOpTimesHttp postWithSuccess:^(id responseObject) {
+            
+            currencyConvertView.topHintLbl.text =[NSString stringWithFormat:@"每人每月最多转换%@次",responseObject[@"data"][@"cvalue"]];
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
+    }
     
 }
 
