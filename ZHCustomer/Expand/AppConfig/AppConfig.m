@@ -49,7 +49,7 @@ void TLLog(NSString *format, ...) {
            self.addr = @"http://139.224.200.54:5601"; //test
            //分享的基础连接
 //            http://121.43.101.148:5603/share/share-receive.html?code=xxx&userReferee=xxx
-           self.shareBaseUrl = @"http://zhqb.hichengdai.com";
+            self.shareBaseUrl = @"http://m.zhenghuijituan.com";
 
         }break;
             
@@ -90,7 +90,7 @@ void TLLog(NSString *format, ...) {
 
 - (NSString *)aliMapKey {
 
-    return @"a3bd76e7d3689fccd4604861cc83450e";
+    return @"1e8db922ea81c423b5f5f9f6471bc599";
 }
 
 

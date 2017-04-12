@@ -203,7 +203,6 @@
         
         self.imagePicker.pickFinish = ^(NSDictionary *info){
             
-            
             TLNetworking *getUploadToken = [TLNetworking new];
             getUploadToken.showView = weakSelf.view;
             getUploadToken.code = @"807900";

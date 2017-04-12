@@ -75,10 +75,10 @@
             
         } else {//人民币价格
         
-            payNames  = @[@"微信支付",@"支付宝"]; //余额(可用100)
-            imgs = @[@"we_chat",@"alipay"];
-            payType = @[@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-            status = @[@(NO),@(YES)];
+            payNames  = @[self.balanceString,@"微信支付",@"支付宝"]; //余额(可用100)
+            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            status = @[@(YES),@(NO),@(NO)];
           
         }
       
@@ -349,7 +349,7 @@
         
         //特殊
         if (type == ZHPayTypeOther) {
-            [self newYydbPay:@"90"];
+            [self newYydbPay:payType];
 
         } else {
             
@@ -404,7 +404,8 @@
     
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
-        http.code = @"615020";
+        //615020
+        http.code = @"615021";
         http.parameters[@"userId"] = [ZHUser user].userId;
         http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];

@@ -256,7 +256,7 @@
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     http.code = @"808240";
-    http.parameters[@"storeCode"] = self.order.productOrderList[0].code;
+    http.parameters[@"storeCode"] = self.order.productOrderList[0].productCode;
     http.parameters[@"userId"] = [ZHUser user].userId;
     http.parameters[@"type"] = @"3";
     [http postWithSuccess:^(id responseObject) {

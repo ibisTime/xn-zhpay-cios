@@ -26,6 +26,7 @@
 
 #import "ZHCartManager.h"
 #import "TLAlipayManager.h"
+#import <AMapFoundationKit/AMapFoundationKit.h>
 
 //#ifdef NSFoundationVersionNumber_iOS_9_x_Max
 //#import <UserNotifications/UserNotifications.h>
@@ -45,7 +46,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvTest;
+    [AppConfig config].runEnv = RunEnvRelease;
     
     //--pppp--//
     self.locationManager = [[CLLocationManager alloc] init];
@@ -57,6 +58,9 @@
     //微信
     TLWXManager *wxManager = [TLWXManager manager];
     [wxManager registerApp];
+    
+    //高德
+    [AMapServices sharedServices].apiKey = [AppConfig config].aliMapKey;
     
     //HUD
     [SVProgressHUD setMinimumDismissTimeInterval:2.5];
@@ -107,12 +111,12 @@
     UMConfigInstance.channelId = @"App Store";
     [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
     
-    //
-    
     //判断的同时进行赋值
     if ([ZHUser user].isLogin) {
+        
         //已经由用户信息
         [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+        
     }
     
     return YES;

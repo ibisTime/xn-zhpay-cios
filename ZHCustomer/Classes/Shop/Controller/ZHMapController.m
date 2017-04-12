@@ -11,6 +11,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapNaviKit/AMapNaviKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
+#import <MapKit/MapKit.h>
 
 @interface ZHMapController ()<MAMapViewDelegate,AMapNaviDriveManagerDelegate,AMapLocationManagerDelegate>
 
@@ -44,7 +45,7 @@
     self.mapV = mapView;
     
     //
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"前往店铺" style:UIBarButtonItemStylePlain target:self action:@selector(confirmAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"前往店铺" style:UIBarButtonItemStylePlain target:self action:@selector(navShop)];
 
     //设置地图显示区域
     CLLocationCoordinate2D location = self.point;
@@ -176,9 +177,18 @@
 }
 
 
-- (void)confirmAction {
+- (void)navShop {
 
-    [self initNav];
+    //跳转高德地图进行导航
+    CLLocationCoordinate2D toLoc = self.point;
+    
+    MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+    MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:toLoc addressDictionary:nil]];
+    [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
+                   launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,
+                                   MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+    
+//    [self initNav];
 
 }
 

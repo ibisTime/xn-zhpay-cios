@@ -8,12 +8,19 @@
 
 #import "TLAlert.h"
 #import "MBProgressHUD.h"
+#import "SVProgressHUD.h"
 
 @implementation TLAlert
 
-+ (MBProgressHUD *)alertWithHUDText:(NSString *)text {
++ (void )alertWithHUDText:(NSString *)text {
 
-   return [self alertWithHUDText:text duration:2.0 complection:nil];
+    [SVProgressHUD showInfoWithStatus:text];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [SVProgressHUD dismiss];
+
+    });
+//   return [self alertWithHUDText:text duration:2.0 complection:nil];
 
 }
 

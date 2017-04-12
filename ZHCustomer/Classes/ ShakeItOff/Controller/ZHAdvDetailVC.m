@@ -110,7 +110,7 @@
 
     
     //二维码
-    NSString *qrStr = [NSString stringWithFormat:@"%@/user/register.html?userReferee=%@",[AppConfig config].shareBaseUrl,[[ZHUser user] mobile]];;
+    NSString *qrStr = [NSString stringWithFormat:@"%@/user/register.html?userReferee=%@",[AppConfig config].shareBaseUrl,[[ZHUser user] mobile]];
     UIImage *image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:qrStr imageViewWidth:SCREEN_WIDTH];
     
     qrImageView.image = image;

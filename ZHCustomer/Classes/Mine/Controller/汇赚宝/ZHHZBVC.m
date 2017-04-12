@@ -317,16 +317,14 @@
     billVC.currency = kHBYJ;
 
     
-    if (indexPath.row == 3) {
+    if (indexPath.row == 3) { //摇摇
         
-//      bizType 39
-        billVC.bizType = @"39";
+        billVC.bizType = @"53";
         
     }
     
     if (indexPath.row == 6) {
         
-//      bizType 61
         billVC.bizType = @"60";
 
 

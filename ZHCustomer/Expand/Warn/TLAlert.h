@@ -14,7 +14,8 @@
 
 //设置延迟时间
 + (MBProgressHUD *)alertWithHUDText:(NSString *)text duration:(NSTimeInterval)sec complection:(void(^)())complection;
-+ (MBProgressHUD *)alertWithHUDText:(NSString *)text;
+
++ (void )alertWithHUDText:(NSString *)text;
 
 + (void)alertWithMsg:(NSString * )message;
 + (void)alertWithMsg:(NSString * )message viewCtrl:(UIViewController *)vc;

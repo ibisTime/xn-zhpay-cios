@@ -431,33 +431,59 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
         //
         payVC.amoutAttr = self.totalPriceLbl.attributedText; //展示
         
-        [accountArr enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        //遍历用户的账户信息，找出相应余额
+        //应对各种标价
+//        [accountArr enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            
+//            
+//            if ([self.dbModel.fromCurrency isEqualToString:kCNY] || [self.dbModel.fromCurrency isEqualToString:kFRB]) {
+//                //分润或者人民币标价
+//                
+//                //人民币标价,余额显示分润
+//                if ([obj.currency isEqualToString:kFRB]) {
+//                    
+//                    payVC.balanceString = [NSString stringWithFormat:@"余额(%@%@)",@"分润",[obj.amount convertToRealMoney]];
+//                    *stop = YES;
+//                }
+//                
+//            } else {
+//            
+//                if ([obj.currency isEqualToString:self.dbModel.fromCurrency]) {
+//                    
+//                    
+//                    payVC.balanceString = [NSString stringWithFormat:@"余额(%@%@)",[self.dbModel getPriceCurrencyName],[obj.amount convertToRealMoney]];
+//                    *stop = YES;
+//                }
+//            
+//            }
+//            
+//          
+//        }];
+        
+        
+        //只有人民币和分润标价
+       __block NSNumber *frb;
+       __block NSNumber *gxjl;
+        if ([self.dbModel.fromCurrency isEqualToString:kCNY] || [self.dbModel.fromCurrency isEqualToString:kFRB]) {
             
-            
-            if ([self.dbModel.fromCurrency isEqualToString:kCNY]) {
+            [accountArr enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
-                //人民币标价,余额显示分润
                 if ([obj.currency isEqualToString:kFRB]) {
                     
-                    payVC.balanceString = [NSString stringWithFormat:@"余额(%@%@)",@"分润",[obj.amount convertToRealMoney]];
-                    *stop = YES;
-                }
-                
-            } else {
-            
-                if ([obj.currency isEqualToString:self.dbModel.fromCurrency]) {
+                    frb = obj.amount;
                     
-                    
-                    payVC.balanceString = [NSString stringWithFormat:@"余额(%@%@)",[self.dbModel getPriceCurrencyName],[obj.amount convertToRealMoney]];
-                    *stop = YES;
+                } else if ([obj.currency isEqualToString:kGXB]) {
+                    gxjl = obj.amount;
                 }
-            
-            }
-          
-        }];
+            }];
+        }
+        
+        payVC.balanceString = [NSString stringWithFormat:@"余额(%@)",[@([frb longValue] + [gxjl longLongValue]) convertToRealMoney]];
    
         
-        if ([self.dbModel.fromCurrency isEqualToString:kCNY]) {
+        //构造收费信息
+        if ([self.dbModel.fromCurrency isEqualToString:kCNY] || [self.dbModel.fromCurrency isEqualToString:kFRB]) {
             
             payVC.rmbAmount = @([self.dbModel.fromAmount longLongValue]*self.countChangeView.count);
             
