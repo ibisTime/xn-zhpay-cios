@@ -38,6 +38,10 @@
 
 @property (nonatomic, assign) BOOL firstUpLoaded;
 
+@property (nonatomic, copy) NSString *yyAfterImageName;
+@property (nonatomic, copy) NSString *yyBeforeImageName;
+
+
 @end
 
 @implementation ZHShakeItOffVC
@@ -45,6 +49,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.view becomeFirstResponder];
+    
+ 
 
 
 }
@@ -102,7 +108,51 @@
     self.isDoneOnce = YES;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"玩法介绍" style:UIBarButtonItemStylePlain target:self action:@selector(introduce)];
+    
+    //必须在先
+    self.yyBeforeImageName = @"摇";
+    self.yyAfterImageName = @"摇";
+    
+    //必须在后
     [self setUpUI];
+    
+    //注意顺序
+    self.bgImageView.contentMode = UIViewContentModeCenter;
+
+    NSString *str = [[NSUserDefaults standardUserDefaults] objectForKey:@"zh_pay_magic"];
+    if ([str valid] && [str isEqualToString:@"上线"]) {
+        
+        self.yyBeforeImageName = @"摇一摇before";
+        self.yyAfterImageName = @"摇一摇after";
+        
+        self.bgImageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.bgImageView.image = [UIImage imageNamed:self.yyBeforeImageName];
+        
+    } else {
+        
+        //
+        [TLNetworking GET:@"http://itunes.apple.com/lookup?id=1167284604" parameters:nil success:^(NSString *msg, id data) {
+            
+            NSString *str = data[@"results"][0][@"version"];
+            if ([str isEqualToString:@"2.0.0"]) {
+                
+                
+            } else {
+                [[NSUserDefaults standardUserDefaults] setObject:@"上线" forKey:@"zh_pay_magic"];
+                
+                
+                self.yyBeforeImageName = @"摇一摇before";
+                self.yyAfterImageName = @"摇一摇after";
+                
+                self.bgImageView.contentMode = UIViewContentModeScaleAspectFill;
+                self.bgImageView.image = [UIImage imageNamed:self.yyBeforeImageName];
+                
+            }
+            
+        } abnormality:nil failure:nil];
+    
+    }
+
     
     //摸调iphone才会变的标志
     //异步更新用户信息
@@ -114,6 +164,7 @@
     
     [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(sendLocation) userInfo:nil repeats:YES];
     
+    //
 }
 
 
@@ -324,7 +375,7 @@
             //播放结果声音
             AudioServicesPlaySystemSound(self.resultSoundId);
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            self.bgImageView.image = [UIImage imageNamed:@"摇一摇after"];
+            self.bgImageView.image = [UIImage imageNamed:self.yyAfterImageName];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                  self.hzbRoom = [ZHHZBModel tl_objectArrayWithDictionaryArray:array];
@@ -335,7 +386,7 @@
                 
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     
-                    self.bgImageView.image = [UIImage imageNamed:@"摇一摇before"];
+                    self.bgImageView.image = [UIImage imageNamed:self.yyBeforeImageName];
 
                 });
 
@@ -392,7 +443,7 @@
     UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49 - 64)];
     [self.view addSubview:imageV];
     imageV.contentMode = UIViewContentModeScaleAspectFill;
-    imageV.image = [UIImage imageNamed:@"摇一摇before"];
+    imageV.image = [UIImage imageNamed:self.yyBeforeImageName];
     
     self.bgImageView = imageV;
     imageV.userInteractionEnabled = YES;
