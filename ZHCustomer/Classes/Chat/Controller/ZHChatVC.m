@@ -350,6 +350,16 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kUnreadMsgChangeNotification object:nil];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
+    //防止环信登录失败
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [[ChatManager defaultManager] loginWithUserName:[ZHUser user].userId];
+        
+    });
+    
+    //
+    
+    //
 }
 
 

@@ -27,6 +27,7 @@
 @interface ZHShopDetailVC ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic,strong) UILabel *shopNameLbl;
+@property (nonatomic, strong) UILabel *advLbl;
 
 @end
 
@@ -36,7 +37,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
@@ -68,7 +68,10 @@
 
     if (indexPath.section == 0) {
         
-        if (indexPath.row == 0) {//地图
+        if (indexPath.row == 0) {
+            
+            
+        } else if (indexPath.row == 1) {//地图
             
             ZHMapController *mapCtrl = [[ZHMapController alloc] init];
             mapCtrl.shopName = self.shop.name;
@@ -208,14 +211,18 @@
     
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
     if (section == 0) {
+        
+    
         return 55;
+        
     } else {
+        
         return 42;
     }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -229,9 +236,18 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
+        
+        if (indexPath.row == 0) {
+            
+            return self.shop.sloganHeight;
+        }
+        
         return [ZHShopInfoCell rowHeight];
-    } else if (indexPath.section == 1) {
+        
+    } if (indexPath.section == 1) {
+        
         return [ZHDiscountInfoCell rowHeight];
+        
     } else {
     
         if (indexPath.row == 0) {
@@ -243,19 +259,23 @@
     }
 }
 
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-    if (section == 0) {
+    if (section == 0) { //地址的headerView  有店铺名称和买单
         
         return [self addressHeaderView];
         
-    } else if(section == 1) {
+    } else if(section == 1) { //折扣
         
         return [self discountHeaderView];
-    } else {
+        
+    } else  {
+        
         return [self detailHeaderView];
+        
     }
-    return nil;
+    
 }
 
 
@@ -270,17 +290,18 @@
     
     if (section == 0) {
         
-        return 2;
+        return 3;
         
     } else if(section == 1 ) {
     
         return self.shop.storeTickets.count;
     
-    } else {
+    } else  {
     
         return 1 + self.shop.detailPics.count;
 
     }
+    
 
 }
 
@@ -288,7 +309,76 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
+//    if (indexPath.section == 0) {
+//        
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellId"];
+//        if (!cell) {
+//            
+//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellId"];
+//            
+//        }
+//        static UILabel *advLbl = nil;
+//        if (!advLbl) {
+//            
+//            UILabel *advLbl = [[UILabel alloc] initWithFrame:CGRectZero
+//                                                textAligment:NSTextAlignmentLeft
+//                                             backgroundColor:[UIColor whiteColor]
+//                                                        font:FONT(11)
+//                                                   textColor:[UIColor zh_textColor]];
+//            [cell addSubview:advLbl];
+//            [advLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.left.equalTo(cell.mas_left).offset(15);
+//                make.top.equalTo(cell.mas_top).offset(5);
+//                make.left.equalTo(cell.mas_left).offset(-15);
+//                make.bottom.equalTo(cell.mas_bottom).offset(-5);
+//            }];
+//            
+//            
+//            
+//        }
+//        advLbl.text = @"jdfklsajkfljalksdjklfjdsfklsd";
+//        return cell;
+//        
+//    } else
     if (indexPath.section == 0) {
+        
+        if (indexPath.row == 0) {
+            
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellId"];
+                    if (!cell) {
+            
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellId"];
+            
+                    }
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    if (!self.advLbl) {
+            
+                        self.advLbl = [UILabel labelWithFrame:CGRectZero
+                                  
+                                                            textAligment:NSTextAlignmentLeft
+                                                         backgroundColor:[UIColor whiteColor]
+                                                                    font:FONT(12)
+                                                               textColor:[UIColor zh_textColor]];
+                        [cell addSubview:self.advLbl];
+                        self.advLbl.numberOfLines = 0;
+                        
+                        [self.advLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.right.equalTo(cell.mas_right).offset(-15);
+                            make.left.equalTo(cell.mas_left).offset(15);
+
+                            
+                            make.top.equalTo(cell.mas_top).offset(5);
+                            make.bottom.equalTo(cell.mas_bottom).offset(-10);
+                        }];
+                        
+                        
+                        
+                    }
+                    self.advLbl.text = self.shop.slogan;
+                    return cell;
+            
+        }
+        
         
         static  NSString * reCellId = @"ZHShopInfoCellID";
         ZHShopInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:reCellId];
@@ -298,7 +388,7 @@
             
         }
         
-        if (indexPath.row == 0) {
+        if (indexPath.row == 1) {
             
             cell.info = self.shop.address;
             cell.infoType = ShopInfoTypeLocation;
@@ -311,6 +401,9 @@
         return cell;
         
     } else if(indexPath.section == 1) {
+        
+        
+
     
         static  NSString *discountCellId = @"ZHDiscountInfoCellID";
         ZHDiscountInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:discountCellId];

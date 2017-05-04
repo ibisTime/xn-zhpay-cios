@@ -108,24 +108,37 @@
         http.parameters[@"token"] = token;
         [http postWithSuccess:^(id responseObject) {
           
-            NSDictionary *userInfo = responseObject[@"data"];
-                
+         NSDictionary *userInfo = responseObject[@"data"];
+         [ZHUser user].userId = userId;
+         [ZHUser user].token = token;
+         [[ZHUser user] saveUserInfo:userInfo];
+         [[ZHUser user] setUserInfoWithDict:userInfo];
+            
+         [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+        
+         //
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             
+             [[ChatManager defaultManager] loginWithUserName:userId];
+
+         });
+            
                 //登录环信
-                if ([[ChatManager defaultManager] loginWithUserName:userId]) {
-                    
-                    [ZHUser user].userId = userId;
-                    [ZHUser user].token = token;
-                    [[ZHUser user] saveUserInfo:userInfo];
-                    [[ZHUser user] setUserInfoWithDict:userInfo];
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
-                    
-                } else {
-                    
-                    [TLAlert alertWithHUDText:@"登录失败"];
-                    
-                }
-                
+//                if ([[ChatManager defaultManager] loginWithUserName:userId]) {
+//                    
+//                    [ZHUser user].userId = userId;
+//                    [ZHUser user].token = token;
+//                    [[ZHUser user] saveUserInfo:userInfo];
+//                    [[ZHUser user] setUserInfoWithDict:userInfo];
+//                    
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+//                    
+//                } else {
+//                    
+//                    [TLAlert alertWithHUDText:@"登录失败"];
+//                    
+//                }
+            
 
             } failure:^(NSError *error) {
                 

@@ -134,7 +134,7 @@
         [TLNetworking GET:@"http://itunes.apple.com/lookup?id=1167284604" parameters:nil success:^(NSString *msg, id data) {
             
             NSString *str = data[@"results"][0][@"version"];
-            if ([str isEqualToString:@"2.0.0"]) {
+            if ([str isEqualToString:@"3.0.1"]) {
                 
                 
             } else {

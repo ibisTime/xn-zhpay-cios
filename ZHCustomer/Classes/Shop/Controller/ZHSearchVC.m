@@ -136,8 +136,12 @@
         http.isDeliverCompanyCode = NO;
         [http postWithSuccess:^(id responseObject) {
             
-            self.goods = [ZHGoodsModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+            self.goods = [ZHGoodsModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
             [self.searchTableView reloadData_tl];
+            
+            if (self.goods && self.goods.count > 0) {
+                [self.view endEditing:YES];
+            }
             
         } failure:^(NSError *error) {
             

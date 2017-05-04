@@ -41,9 +41,10 @@
 
 
 //实名认证的 --- 临时参数
-@property (nonatomic, copy) NSString *tempBizNo;
-@property (nonatomic, copy) NSString *tempRealName;
-@property (nonatomic, copy) NSString *tempIdNo;
+@property (nonatomic, copy) NSString *tempBizNo; //在实名认证控制器 -- 和 -- appdelegate  之间进行值传递
+
+//@property (nonatomic, copy) NSString *tempRealName;
+//@property (nonatomic, copy) NSString *tempIdNo;
 
 
 //是否为需要登录，如果已登录，取出用户信息

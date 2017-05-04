@@ -39,6 +39,9 @@
 
 @property (nonatomic,copy) NSString *bookMobile; //电话
 @property (nonatomic,copy) NSString *slogan;//广告语
+
+@property (nonatomic, assign, readonly) CGFloat sloganHeight;
+
 @property (nonatomic,copy) NSString *legalPersonName;
 
 @property (nonatomic,copy) NSString *userReferee; //推荐人

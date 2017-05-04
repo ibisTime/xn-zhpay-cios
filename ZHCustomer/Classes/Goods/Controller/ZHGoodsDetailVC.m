@@ -28,11 +28,12 @@
 #import "ZHShareView.h"
 #import "AppConfig.h"
 
-@interface ZHGoodsDetailVC ()<ZHBuyToolViewDelegate>
+@interface ZHGoodsDetailVC ()<ZHBuyToolViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,strong) ZHBuyToolView *buyView;
 @property (nonatomic,weak) TLBannerView *bannerView;
+@property (nonatomic, strong) UIScrollView *goodsDetailTypeScrollView;
 
 @property (nonatomic,strong) UILabel *nameLbl;
 @property (nonatomic,strong) UILabel *advLbl;
@@ -47,7 +48,12 @@
 @property (nonatomic, weak) ZHStepView *stepView;
 @property (nonatomic, strong) ZHTreasureInfoView *infoView;
 
+//
 @property (nonatomic,strong) UIView *switchView;
+@property (nonatomic, strong) UIView *switchSubView;
+@property (nonatomic, assign) BOOL switchByTap;
+
+
 
 //顶部切换相关
 @property (nonatomic, strong) UIView *switchLine;
@@ -67,54 +73,7 @@
     self.bannerView.timer = nil;
 }
 
-#pragma mark- 顶部切换事件
-- (void)switchConten:(UIButton *)btn {
 
-    if ([_lastBtn isEqual:btn]) {
-        return;
-    }
-    NSInteger tag = btn.tag;
-    
-    switch (tag) {
-         //商品
-        case 0: [self.view bringSubviewToFront:self.bgScrollView];
-
-            break;
-        //详情
-        case 1:  [self.view bringSubviewToFront:self.detailView];
-        
-            break;
-            
-        case 2: //评价
-
-            [self.view bringSubviewToFront:self.goodsArgsView];
-
-            break;
-            
-        case 3 :
-
-            [self.view bringSubviewToFront:self.evaluateViwe];
-
-            break;
-            
-            
-    }
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        
-        self.switchLine.centerX = btn.centerX;
-        btn.titleLabel.font = FONT(18);
-        [btn setTitleColor:[UIColor zh_themeColor] forState:UIControlStateNormal];
-        [self.lastBtn  setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
-        
-        self.lastBtn.titleLabel.font = FONT(17);
-    }];
-    
-    self.lastBtn = btn;
-
-  
-
-}
 
 
 #pragma mark - 客服消息变更
@@ -143,23 +102,42 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    //背景
+    //底部负责左右切换的背景
+    self.goodsDetailTypeScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
+    [self.view addSubview:self.goodsDetailTypeScrollView];
+    self.goodsDetailTypeScrollView.pagingEnabled = YES;
+    self.goodsDetailTypeScrollView.showsHorizontalScrollIndicator = NO;
+    self.goodsDetailTypeScrollView.backgroundColor = [UIColor zh_backgroundColor];
+    self.goodsDetailTypeScrollView.delegate = self;
+    self.goodsDetailTypeScrollView.contentSize = CGSizeMake(self.goodsDetailTypeScrollView.width*4, self.goodsDetailTypeScrollView.height);
+    
+    
+    
+    
+    //商品信息背景
     self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
     self.bgScrollView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.bgScrollView];
+    
+    [self.goodsDetailTypeScrollView addSubview: self.bgScrollView];
+
     
     //底部工具条
     self.buyView = [[ZHBuyToolView alloc] initWithFrame:CGRectMake(0, self.bgScrollView.yy, SCREEN_WIDTH, 49)];
     self.buyView.delegate = self;
     [self.view addSubview:self.buyView];
     
-    //根据为夺宝或者为 普通商品加载不同的商品
+
+    //ui
     [self setUpUI];
+    
     //
     self.bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     
         //拍普通商品，价格在上面
-        self.bannerView.imgUrls = self.goods.pics;
+        self.bannerView.imgUrls = @[[self.goods.advPic convertImageUrl]];
+    
+    
+        //---//
         self.nameLbl.text = self.goods.name;
         self.advLbl.text = self.goods.slogan;
         self.priceLbl.text = self.goods.totalPrice;
@@ -184,6 +162,136 @@
         
     }];
     
+}
+
+#pragma mark- 顶部切换事件
+- (void)switchConten:(UIButton *)btn {
+    
+    
+    if ([_lastBtn isEqual:btn]) {
+        return;
+    }
+    
+    self.switchByTap = YES;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        self.switchByTap = NO;
+        
+    });
+    
+    NSInteger tag = btn.tag - 100;
+    
+    switch (tag) {
+            //商品
+        case 0: [self.goodsDetailTypeScrollView addSubview:self.bgScrollView];
+            
+            break;
+            //详情
+        case 1:  [self.goodsDetailTypeScrollView addSubview:self.detailView];
+            
+            break;
+            
+            //参数
+        case 2:
+            
+            [self.goodsDetailTypeScrollView addSubview:self.goodsArgsView];
+            
+            break;
+            
+            //评价
+        case 3 :
+            [self.goodsDetailTypeScrollView addSubview:self.evaluateViwe];
+            
+            break;
+            
+            
+    }
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.switchLine.centerX = btn.centerX;
+        btn.titleLabel.font = FONT(18);
+        [btn setTitleColor:[UIColor zh_themeColor] forState:UIControlStateNormal];
+        [self.lastBtn  setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
+        
+        self.lastBtn.titleLabel.font = FONT(17);
+    }];
+    
+    self.lastBtn = btn;
+    
+    
+    //
+    [self.goodsDetailTypeScrollView setContentOffset:CGPointMake(self.goodsDetailTypeScrollView.width*tag, 0) animated:YES];
+    
+    
+    
+}
+
+#pragma mark- 商品详情切换的scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+//    return;
+  
+    if (self.switchByTap) {
+      
+        return;
+    }
+    
+    NSInteger tag =  scrollView.contentOffset.x/SCREEN_WIDTH + 100;
+    
+    if (tag < 0) {
+        return;
+    }
+    
+    
+    UIButton *btn = (UIButton *)[self.switchSubView viewWithTag:tag];
+    if (!btn) {
+        return;
+    }
+    
+    switch (tag - 100) {
+            //商品
+        case 0: [self.goodsDetailTypeScrollView addSubview:self.bgScrollView];
+            
+            break;
+            //详情
+        case 1:  [self.goodsDetailTypeScrollView addSubview:self.detailView];
+            
+            break;
+            
+            //参数
+        case 2:
+            
+            [self.goodsDetailTypeScrollView addSubview:self.goodsArgsView];
+            
+            break;
+            
+            //评价
+        case 3 :
+            [self.goodsDetailTypeScrollView addSubview:self.evaluateViwe];
+            
+            break;
+            
+    }
+    
+    if (!btn || [self.lastBtn isEqual:btn]) {
+        return;
+    }
+    
+    //
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.switchLine.centerX = btn.centerX;
+        btn.titleLabel.font = FONT(18);
+        [btn setTitleColor:[UIColor zh_themeColor] forState:UIControlStateNormal];
+        [self.lastBtn  setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
+        
+        self.lastBtn.titleLabel.font = FONT(17);
+    }];
+    
+    self.lastBtn = btn;
+    
+
 }
 
 
@@ -370,7 +478,7 @@
     if (!_detailView ) {
         
         ZHSingleDetailVC *detailVC = [[ZHSingleDetailVC alloc] init];
-        detailVC.view.frame = self.bgScrollView.frame;
+        detailVC.view.frame = CGRectOffset(self.bgScrollView.frame, SCREEN_WIDTH, 0);
         [self addChildViewController:detailVC];
         detailVC.goods = self.goods;
 
@@ -394,7 +502,7 @@
         
         evaluateListVC.goodsCode = self.goods.code;
         evaluateListVC.peopleNum = self.goods.boughtCount;
-        evaluateListVC.view.frame = self.bgScrollView.frame;
+        evaluateListVC.view.frame = CGRectOffset(self.bgScrollView.frame, SCREEN_WIDTH*3, 0);
         [self addChildViewController:evaluateListVC];
         [self.view addSubview:evaluateListVC.view];
 
@@ -411,7 +519,7 @@
     if (!_goodsArgsView) {
         
         ZHGoodsParameterVC *vc = [ZHGoodsParameterVC new];
-        vc.view.frame = self.bgScrollView.frame;
+        vc.view.frame = CGRectOffset(self.bgScrollView.frame, SCREEN_WIDTH*2, 0);;
         vc.productCode = self.goods.code;
         [self addChildViewController:vc];
         [self.view addSubview:vc.view];
@@ -551,6 +659,7 @@
         self.switchLine = [[UIView alloc] initWithFrame:CGRectMake(0, 40 - 2, 40, 2)];
         self.switchLine.backgroundColor = [UIColor zh_themeColor];
         [bgView addSubview:self.switchLine];
+        self.switchSubView = bgView;
         
         NSArray *types = @[@"商品",@"详情",@"规格",@"评价"];
         for (NSInteger i = 0; i < types.count; i ++) {
@@ -559,9 +668,11 @@
             UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(i*x, 2, x, 28) title:types[i] backgroundColor:[UIColor whiteColor]];
             btn.titleLabel.font = FONT(17);
             [bgView addSubview:btn];
+            
             [btn addTarget:self action:@selector(switchConten:) forControlEvents:UIControlEventTouchUpInside];
             [btn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
-            btn.tag = i;
+            btn.tag = i + 100;
+            
             if (i == 0) {
                 btn.titleLabel.font = FONT(18);
                 self.switchLine.centerX = btn.centerX;

@@ -35,6 +35,18 @@ NSString *const kShopInfoChange = @"zh_shop_info_change";
 //
 //}
 
+- (CGFloat)sloganHeight {
+
+    if (!self.slogan || self.slogan.length <= 0) {
+        
+        return 0;
+    }
+    
+    
+   return [self.slogan calculateStringSize:CGSizeMake(SCREEN_WIDTH - 30, MAXFLOAT) font:FONT(12)].height + 15 + 5;
+
+}
+
 + (NSDictionary *)mj_objectClassInArray {
 
     return @{@"storeTickets":[ZHCoupon class]};

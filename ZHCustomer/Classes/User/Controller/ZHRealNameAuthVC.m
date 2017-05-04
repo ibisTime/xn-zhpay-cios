@@ -8,13 +8,15 @@
 
 #import "ZHRealNameAuthVC.h"
 
+#define IOS_VERSION_10 (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_9_x_Max)?(YES):(NO)  
+
 @interface ZHRealNameAuthVC ()<UIAlertViewDelegate>
 
 @property (nonatomic,strong) TLTextField *realNameTf;
 @property (nonatomic,strong) TLTextField *idNoTf;
 @property (nonatomic,strong) TLTextField *bankCardNoTf;
 @property (nonatomic,strong) TLTextField *mobileTf;
-
+@property (nonatomic, strong) UIButton *confirmBtn;
 //@property (nonatomic,strong) TLCaptchaView *captchaView;
 
 @end
@@ -27,11 +29,24 @@
     self.title = @"实名认证";
     [self setUpUI];
     
+    //已经实名认证过的用户
+    if ([ZHUser user].realName && [ZHUser user].realName.length > 0) {
+        
+            self.realNameTf.text = [ZHUser user].realName;
+            self.idNoTf.text = [ZHUser user].idNo;
+    
+            self.confirmBtn.hidden = YES;
+            self.realNameTf.enabled = NO;
+            self.idNoTf.enabled = NO;
+            self.bankCardNoTf.hidden = YES;
+            self.mobileTf.hidden = YES;
+    }
 
  
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(realName) name:@"realNameSuccess" object:nil];
     
 }
+
 
 - (void)realName {
 
@@ -71,6 +86,7 @@
         [alertView show];
         
         return;
+        
     }
     
     
@@ -115,17 +131,30 @@
         
         
         [ZHUser user].tempBizNo = responseObject[@"data"][@"bizNo"];
-        [ZHUser user].tempRealName = self.realNameTf.text;
-        [ZHUser user].tempIdNo = self.idNoTf.text;
+//        [ZHUser user].tempRealName = self.realNameTf.text;
+//        [ZHUser user].tempIdNo = self.idNoTf.text;
         
         //:8903/std-certi/zhima?bizNo=ZM42342545
         NSString *urlStr = [NSString stringWithFormat:@"http://121.40.165.180:8903/std-certi/zhima?bizNo=%@",responseObject[@"data"][@"bizNo"]];
         
         NSString *alipayUrl = [NSString stringWithFormat:@"alipayqr://platformapi/startapp?saId=10000007&qrcode=%@",urlStr];
         
-        //判断是否安装支付宝
+        //打开进行
+        //此方法到  -- ios10 -- 但是ios10还可以使用
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl]];
+
         
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl] options:@{} completionHandler:nil];
+        //ios10
+//        if (IOS_VERSION_10) {//ios10
+//            
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl] options:@{} completionHandler:nil];
+//            
+//        } else { //ios9
+//        
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl]];
+//            
+//        }
+       
         
     } failure:^(NSError *error) {
         
@@ -186,54 +215,13 @@
     idNoTf.isSecurity = YES;
     self.idNoTf = idNoTf;
     
-//    //银行卡号
-//    TLTextField *bankCardNoTf = [[TLTextField alloc] initWithframe:CGRectMake(0, idNoTf.yy + 1, SCREEN_WIDTH, 45)
-//                                                   leftTitle:@"银行卡号"
-//                                                  titleWidth:leftW
-//                                                 placeholder:@"请输入您本人的银行卡号"];
-//    [self.view addSubview:bankCardNoTf];
-//    bankCardNoTf.isSecurity = YES;
-//    bankCardNoTf.keyboardType = UIKeyboardTypeNumberPad;
-//    self.bankCardNoTf = bankCardNoTf;
-//    
-//    //银行卡号
-//    TLTextField *mobileTf = [[TLTextField alloc] initWithframe:CGRectMake(0, bankCardNoTf.yy + 1, SCREEN_WIDTH, 45)
-//                                                         leftTitle:@"手机号码"
-//                                                        titleWidth:leftW
-//                                                       placeholder:@"请输您的银行卡预留手机号"];
-//    [self.view addSubview:mobileTf];
-//    mobileTf.isSecurity = YES;
-//    mobileTf.keyboardType = UIKeyboardTypeNumberPad;
-//    self.mobileTf = mobileTf;
-//    
-    
     //确认按钮
     UIButton *confirmBtn = [UIButton zhBtnWithFrame:CGRectMake(20, idNoTf.yy + 30, SCREEN_WIDTH - 40, 44) title:@"确认"];
     [self.view addSubview:confirmBtn];
     [confirmBtn addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
-    
-//    //验证码
-//    TLCaptchaView *captchaView = [[TLCaptchaView alloc] initWithFrame:CGRectMake(realNameTf.x, realNameTf.yy + 1, realNameTf.width, realNameTf.height)];
-//    [self.bgSV addSubview:captchaView];
-//    _captchaView = captchaView;
-//    [captchaView.captchaBtn addTarget:self action:@selector(sendCaptcha) forControlEvents:UIControlEventTouchUpInside];
-    
-    //新密码
+    self.confirmBtn = confirmBtn;
     
     
-    if ([ZHUser user].realName && [ZHUser user].realName.length > 0) {
-        self.realNameTf.text = [ZHUser user].realName;
-        self.idNoTf.text = [ZHUser user].idNo;
-        
-        confirmBtn.hidden = YES;
-        self.realNameTf.enabled = NO;
-        self.idNoTf.enabled = NO;
-        self.bankCardNoTf.hidden = YES;
-        self.mobileTf.hidden = YES;
-    }
-    
-
-
 }
 
 @end

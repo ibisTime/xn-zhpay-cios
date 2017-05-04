@@ -108,7 +108,7 @@
     [self addSubview:self.coverImageView];
     
     //
-    self.nameLbl = [UILabel labelWithFrame:CGRectMake(self.coverImageView.xx + 14, self.coverImageView.y, SCREEN_WIDTH - self.coverImageView.xx - 28, 20)
+    self.nameLbl = [UILabel labelWithFrame:CGRectMake(self.coverImageView.xx + 14, self.coverImageView.y - 1, SCREEN_WIDTH - self.coverImageView.xx - 28, 20)
                               textAligment:NSTextAlignmentLeft
                            backgroundColor:[UIColor clearColor]
                                       font:[UIFont secondFont]
@@ -117,16 +117,17 @@
     [self addSubview:self.nameLbl];
     
     //
-    self.advLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.nameLbl.yy + 8, self.nameLbl.width, 20)
+    self.advLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.nameLbl.yy + 3, self.nameLbl.width, [FONT(11) lineHeight]*2)
                              textAligment:NSTextAlignmentLeft
                           backgroundColor:[UIColor whiteColor]
                                      font:FONT(11)
                                 textColor:[UIColor zh_textColor2]];
-    self.advLbl.height = [FONT(11) lineHeight];
+//    self.advLbl.height = [FONT(11) lineHeight];
+    self.advLbl.numberOfLines = 2;
     [self addSubview:self.advLbl];
     
     //
-    self.discountImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.nameLbl.x, self.advLbl.yy + 9, 15, 15)];
+    self.discountImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.nameLbl.x, self.advLbl.yy + 3, 15, 15)];
     //抵
     self.discountImageView.image = [UIImage imageNamed:@"减"];
     [self addSubview:self.discountImageView];

@@ -114,6 +114,12 @@
     //判断的同时进行赋值
     if ([ZHUser user].isLogin) {
         
+        //--//
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[ChatManager defaultManager] loginWithUserName:[ZHUser user].userId];
+
+        });
+
         //已经由用户信息
         [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
         
@@ -205,13 +211,18 @@ void UncaughtExceptionHandler(NSException *exception){
             
         }];
         
-              
+        
+        //--//
         if (!dict[@"failed_reason"]) {
+            
+            //通知我们的服务器认证成功
             TLNetworking *http = [TLNetworking new];
             http.showView = [UIApplication sharedApplication].keyWindow;
             http.code = @"805192";
             http.parameters[@"userId"] = [ZHUser user].userId;
             http.parameters[@"bizNo"] = [ZHUser user].tempBizNo;
+//          dict[@"biz_no"];
+            
             [http postWithSuccess:^(id responseObject) {
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"realNameSuccess" object:nil];
@@ -248,8 +259,6 @@ void UncaughtExceptionHandler(NSException *exception){
     //
     
 }
-
-
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {

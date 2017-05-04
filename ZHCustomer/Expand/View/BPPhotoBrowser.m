@@ -104,6 +104,10 @@
 
 - (void)setImage:(UIImage *)image {
 
+    if (!image) {
+        return;
+    }
+    
     _image = image;
     
     self.imageView.image = _image;
