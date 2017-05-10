@@ -262,12 +262,13 @@
         __weak typeof(self) weakSelf = self;
         for (NSInteger i = 0; i < models.count; i ++) {
             
+            
             CGFloat x = (w + margin)*(i%4) + SCREEN_WIDTH *(i/8);
             
             CGFloat y = 0;
             if (i > 7) {
                 
-                y = (97 + margin)*((i - 7)/4) + 0.5;
+                y = (97 + margin)*((i - 8)/4) + 0.5;
 
             } else {
             

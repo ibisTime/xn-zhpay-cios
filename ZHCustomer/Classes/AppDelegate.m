@@ -48,6 +48,8 @@
     //设置应用环境
     [AppConfig config].runEnv = RunEnvRelease;
     
+    
+    
     //--pppp--//
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
