@@ -107,6 +107,7 @@
 //
 //}
 //
+
 + (NSString *)imageNameByImage:(UIImage *)img{
     CGSize imgSize = img.size;//
     

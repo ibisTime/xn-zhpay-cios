@@ -81,15 +81,11 @@
     
     NSURL *url = [NSURL URLWithString:_imageUrl];
 //    [_activityIndicatorView startAnimating];
-    [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"logo"] options:SDWebImageProgressiveDownload progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    
+    [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"logo"] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         
-       // _progressView.progress = receivedSize*1.00/expectedSize;
-        
-        
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        
-       // [_progressView removeFromSuperview];
-//        [_activityIndicatorView removeFromSuperview];
+        // [_progressView removeFromSuperview];
+        //        [_activityIndicatorView removeFromSuperview];
         CGFloat scale = image.size.height/image.size.width;
         
         _imageView.frame = CGRectMake(0, 0, self.width, self.width*scale);
@@ -98,6 +94,24 @@
         [self contentInsert];
         
     }];
+    
+//    [_imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"logo"] options:SDWebImageProgressiveDownload progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//        
+//       // _progressView.progress = receivedSize*1.00/expectedSize;
+//        
+//        
+//    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//        
+//       // [_progressView removeFromSuperview];
+////        [_activityIndicatorView removeFromSuperview];
+//        CGFloat scale = image.size.height/image.size.width;
+//        
+//        _imageView.frame = CGRectMake(0, 0, self.width, self.width*scale);
+//        self.myScrollView.contentSize = _imageView.frame.size;
+//        
+//        [self contentInsert];
+//        
+//    }];
     
     
 }

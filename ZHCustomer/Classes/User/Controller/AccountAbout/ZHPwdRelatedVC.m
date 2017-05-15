@@ -86,7 +86,7 @@
         [self.captchaView.captchaBtn begin];
         
         if (self.type == ZHPwdTypeTradeReset) {
-            
+            [ZHUser user].tradepwdFlag = @"1";
             [[ZHUser user] updateUserInfo];
             
         }

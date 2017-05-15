@@ -63,4 +63,6 @@
 - (NSString *)converDate;
 - (NSString *)convertDate;
 
++ (NSString *)appCurrentBundleVersion;
+
 @end

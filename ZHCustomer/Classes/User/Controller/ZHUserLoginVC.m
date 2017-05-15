@@ -12,6 +12,11 @@
 #import "ZHNavigationController.h"
 //#import "ZHHomeVC.h"
 #import "ChatManager.h"
+#import "UICKeyChainStore.h"
+
+
+
+
 
 @interface ZHUserLoginVC ()
 
@@ -32,6 +37,17 @@
     
     //登录成功之后，给予回调
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:kUserLoginNotification object:nil];
+    
+    //是否有存储的账号密码
+    UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
+    NSString *userName =  [keyChainStore stringForKey:KEY_CHAIN_USER_NAME_KEY];
+    NSString *passWord =  [keyChainStore stringForKey:KEY_CHAIN_USER_PASS_WORD_KEY];
+
+
+    if (userName && passWord) {
+        self.phoneTf.text = userName;
+        self.pwdTf.text = passWord;
+    }
 
 }
 
@@ -116,7 +132,13 @@
             
          [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
         
-         //
+         //记住密码，保存在较为安全的钥匙串中
+          UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
+          [keyChainStore setString:self.phoneTf.text forKey:KEY_CHAIN_USER_NAME_KEY error:nil];
+          [keyChainStore setString:self.pwdTf.text forKey:KEY_CHAIN_USER_PASS_WORD_KEY error:nil];
+        
+         
+            
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
              
              [[ChatManager defaultManager] loginWithUserName:userId];

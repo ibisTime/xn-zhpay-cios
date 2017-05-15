@@ -47,15 +47,15 @@
     self.stateLbl.text = [_earningModel getStatusName];
     
     //返利总额
-    self.totalProfitLbl.attributedText= [self attrWithString:[NSString stringWithFormat: @"返利总额：%@",[_earningModel.profitAmount convertToRealMoney]] contentStr:nil];
+    self.totalProfitLbl.attributedText= [self attrWithString:[NSString stringWithFormat: @"收益总额：%@",[_earningModel.profitAmount convertToRealMoney]] contentStr:nil];
     
     
     //已收返利
-    self.obtainProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"已收返利：%@",[self detailMoneyWithMoney:_earningModel.backAmount]] contentStr:nil];
+    self.obtainProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"已收收益：%@",[self detailMoneyWithMoney:_earningModel.backAmount]] contentStr:nil];
                                            
 //    [_earningModel.backAmount convertToRealMoney]
     //
-    self.todayProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"今日返利：%@",[self detailMoneyWithMoney:_earningModel.todayAmount]] contentStr:nil];;
+    self.todayProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"今日收益：%@",[self detailMoneyWithMoney:_earningModel.todayAmount]] contentStr:nil];;
 //    [_earningModel.todayAmount convertToRealMoney]
     
     //固定

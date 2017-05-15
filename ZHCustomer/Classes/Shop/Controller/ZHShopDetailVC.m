@@ -179,7 +179,8 @@
                 
                 if ([obj[@"currency"] isEqualToString:kFRB]) {
                     
-                    payVC.balanceString = [NSString stringWithFormat:@"余额（分润%@）",[obj[@"amount"] convertToRealMoney]];
+//                    payVC.balanceString = [NSString stringWithFormat:@"余额（分润%@）",[obj[@"amount"] convertToRealMoney]];
+                    payVC.balanceString = @"余额";
                     
                 }
                 

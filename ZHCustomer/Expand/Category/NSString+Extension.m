@@ -7,7 +7,9 @@
 //
 
 #import "NSString+Extension.h"
-#import <CommonCrypto/CommonDigest.h>
+//#import <CommonCrypto/CommonDigest.h>
+
+#import <CommonCrypto/CommonCrypto.h>
 #import "AppConfig.h"
 
 @implementation NSString (Extension)
@@ -318,8 +320,6 @@
 }
 
 
-
-
 - (NSString *)convertToSysMoney {
 
     double v = [self doubleValue];
@@ -360,5 +360,13 @@
     
     return [formatter stringFromDate:date01];
 }
+
+//
++ (NSString *)appCurrentBundleVersion {
+
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
+
+
 
 @end

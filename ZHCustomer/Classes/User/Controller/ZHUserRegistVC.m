@@ -15,6 +15,7 @@
 #import <Photos/Photos.h>
 #import <CoreLocation/CoreLocation.h>
 #import "ZHUserProtocalVC.h"
+#import "UICKeyChainStore.h"
 
 @interface ZHUserRegistVC ()<CLLocationManagerDelegate>
 
@@ -244,6 +245,11 @@
                     [[ZHUser user] saveUserInfo:userInfo];
                     [[ZHUser user] setUserInfoWithDict:userInfo];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+                    
+                    //进行账号密码的存储
+                    UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
+                    [keyChainStore setString:self.phoneTf.text forKey:KEY_CHAIN_USER_NAME_KEY error:nil];
+                    [keyChainStore setString:self.pwdTf.text forKey:KEY_CHAIN_USER_PASS_WORD_KEY error:nil];
                     
                 } else {
                     

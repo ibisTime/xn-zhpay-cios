@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E01F6A41EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E01F6A31EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.m */; };
 		2E11982F1E2F9E1400879365 /* ZHTreasureRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E11982E1E2F9E1400879365 /* ZHTreasureRecord.m */; };
 		2E16D0151E5BD6D00029B0A5 /* ZHDuoBaoDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D0141E5BD6D00029B0A5 /* ZHDuoBaoDetailVC.m */; };
 		2E16D0181E5BE5F00029B0A5 /* ZHDuoBaoInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E16D0171E5BE5F00029B0A5 /* ZHDuoBaoInfoCell.m */; };
@@ -400,6 +401,8 @@
 
 /* Begin PBXFileReference section */
 		233958B4AA833AC0E46CEC4B /* Pods-ZHCustomer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZHCustomer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZHCustomer/Pods-ZHCustomer.debug.xcconfig"; sourceTree = "<group>"; };
+		2E01F6A21EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHGoSetTradePwdView.h; sourceTree = "<group>"; };
+		2E01F6A31EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHGoSetTradePwdView.m; sourceTree = "<group>"; };
 		2E11982D1E2F9E1400879365 /* ZHTreasureRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHTreasureRecord.h; sourceTree = "<group>"; };
 		2E11982E1E2F9E1400879365 /* ZHTreasureRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHTreasureRecord.m; sourceTree = "<group>"; };
 		2E16D0131E5BD6D00029B0A5 /* ZHDuoBaoDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDuoBaoDetailVC.h; sourceTree = "<group>"; };
@@ -2068,6 +2071,8 @@
 				2E6E48271E164DE300FD2CA7 /* ZHSegmentView.m */,
 				2E23086E1E6181D400322ED8 /* ZHShareView.h */,
 				2E23086F1E6181D400322ED8 /* ZHShareView.m */,
+				2E01F6A21EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.h */,
+				2E01F6A31EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2595,8 +2600,8 @@
 				2E875D191E0D2B00007F97A5 /* ZHShopDetailVC.m */,
 				2EF9DC121E1CF209005E2943 /* ZHMapController.h */,
 				2EF9DC131E1CF209005E2943 /* ZHMapController.m */,
-				2E989CC61E1F574800F3643A /* ZHCouponSelectedVC.h */,
 				2E989CC71E1F574800F3643A /* ZHCouponSelectedVC.m */,
+				2E989CC61E1F574800F3643A /* ZHCouponSelectedVC.h */,
 				2E6E47731E0FEBAA00FD2CA7 /* TopView.h */,
 				2E6E47741E0FEBAA00FD2CA7 /* TopView.m */,
 			);
@@ -3229,6 +3234,7 @@
 				2EF9DBFE1E1C95A8005E2943 /* ZHChatMerchantCell.m in Sources */,
 				2E1762A11E23286300CAE489 /* FCUUID.m in Sources */,
 				2E5983C51E66795B00DE8F3C /* ZHPayFuncModel.m in Sources */,
+				2E01F6A41EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.m in Sources */,
 				2EC6025C1E5D2C080066C197 /* ZHDBModel.m in Sources */,
 				2EC2AE6D1E0CF5B3003EF503 /* ZHUserRegistVC.m in Sources */,
 				2E11982F1E2F9E1400879365 /* ZHTreasureRecord.m in Sources */,

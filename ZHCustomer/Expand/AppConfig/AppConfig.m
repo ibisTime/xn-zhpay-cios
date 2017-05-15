@@ -96,7 +96,8 @@ void TLLog(NSString *format, ...) {
 
 - (NSString *)wxKey {
 
-    return @"wx1c40c1c60500a270";
+    return @"wx9324d86fb16e8af0";
+//    return @"wx1c40c1c60500a270";
 }
 
 @end

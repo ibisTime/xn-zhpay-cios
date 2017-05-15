@@ -134,27 +134,22 @@
         [TLNetworking GET:@"http://itunes.apple.com/lookup?id=1167284604" parameters:nil success:^(NSString *msg, id data) {
             
             NSString *str = data[@"results"][0][@"version"];
-            if ([str isEqualToString:@"3.0.1"]) {
+            //本地版本号 大于线上版本号，说明在审核,当版本号相等的时候 说明已经正式上线. 进行图片更换
+            if ([str isEqualToString:[NSString appCurrentBundleVersion]]) {
                 
-                
-            } else {
                 [[NSUserDefaults standardUserDefaults] setObject:@"上线" forKey:@"zh_pay_magic"];
-                
-                
                 self.yyBeforeImageName = @"摇一摇before";
                 self.yyAfterImageName = @"摇一摇after";
                 
                 self.bgImageView.contentMode = UIViewContentModeScaleAspectFill;
                 self.bgImageView.image = [UIImage imageNamed:self.yyBeforeImageName];
-                
             }
             
         } abnormality:nil failure:nil];
     
     }
-
     
-    //摸调iphone才会变的标志
+    
     //异步更新用户信息
     if ([ZHUser user].userId) {
         [[ZHUser user] updateUserInfo];
@@ -164,7 +159,47 @@
     
     [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(sendLocation) userInfo:nil repeats:YES];
     
-    //
+    //更新应用
+    [self updateApp];
+    
+}
+
+
+//
+- (void)updateApp {
+
+    
+    [TLNetworking GET:@"http://itunes.apple.com/lookup?id=1167284604" parameters:nil success:^(NSString *msg, id data) {
+        
+        NSString *str = data[@"results"][0][@"version"];
+        //版本号不同就要更新
+        if (![str isEqualToString:[NSString appCurrentBundleVersion]]) {
+            
+            UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"有新版本了,前往更新" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+            
+            //
+            UIAlertAction *updateAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/%E6%AD%A3%E6%B1%87%E9%92%B1%E5%8C%85/id1167284604?mt=8"]];
+                
+            }];
+            
+            //
+            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            
+            [alertCtrl addAction:cancleAction];
+            [alertCtrl addAction:updateAction];
+            
+            //
+            [self presentViewController:alertCtrl animated:YES completion:nil];
+
+        }
+        
+    } abnormality:nil failure:nil];
+    
+    
 }
 
 

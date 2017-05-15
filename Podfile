@@ -15,19 +15,13 @@ target 'ZHCustomer' do
   pod 'IQKeyboardManager'
   #七牛云
   pod 'Qiniu'
-  pod 'Realm'
-  
-  #导航sdk
-  #一组
-#  pod 'AMapLocation'
-#  pod 'AMapNavi'
-  
-  
+  pod 'Realm','2.1.2'
+
   #一组
   #pod 'AMap2DMap'
   
   #错误分析
   pod 'UMengAnalytics-NO-IDFA'
   pod 'SVProgressHUD'
-
+  
 end

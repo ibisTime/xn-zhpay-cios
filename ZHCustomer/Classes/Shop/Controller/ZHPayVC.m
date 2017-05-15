@@ -18,13 +18,18 @@
 #import "TLWXManager.h"
 #import "ZHCurrencyModel.h"
 #import "TLAlipayManager.h"
+#import "ZHGoSetTradePwdView.h"
+#import "ZHPwdRelatedVC.h"
 
 @interface ZHPayVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 @property (nonatomic,strong) NSMutableArray <ZHPayFuncModel *>*pays;
 
 
+//消费金额输入
 @property (nonatomic,strong) TLTextField *amountTf;
+@property (nonatomic,strong) TLTextField *tradePwdTf;
+
 
 @property (nonatomic,strong) ZHPayInfoCell *couponsCell;
 
@@ -34,6 +39,7 @@
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
 
 @property (nonatomic,strong) UITableView *payTableView;
+
 
 
 @end
@@ -94,6 +100,11 @@
     self.title = @"支付";
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    
+
+    
+    
+    
     if (!self.balanceString) {
         NSLog(@"请传入余额");
         return;
@@ -118,11 +129,8 @@
         zhPay.payName = payNames[i];
         zhPay.isSelected = [status[i] boolValue];
         zhPay.payType = [payType[i] integerValue];
-        if ( zhPay.payType != ZHPayTypeWeChat) {
-            
-            [self.pays addObject:zhPay];
+        [self.pays addObject:zhPay];
 
-        }
     }
     
     //--//
@@ -134,7 +142,7 @@
     ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
     priceItem.headerHeight = 10.0;
     priceItem.footerHeight = 0.1;
-    priceItem.rowNum = 1;
+    priceItem.rowNum = 2;
     
     //2.优惠券
     ZHPaySceneUIItem *couponItem = [[ZHPaySceneUIItem alloc] init];
@@ -161,8 +169,30 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(canclePay)];
     }
     
-//    self.priceLbl.attributedText = [ZHCurrencyHelper totalPriceAttrWithQBB:@"100" GWB:@"200" RMB:@"300" ];
     
+    
+
+#pragma mark- 检测是否设置了交易密码
+    if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
+        
+        ZHGoSetTradePwdView *setTradeView = [ZHGoSetTradePwdView setTradeView];
+        self.payTableView.tableFooterView = setTradeView;
+        
+        //
+        [setTradeView setGoSetTradePwd:^{
+          //
+           ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
+            [self.navigationController pushViewController:pwdAboutVC animated:YES];
+            
+            [pwdAboutVC setSuccess:^{
+                
+                self.payTableView.tableFooterView = nil;
+                
+            }];
+            
+        }];
+        
+    };
     
 #pragma mark- 微信支付回调
     [TLWXManager manager].wxPay = ^(BOOL isSuccess,int errorCode){
@@ -187,6 +217,7 @@
         });
         
     };
+    
 #pragma mark- 支付宝支付回调
     [[TLAlipayManager manager] setPayCallBack:^(BOOL isSuccess, NSDictionary *resultDict){
         
@@ -207,8 +238,6 @@
         }
         
     }];
-
-
     
 #pragma mark- 除汇赚宝外  获得余额
     //首先获得总额
@@ -251,6 +280,14 @@
         
     }
     
+    
+    if (![self.tradePwdTf.text valid]) {
+        
+        [TLAlert alertWithHUDText:@"请输入支付密码"];
+        return;
+    }
+    
+    
     NSString *payType;
     switch (type) {
         case ZHPayTypeAlipay: {
@@ -291,7 +328,8 @@
         http.code = @"808241";
         http.parameters[@"userId"] = [ZHUser user].userId;
         http.parameters[@"storeCode"] = self.shop.code;
-    
+        http.parameters[@"tradePwd"] = self.tradePwdTf.text;
+
         if (self.selectedCoupon && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.storeTicket.key1]) {
             
             http.parameters[@"ticketCode"] = self.selectedCoupon.code; //优惠券编号
@@ -536,10 +574,20 @@
     }
     if (indexPath.section == 0) {
         
-        infoCell.titleLbl.text = @"消费金额";
-        infoCell.hidenArrow = YES;
+        if (indexPath.row == 0) {
+            
+            infoCell.titleLbl.text = @"消费金额";
+            infoCell.hidenArrow = YES;
+            
+            [infoCell addSubview:self.amountTf];
+        } else {
+            infoCell.titleLbl.text = @"支付密码";
+            infoCell.hidenArrow = YES;
+            
+            [infoCell addSubview:self.tradePwdTf];
         
-        [infoCell addSubview:self.amountTf];
+        }
+  
 
     } else if (indexPath.section == 1 ) {
         
@@ -586,11 +634,25 @@
     return headView;
 }
 
+
+- (TLTextField *)tradePwdTf {
+
+    if (!_tradePwdTf) {
+        
+        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
+        _tradePwdTf.backgroundColor = [UIColor whiteColor];
+        _tradePwdTf.placeholder = @"请输入支付密码";
+        _tradePwdTf.delegate = self;
+    }
+    
+    return _tradePwdTf;
+
+}
 - (TLTextField *)amountTf {
     
     if (!_amountTf) {
         
-        _amountTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 0, SCREEN_WIDTH - 100, 50)];
+        _amountTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
         _amountTf.backgroundColor = [UIColor whiteColor];
         _amountTf.placeholder = @"请输入消费金额";
         _amountTf.delegate = self;

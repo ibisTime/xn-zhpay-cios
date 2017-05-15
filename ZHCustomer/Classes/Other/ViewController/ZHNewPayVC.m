@@ -17,6 +17,8 @@
 #import "ZHCurrencyModel.h"
 #import "TLGroupModel.h"
 #import "TLAlipayManager.h"
+#import "ZHGoSetTradePwdView.h"
+#import "ZHPwdRelatedVC.h"
 
 
 #define PAY_TYPE_DEFAULT_PAY_CODE @"1"
@@ -27,7 +29,7 @@
 
 @property (nonatomic,strong) NSMutableArray <ZHPayFuncModel *>*pays;
 
-
+@property (nonatomic, strong) TLTextField *tradePwdTf;
 //底部价格
 @property (nonatomic,strong) UILabel *priceLbl;
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
@@ -37,6 +39,20 @@
 @end
 
 @implementation ZHNewPayVC
+
+- (TLTextField *)tradePwdTf {
+    
+    if (!_tradePwdTf) {
+        
+        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
+        _tradePwdTf.backgroundColor = [UIColor whiteColor];
+        _tradePwdTf.placeholder = @"请输入支付密码";
+        _tradePwdTf.delegate = self;
+    }
+    
+    return _tradePwdTf;
+    
+}
 
 - (void)canclePay {
     
@@ -104,7 +120,6 @@
 //        
 //    }
     
-    
     //只创建可以支付的支付方式，， 一元夺宝只有 余额支付 就显示余额
     for (NSInteger i = 0; i < count; i ++) {
         
@@ -113,12 +128,10 @@
         zhPay.payName = payNames[i];
         zhPay.isSelected = [status[i] boolValue];
         zhPay.payType = [payType[i] integerValue];
-        if ( zhPay.payType != ZHPayTypeWeChat) {
-            
-            [self.pays addObject:zhPay];
-            
-        }
+        [self.pays addObject:zhPay];
+
     }
+    
     
     //--//
     self.paySceneManager = [[ZHPaySceneManager alloc] init];
@@ -180,6 +193,7 @@
             payFuncItem.footerHeight = 0.1;
             payFuncItem.rowNum = self.pays.count;
             self.paySceneManager.groupItems = @[priceItem,payFuncItem];
+              
             [self setUpUI];
             
             if (self.amoutAttr) {
@@ -249,6 +263,28 @@
     }
     
     
+#pragma mark- 检测是否设置了交易密码
+    if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
+        
+        ZHGoSetTradePwdView *setTradeView = [ZHGoSetTradePwdView setTradeView];
+        self.payTableView.tableFooterView = setTradeView;
+        
+        //
+        [setTradeView setGoSetTradePwd:^{
+            //
+            ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
+            [self.navigationController pushViewController:pwdAboutVC animated:YES];
+            
+            [pwdAboutVC setSuccess:^{
+                
+                self.payTableView.tableFooterView = nil;
+                
+            }];
+            
+        }];
+        
+    };
+    
 #pragma mark- 微信支付回调
     [TLWXManager manager].wxPay = ^(BOOL isSuccess,int errorCode){
         
@@ -302,6 +338,10 @@
 #pragma mark- 支付
 - (void)pay {
     
+    if (![self.tradePwdTf.text valid]) {
+        [TLAlert alertWithHUDText:@"请输入支付密码"];
+        return;
+    }
     __block ZHPayType type;
     [self.pays enumerateObjectsUsingBlock:^(ZHPayFuncModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.isSelected) {
@@ -410,6 +450,7 @@
         http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];
         http.parameters[@"payType"] = payType;
+        http.parameters[@"tradePwd"] = self.tradePwdTf.text;
         http.parameters[@"ip"] = data[@"ip"];
         //---//
         [http postWithSuccess:^(id responseObject) {
@@ -456,6 +497,8 @@
     http.code = @"808052";
     http.parameters[@"codeList"] = self.goodsCodeList;
     http.parameters[@"payType"] = payType;
+    http.parameters[@"tradePwd"] = self.tradePwdTf.text;
+
     
     [http postWithSuccess:^(id responseObject) {
         
@@ -476,7 +519,7 @@
                 }
                 
             }];
-        
+            
         }
      
         
@@ -500,6 +543,7 @@
         http.parameters[@"payType"] = payType;
         http.parameters[@"token"] = [ZHUser user].token;
         http.parameters[@"userId"] = [ZHUser user].userId;
+        http.parameters[@"tradePwd"] = self.tradePwdTf.text;
 //        http.parameters[@"ip"] = data[@"ip"];
     
         [http postWithSuccess:^(id responseObject) {
@@ -684,6 +728,13 @@
         infoCell.hidenArrow = YES;
         infoCell.infoLbl.textAlignment = NSTextAlignmentLeft;
         infoCell.infoLbl.text = [self.postage convertToRealMoney];
+    
+    } else {
+        
+        infoCell.titleLbl.text = @"支付密码";
+        infoCell.hidenArrow = YES;
+        [infoCell addSubview:self.tradePwdTf];
+    
     
     }
     

@@ -27,7 +27,7 @@
     set = [set setByAddingObject:@"text/html"];
     set = [set setByAddingObject:@"text/html"];
     manager.responseSerializer.acceptableContentTypes = set;
-   manager.responseSerializer.acceptableContentTypes = [set setByAddingObject:@"text/plain"];
+    manager.responseSerializer.acceptableContentTypes = [set setByAddingObject:@"text/plain"];
     
     return manager;
 }
