@@ -342,6 +342,7 @@
     if ([ZHUser user].userExt.photo) {
         
         vc.mineAvatarUrlPath = [[ZHUser user].userExt.photo convertThumbnailImageUrl];
+        
     }
     
     vc.oppositeAvatarUrlPath =  [self.userRoom[indexPath.row].userExt[@"photo"] convertThumbnailImageUrl]? :nil;

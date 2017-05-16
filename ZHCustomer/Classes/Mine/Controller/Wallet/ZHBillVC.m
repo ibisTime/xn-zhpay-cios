@@ -238,7 +238,6 @@
     
     if ([self.currencyModel.currency isEqualToString:kHBB] || [self.currencyModel.currency isEqualToString:kHBYJ]) {
         
-        
         TLNetworking *masOpTimesHttp = [TLNetworking new];
         masOpTimesHttp.showView = self.view;
         masOpTimesHttp.code = @"802027";

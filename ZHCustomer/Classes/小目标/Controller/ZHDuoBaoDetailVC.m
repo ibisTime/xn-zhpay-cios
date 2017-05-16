@@ -93,13 +93,12 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     __weak typeof(self) weakSelf = self;
     //刷新控件
     //夺宝分页查询
-    
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"615025";
     helper.parameters[@"jewelCode"] = self.dbModel.code;
 //    helper.parameters[@"start"] = [NSString stringWithFormat:@"%ld",self.start];
 //    helper.parameters[@"limit"] = @"20";
-//    helper.parameters[@"status"] = @"payed";
+    helper.parameters[@"status"] = @"123";
     
     helper.tableView = tableView;
     [helper modelClass:[ZHDBHistoryModel class]];
@@ -233,7 +232,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
     http.parameters[@"jewelCode"] = self.dbModel.code;
     http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"20";
-//    http.parameters[@"status"] = @"payed";
+    http.parameters[@"status"] = @"123";
     [http postWithSuccess:^(id responseObject) {
         
         NSArray *arr = responseObject[@"data"][@"list"];

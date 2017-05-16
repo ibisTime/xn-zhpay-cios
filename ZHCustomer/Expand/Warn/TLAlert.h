@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <objc/message.h>
+
 @class MBProgressHUD;
 
 @interface TLAlert : NSObject
@@ -17,6 +19,20 @@
 
 + (void )alertWithHUDText:(NSString *)text;
 
+
+//SVProgressHUD 版本
+//info
++ (void)alertWithInfo:(NSString *)msg;
+
+//error
++ (void)alertWithError:(NSString *)msg;
+
+//success
++ (void)alertWithSucces:(NSString *)msg;
+
+
+
+//-------------------------------------//
 + (void)alertWithMsg:(NSString * )message;
 + (void)alertWithMsg:(NSString * )message viewCtrl:(UIViewController *)vc;
 

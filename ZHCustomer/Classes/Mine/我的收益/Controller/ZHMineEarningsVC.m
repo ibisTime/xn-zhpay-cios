@@ -32,7 +32,10 @@
 @end
 
 @implementation ZHMineEarningsVC
+{
+    dispatch_group_t _group;
 
+}
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
@@ -62,61 +65,56 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{
                                                                       NSForegroundColorAttributeName : [UIColor whiteColor]
                                                                       }];
-    
-    
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的收益";
+    _group = dispatch_group_create();
+    
+    [self setPlacholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+
+    [self getDataSuccess];
+
+    //先获取数据
+    [self getData];
+    
+}
+
+- (void)tl_placeholderOperation {
+
+    [self getData];
+    
+}
+
+- (void)getDataSuccess {
+
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    
     [self setUpUI];
     self.motivationLbl.text = @"冲一冲\n再500元消费额\n您将新获得一个分红权";
     
-    
+    //--//
     self.amountLbl.text = @"--";
     self.todayEarningsLbl.text = @"--";
     self.profitCountLbl.text = @"--";
+
+}
+
+- (void)getData {
     
     
-    //查询资金池
-//    TLPageDataHelper *pageDataHelper = [[TLPageDataHelper alloc] init];
-//    pageDataHelper.code = @"802524";
-//    pageDataHelper.tableView = billTableView;
-//    pageDataHelper.parameters[@"token"] = [ZHUser user].token;
-//    //    类型C=C端用户；B=B端用户；P=平台
-//    pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
-//    pageDataHelper.parameters[@"type"] = @"C";
-//    
-//    pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
+    [TLProgressHUD showWithStatus:@"加载中..."];
+   __block NSInteger successCount = 0;
     
-//    TLNetworking *http = [TLNetworking new];
-//    http.showView = self.view;
-//    http.code = @"802524";
-//    
-//    http.parameters[@"userId"] = [ZHUser user].userId;
-//    http.parameters[@"token"] = [ZHUser user].token;
-//    
-//    http.parameters[@"accountNumber"] = <#value#>;
-//    [http postWithSuccess:^(id responseObject) {
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
-    
+    dispatch_group_enter(_group);
     //资金池查询
     TLNetworking *poolhttp = [TLNetworking new];
-    poolhttp.showView = self.view;
     poolhttp.code = @"802503";
     poolhttp.parameters[@"userId"] = @"USER_POOL_ZHPAY";
     poolhttp.parameters[@"accountNumber"] = @"A2017100000000000001";
     poolhttp.parameters[@"token"] = [ZHUser user].token;
-//    poolhttp.parameters[@"type"] = @"C";
-//    poolhttp.parameters[@"start"] = @"1";
-//    poolhttp.parameters[@"limit"] = @"10";
-
+    
     [poolhttp postWithSuccess:^(id responseObject) {
         
         NSArray *arr = responseObject[@"data"];
@@ -127,56 +125,69 @@
             
         }
         
+        successCount ++;
+        dispatch_group_leave(_group);
         
     } failure:^(NSError *error) {
         
-    }];
+        dispatch_group_leave(_group);
 
+    }];
+    
     
     //我的分红权查询
+    dispatch_group_enter(_group);
+    
     TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
     http.code = @"808417";
     http.parameters[@"userId"] = [ZHUser user].userId;
     http.parameters[@"token"] = [ZHUser user].token;
     [http postWithSuccess:^(id responseObject) {
         
         //创建UI
-        //
         self.myEarningRoom = [ZHEarningModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
         //分红权个数
         self.profitCountLbl.text = [NSString stringWithFormat:@"%ld",self.myEarningRoom.count];
         //
-    
+        dispatch_group_leave(_group);
+        successCount ++;
+
         
     } failure:^(NSError *error) {
         
-        
-    }];
+        dispatch_group_leave(_group);
 
+    }];
+    
     
     //今日分红权个数及收益统计
+    dispatch_group_enter(_group);
+
     TLNetworking *todayProfitHttp = [TLNetworking new];
-    todayProfitHttp.showView = self.view;
     todayProfitHttp.code = @"808419";
     todayProfitHttp.parameters[@"userId"] = [ZHUser user].userId;
     todayProfitHttp.parameters[@"token"] = [ZHUser user].token;
     [todayProfitHttp postWithSuccess:^(id responseObject) {
         
-//        responseObject[@"data"][@"stockCount"]
-    self.todayEarningsLbl.text = [responseObject[@"data"][@"todayProfitAmount"] convertToRealMoney];
+        //        responseObject[@"data"][@"stockCount"]
+        self.todayEarningsLbl.text = [responseObject[@"data"][@"todayProfitAmount"] convertToRealMoney];
+        
+        //    stockCount: 今日分红权个数,
+        //    todayProfitAmount: 今日分红权收益
+        successCount ++;
+        dispatch_group_leave(_group);
 
-//    stockCount: 今日分红权个数,
-//    todayProfitAmount: 今日分红权收益
     } failure:^(NSError *error) {
         
+        dispatch_group_leave(_group);
+
     }];
-
-
+    
+    
     //我的下一个分红权查询
+    dispatch_group_enter(_group);
     TLNetworking *nextHttp = [TLNetworking new];
-    nextHttp.showView = self.view;
     nextHttp.code = @"808418";
     nextHttp.parameters[@"userId"] = [ZHUser user].userId;
     [nextHttp postWithSuccess:^(id responseObject) {
@@ -190,11 +201,33 @@
         CGFloat needMoney =  500 - [costAmount longLongValue]/1000.0;
         self.motivationLbl.text = [NSString stringWithFormat:@"冲一冲\n再%.2f元消费额\n您将新获得一个分红权",needMoney];
         
+        successCount ++;
+        dispatch_group_leave(_group);
+
     } failure:^(NSError *error) {
         
-        
+        dispatch_group_leave(_group);
+
     }];
-   
+    
+    dispatch_group_notify(_group, dispatch_get_main_queue(), ^{
+       
+        [TLProgressHUD dismiss];
+        
+        if (successCount == 4) {
+            //所有请求成功
+            [self removePlaceholderView];
+
+        } else {
+            //所有请求失败
+            [self addPlaeholderView];
+        
+        }
+        
+    });
+    
+    
+    
     
 }
 
@@ -212,6 +245,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 
 }
+
+
 
 - (void)setUpUI {
 

@@ -208,7 +208,7 @@
 
 //}
 
-
+#pragma mark- 剁手合集-小目标-0元试购：--：切换
 - (BOOL)segmentSwitch:(NSInteger)idx {
 
     if (idx == 0) {

@@ -37,4 +37,30 @@
     return [UIColor colorWithHexString:@"#f0f0f0"];
 }
 
+
++ (UIColor *)themeColor {
+
+    return [self zh_themeColor];
+}
++ (UIColor *)textColor {
+
+    return [self zh_textColor];
+}
+
++ (UIColor *)textColor2 {
+
+    return [self zh_textColor2];
+}
+
++ (UIColor *)lineColor {
+    
+    return [self zh_lineColor];
+    
+}
+
++ (UIColor *)backgroundColor {
+
+    return [self zh_backgroundColor];
+}
+
 @end

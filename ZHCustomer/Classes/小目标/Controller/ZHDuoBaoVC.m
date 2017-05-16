@@ -52,8 +52,8 @@
 
     [super viewWillAppear:animated];
 
-
 }
+
 
 - (ZHDBRecodBrowserView *)browseView {
 
@@ -66,13 +66,14 @@
 
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"小目标";
     self.isFirst = YES;
     
-    
     [self.view addSubview:self.browseView];
+    
     
     //--//
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectZero delegate:self dataSource:self];
@@ -92,11 +93,11 @@
 //    tableView.tableHeaderView = self.browseView;
 
     
-    //
+#pragma mark- 查询宝贝
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"615015";
-//    helper.limit = ;
-//    0 募集中，1 已揭晓
+//  helper.limit = ;
+//  0 募集中，1 已揭晓
     helper.parameters[@"status"] = @"0";
     helper.tableView = tableView;
     [helper modelClass:[ZHDBModel class]];
@@ -153,12 +154,14 @@
 
 }
 
+#pragma mark- 分秒实况数据获取
 - (void)getDBRecord {
 
     TLNetworking *http = [TLNetworking new];
     http.code = @"615025";
     http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"3";
+    http.parameters[@"status"] = @"123";
 //    http.parameters[@"status"] = @"payed";
     [http postWithSuccess:^(id responseObject) {
         

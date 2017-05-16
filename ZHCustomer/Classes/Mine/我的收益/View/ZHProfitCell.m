@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UILabel *stateLbl;
 @property (nonatomic, strong) UILabel *obtainProfitLbl; //获的返利
 @property (nonatomic, strong) UILabel *timeLbl; //
+@property (nonatomic, strong) UILabel *idLbl; //
+
 
 @end
 
@@ -47,20 +49,21 @@
     self.stateLbl.text = [_earningModel getStatusName];
     
     //返利总额
-    self.totalProfitLbl.attributedText= [self attrWithString:[NSString stringWithFormat: @"收益总额：%@",[_earningModel.profitAmount convertToRealMoney]] contentStr:nil];
+    self.totalProfitLbl.attributedText= [self attrWithString:[NSString stringWithFormat: @"收益总额：%@",[_earningModel.profitAmount convertToRealMoney]] contentStr:nil len:5];
     
+    //id
+    NSString *idCodeStr = [_earningModel.code substringFromIndex:_earningModel.code.length - 6];
+    self.idLbl.attributedText =  [self attrWithString:[NSString stringWithFormat: @"分红权ID：%@",idCodeStr] contentStr:nil len:6];
     
     //已收返利
-    self.obtainProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"已收收益：%@",[self detailMoneyWithMoney:_earningModel.backAmount]] contentStr:nil];
+    self.obtainProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"已收收益：%@",[self detailMoneyWithMoney:_earningModel.backAmount]] contentStr:nil len:5];
                                            
-//    [_earningModel.backAmount convertToRealMoney]
     //
-    self.todayProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"今日收益：%@",[self detailMoneyWithMoney:_earningModel.todayAmount]] contentStr:nil];;
-//    [_earningModel.todayAmount convertToRealMoney]
+    self.todayProfitLbl.attributedText = [self attrWithString:[NSString stringWithFormat: @"今日收益：%@",[self detailMoneyWithMoney:_earningModel.todayAmount]] contentStr:nil len:5];
     
     //固定
     self.conditionLbl.attributedText =
-    [self attrWithString: [NSString stringWithFormat:@"获得条件：满%@消费额",[_earningModel.costAmount convertToRealMoney]] contentStr:nil];
+    [self attrWithString: [NSString stringWithFormat:@"获得条件：满%@消费额",[_earningModel.costAmount convertToRealMoney]] contentStr:nil len:5];
     
     //时间
     self.timeLbl.text = [_earningModel.createDatetime convertDate];
@@ -73,12 +76,12 @@
     return [NSString stringWithFormat:@"%.3lf",[money longLongValue]/1000.0];
 }
 
-- (NSAttributedString *)attrWithString:(NSString *)str contentStr:(NSString *)contentStr {
+- (NSAttributedString *)attrWithString:(NSString *)str contentStr:(NSString *)contentStr len:(NSInteger)len {
 
     NSMutableAttributedString *mutableAttr = [[NSMutableAttributedString alloc] initWithString:str attributes:@{
                                                                                                                NSForegroundColorAttributeName : [UIColor zh_themeColor]
                                                                                                                }];
-    [mutableAttr addAttribute:NSForegroundColorAttributeName value:[UIColor zh_textColor] range:NSMakeRange(0, 5)];
+    [mutableAttr addAttribute:NSForegroundColorAttributeName value:[UIColor zh_textColor] range:NSMakeRange(0, len)];
     
     return mutableAttr;
     
@@ -126,11 +129,28 @@
                                  textColor:[UIColor zh_textColor2]];
     [self.contentView addSubview:self.timeLbl];
     
+    //id
+    self.idLbl = [UILabel labelWithFrame:CGRectZero
+                                      textAligment:NSTextAlignmentRight
+                                   backgroundColor:[UIColor whiteColor]
+                                              font:FONT(14)
+                                         textColor:[UIColor zh_themeColor]];
+    [self.contentView addSubview:self.idLbl];
+    
     
     //今日
     [self.todayProfitLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.mas_left).offset(15);
         make.top.equalTo(self.contentView.mas_top).offset(15);
+    }];
+    
+    //id
+    [self.idLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.right.equalTo(self.stateLbl.mas_left).offset(-20);
+        make.top.equalTo(self.stateLbl.mas_top);
+        make.left.lessThanOrEqualTo(self.todayProfitLbl.mas_right);
+        
     }];
     
     //状态

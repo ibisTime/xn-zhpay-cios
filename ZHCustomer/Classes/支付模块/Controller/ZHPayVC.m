@@ -642,6 +642,7 @@
         _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
         _tradePwdTf.backgroundColor = [UIColor whiteColor];
         _tradePwdTf.placeholder = @"请输入支付密码";
+        _tradePwdTf.secureTextEntry = YES;
         _tradePwdTf.delegate = self;
     }
     

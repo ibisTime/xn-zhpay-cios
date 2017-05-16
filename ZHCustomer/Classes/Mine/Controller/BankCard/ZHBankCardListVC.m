@@ -70,6 +70,14 @@
         [pageDataHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
             weakSelf.banks = objs;
+            
+            //限定绑一张
+            if (objs.count) {
+                
+                self.navigationItem.rightBarButtonItem = nil;
+                
+            }
+            
             [weakSelf.bankCardTV reloadData_tl];
             
         } failure:^(NSError *error) {

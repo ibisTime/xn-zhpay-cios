@@ -9,6 +9,7 @@
 #import "ZHBankCardAddVC.h"
 #import "TLPickerTextField.h"
 #import "ZHBank.h"
+#import "ZHRealNameAuthVC.h"
 
 @interface ZHBankCardAddVC ()
 
@@ -35,13 +36,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"添加银行卡";
+    
+    //只能添加本人银行卡
+    if ([ZHUser user].realName && [ZHUser user].idNo) {
+        
+        [self realNameAuthAfterAction];
+        
+    } else {
+    
+        ZHRealNameAuthVC *authVC = [[ZHRealNameAuthVC alloc] init];
+        [authVC setAuthSuccess:^{
+            
+            [self realNameAuthAfterAction];
+            
+        }];
+        [self.navigationController pushViewController:authVC animated:YES];
+        
+    
+    }
+    
+}
 
+
+
+- (void)realNameAuthAfterAction {
+
+    //检测是否进行实名认证
+    
     UIScrollView *bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
     [self.view addSubview:bgScrollView];
     self.bgSV = bgScrollView;
-
+    
     
     [self setUpUI];
+    
+    
+    //只能添加该用户，的银行卡
+    self.realNameTf.text = [ZHUser user].realName;
+    self.realNameTf.enabled = NO;
     
     if (self.bankCard) {
         
@@ -54,17 +86,17 @@
     }
     
     //查询能绑定的银行卡
-//    TLNetworking *http = [TLNetworking new];
-//    http.showView = self.view;
-//    http.code = @"802116";
-//    http.parameters[@"token"] = [ZHUser user].token;
-//    //11 易宝 12 宝付 13 富友 01 线下
-//    http.parameters[@"channelType"] = @"11";
-//    [http postWithSuccess:^(id responseObject) {
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
+    //    TLNetworking *http = [TLNetworking new];
+    //    http.showView = self.view;
+    //    http.code = @"802116";
+    //    http.parameters[@"token"] = [ZHUser user].token;
+    //    //11 易宝 12 宝付 13 富友 01 线下
+    //    http.parameters[@"channelType"] = @"11";
+    //    [http postWithSuccess:^(id responseObject) {
+    //
+    //    } failure:^(NSError *error) {
+    //
+    //    }];
     
     //获取银行卡渠道
     TLNetworking *http = [TLNetworking new];
@@ -85,10 +117,11 @@
         }];
         
         self.bankNameTf.tagNames = self.bankNames;
-
+        
     } failure:^(NSError *error) {
         
     }];
+
 
 }
 

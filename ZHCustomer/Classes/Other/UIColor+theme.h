@@ -16,4 +16,10 @@
 + (UIColor *)zh_lineColor;
 + (UIColor *)zh_backgroundColor;
 
++ (UIColor *)themeColor;
++ (UIColor *)textColor;
++ (UIColor *)textColor2;
++ (UIColor *)lineColor;
++ (UIColor *)backgroundColor;
+
 @end

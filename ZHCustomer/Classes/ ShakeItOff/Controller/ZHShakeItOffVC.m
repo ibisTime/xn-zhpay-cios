@@ -157,7 +157,7 @@
     
     [self.sysLocationManager startUpdatingLocation];
     
-    [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(sendLocation) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(sendLocation) userInfo:nil repeats:YES];
     
     //更新应用
     [self updateApp];

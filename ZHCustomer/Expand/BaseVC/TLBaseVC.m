@@ -12,7 +12,12 @@
 
 @end
 
-@implementation TLBaseVC
+@implementation TLBaseVC {
+
+    UILabel *_placeholderTitleLbl;
+    UIButton *_opBtn;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,15 +31,44 @@
     
 }
 
-- (UIView *)tl_placholderViewWithTitle:(NSString *)title opTitle:(NSString *)opTitle {
-    
-    if (!_tl_placeholderView) {
+
+- (void)removePlaceholderView {
+
+    if (self.tl_placeholderView) {
         
+        [self.tl_placeholderView removeFromSuperview];
+
+    }
+    
+}
+
+- (void)addPlaeholderView{
+
+    if (self.tl_placeholderView) {
+        
+        [self.view addSubview:self.tl_placeholderView];
+        
+    }
+
+}
+
+- (void)setPlacholderViewTitle:(NSString *)title  operationTitle:(NSString *)opTitle {
+
+    if (self.tl_placeholderView) {
+        
+        _placeholderTitleLbl.text = title;
+        [_opBtn setTitle:opTitle forState:UIControlStateNormal];
+        
+    } else {
+    
         UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
         view.backgroundColor = self.view.backgroundColor;
         UILabel *lbl = [UILabel labelWithFrame:CGRectMake(0, 100, view.width, 50) textAligment:NSTextAlignmentCenter backgroundColor:[UIColor clearColor] font:FONT(18) textColor:[UIColor zh_textColor]];
         [view addSubview:lbl];
         lbl.text = title;
+        _placeholderTitleLbl = lbl;
+        
+        
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, lbl.yy + 10, 200, 40)];
         [self.view addSubview:btn];
         btn.titleLabel.font = FONT(15);
@@ -46,29 +80,17 @@
         [btn addTarget:self action:@selector(tl_placeholderOperation) forControlEvents:UIControlEventTouchUpInside];
         [btn setTitle:opTitle forState:UIControlStateNormal];
         [view addSubview:btn];
-        
+        _opBtn = btn;
         _tl_placeholderView = view;
-    }
-    return _tl_placeholderView;
     
-}
-
-
-- (void)tl_showPlaceholder {
-
-    if (self.tl_placeholderView) {
-        [self.view addSubview:self.tl_placeholderView];
     }
 
 }
 
-- (void)tl_hiddenPlaceholder {
 
-    if (self.tl_placeholderView) {
-        [self.tl_placeholderView removeFromSuperview];
-    }
 
-}
+
+
 
 #pragma mark- 站位操作
 - (void)tl_placeholderOperation {

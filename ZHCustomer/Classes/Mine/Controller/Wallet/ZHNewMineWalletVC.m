@@ -44,7 +44,7 @@
     self.title = @"我的钱包";
     self.isFirst = YES;
 
-    [self tl_placholderViewWithTitle:@"加载失败" opTitle:@"点击重新加载"];
+    [self setPlacholderViewTitle:@"加载失败" operationTitle:@"点击重新加载"];
     [self refreshWalletInfo];
 
 
@@ -125,7 +125,7 @@
     [http postWithSuccess:^(id responseObject) {
         
         //ui操作
-        [self tl_hiddenPlaceholder];
+        [self removePlaceholderView];
         [self setUpUI];
         [self.bgScrollView.mj_header endRefreshing];
 
@@ -167,7 +167,7 @@
 //        [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
         //        [weakSelf.mineTableView endRefreshHeader];
         
-        [self tl_showPlaceholder];
+        [self addPlaeholderView];
         
     }];
     

@@ -44,9 +44,11 @@
     
     if (!_tradePwdTf) {
         
-        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
+        CGFloat x = 85;
+        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(x, 1, SCREEN_WIDTH - x, 47)];
         _tradePwdTf.backgroundColor = [UIColor whiteColor];
         _tradePwdTf.placeholder = @"请输入支付密码";
+        _tradePwdTf.secureTextEntry = YES;
         _tradePwdTf.delegate = self;
     }
     
@@ -78,7 +80,7 @@
     
     if (self.type == ZHPayViewCtrlTypeHZB) {
         
-        payNames  = @[self.balanceString,@"微信支付",@"支付宝"]; //余额(可用100)
+        payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
         imgs = @[@"zh_pay",@"we_chat",@"alipay"];
         
     } else if(self.type == ZHPayViewCtrlTypeNewYYDB) {
@@ -145,7 +147,7 @@
             ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
             priceItem.headerHeight = 10.0;
             priceItem.footerHeight = 10.0;
-            priceItem.rowNum = 1;
+            priceItem.rowNum = 2;
             
             //2.支付
             ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
@@ -185,7 +187,7 @@
             ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
             priceItem.headerHeight = 10.0;
             priceItem.footerHeight = 10.0;
-            priceItem.rowNum = 1;
+            priceItem.rowNum = 2;
             
             //2.支付
             ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
@@ -221,11 +223,11 @@
             
             if (self.postage) {
                 
-                priceItem.rowNum = 2;
+                priceItem.rowNum = 3;
 
             } else {
             
-                priceItem.rowNum = 1;
+                priceItem.rowNum = 2;
 
             }
             
@@ -705,6 +707,7 @@
         return cell;
         
     }
+    
     
     //支付金额
     ZHPayInfoCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"id2"];

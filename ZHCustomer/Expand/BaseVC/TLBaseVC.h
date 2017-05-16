@@ -12,10 +12,13 @@
 
 @property (nonatomic,strong) UIView *tl_placeholderView;
 
-- (UIView *)tl_placholderViewWithTitle:(NSString *)title opTitle:(NSString *)opTitle;
+
 - (void)tl_placeholderOperation;
 
-- (void)tl_showPlaceholder;
-- (void)tl_hiddenPlaceholder;
+
+- (void)removePlaceholderView; //移除
+- (void)addPlaeholderView; // 添加
+//更新placeholderView
+- (void)setPlacholderViewTitle:(NSString *)title  operationTitle:(NSString *)optitle;
 
 @end

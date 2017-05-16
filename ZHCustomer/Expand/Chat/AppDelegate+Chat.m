@@ -68,6 +68,7 @@
 
 }
 
+
 - (void)userAccountDidLoginFromOtherDevice {
     
     [TLAlert alertWithTitile:@"提示" message:@"当前账号已从其它设备登录,请重新登录" confirmAction:^{
