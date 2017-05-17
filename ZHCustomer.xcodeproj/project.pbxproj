@@ -295,6 +295,7 @@
 		2EBB38261E826EE4003D8BED /* ZHNewMineWalletVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBB38251E826EE4003D8BED /* ZHNewMineWalletVC.m */; };
 		2EBCF5051E4860CC003A3A5E /* AppDelegate+JPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBCF5041E4860CC003A3A5E /* AppDelegate+JPush.m */; };
 		2EBCF51F1E49A37B003A3A5E /* ZHEvaluateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBCF51E1E49A37B003A3A5E /* ZHEvaluateModel.m */; };
+		2EC04A321ECBFC8800E52C9C /* TLMsgPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC04A311ECBFC8700E52C9C /* TLMsgPlayView.m */; };
 		2EC2AB891E0CC76F003EF503 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AB881E0CC76F003EF503 /* main.m */; };
 		2EC2AB941E0CC76F003EF503 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC2AB931E0CC76F003EF503 /* Assets.xcassets */; };
 		2EC2AB971E0CC76F003EF503 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC2AB951E0CC76F003EF503 /* LaunchScreen.storyboard */; };
@@ -963,6 +964,8 @@
 		2EBCF5041E4860CC003A3A5E /* AppDelegate+JPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+JPush.m"; sourceTree = "<group>"; };
 		2EBCF51D1E49A37B003A3A5E /* ZHEvaluateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEvaluateModel.h; sourceTree = "<group>"; };
 		2EBCF51E1E49A37B003A3A5E /* ZHEvaluateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEvaluateModel.m; sourceTree = "<group>"; };
+		2EC04A301ECBFC8700E52C9C /* TLMsgPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMsgPlayView.h; sourceTree = "<group>"; };
+		2EC04A311ECBFC8700E52C9C /* TLMsgPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLMsgPlayView.m; sourceTree = "<group>"; };
 		2EC2AB841E0CC76F003EF503 /* ZHCustomer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZHCustomer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC2AB881E0CC76F003EF503 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2EC2AB931E0CC76F003EF503 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -2686,6 +2689,8 @@
 				2EC2ABD41E0CD28E003EF503 /* ZHShopCell.m */,
 				2E875D121E0D1FAE007F97A5 /* ZHShopTypeView.h */,
 				2E875D131E0D1FAE007F97A5 /* ZHShopTypeView.m */,
+				2EC04A301ECBFC8700E52C9C /* TLMsgPlayView.h */,
+				2EC04A311ECBFC8700E52C9C /* TLMsgPlayView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3185,6 +3190,7 @@
 				2E22277E1E2DBB0A00B6F209 /* ZHSearchVC.m in Sources */,
 				2EC2ABC61E0CD04E003EF503 /* ZHShopVC.m in Sources */,
 				2E6E481A1E1543B600FD2CA7 /* ZHCurrencyHelper.m in Sources */,
+				2EC04A321ECBFC8800E52C9C /* TLMsgPlayView.m in Sources */,
 				2E875D211E0D4AEE007F97A5 /* ZHDiscountInfoCell.m in Sources */,
 				2E1762BA1E23B7DC00CAE489 /* ZHAdvDetailVC.m in Sources */,
 				2E6E47FB1E14DF9000FD2CA7 /* ZHAddAddressVC.m in Sources */,

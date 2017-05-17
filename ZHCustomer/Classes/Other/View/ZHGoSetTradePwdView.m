@@ -29,7 +29,7 @@
                                           textColor:[UIColor zh_textColor]];
                              
         [self addSubview:hintLbl];
-        hintLbl.text = @"您还未设置交易密码";
+        hintLbl.text = @"您还未设置支付密码";
         
         //btn
         UIButton *goBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, hintLbl.yy, 250, 40)];

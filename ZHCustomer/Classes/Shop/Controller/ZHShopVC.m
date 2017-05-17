@@ -33,6 +33,7 @@
 @interface ZHShopVC ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate,HYCityViewDelegate>
 
 @property (nonatomic,strong) TLTableView *shopTableView;
+@property (nonatomic, strong) UIPageControl *shopTypePageCtrl;
 
 @property (nonatomic,strong) TLPageDataHelper *pageDataHelper;
 //公告view
@@ -60,7 +61,7 @@
 @property (nonatomic,strong) MBProgressHUD *hud;
 
 @property (nonatomic,strong) NSMutableArray <ZHBannerModel *>*bannerRoom;
-@property (nonatomic,strong) NSMutableArray <ZHShopTypeView *>*shopTypeRooms;
+@property (nonatomic,strong) NSMutableArray <ZHShopTypeView *>*shopTypeViewRooms;
 
 @property (nonatomic,strong) NSMutableArray *bannerPics; //图片
 
@@ -106,17 +107,17 @@
 }
 
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.isLocationSuccess = NO;
-
-    
-    
-    //顶部视图
-    [self setUpSearchView];
     self.isFirst = YES;
+    
+    //1.思路，定位有结果后，
+    //取请求banner sysMsg 和 店铺类型，成功之后展示UI并且，去刷新tab
+
+    //搜索 及 位置信息
+    [self setUpSearchView];
     
     
     //先读取上次城市名称
@@ -138,6 +139,7 @@
     //顶部 banner 和 店铺类型选择
     [self setUpTableViewHeader];
     
+    //
     self.bannerView.selected = ^(NSInteger index){
     
         TLWebVC *webVC = [[TLWebVC alloc] init];
@@ -154,6 +156,9 @@
 #pragma mark- 系统公告
     [self getSysMsg];
     
+#pragma mark- 获取店铺类型
+    [self getType];
+
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808217";
@@ -213,46 +218,48 @@
         [[ZHUser user] updateUserInfo];
     }
     
-//    [self.sysLocationManager startUpdatingLocation];
     
-    [self getType];
-    
+}
+
+#pragma mark- scrollViewDidscroll
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+    if ([scrollView isEqual:self.shopTypeScrollView]) {
+        
+        self.shopTypePageCtrl.currentPage = scrollView.contentOffset.x/self.shopTypeScrollView.width;
+        
+    }
 }
 
 #pragma mark- 获得店铺类型
 - (void)getType {
 
-    if (self.shopTypeRooms.count > 8) {
-        //两页显示，左右滑动
-         self.shopTypeScrollView.contentSize = CGSizeMake(2*SCREEN_WIDTH, self.shopTypeScrollView.height);
-        
-    } else {
-        //一页显示，
-    
-     self.shopTypeScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.shopTypeScrollView.height);
-    }
-   
-    //
-    if (self.shopTypeRooms.count > 0) {
-        
-        [self.shopTypeRooms makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        [self.shopTypeRooms removeAllObjects];
-    }
-    
-
     TLNetworking *http = [TLNetworking new];
-//  http.showView = self.view;
     http.code = @"808007";
     http.parameters[@"status"] = @"1";
     http.parameters[@"type"] = @"2";
-     
     [http postWithSuccess:^(id responseObject) {
         
+        //1.获取数据
         NSArray <ZHShopTypeModel *>* models = [ZHShopTypeModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
         
+        //2.先移除原来的
+        if (self.shopTypeViewRooms.count > 0) {
+            
+            [self.shopTypeViewRooms makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            [self.shopTypeViewRooms removeAllObjects];
+        }
+        
+        //计算几页
+        NSInteger pageCount = models.count/9 + 1;
         //
-//        NSArray *imgNames = @[@"美食",@"KTV",@"美发",@"便利店",@"足浴",@"酒店",@"亲子",@"蔬果"];
+        self.shopTypePageCtrl.numberOfPages = pageCount;
+//        [self.shopTypePageCtrl updateCurrentPageDisplay];
+        self.shopTypePageCtrl.defersCurrentPageDisplay = YES;
+        self.shopTypeScrollView.contentSize = CGSizeMake(pageCount*SCREEN_WIDTH, self.shopTypeScrollView.height);
+        
+        //3.然后添加新的
         CGFloat margin = 0.5;
         
         //
@@ -262,26 +269,18 @@
         __weak typeof(self) weakSelf = self;
         for (NSInteger i = 0; i < models.count; i ++) {
             
-            
+            //i 无要求
             CGFloat x = (w + margin)*(i%4) + SCREEN_WIDTH *(i/8);
             
-            CGFloat y = 0;
-            if (i > 7) {
-                
-                y = (97 + margin)*((i - 8)/4) + 0.5;
-
-            } else {
+             CGFloat y = (97 + margin)*((i - 8*(i/8))/4) + 0.5;
             
-                y = (97 + margin)*(i/4) + 0.5;
-
-            }
             ZHShopTypeView *shopTypeView = [[ZHShopTypeView alloc] initWithFrame:CGRectMake(x, y, w, h)
                                             
                                                                        funcImage:nil
                                                                         funcName:models[i].name];
             [self.shopTypeScrollView  addSubview:shopTypeView];
             
-            [self.shopTypeRooms addObject:shopTypeView];
+            [self.shopTypeViewRooms addObject:shopTypeView];
             [shopTypeView.funcBtn sd_setImageWithURL:[NSURL URLWithString:[models[i].pic convertImageUrl]] forState:UIControlStateNormal];
             shopTypeView.index = i;
             shopTypeView.selected = ^(NSInteger index) {
@@ -295,34 +294,6 @@
     } failure:^(NSError *error) {
         
     }];
-
-    
-    
-//        //
-//        NSArray *imgNames = @[@"美食",@"KTV",@"美发",@"便利店",@"足浴",@"酒店",@"亲子",@"蔬果"];
-//        CGFloat margin = 0.5;
-//    
-//    
-//        //
-//        CGFloat w = (SCREEN_WIDTH - 3*margin)/4.0;
-//        CGFloat h = 97;
-//    
-//        __weak typeof(self) weakSelf = self;
-//        for (NSInteger i = 0; i < imgNames.count; i ++) {
-//    
-//            CGFloat x = (w + margin)*(i%4);
-//            CGFloat y = (97 + margin)*(i/4);
-//            ZHShopTypeView *shopTypeView = [[ZHShopTypeView alloc] initWithFrame:CGRectMake(x, y, w, h) funcImage:imgNames[i] funcName:imgNames[i]];
-//            [self.shopTypeScrollView  addSubview:shopTypeView];
-//            [self.shopTypeRooms addObject:shopTypeView];
-//            shopTypeView.index = i;
-//            shopTypeView.selected = ^(NSInteger index) {
-//    
-//                [weakSelf selectedShopType:index];
-//            
-//            };
-//            
-//        }
 
 }
 
@@ -400,14 +371,7 @@
     
 }
 
-//- (NSArray *)types {
-//    
-//    if (!_types) {
-//        _types = @[@"美食",@"KTV",@"美发",@"便利店",@"足浴",@"酒店",@"亲子",@"蔬果"];
-//    }
-//    return _types;
-//    
-//}
+
 
 - (CLLocationManager *)sysLocationManager {
 
@@ -710,14 +674,14 @@
     return cell;
 }
 
-- (NSMutableArray<ZHShopTypeView *> *)shopTypeRooms {
+- (NSMutableArray<ZHShopTypeView *> *)shopTypeViewRooms {
 
-    if (!_shopTypeRooms) {
+    if (!_shopTypeViewRooms) {
         
-        _shopTypeRooms = [[NSMutableArray alloc] init];
+        _shopTypeViewRooms = [[NSMutableArray alloc] init];
     }
     
-    return _shopTypeRooms;
+    return _shopTypeViewRooms;
 
 }
 
@@ -746,23 +710,23 @@
     shopTypeScrollView.pagingEnabled = YES;
     shopTypeScrollView.showsHorizontalScrollIndicator = NO;
     self.shopTypeScrollView = shopTypeScrollView;
+    self.shopTypeScrollView.delegate = self;
     
     //可能出现pageControll
+    UIPageControl *pageCtrl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, shopTypeScrollView.yy + 0.5, SCREEN_WIDTH, 20)];
+    pageCtrl.backgroundColor = [UIColor whiteColor];
+    [bgView addSubview:pageCtrl];
+    pageCtrl.pageIndicatorTintColor = [UIColor colorWithHexString:@"#cccccc"];
+    pageCtrl.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"#fe4332"];
+    self.shopTypePageCtrl = pageCtrl;
     
     //底部--公告
     [bgView addSubview:self.announcementsView];
-    self.announcementsView.y = shopTypeScrollView.yy + margin;
+    self.announcementsView.y = pageCtrl.yy;
     
-    //
+    //调节高度
     bgView.height = self.announcementsView.yy + 5;
-    
-//    ZHShopTypeDisplayView *typeDisplayView = [[ZHShopTypeDisplayView alloc] init];
-//    [bgView addSubview:typeDisplayView];
-//    typeDisplayView.y = bannerView.yy;
-//    
-//    //底部--公告
-//    [bgView addSubview:self.announcementsView];
-//    self.announcementsView.y = typeDisplayView.yy + margin;
+
 
 }
 

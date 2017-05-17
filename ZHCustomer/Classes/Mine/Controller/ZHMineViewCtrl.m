@@ -11,7 +11,7 @@
 #import "ZHSettingUpCell.h"
 #import "ZHAccountSecurityVC.h"
 #import "ZHHZBVC.h"
-
+#import "TLMsgPlayView.h"
 //#import "ZHWalletView.h"
 //#import "ZHCurrencyModel.h"
 
@@ -73,6 +73,11 @@
     
     //头部信息
     [self setUptableViewHeader];
+    
+    //
+//    TLMsgPlayView *msgView = [[TLMsgPlayView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
+//    [self.view addSubview:msgView];
+//    msgView.playMsg = @"消息测消息测试消息测试消息测试消息测试消息测试消息测试试";
     
     //刷新信息
     __weak typeof(self) weakSelf = self;

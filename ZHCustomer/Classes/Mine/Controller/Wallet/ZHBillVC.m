@@ -114,7 +114,7 @@
     if (self.currency && self.bizType) {
         
         pageDataHelper.parameters[@"bizType"] = self.bizType;
-        pageDataHelper.parameters[@"currency"] = self.currency;
+//        pageDataHelper.parameters[@"currency"] = self.currency;
         return;
         
     }

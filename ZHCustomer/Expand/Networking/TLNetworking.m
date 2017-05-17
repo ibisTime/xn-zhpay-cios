@@ -85,7 +85,7 @@
         
     if(self.showView){
     
-        [TLProgressHUD show];
+        [SVProgressHUD show];
     }
     
     if(self.code && self.code.length > 0){
@@ -173,7 +173,7 @@
        }
        
        if (self.isShowMsg) {
-           
+
            [SVProgressHUD showErrorWithStatus:@"网络异常"];
            [SVProgressHUD dismissWithDelay:3];
 

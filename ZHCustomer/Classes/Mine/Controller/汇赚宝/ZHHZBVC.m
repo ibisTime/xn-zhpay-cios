@@ -19,6 +19,7 @@
 #import "ZHBillVC.h"
 
 #import "ZHHZBInfoCell.h"
+#import "ZHCurrencyModel.h"
 
 @interface ZHHZBVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -312,27 +313,57 @@
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
         return;
     }
-
-    ZHBillVC *billVC = [[ZHBillVC alloc] init];
-    billVC.currency = kHBYJ;
-
     
-    if (indexPath.row == 3) { //摇摇
+    //获取账户
+    
+    //下部，钱包
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"802503";
+    http.parameters[@"token"] = [ZHUser user].token;
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    [http postWithSuccess:^(id responseObject) {
         
-        billVC.bizType = @"53";
+      NSArray <ZHCurrencyModel *> *currencyRoom =  [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
-    }
+        ZHBillVC *billVC = [[ZHBillVC alloc] init];
+        billVC.currency = kHBYJ;
+        
+        [currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.currency isEqualToString:kHBYJ]) {
+                
+                billVC.currencyModel = obj;
+ 
+                
+            }
+        }];
+        
+        
     
-    if (indexPath.row == 6) {
         
-        billVC.bizType = @"60";
+        if (indexPath.row == 3) { //摇摇
+            
+            billVC.bizType = @"53";
+            
+        }
+        
+        if (indexPath.row == 6) {
+            
+            billVC.bizType = @"60";
+            
+            
+        }
+        
+        [self.navigationController pushViewController:billVC animated:YES];
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
 
 
-    }
-    
-    [self.navigationController pushViewController:billVC animated:YES];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
 }
 

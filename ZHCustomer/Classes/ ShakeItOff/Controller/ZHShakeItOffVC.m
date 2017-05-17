@@ -49,11 +49,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.view becomeFirstResponder];
-    
- 
-
 
 }
+
 
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -171,9 +169,10 @@
     
     [TLNetworking GET:@"http://itunes.apple.com/lookup?id=1167284604" parameters:nil success:^(NSString *msg, id data) {
         
+        //线上版本
         NSString *str = data[@"results"][0][@"version"];
         //版本号不同就要更新
-        if (![str isEqualToString:[NSString appCurrentBundleVersion]]) {
+        if (![str isEqualToString:@"3.0.2"] && ![str isEqualToString:[NSString appCurrentBundleVersion]]) {
             
             UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"有新版本了,前往更新" message:@"" preferredStyle:UIAlertControllerStyleAlert];
             
@@ -185,10 +184,11 @@
             }];
             
             //
-            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"暂不更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
             }];
             
+            //
             [alertCtrl addAction:cancleAction];
             [alertCtrl addAction:updateAction];
             

@@ -15,9 +15,6 @@
 #import "UICKeyChainStore.h"
 
 
-
-
-
 @interface ZHUserLoginVC ()
 
 @property (nonatomic,strong) ZHAccountTf *phoneTf;
@@ -33,6 +30,7 @@
 
     [self setUpUI];
     
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
     
     //登录成功之后，给予回调
@@ -44,11 +42,47 @@
     NSString *passWord =  [keyChainStore stringForKey:KEY_CHAIN_USER_PASS_WORD_KEY];
 
 
-    if (userName && passWord) {
+    if (userName) {
         self.phoneTf.text = userName;
-        self.pwdTf.text = passWord;
+        
+        if (passWord) {
+            
+            self.pwdTf.text = passWord;
+            
+        }
+        
+    }
+    
+ 
+    
+    [self.pwdTf addTarget:self action:@selector(valueChange:) forControlEvents:UIControlEventEditingChanged];
+    //
+//    [self.pwdTf addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:NULL];
+
+}
+
+- (void)valueChange:(UITextField *)tf {
+
+    if (!tf.text || tf.text.length == 0) {
+        
+        UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
+        [keyChainStore removeItemForKey:KEY_CHAIN_USER_PASS_WORD_KEY];
+        
     }
 
+}
+
+- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSString*, id> *)change context:(nullable void *)context {
+
+    NSLog(@"909090909");
+}
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+
+
+    return YES;
+    
 }
 
 - (void)back {

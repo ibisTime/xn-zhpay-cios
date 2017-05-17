@@ -67,11 +67,46 @@
     self.title = @"支付";
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-//    if (!self.balanceString) {
-//        
-//        NSLog(@"请传入余额字符串");
-//    }
     
+    //----//----//
+    if (self.navigationController) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(canclePay)];
+    }
+    
+#pragma mark- 检测是否设置了交易密码
+    if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
+        
+        
+        [self setPlacholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
+        [self addPlaeholderView];
+        
+    } else {//
+        
+        [self beginLoad];
+        
+    }
+    
+  
+
+    
+}
+
+- (void)tl_placeholderOperation {
+    
+    ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
+    [self.navigationController pushViewController:pwdAboutVC animated:YES];
+    
+    [pwdAboutVC setSuccess:^{
+        
+        [self removePlaceholderView];
+        [self beginLoad];
+        
+    }];
+    
+}
+
+- (void)beginLoad {
+
     //--//
     NSArray *imgs ;
     NSArray *payNames;
@@ -84,22 +119,22 @@
         imgs = @[@"zh_pay",@"we_chat",@"alipay"];
         
     } else if(self.type == ZHPayViewCtrlTypeNewYYDB) {
-    
+        
         //
         if ([self.rmbAmount isEqual:@0]) { //不是人民币价格
             
-            payNames  = @[self.balanceString]; //余额(可用100)
+            payNames  = @[@"余额"]; //余额(可用100)
             imgs = @[@"zh_pay"];
             
         } else {//人民币价格
-        
-            payNames  = @[self.balanceString,@"微信支付",@"支付宝"]; //余额(可用100)
+            
+            payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO)];
-          
+            
         }
-      
+        
         
     } else {
         
@@ -109,18 +144,18 @@
         
     }
     
-  
+    
     self.pays = [NSMutableArray array];
     
     //隐藏掉支付宝
     NSInteger count = payNames.count;
     
     //只有一种支付，
-//    if ([self.rmbAmount isEqual:@0]) {
-//        
-//        count = 1;
-//        
-//    }
+    //    if ([self.rmbAmount isEqual:@0]) {
+    //
+    //        count = 1;
+    //
+    //    }
     
     //只创建可以支付的支付方式，， 一元夺宝只有 余额支付 就显示余额
     for (NSInteger i = 0; i < count; i ++) {
@@ -131,7 +166,7 @@
         zhPay.isSelected = [status[i] boolValue];
         zhPay.payType = [payType[i] integerValue];
         [self.pays addObject:zhPay];
-
+        
     }
     
     
@@ -164,12 +199,12 @@
             }
             [self setUpUI];
             
-
+            
             if (self.amoutAttr) {
                 
-
+                
                 self.priceLbl.text = self.paySceneManager.amount;
-
+                
             } else {
                 
                 self.priceLbl.text = self.paySceneManager.amount;
@@ -178,7 +213,7 @@
             
         } break;
             
-          case ZHPayViewCtrlTypeNewYYDB: { //2.0版本的一元夺宝
+        case ZHPayViewCtrlTypeNewYYDB: { //2.0版本的一元夺宝
             
             self.paySceneManager.isInitiative = NO;
             self.paySceneManager.amount = [self.rmbAmount convertToSimpleRealMoney];
@@ -195,11 +230,11 @@
             payFuncItem.footerHeight = 0.1;
             payFuncItem.rowNum = self.pays.count;
             self.paySceneManager.groupItems = @[priceItem,payFuncItem];
-              
+            
             [self setUpUI];
             
             if (self.amoutAttr) {
-            
+                
                 self.priceLbl.attributedText = self.amoutAttr;
                 
             } else {
@@ -224,11 +259,11 @@
             if (self.postage) {
                 
                 priceItem.rowNum = 3;
-
+                
             } else {
-            
+                
                 priceItem.rowNum = 2;
-
+                
             }
             
             //2.支付
@@ -240,53 +275,27 @@
             [self setUpUI];
             
             self.priceLbl.attributedText = self.amoutAttrAddPostage;
-
             
-//            if (self.amoutAttr) {
-//                
-//                //
-////                self.tempAttrLbl.attributedText = self.amoutAttrAddPostage;
-//                
-//            } else {
-//                
-//                self.priceLbl.text = self.paySceneManager.amount;
-//                
-//            }
+            
+            //            if (self.amoutAttr) {
+            //
+            //                //
+            ////                self.tempAttrLbl.attributedText = self.amoutAttrAddPostage;
+            //
+            //            } else {
+            //
+            //                self.priceLbl.text = self.paySceneManager.amount;
+            //
+            //            }
             
         } break;
             
         default: [TLAlert alertWithHUDText:@"您还没有选择支付场景"];
             
     }
+
     
-    //----//----//
-    if (self.navigationController) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(canclePay)];
-    }
-    
-    
-#pragma mark- 检测是否设置了交易密码
-    if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
-        
-        ZHGoSetTradePwdView *setTradeView = [ZHGoSetTradePwdView setTradeView];
-        self.payTableView.tableFooterView = setTradeView;
-        
-        //
-        [setTradeView setGoSetTradePwd:^{
-            //
-            ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
-            [self.navigationController pushViewController:pwdAboutVC animated:YES];
-            
-            [pwdAboutVC setSuccess:^{
-                
-                self.payTableView.tableFooterView = nil;
-                
-            }];
-            
-        }];
-        
-    };
-    
+
 #pragma mark- 微信支付回调
     [TLWXManager manager].wxPay = ^(BOOL isSuccess,int errorCode){
         
@@ -333,9 +342,8 @@
     }];
     
 
-    
-}
 
+}
 
 #pragma mark- 支付
 - (void)pay {
@@ -500,7 +508,6 @@
     http.parameters[@"codeList"] = self.goodsCodeList;
     http.parameters[@"payType"] = payType;
     http.parameters[@"tradePwd"] = self.tradePwdTf.text;
-
     
     [http postWithSuccess:^(id responseObject) {
         
@@ -510,7 +517,8 @@
 
         } else if([payType isEqualToString:PAY_TYPE_WX_PAY_CODE]) {
         
-        
+            [self wxPayWithInfo:responseObject[@"data"]];
+            
         } else {
         
             [TLAlert alertWithHUDText:@"购买成功"];

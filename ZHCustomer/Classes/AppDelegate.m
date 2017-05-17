@@ -33,12 +33,12 @@
 //#endif
 //#import "JPUSHService.h"
 
-
 @interface AppDelegate ()<WXApiDelegate>
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
 @end
+
 
 @implementation AppDelegate
 
@@ -46,7 +46,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvTest;
     
     
     
@@ -66,7 +66,7 @@
     
     //HUD
     [SVProgressHUD setMinimumDismissTimeInterval:2.5];
-    [SVProgressHUD setMaximumDismissTimeInterval:5];
+    [SVProgressHUD setMaximumDismissTimeInterval:8];
     
     //推送注册
     [self jpushInitWithLaunchOption:launchOptions];

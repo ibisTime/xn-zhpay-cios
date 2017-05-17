@@ -173,14 +173,29 @@
     
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    http.code = @"802526";
+    http.code = @"802750";
     http.parameters[@"token"] = [ZHUser user].token;
-    //银行卡号
-    http.parameters[@"bankcardNumber"] = self.bankPickTf.text; //实体账户编号,
-    http.parameters[@"transAmount"] = [NSString stringWithFormat:@"-%@",[self.moneyTf.text convertToSysMoney]];   //@"-100";
+ 
     
     http.parameters[@"accountNumber"] = self.accountNum;
+    //
+    http.parameters[@"amount"] = [self.moneyTf.text convertToSysMoney];   //@"-100";
+    //银行卡号
+    http.parameters[@"payCardNo"] = self.bankPickTf.text; //开户行信息
+
+    
+    http.parameters[@"applyUser"] = [ZHUser user].userId;
+    http.parameters[@"applyNote"] = @"用户端取现";
     http.parameters[@"tradePwd"] = self.tradePwdTf.text;
+
+    [self.banks enumerateObjectsUsingBlock:^(ZHBankCard * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.bankcardNumber isEqualToString:self.bankPickTf.text ]) {
+            
+            http.parameters[@"payCardInfo"] = obj.subbranch; //实体账户编号,
+
+        }
+    }];
+
 
     
 //    //银行卡号

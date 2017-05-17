@@ -18,7 +18,6 @@
 #import "TLWXManager.h"
 #import "ZHCurrencyModel.h"
 #import "TLAlipayManager.h"
-#import "ZHGoSetTradePwdView.h"
 #import "ZHPwdRelatedVC.h"
 
 @interface ZHPayVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
@@ -52,6 +51,10 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 
+    if (![textField isEqual:self.amountTf]) {
+        return;
+    }
+    
     if (!textField.text && textField.text.length <= 0) {
         
         self.priceLbl.text = @"0";
@@ -100,7 +103,65 @@
     self.title = @"支付";
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    //----//----//
+    if (self.navigationController) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(canclePay)];
+    }
     
+    
+#pragma mark- 检测是否设置了交易密码
+    if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
+        
+        
+        [self setPlacholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
+        [self addPlaeholderView];
+        
+    } else {//
+        
+        [self beginLoad];
+    
+    }
+    
+
+
+    
+#pragma mark- 除汇赚宝外  获得余额
+    //首先获得总额
+//    TLNetworking *http2 = [TLNetworking new];
+//    http2.code = @"808801";
+//    http2.parameters[@"userId"] = [ZHUser user].userId;
+//    http2.parameters[@"token"] = [ZHUser user].token;
+//    [http2 postWithSuccess:^(id responseObject) {
+//        
+//      NSNumber *surplusMoney =  responseObject[@"data"];
+//      self.pays[0].payName = [NSString stringWithFormat:@"余额(%@)",[surplusMoney convertToRealMoney]];
+//      [self.payTableView reloadData];
+//        
+//        
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
+    
+}
+
+- (void)tl_placeholderOperation {
+
+    ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
+    [self.navigationController pushViewController:pwdAboutVC animated:YES];
+    
+   [pwdAboutVC setSuccess:^{
+    
+       [self removePlaceholderView];
+       [self beginLoad];
+    
+   }];
+
+}
+
+
+
+- (void)beginLoad {
 
     
     
@@ -112,16 +173,16 @@
     //--//
     NSArray *imgs = @[@"zh_pay",@"we_chat",@"alipay"];
     NSArray *payNames;
-    payNames  = @[self.balanceString,@"微信支付",@"支付宝"]; //余额(可用100)
-
+    payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+    
     NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
     NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
     self.pays = [NSMutableArray array];
     
     NSInteger count = imgs.count;
     
- 
- //全部转换为支付模型
+    
+    //全部转换为支付模型
     for (NSInteger i = 0; i < count; i ++) {
         
         ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
@@ -130,7 +191,7 @@
         zhPay.isSelected = [status[i] boolValue];
         zhPay.payType = [payType[i] integerValue];
         [self.pays addObject:zhPay];
-
+        
     }
     
     //--//
@@ -158,41 +219,18 @@
     
     self.paySceneManager.groupItems = @[priceItem,couponItem,payFuncItem];
     
-
+    
     
     //界面
     [self setUpUI];
-
-    
-    //----//----//
-    if (self.navigationController) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(canclePay)];
-    }
-    
     
     
 
-#pragma mark- 检测是否设置了交易密码
-    if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
-        
-        ZHGoSetTradePwdView *setTradeView = [ZHGoSetTradePwdView setTradeView];
-        self.payTableView.tableFooterView = setTradeView;
-        
-        //
-        [setTradeView setGoSetTradePwd:^{
-          //
-           ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
-            [self.navigationController pushViewController:pwdAboutVC animated:YES];
-            
-            [pwdAboutVC setSuccess:^{
-                
-                self.payTableView.tableFooterView = nil;
-                
-            }];
-            
-        }];
-        
-    };
+    
+    
+    
+    
+    
     
 #pragma mark- 微信支付回调
     [TLWXManager manager].wxPay = ^(BOOL isSuccess,int errorCode){
@@ -210,10 +248,10 @@
             } else {
                 
                 [TLAlert alertWithHUDText:@"支付失败"];
- 
+                
                 
             }
-
+            
         });
         
     };
@@ -231,32 +269,15 @@
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             
         } else {
-        
+            
             [TLAlert alertWithHUDText:@"支付失败"];
-
-        
+            
+            
         }
         
     }];
-    
-#pragma mark- 除汇赚宝外  获得余额
-    //首先获得总额
-//    TLNetworking *http2 = [TLNetworking new];
-//    http2.code = @"808801";
-//    http2.parameters[@"userId"] = [ZHUser user].userId;
-//    http2.parameters[@"token"] = [ZHUser user].token;
-//    [http2 postWithSuccess:^(id responseObject) {
-//        
-//      NSNumber *surplusMoney =  responseObject[@"data"];
-//      self.pays[0].payName = [NSString stringWithFormat:@"余额(%@)",[surplusMoney convertToRealMoney]];
-//      [self.payTableView reloadData];
-//        
-//        
-//    } failure:^(NSError *error) {
-//        
-//        
-//    }];
-    
+
+
 }
 
 #pragma mark- 支付
