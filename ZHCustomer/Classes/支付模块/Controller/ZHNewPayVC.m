@@ -348,10 +348,7 @@
 #pragma mark- 支付
 - (void)pay {
     
-    if (![self.tradePwdTf.text valid]) {
-        [TLAlert alertWithHUDText:@"请输入支付密码"];
-        return;
-    }
+    
     __block ZHPayType type;
     [self.pays enumerateObjectsUsingBlock:^(ZHPayFuncModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.isSelected) {
@@ -386,10 +383,19 @@
             
         case ZHPayTypeOther: {
             
+            if (![self.tradePwdTf.text valid]) {
+                
+                [TLAlert alertWithHUDText:@"请输入支付密码"];
+                return;
+            }
+            
             payType = PAY_TYPE_DEFAULT_PAY_CODE;
         }
             break;
     }
+    
+    
+    
     
     if(self.type == ZHPayViewCtrlTypeHZB) {
         
@@ -606,7 +612,37 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell isKindOfClass:[ZHPayFuncCell class]]) {
         
+        
+        //----不是余额把 支付密码隐藏掉----//
+        if (self.pays[indexPath.row].isSelected) {
+            return;
+        }
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"PAY_TYPE_CHANGE_NOTIFICATION" object:nil userInfo:@{@"sender" : cell}];
+        
+        
+        if (self.pays[indexPath.row].payType == ZHPayTypeOther) {
+            //余额支付
+            self.paySceneManager.groupItems[0].rowNum ++;
+            
+        } else {
+            
+            self.paySceneManager.groupItems[0].rowNum --;
+            
+        }
+        
+        if (self.postage && self.paySceneManager.groupItems[0].rowNum <= 1) {
+            
+            self.paySceneManager.groupItems[0].rowNum = 2;
+        } else if (self.paySceneManager.groupItems[0].rowNum <= 0) {
+        
+            self.paySceneManager.groupItems[0].rowNum = 1;
+        }
+        
+        [self.tradePwdTf removeFromSuperview];
+        [tableView reloadData];
+        //--//
+
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
