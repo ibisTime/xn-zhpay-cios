@@ -78,7 +78,7 @@
     pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
 
 
-    //0 刚生成待回调，1 已回调待对账，2 对账通过, 3 对账不通过待调账,4 已调账,9,无需对账
+    //1=待对账，3=已对账且账已平，4=帐不平待调账审批 5=已对账且账不平 6=无需对账
     //pageDataHelper.parameters[@"status"] = [ZHUser user].token;
     [pageDataHelper modelClass:[ZHBillModel class]];
     [billTableView addRefreshAction:^{

@@ -84,12 +84,7 @@
     [http postWithSuccess:^(id responseObject) {
         
         [self.captchaView.captchaBtn begin];
-        
-        if (self.type == ZHPwdTypeTradeReset) {
-            [ZHUser user].tradepwdFlag = @"1";
-            [[ZHUser user] updateUserInfo];
-            
-        }
+
         
     } failure:^(NSError *error) {
         
@@ -155,6 +150,13 @@
     [http postWithSuccess:^(id responseObject) {
         
         [TLAlert alertWithHUDText:@"修改成功"];
+        
+        if (self.type == ZHPwdTypeTradeReset) {
+            [ZHUser user].tradepwdFlag = @"1";
+            [[ZHUser user] updateUserInfo];
+            
+        }
+        
         [self.navigationController popViewControllerAnimated:YES];
         if (self.success) {
             self.success();

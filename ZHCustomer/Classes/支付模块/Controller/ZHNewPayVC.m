@@ -95,14 +95,16 @@
 - (void)tl_placeholderOperation {
     
     ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
-    [self.navigationController pushViewController:pwdAboutVC animated:YES];
-    
     [pwdAboutVC setSuccess:^{
         
         [self removePlaceholderView];
         [self beginLoad];
         
     }];
+    
+    [self.navigationController pushViewController:pwdAboutVC animated:YES];
+    
+ 
     
 }
 

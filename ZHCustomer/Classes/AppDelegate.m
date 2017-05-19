@@ -46,7 +46,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvTest;
     
     //--pppp--//
     self.locationManager = [[CLLocationManager alloc] init];
@@ -132,7 +132,7 @@
 #pragma mark- 用户登录操作
 - (void)userLogin {
 
-    [JPUSHService setAlias:[ZHUser user].userId callbackSelector:nil object:nil];
+//    [JPUSHService setAlias:[ZHUser user].userId callbackSelector:nil object:nil];
     
     [[ZHCartManager manager] getCartCount];
 
@@ -150,7 +150,7 @@
 
     [self userLoginOutCancleLocation];
 
-    [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
+//    [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
 
     //用户 数据清除放在最后
     [[ZHUser user] loginOut];

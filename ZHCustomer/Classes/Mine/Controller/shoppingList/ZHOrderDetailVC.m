@@ -51,18 +51,22 @@
     self.addressView.addressLbl.text = [@"收货地址：" add:self.order.reAddress];
     
 //    || [self.order.status isEqualToString:@"4"] //已经收货
-    if ([self.order.status isEqualToString:@"3"]) {// 已发货
+    if ([self.order.status isEqualToString:@"3"] || [self.order.status isEqualToString:@"4"]) {// 已发货
         
         //footer
         tableV.tableFooterView = [self footerView];
         self.expressCodeLbl.text = [@"快递单号：" add:self.order.logisticsCode];
         self.expressNameLbl.text = [@"快递公司：" add:self.order.logisticsCompany];
         
-        //收货按钮
-        tableV.height = tableV.height - 49;
-        UIButton *shBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, tableV.yy, SCREEN_WIDTH, 49) title:@"收货" backgroundColor:[UIColor zh_themeColor]];
-        [self.view addSubview:shBtn];
-        [shBtn addTarget:self action:@selector(confirmReceive) forControlEvents:UIControlEventTouchUpInside];
+        if ([self.order.status isEqualToString:@"3"]) {
+            
+            //收货按钮
+            tableV.height = tableV.height - 49;
+            UIButton *shBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, tableV.yy, SCREEN_WIDTH, 49) title:@"收货" backgroundColor:[UIColor zh_themeColor]];
+            [self.view addSubview:shBtn];
+            [shBtn addTarget:self action:@selector(confirmReceive) forControlEvents:UIControlEventTouchUpInside];
+        }
+    
         
     } else if([self.order.status isEqualToString:@"1"]) { //待支付，可取消
     

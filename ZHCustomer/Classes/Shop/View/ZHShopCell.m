@@ -104,7 +104,7 @@
     self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.coverImageView.layer.cornerRadius = 2;
     self.coverImageView.layer.masksToBounds = YES;
-    self.coverImageView.backgroundColor = [UIColor lightGrayColor];
+    self.coverImageView.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.coverImageView];
     
     //
