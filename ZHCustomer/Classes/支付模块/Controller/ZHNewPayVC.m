@@ -29,32 +29,33 @@
 
 @property (nonatomic,strong) NSMutableArray <ZHPayFuncModel *>*pays;
 
-@property (nonatomic, strong) TLTextField *tradePwdTf;
+//@property (nonatomic, strong) TLTextField *tradePwdTf;
 //底部价格
 @property (nonatomic,strong) UILabel *priceLbl;
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
 
 @property (nonatomic,strong) UITableView *payTableView;
 
+
 @end
 
 @implementation ZHNewPayVC
 
-- (TLTextField *)tradePwdTf {
-    
-    if (!_tradePwdTf) {
-        
-        CGFloat x = 85;
-        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(x, 1, SCREEN_WIDTH - x, 47)];
-        _tradePwdTf.backgroundColor = [UIColor whiteColor];
-        _tradePwdTf.placeholder = @"请输入支付密码";
-        _tradePwdTf.secureTextEntry = YES;
-        _tradePwdTf.delegate = self;
-    }
-    
-    return _tradePwdTf;
-    
-}
+//- (TLTextField *)tradePwdTf {
+//    
+//    if (!_tradePwdTf) {
+//        
+//        CGFloat x = 85;
+//        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(x, 1, SCREEN_WIDTH - x, 47)];
+//        _tradePwdTf.backgroundColor = [UIColor whiteColor];
+//        _tradePwdTf.placeholder = @"请输入支付密码";
+//        _tradePwdTf.secureTextEntry = YES;
+//        _tradePwdTf.delegate = self;
+//    }
+//    
+//    return _tradePwdTf;
+//    
+//}
 
 - (void)canclePay {
     
@@ -182,7 +183,7 @@
             ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
             priceItem.headerHeight = 10.0;
             priceItem.footerHeight = 10.0;
-            priceItem.rowNum = 2;
+            priceItem.rowNum = 1;
             
             //2.支付
             ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
@@ -222,7 +223,7 @@
             ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
             priceItem.headerHeight = 10.0;
             priceItem.footerHeight = 10.0;
-            priceItem.rowNum = 2;
+            priceItem.rowNum = 1;
             
             //2.支付
             ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
@@ -258,11 +259,11 @@
             
             if (self.postage) {
                 
-                priceItem.rowNum = 3;
+                priceItem.rowNum = 2;
                 
             } else {
                 
-                priceItem.rowNum = 2;
+                priceItem.rowNum = 1;
                 
             }
             
@@ -360,12 +361,7 @@
     }];
     
     
-//    if (![self.amountTf.text valid]) {
-//        
-//        [TLAlert alertWithHUDText:@"请输入消费金额"];
-//        return;
-//        
-//    }
+
     
     NSString *payType;
     switch (type) {
@@ -383,11 +379,6 @@
             
         case ZHPayTypeOther: {
             
-            if (![self.tradePwdTf.text valid]) {
-                
-                [TLAlert alertWithHUDText:@"请输入支付密码"];
-                return;
-            }
             
             payType = PAY_TYPE_DEFAULT_PAY_CODE;
         }
@@ -395,28 +386,89 @@
     }
     
     
-    
-    
-    if(self.type == ZHPayViewCtrlTypeHZB) {
+    //判断余额还是其它
+    if (type == ZHPayTypeOther) {
         
-        [self hzbPay:payType];
-        
-    } if (self.type == ZHPayViewCtrlTypeNewYYDB) {
-        
-        //特殊
-        if (type == ZHPayTypeOther) {
-            [self newYydbPay:payType];
-
-        } else {
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
+        [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
             
-            [self newYydbPay:payType];
-
-        }
+            textField.secureTextEntry = YES;
+            
+        }];
         
-    } else if (self.type == ZHPayViewCtrlTypeNewGoods) {
+        [alertCtrl addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }]];
+        
+        [alertCtrl addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            if (![alertCtrl.textFields[0].text valid]) {
+                
+                [TLAlert alertWithInfo:@"请输入支付密码"];
+                
+            } else {
+                
+                NSString *pwd = alertCtrl.textFields[0].text;
+                
+                if(self.type == ZHPayViewCtrlTypeHZB) {
+                    
+                    [self hzbPay:payType payPwd:pwd];
+                    
+                } if (self.type == ZHPayViewCtrlTypeNewYYDB) {
+                    
+                    //特殊
+                    if (type == ZHPayTypeOther) {
+                        [self newYydbPay:payType payPwd:pwd];
+                        
+                    } else {
+                        
+                        [self newYydbPay:payType payPwd:pwd];
+                        
+                    }
+                    
+                } else if (self.type == ZHPayViewCtrlTypeNewGoods) {
+                    
+                    [self goodsPay:payType payPwd:pwd];
+                }
+                
+
+            }
+            
+            
+        }]];
+        
+        
+        [self presentViewController:alertCtrl animated:YES completion:nil];
+        
+    } else {
     
-        [self goodsPay:payType];
+        if(self.type == ZHPayViewCtrlTypeHZB) {
+            
+            [self hzbPay:payType payPwd:nil];
+            
+        } if (self.type == ZHPayViewCtrlTypeNewYYDB) {
+            
+            //特殊
+            if (type == ZHPayTypeOther) {
+                [self newYydbPay:payType payPwd:nil];
+                
+            } else {
+                
+                [self newYydbPay:payType payPwd:nil];
+                
+            }
+            
+        } else if (self.type == ZHPayViewCtrlTypeNewGoods) {
+            
+            [self goodsPay:payType payPwd:nil];
+        }
+
+    
+    
     }
+    
+    
+    
     
 
 }
@@ -454,7 +506,7 @@
 }
 
 #pragma mark- 2.0新一元夺宝支付
-- (void)newYydbPay:(NSString *)payType {
+- (void)newYydbPay:(NSString *)payType  payPwd:(NSString *)pwd{
     
     [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
     
@@ -466,7 +518,7 @@
         http.parameters[@"jewelCode"] = self.dbModel.code;
         http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];
         http.parameters[@"payType"] = payType;
-        http.parameters[@"tradePwd"] = self.tradePwdTf.text;
+        http.parameters[@"tradePwd"] = pwd;
         http.parameters[@"ip"] = data[@"ip"];
         //---//
         [http postWithSuccess:^(id responseObject) {
@@ -500,7 +552,7 @@
 }
 
 //尖货支付
-- (void)goodsPay:(NSString *)payType {
+- (void)goodsPay:(NSString *)payType payPwd:(NSString *)pwd {
 
     if (!self.goodsCodeList) {
         
@@ -513,7 +565,7 @@
     http.code = @"808052";
     http.parameters[@"codeList"] = self.goodsCodeList;
     http.parameters[@"payType"] = payType;
-    http.parameters[@"tradePwd"] = self.tradePwdTf.text;
+    http.parameters[@"tradePwd"] = pwd;
     
     [http postWithSuccess:^(id responseObject) {
         
@@ -548,7 +600,7 @@
 
 
 #pragma mark- 汇赚宝支付
-- (void)hzbPay:(NSString *)payType {
+- (void)hzbPay:(NSString *)payType payPwd:(NSString *)pwd {
     
 //    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
     
@@ -559,7 +611,7 @@
         http.parameters[@"payType"] = payType;
         http.parameters[@"token"] = [ZHUser user].token;
         http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"tradePwd"] = self.tradePwdTf.text;
+        http.parameters[@"tradePwd"] = pwd;
 //        http.parameters[@"ip"] = data[@"ip"];
     
         [http postWithSuccess:^(id responseObject) {
@@ -613,7 +665,7 @@
     if ([cell isKindOfClass:[ZHPayFuncCell class]]) {
         
         
-        //----不是余额把 支付密码隐藏掉----//
+        //解决重复点击
         if (self.pays[indexPath.row].isSelected) {
             return;
         }
@@ -621,27 +673,28 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"PAY_TYPE_CHANGE_NOTIFICATION" object:nil userInfo:@{@"sender" : cell}];
         
         
-        if (self.pays[indexPath.row].payType == ZHPayTypeOther) {
-            //余额支付
-            self.paySceneManager.groupItems[0].rowNum ++;
-            
-        } else {
-            
-            self.paySceneManager.groupItems[0].rowNum --;
-            
-        }
-        
-        if (self.postage && self.paySceneManager.groupItems[0].rowNum <= 1) {
-            
-            self.paySceneManager.groupItems[0].rowNum = 2;
-        } else if (self.paySceneManager.groupItems[0].rowNum <= 0) {
-        
-            self.paySceneManager.groupItems[0].rowNum = 1;
-        }
-        
-        [self.tradePwdTf removeFromSuperview];
-        [tableView reloadData];
-        //--//
+//        if (self.pays[indexPath.row].payType == ZHPayTypeOther) {
+//            //余额支付
+//            self.paySceneManager.groupItems[0].rowNum ++;
+//            
+//        } else {
+//            
+//            self.paySceneManager.groupItems[0].rowNum --;
+//            
+//        }
+//        
+//        if (self.postage && self.paySceneManager.groupItems[0].rowNum <= 1) {
+//            
+//            self.paySceneManager.groupItems[0].rowNum = 2;
+//            
+//        } else if (self.paySceneManager.groupItems[0].rowNum <= 0) {
+//        
+//            self.paySceneManager.groupItems[0].rowNum = 1;
+//        }
+//        
+////        [self.tradePwdTf removeFromSuperview];
+//        [tableView reloadData];
+//        //--//
 
     }
     
@@ -776,14 +829,8 @@
         infoCell.infoLbl.textAlignment = NSTextAlignmentLeft;
         infoCell.infoLbl.text = [self.postage convertToRealMoney];
     
-    } else {
-        
-        infoCell.titleLbl.text = @"支付密码";
-        infoCell.hidenArrow = YES;
-        [infoCell addSubview:self.tradePwdTf];
-    
-    
     }
+    
     
     return infoCell;
     

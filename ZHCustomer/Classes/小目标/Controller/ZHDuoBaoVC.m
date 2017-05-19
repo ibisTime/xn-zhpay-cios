@@ -159,6 +159,7 @@
 
     TLNetworking *http = [TLNetworking new];
     http.code = @"615025";
+    http.isShowMsg = NO;
     http.parameters[@"start"] = @"1";
     http.parameters[@"limit"] = @"3";
     http.parameters[@"status"] = @"123";

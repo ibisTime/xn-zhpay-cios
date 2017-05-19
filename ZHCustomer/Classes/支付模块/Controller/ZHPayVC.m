@@ -27,7 +27,7 @@
 
 //消费金额输入
 @property (nonatomic,strong) TLTextField *amountTf;
-@property (nonatomic,strong) TLTextField *tradePwdTf;
+//@property (nonatomic,strong) TLTextField *tradePwdTf;
 
 
 @property (nonatomic,strong) ZHPayInfoCell *couponsCell;
@@ -203,7 +203,7 @@
     ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
     priceItem.headerHeight = 10.0;
     priceItem.footerHeight = 0.1;
-    priceItem.rowNum = 2;
+    priceItem.rowNum = 1;
     
     //2.优惠券
     ZHPaySceneUIItem *couponItem = [[ZHPaySceneUIItem alloc] init];
@@ -319,12 +319,7 @@
             
         case ZHPayTypeOther: {
             
-            
-            if (![self.tradePwdTf.text valid]) {
-                
-                [TLAlert alertWithHUDText:@"请输入支付密码"];
-                return;
-            }
+      
             
             payType = @"1";
         }
@@ -332,13 +327,47 @@
     }
     
 
-    [self shopPay:payType];
+    if (type == ZHPayTypeOther) {
+        
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
+        [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            
+            textField.secureTextEntry = YES;
+            
+        }];
+        
+        [alertCtrl addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }]];
+        
+        [alertCtrl addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            if (![alertCtrl.textFields[0].text valid]) {
+                
+                [TLAlert alertWithInfo:@"请输入支付密码"];
+                
+            } else {
+            
+                [self shopPay:payType payPwd:alertCtrl.textFields[0].text];
+            }
+           
+  
+        }]];
 
+        
+        [self presentViewController:alertCtrl animated:YES completion:nil];
+        
+        
+    } else {
     
+        [self shopPay:payType payPwd:nil];
+
+    }
+
 }
 
-#pragma mark- 优店支付
-- (void)shopPay:(NSString *)payType {
+#pragma mark- 优店支付, 余额支付需要支付密码
+- (void)shopPay:(NSString *)payType payPwd:(nullable NSString *)pwd {
 
 //    if (payType) {
 //        <#statements#>
@@ -351,7 +380,8 @@
         http.code = @"808241";
         http.parameters[@"userId"] = [ZHUser user].userId;
         http.parameters[@"storeCode"] = self.shop.code;
-        http.parameters[@"tradePwd"] = self.tradePwdTf.text;
+  
+        http.parameters[@"tradePwd"] = pwd;
 
         if (self.selectedCoupon && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.storeTicket.key1]) {
             
@@ -469,23 +499,22 @@
         
        [[NSNotificationCenter defaultCenter] postNotificationName:@"PAY_TYPE_CHANGE_NOTIFICATION" object:nil userInfo:@{@"sender" : cell}];
         
-     
+//        if (self.pays[indexPath.row].payType == ZHPayTypeOther) {
+//            //余额支付
+//            self.paySceneManager.groupItems[0].rowNum ++;
+//            
+//        } else {
+//            
+//            self.paySceneManager.groupItems[0].rowNum --;
+//
+//        }
+//        if (self.paySceneManager.groupItems[0].rowNum <= 0) {
+//            self.paySceneManager.groupItems[0].rowNum = 1;
+//        }
+//        [self.tradePwdTf removeFromSuperview];
+//        [tableView reloadData];
+//        //--//
         
-        if (self.pays[indexPath.row].payType == ZHPayTypeOther) {
-            //余额支付
-            self.paySceneManager.groupItems[0].rowNum ++;
-            
-        } else {
-            
-            self.paySceneManager.groupItems[0].rowNum --;
-
-        }
-        if (self.paySceneManager.groupItems[0].rowNum <= 0) {
-            self.paySceneManager.groupItems[0].rowNum = 1;
-        }
-        [self.tradePwdTf removeFromSuperview];
-        [tableView reloadData];
-        //--//
         
     }
     
@@ -631,7 +660,7 @@
             infoCell.titleLbl.text = @"支付密码";
             infoCell.hidenArrow = YES;
             
-            [infoCell addSubview:self.tradePwdTf];
+//            [infoCell addSubview:self.tradePwdTf];
         
         }
   
@@ -682,20 +711,21 @@
 }
 
 
-- (TLTextField *)tradePwdTf {
+//- (TLTextField *)tradePwdTf {
+//
+//    if (!_tradePwdTf) {
+//        
+//        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
+//        _tradePwdTf.backgroundColor = [UIColor whiteColor];
+//        _tradePwdTf.placeholder = @"请输入支付密码";
+//        _tradePwdTf.secureTextEntry = YES;
+//        _tradePwdTf.delegate = self;
+//    }
+//    
+//    return _tradePwdTf;
+//
+//}
 
-    if (!_tradePwdTf) {
-        
-        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
-        _tradePwdTf.backgroundColor = [UIColor whiteColor];
-        _tradePwdTf.placeholder = @"请输入支付密码";
-        _tradePwdTf.secureTextEntry = YES;
-        _tradePwdTf.delegate = self;
-    }
-    
-    return _tradePwdTf;
-
-}
 - (TLTextField *)amountTf {
     
     if (!_amountTf) {

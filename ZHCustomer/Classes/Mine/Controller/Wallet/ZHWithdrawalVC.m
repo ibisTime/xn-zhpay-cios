@@ -28,6 +28,12 @@
     [super viewDidLoad];
     self.title = @"提现";
     
+    [self beginLoad];
+    
+}
+
+- (void)beginLoad {
+
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     http.code = @"802016";
@@ -36,39 +42,43 @@
     
     [http postWithSuccess:^(id responseObject) {
         
+        
+        
         NSArray *banks = responseObject[@"data"];
         if (banks.count >0 ) {
             
+            [self removePlaceholderView];
             self.banks = [ZHBankCard tl_objectArrayWithDictionaryArray:banks];
             [self setUpUI];
             
             
         } else { //无卡
             
-            [TLAlert alertWithTitle:nil Message:@"前往添加银行卡" confirmMsg:@"前往" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
-                
-                [self.navigationController popViewControllerAnimated:YES];
-                
-            } confirm:^(UIAlertAction *action) {
-                
-                ZHBankCardAddVC *addVC = [[ZHBankCardAddVC alloc] init];
-                addVC.addSuccess = ^(ZHBankCard *card){
-                
-                    self.banks = [NSMutableArray arrayWithObject:card];
-                    [self setUpUI];
-                    
-                };
-                [self.navigationController pushViewController:addVC animated:YES];
-                
-            }];
+            [self setPlacholderViewTitle:@"您还未添加银行卡" operationTitle:@"前往添加"];
+            [self addPlaeholderView];
         
+            
         }
         
     } failure:^(NSError *error) {
         
         
     }];
+
+}
+
+#pragma mark- 站位图行为
+- (void)tl_placeholderOperation {
+
+
+    ZHBankCardAddVC *addVC = [[ZHBankCardAddVC alloc] init];
+    addVC.addSuccess = ^(ZHBankCard *card){
+        
+        [self beginLoad];
+        
+    };
     
+    [self.navigationController pushViewController:addVC animated:YES];
     
 }
 
