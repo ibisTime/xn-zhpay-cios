@@ -16,6 +16,7 @@
 
 @property (nonatomic,strong) TLPickerTextField *bankPickTf;
 @property (nonatomic,strong) UILabel *balanceLbl;
+@property (nonatomic,strong) UILabel *hinLbl;
 @property (nonatomic,strong) UITextField *moneyTf;
 @property (nonatomic,strong) NSMutableArray <ZHBankCard *>*banks;
 @property (nonatomic,strong) TLTextField *tradePwdTf;
@@ -34,6 +35,7 @@
 
 - (void)beginLoad {
 
+    //
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     http.code = @"802016";
@@ -50,6 +52,19 @@
             [self removePlaceholderView];
             self.banks = [ZHBankCard tl_objectArrayWithDictionaryArray:banks];
             [self setUpUI];
+            
+            //获取取现次数
+            TLNetworking *http = [TLNetworking new];
+            http.code = @"802027";
+            http.parameters[@"key"] = @"CUSERMONTIMES";
+            [http postWithSuccess:^(id responseObject) {
+                
+                self.hinLbl.text = [NSString stringWithFormat:@"*每月最大取现次数: %@ 次", responseObject[@"data"][@"cvalue"]];
+               
+            } failure:^(NSError *error) {
+                
+            }];
+
             
             
         } else { //无卡
@@ -130,6 +145,7 @@
     
     //给初始化数据
     self.balanceLbl.text = [@"可用余额：" add:[self.balance convertToRealMoney]];
+    
     
     //取出银行卡
     NSMutableArray *bankCards = [NSMutableArray arrayWithCapacity:self.banks.count];
@@ -278,6 +294,15 @@
     [bgV addSubview:balanceLbl];
     balanceLbl.text = @"可取现余额";
     self.balanceLbl = balanceLbl;
+
+    //
+    self.hinLbl = [UILabel labelWithFrame:CGRectMake(0, self.balanceLbl.yy, SCREEN_WIDTH - 15, 20) textAligment:NSTextAlignmentRight
+                          backgroundColor:[UIColor whiteColor]
+                                     font:FONT(12)
+                                textColor:[UIColor themeColor]];
+    [bgV addSubview:self.hinLbl];
+    self.hinLbl.text = @"*每月最大取现次数:--";
+    bgV.height = self.hinLbl.yy + 10;
     
     return bgV;
 
