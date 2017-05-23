@@ -24,3 +24,5 @@ DerivedData
 Pods
 !Podfile
 !Podfile.lock
+ZHCustomer/Expand/Chat/HyphenateSDK/HyphenateLite_arm64
+ZHCustomer/Expand/Chat/HyphenateSDK/HyphenateLite_armv7
