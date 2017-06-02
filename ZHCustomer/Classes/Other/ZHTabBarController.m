@@ -22,7 +22,7 @@
     [super viewDidLoad];
     
     self.delegate = self;
-    NSArray *titles = @[@"优店",@"尖货",@"摇一摇",@"夺宝",@"我的"];
+    NSArray *titles = @[@"优店",@"尖货",@"摇一摇",@"小目标",@"我的"];
     //, BPProjectCategoryVC  BPSubscriptionVC
     
     

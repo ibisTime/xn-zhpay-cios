@@ -12,6 +12,7 @@
 #import "ZHAccountSecurityVC.h"
 #import "ZHHZBVC.h"
 #import "TLMsgPlayView.h"
+#import "ZHChatVC.h"
 //#import "ZHWalletView.h"
 //#import "ZHCurrencyModel.h"
 
@@ -472,9 +473,10 @@
     releationModel.imgName = @"我的折扣券";
     releationModel.text = @"推荐关系";
     releationModel.action = ^(){
-        //
         
-    
+        //
+        ZHChatVC *chatVC = [[ZHChatVC alloc] init];
+        [self.navigationController pushViewController:chatVC animated:YES];
         
     };
     
