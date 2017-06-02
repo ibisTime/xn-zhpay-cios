@@ -28,7 +28,6 @@
     
     //小类的数量
     NSInteger count = self.smallCategories.count;
-//    [ZHGoodsCategoryManager manager].smallCategories.count;
 
     
     self.isHaveChildVC = [NSMutableArray array];
@@ -45,7 +44,7 @@
         
     }
     
-    
+    //上部
     UIScrollView *smallChooseView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
     smallChooseView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:smallChooseView];
@@ -53,7 +52,8 @@
     self.smallChooseScrollView = smallChooseView;
     self.smallChooseScrollView.delegate = self;
     
-    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.smallChooseScrollView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 45.5 - 40)];
+    //下部
+    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.smallChooseScrollView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - smallChooseView.yy)];
     [self.view addSubview:self.switchScrollView];
     self.switchScrollView.showsHorizontalScrollIndicator = NO;
     self.switchScrollView.pagingEnabled = YES;
@@ -150,7 +150,7 @@
         ZHCategoryModel *model = self.smallCategories[index];
         //先设置code  如果先设置frame,则viewDidLoad就会优先调用
         defaultVC2.categoryCode = model.code;
-        defaultVC2.view.frame = CGRectMake(SCREEN_WIDTH*index, 0, SCREEN_WIDTH, self.switchScrollView.height);
+        defaultVC2.view.frame = CGRectMake(SCREEN_WIDTH*index, 0, self.switchScrollView.width, self.switchScrollView.height);
         [self.switchScrollView addSubview:defaultVC2.view];
         self.isHaveChildVC[index] = @1;
         

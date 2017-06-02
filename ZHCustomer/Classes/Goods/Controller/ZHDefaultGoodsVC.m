@@ -56,12 +56,15 @@
     [super viewDidLoad];
     
     //
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 46 - 40) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectZero delegate:self dataSource:self];
     [self.view addSubview:tableView];
     tableView.rowHeight = 96;
     self.goodsTableView = tableView;
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无商品"];
     
+    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero);
+    }];
     
     //// 0 待发布 1 已上架 2已下架
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];

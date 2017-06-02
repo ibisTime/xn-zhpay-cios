@@ -8,7 +8,7 @@
 
 #import "ZHShopDetailVC.h"
 #import "ZHShopInfoCell.h"
-#import "ZHDiscountInfoCell.h"
+//#import "ZHDiscountInfoCell.h"
 #import "ZHTextDetailCell.h"
 #import "ZHImageCell.h"
 #import "ZHPayVC.h"
@@ -16,9 +16,10 @@
 #import "ZHMapController.h"
 #import "WXApi.h"
 
-#import "ZHCouponsMgtVC.h"
-#import "ZHCouponsDetailVC.h"
-#import "ZHMineCouponModel.h"
+//#import "ZHCouponsMgtVC.h"
+//#import "ZHCouponsDetailVC.h"
+//#import "ZHMineCouponModel.h"
+
 #import "ZHCurrencyModel.h"
 #import "ZHShareView.h"
 #import "AppConfig.h"
@@ -90,14 +91,16 @@
             }];
         }
         
-    } else if(indexPath.section == 1) { //折扣券查询
-    
-        
-        ZHCouponsDetailVC *couponsDetail = [[ZHCouponsDetailVC alloc] init];
-        couponsDetail.coupon = self.shop.storeTickets[indexPath.row];
-        [self.navigationController pushViewController:couponsDetail animated:YES];
-    
     }
+    
+//    else if(indexPath.section == 1) { //折扣券查询
+//    
+//        
+//        ZHCouponsDetailVC *couponsDetail = [[ZHCouponsDetailVC alloc] init];
+//        couponsDetail.coupon = self.shop.storeTickets[indexPath.row];
+//        [self.navigationController pushViewController:couponsDetail animated:YES];
+//    
+//    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -245,11 +248,15 @@
         
         return [ZHShopInfoCell rowHeight];
         
-    } if (indexPath.section == 1) {
-        
-        return [ZHDiscountInfoCell rowHeight];
-        
-    } else {
+    }
+    
+//    if (indexPath.section == 1) {
+//        
+//        return [ZHDiscountInfoCell rowHeight];
+//        
+//    }
+    
+    else {
     
         if (indexPath.row == 0) {
             return [self.shop detailHeight];
@@ -267,11 +274,16 @@
         
         return [self addressHeaderView];
         
-    } else if(section == 1) { //折扣
-        
-        return [self discountHeaderView];
-        
-    } else  {
+    }
+    
+    
+//    else if(section == 1) { //折扣
+//        
+//        return [self discountHeaderView];
+//        
+//    }
+    
+    else  {
         
         return [self detailHeaderView];
         
@@ -282,7 +294,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return 3;
+    return 2;
     
 }
 
@@ -293,11 +305,15 @@
         
         return 3;
         
-    } else if(section == 1 ) {
+    }
     
-        return self.shop.storeTickets.count;
+//    else if(section == 1 ) {
+//    
+//        return self.shop.storeTickets.count;
+//    
+//    }
     
-    } else  {
+    else  {
     
         return 1 + self.shop.detailPics.count;
 
@@ -401,32 +417,37 @@
         
         return cell;
         
-    } else if(indexPath.section == 1) {
-        
-        
-
+    }
     
-        static  NSString *discountCellId = @"ZHDiscountInfoCellID";
-        ZHDiscountInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:discountCellId];
-        if (!cell) {
-            
-            cell = [[ZHDiscountInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:discountCellId];
-            
-        }
     
-        ZHCoupon *coupon = self.shop.storeTickets[indexPath.row];
-        
-       NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[ZHCurrencyHelper QBBWithBouns:CGRectMake(0, -2, 15, 15)] ];
-        [attr appendAttributedString:
-         [[NSAttributedString alloc] initWithString: [NSString stringWithFormat:@" %@",[coupon.key2 convertToRealMoney]]]
-                                      ];
-         cell.mainLbl.attributedText = attr;
-        
-        cell.subLbl.text = [coupon discountInfoDescription01];
-        
-        return cell;
-        
-    } else {
+//    else if(indexPath.section == 1) {
+//        
+//        
+//
+//    
+//        static  NSString *discountCellId = @"ZHDiscountInfoCellID";
+//        ZHDiscountInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:discountCellId];
+//        if (!cell) {
+//            
+//            cell = [[ZHDiscountInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:discountCellId];
+//            
+//        }
+//    
+//        ZHCoupon *coupon = self.shop.storeTickets[indexPath.row];
+//        
+//       NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[ZHCurrencyHelper QBBWithBouns:CGRectMake(0, -2, 15, 15)] ];
+//        [attr appendAttributedString:
+//         [[NSAttributedString alloc] initWithString: [NSString stringWithFormat:@" %@",[coupon.key2 convertToRealMoney]]]
+//                                      ];
+//         cell.mainLbl.attributedText = attr;
+//        
+//        cell.subLbl.text = [coupon discountInfoDescription01];
+//        
+//        return cell;
+//        
+//    }
+    
+    else {
         
         if (indexPath.row == 0) {
         
@@ -489,22 +510,23 @@
     return headView;
 }
 
-- (UIView *)discountHeaderView {
+//- (UIView *)discountHeaderView {
+//
+//   UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 42)];
+//    headView.backgroundColor = [UIColor whiteColor];
+//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 15, 15)];
+//    [headView addSubview:imageView];
+//    imageView.image = [UIImage imageNamed:@"抵"];
+//    
+//    UILabel *lbl = [UILabel labelWithFrame:CGRectMake(imageView.xx + 5, 0, SCREEN_WIDTH - 35, 15) textAligment:NSTextAlignmentLeft backgroundColor:[UIColor clearColor] font:[UIFont secondFont] textColor:[UIColor zh_textColor2]];
+//    lbl.text = @"抵扣券";
+//    lbl.centerY = 21;
+//    [headView addSubview:lbl];
+//    
+//    return headView;
+//
+//}
 
-   UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 42)];
-    headView.backgroundColor = [UIColor whiteColor];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 15, 15)];
-    [headView addSubview:imageView];
-    imageView.image = [UIImage imageNamed:@"抵"];
-    
-    UILabel *lbl = [UILabel labelWithFrame:CGRectMake(imageView.xx + 5, 0, SCREEN_WIDTH - 35, 15) textAligment:NSTextAlignmentLeft backgroundColor:[UIColor clearColor] font:[UIFont secondFont] textColor:[UIColor zh_textColor2]];
-    lbl.text = @"抵扣券";
-    lbl.centerY = 21;
-    [headView addSubview:lbl];
-    
-    return headView;
-
-}
 - (UIView *)addressHeaderView {
 
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 55)];

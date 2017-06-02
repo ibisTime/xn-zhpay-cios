@@ -22,12 +22,12 @@
     [super viewDidLoad];
     
     self.delegate = self;
-    NSArray *titles = @[@"优店",@"尖货",@"摇一摇",@"聊聊",@"我的"];
+    NSArray *titles = @[@"优店",@"尖货",@"摇一摇",@"夺宝",@"我的"];
     //, BPProjectCategoryVC  BPSubscriptionVC
     
     
-//    @"ZHMineVC"  ZHMineViewCtrl
-    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHShakeItOffVC",@"ZHChatVC",@"ZHMineViewCtrl"];
+//    @"ZHMineVC"  ZHMineViewCtrl   ZHChatVC
+    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHShakeItOffVC",@"ZHDuoBaoVC",@"ZHMineViewCtrl"];
     NSArray *imageNames = @[@"优店00",@"尖货00",@"摇一摇00",@"聊聊00",@"我的00"];
     NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"摇一摇01",@"聊聊01",@"我的01"];
     

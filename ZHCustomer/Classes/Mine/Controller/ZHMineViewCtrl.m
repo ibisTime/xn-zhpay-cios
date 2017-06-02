@@ -457,14 +457,24 @@
     };
     
     //我的折扣券
-    ZHSettingModel *coupons = [[ZHSettingModel alloc] init];
-    coupons.imgName = @"我的折扣券";
-    coupons.text = @"我的折扣券";
-    coupons.action = ^(){
+//    ZHSettingModel *coupons = [[ZHSettingModel alloc] init];
+//    coupons.imgName = @"我的折扣券";
+//    coupons.text = @"我的折扣券";
+//    coupons.action = ^(){
+//        //
+//        
+//        ZHCouponsMgtVC  *vc = [ZHCouponsMgtVC new];
+//        [weakself.navigationController pushViewController:vc animated:YES];
+//        
+//    };
+    
+    ZHSettingModel *releationModel = [[ZHSettingModel alloc] init];
+    releationModel.imgName = @"我的折扣券";
+    releationModel.text = @"推荐关系";
+    releationModel.action = ^(){
         //
         
-        ZHCouponsMgtVC  *vc = [ZHCouponsMgtVC new];
-        [weakself.navigationController pushViewController:vc animated:YES];
+    
         
     };
     
@@ -494,7 +504,7 @@
     
 
     ZHSettingGroup *group01 = [[ZHSettingGroup alloc] init];
-    group01.items = @[mineWallet,smallTarget,goodsDetail,shopDetail,coupons];
+    group01.items = @[mineWallet,smallTarget,goodsDetail,shopDetail,releationModel];
     return group01;
 }
 

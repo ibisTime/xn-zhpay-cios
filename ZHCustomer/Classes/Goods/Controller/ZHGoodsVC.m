@@ -10,13 +10,14 @@
 #import "ZHGoodsCell.h"
 #import "ZHDefaultGoodsVC.h"
 #import "TLMsgBadgeView.h"
-#import "ZHShoppingCartVC.h"
+//#import "ZHShoppingCartVC.h"
 #import "ZHUserLoginVC.h"
 #import "ZHNavigationController.h"
 #import "ZHSegmentView.h"
 #import "ZHGoodsCategoryManager.h"
 #import "ZHGoodsCategoryVC.h"
-#import "ZHCartManager.h"
+
+//#import "ZHCartManager.h"
 
 #import "ZHSearchVC.h"
 #import "ZHDuoBaoVC.h"
@@ -25,13 +26,13 @@
 
 @property (nonatomic,strong) UIScrollView *switchScrollView;
 @property (nonatomic,strong) UIView *typeChangeView;
-@property (nonatomic,strong) UIButton *goShoppingCartBtn;
+//@property (nonatomic,strong) UIButton *goShoppingCartBtn;
 @property (nonatomic,strong) UIView *reloaView;
 @property (nonatomic,strong) ZHGoodsCategoryVC *zeroBuyVC;
-@property (nonatomic, strong) ZHSegmentView *segmentView;
+//@property (nonatomic, strong) ZHSegmentView *segmentView;
 
 //
-@property (nonatomic,strong) TLMsgBadgeView *msgBadgeView;
+//@property (nonatomic,strong) TLMsgBadgeView *msgBadgeView;
 
 @end
 
@@ -59,26 +60,25 @@
     [self reload];
   
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
     
  
     
 }
 
-#pragma mark- 数量改变通知
-- (void)cartCountChange {
-
-    if (self.msgBadgeView) {
-        
-//      NSLog(@"%@--%ld",[ZHCartManager manager],[ZHCartManager manager].count);
-        NSLog(@"%@",[ZHCartManager manager]);
-
-        //--//
-        self.msgBadgeView.msgCount = [ZHCartManager manager].count;
-
-    }
-
-}
+//#pragma mark- 数量改变通知
+//- (void)cartCountChange {
+//
+//    if (self.msgBadgeView) {
+//        
+////      NSLog(@"%@--%ld",[ZHCartManager manager],[ZHCartManager manager].count);
+//
+//        //--//
+//        self.msgBadgeView.msgCount = [ZHCartManager manager].count;
+//
+//    }
+//
+//}
 
 
 //获取失败,重新获取
@@ -108,41 +108,41 @@
         }];
     
     //获取零元试购的小类
-    dispatch_group_enter(_getCategoryGroup);
-    TLNetworking *http1 = [TLNetworking new];
-    http1.code = @"808007";
-    http1.parameters[@"status"] = @"1";
-    http1.showView = self.view;
-    http1.parameters[@"parentCode"] = @"FL201700000000000002";
-    [http1 postWithSuccess:^(id responseObject) {
-        
-        count ++;
-        dispatch_group_leave(_getCategoryGroup);
-        
-        [ZHGoodsCategoryManager manager].lysgCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-        
-    } failure:^(NSError *error) {
-        
-        dispatch_group_leave(_getCategoryGroup);
-        [self.view addSubview:self.reloaView];
-        
-    }];
+//    dispatch_group_enter(_getCategoryGroup);
+//    TLNetworking *http1 = [TLNetworking new];
+//    http1.code = @"808007";
+//    http1.parameters[@"status"] = @"1";
+//    http1.showView = self.view;
+//    http1.parameters[@"parentCode"] = @"FL201700000000000002";
+//    [http1 postWithSuccess:^(id responseObject) {
+//        
+//        count ++;
+//        dispatch_group_leave(_getCategoryGroup);
+//        
+//        [ZHGoodsCategoryManager manager].lysgCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+//        
+//    } failure:^(NSError *error) {
+//        
+//        dispatch_group_leave(_getCategoryGroup);
+//        [self.view addSubview:self.reloaView];
+//        
+//    }];
     
     dispatch_group_notify(_getCategoryGroup, dispatch_get_main_queue(), ^{
         
-        if (count == 2) {
+        if (count == 1) {
             
             [self setUpUI];
             
             //
-            self.segmentView.selectedIndex = 1;
+//            self.segmentView.selectedIndex = 1;
 #pragma mark- 购物车初始化
             //购物车初始值
-            if (self.msgBadgeView && [ZHUser user].userId) {
-                
-                self.msgBadgeView.msgCount = [ZHCartManager manager].count;
-                
-            }
+//            if (self.msgBadgeView && [ZHUser user].userId) {
+//                
+//                self.msgBadgeView.msgCount = [ZHCartManager manager].count;
+//                
+//            }
 
         }
         
@@ -181,22 +181,23 @@
 
 
 #pragma mark- 点击购物车选项
-- (void)goShoppingCart {
-    
-    if (![ZHUser user].isLogin) {
-        
-        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-        
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        [self presentViewController:nav animated:YES completion:nil];
-        
-        
-        return;
-    }
-    ZHShoppingCartVC *vc = [[ZHShoppingCartVC alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
-    
-}
+//- (void)goShoppingCart {
+//    
+//    if (![ZHUser user].isLogin) {
+//        
+//        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
+//        
+//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+//        [self presentViewController:nav animated:YES completion:nil];
+//        
+//        
+//        return;
+//    }
+//    ZHShoppingCartVC *vc = [[ZHShoppingCartVC alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
+//    
+//}
+
 
 - (void)search {
     
@@ -272,31 +273,20 @@
 }
 
 
-- (UIButton *)goShoppingCartBtn {
-    
-    if (!_goShoppingCartBtn) {
-        
-        _goShoppingCartBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 57,SCREEN_HEIGHT -  110 - 10 - 64, 37, 37)];
-        [_goShoppingCartBtn setImage:[UIImage imageNamed:@"购物车"] forState:UIControlStateNormal];
-        [_goShoppingCartBtn addTarget:self action:@selector(goShoppingCart) forControlEvents:UIControlEventTouchUpInside];
-        
-        if (!self.msgBadgeView) {
-            
-            TLMsgBadgeView *badgeView = [[TLMsgBadgeView alloc] initWithFrame:CGRectMake( 22, -3, 18, 18)];
-            badgeView.padding = 13;
-            [_goShoppingCartBtn addSubview:badgeView];
-            badgeView.font = FONT(13);
-            self.msgBadgeView = badgeView;
-//            badgeView.backgroundColor = [UIColor orangeColor];
-//            badgeView.frame = CGRectMake(0, 0, 18, 18);
-        }
-   
-//        badgeView.msgCount = 30;
-        
-    }
-    return _goShoppingCartBtn;
-    
-}
+//- (UIButton *)goShoppingCartBtn {
+//    
+//    if (!_goShoppingCartBtn) {
+//        
+//        _goShoppingCartBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 57,SCREEN_HEIGHT -  110 - 10 - 64, 37, 37)];
+//        [_goShoppingCartBtn setImage:[UIImage imageNamed:@"购物车"] forState:UIControlStateNormal];
+//        
+//
+//   
+//        
+//    }
+//    return _goShoppingCartBtn;
+//    
+//}
 
 
 
@@ -310,24 +300,37 @@
     CGFloat h = 45;
     CGFloat margin = 0.5;
     
+    static  ZHGoodsCategoryVC *dshjVC;
+    
+    if (!dshjVC) {
+        
+        dshjVC = [[ZHGoodsCategoryVC alloc] init];
+        [self addChildViewController:dshjVC];
+        dshjVC.smallCategories = [ZHGoodsCategoryManager manager].dshjCategories;
+        
+        [self.view addSubview:dshjVC.view];
+        self.view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
+        
+    }
+    
     //切换按钮
-    ZHSegmentView *segmentView = [[ZHSegmentView alloc] initWithFrame:CGRectMake(0, margin, SCREEN_WIDTH, h)];
-    segmentView.delegate = self;
-    segmentView.tagNames = @[@"剁手合集",@"小目标",@"0元试购"];
-    [self.view addSubview:segmentView];
-    self.typeChangeView = segmentView;
-    self.segmentView = segmentView;
+//    ZHSegmentView *segmentView = [[ZHSegmentView alloc] initWithFrame:CGRectMake(0, margin, SCREEN_WIDTH, h)];
+//    segmentView.delegate = self;
+//    segmentView.tagNames = @[@"剁手合集",@"小目标",@"0元试购"];
+//    [self.view addSubview:segmentView];
+//    self.typeChangeView = segmentView;
+//    self.segmentView = segmentView;
     
     
-    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.typeChangeView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - self.typeChangeView.yy)];
-    [self.view addSubview:self.switchScrollView];
-    self.switchScrollView.pagingEnabled = YES;
-    self.switchScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, self.switchScrollView.height);
-    self.switchScrollView.scrollEnabled = NO;
+//    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.typeChangeView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - self.typeChangeView.yy)];
+//    [self.view addSubview:self.switchScrollView];
+//    self.switchScrollView.pagingEnabled = YES;
+//    self.switchScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, self.switchScrollView.height);
+//    self.switchScrollView.scrollEnabled = NO;
 
     
     //添加购物车--按钮
-    [self.view addSubview:self.goShoppingCartBtn];
+//    [self.view addSubview:self.goShoppingCartBtn];
     
 
 }

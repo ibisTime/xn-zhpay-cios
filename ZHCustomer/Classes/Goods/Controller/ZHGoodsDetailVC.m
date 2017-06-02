@@ -9,7 +9,9 @@
 #import "ZHGoodsDetailVC.h"
 #import "TLBannerView.h"
 #import "ZHStepView.h"
+
 #import "ZHBuyToolView.h"
+
 #import "ZHTreasureInfoView.h"
 #import "ZHImmediateBuyVC.h"
 
@@ -20,11 +22,12 @@
 
 #import "ZHShoppingCartVC.h"
 #import "ZHUserLoginVC.h"
-#import "ChatViewController.h"
+//#import "ChatViewController.h"
 
-#import "ZHCartManager.h"
+//#import "ZHCartManager.h"
 #import "MJRefresh.h"
-#import "ChatManager.h"
+//#import "ChatManager.h"
+
 #import "ZHShareView.h"
 #import "AppConfig.h"
 
@@ -54,7 +57,6 @@
 @property (nonatomic, assign) BOOL switchByTap;
 
 
-
 //顶部切换相关
 @property (nonatomic, strong) UIView *switchLine;
 @property (nonatomic, strong) UIButton *lastBtn;
@@ -76,15 +78,15 @@
 
 
 
-#pragma mark - 客服消息变更
-- (void)kefuUnreadMsgChange:(NSNotification *)notification {
-    
-    if (self.buyView.kefuMsgHintView) {
-        
-       self.buyView.kefuMsgHintView.hidden = ![notification.userInfo[kKefuUnreadMsgKey] boolValue];
-    }
-    
-}
+//#pragma mark - 客服消息变更
+//- (void)kefuUnreadMsgChange:(NSNotification *)notification {
+//    
+//    if (self.buyView.kefuMsgHintView) {
+//        
+//       self.buyView.kefuMsgHintView.hidden = ![notification.userInfo[kKefuUnreadMsgKey] boolValue];
+//    }
+//    
+//}
 
 
 - (void)viewDidLoad {
@@ -93,11 +95,11 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
     
-    //客服消息变更
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kefuUnreadMsgChange:) name:kKefuUnreadMsgChangeNotification object:nil];
-    
-    //购物车变化
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
+//    //客服消息变更
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kefuUnreadMsgChange:) name:kKefuUnreadMsgChangeNotification object:nil];
+//    
+//    //购物车变化
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
     
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -141,7 +143,7 @@
         self.nameLbl.text = self.goods.name;
         self.advLbl.text = self.goods.slogan;
         self.priceLbl.text = self.goods.totalPrice;
-        self.buyView.countView.msgCount = [ZHCartManager manager].count;
+//        self.buyView.countView.msgCount = [ZHCartManager manager].count;
         self.postageLbl.text = @"邮费:10元";
     
     //扩大
@@ -151,16 +153,16 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(treasureSuccess) name:@"dbBuySuccess" object:nil];
     
-    self.buyView.kefuMsgHintView.hidden = ![ChatManager defaultManager].isHaveKefuUnredMsg;
-    
-    //
-    [ZHCartManager  getPostage:^(NSNumber *postage) {
-        
-        self.postageLbl.text = [NSString stringWithFormat:@"邮费：%@元",         [postage convertToRealMoney]];
-
-    } failure:^{
-        
-    }];
+//    self.buyView.kefuMsgHintView.hidden = ![ChatManager defaultManager].isHaveKefuUnredMsg;
+//    
+//    //
+//    [ZHCartManager  getPostage:^(NSNumber *postage) {
+//        
+//        self.postageLbl.text = [NSString stringWithFormat:@"邮费：%@元",         [postage convertToRealMoney]];
+//
+//    } failure:^{
+//        
+//    }];
     
 }
 
@@ -325,16 +327,15 @@
     [self.bgScrollView.mj_header beginRefreshing];
 }
 
-- (void)cartCountChange {
-
-    if (self.detailType == ZHGoodsDetailTypeDefault && self.buyView) {
-        
-        self.buyView.countView.msgCount = [ZHCartManager manager].count;
-        
-    }
-    //----//
-}
-
+//- (void)cartCountChange {
+//
+//    if (self.detailType == ZHGoodsDetailTypeDefault && self.buyView) {
+//        
+//        self.buyView.countView.msgCount = [ZHCartManager manager].count;
+//        
+//    }
+//    //----//
+//}
 
 
 #pragma mark- 一元夺宝刷新
@@ -364,47 +365,46 @@
         //查看数量
     
     
-    [ZHCartManager getPostage:^(NSNumber *postage) {
-        
-        ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
-        buyVC.type = ZHIMBuyTypeSingle;
-        buyVC.postage = postage;
-        self.goods.count = self.stepView.count;
-        buyVC.goodsRoom = @[self.goods];
-        [self.navigationController pushViewController:buyVC animated:YES];
-        
-    } failure:^{
-        
-        
-    }];
-    
+//    [ZHCartManager getPostage:^(NSNumber *postage) {
+//        
+//        ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
+//        buyVC.type = ZHIMBuyTypeSingle;
+//        buyVC.postage = postage;
+//        self.goods.count = self.stepView.count;
+//        buyVC.goodsRoom = @[self.goods];
+//        [self.navigationController pushViewController:buyVC animated:YES];
+//        
+//    } failure:^{
+//        
+//        
+//    }];
     
 }
 
 #pragma mark- 前往客服
-//客服
-- (void)chat {
-
-    if (![ZHUser user].isLogin) {
-        
-        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        [self presentViewController:nav animated:YES completion:nil];
-//        loginVC.loginSuccess = ^(){
-//            [self buy];
-//        };
-        
-    } else {
-    
-        ChatViewController *vc = [[ChatViewController alloc] initWithConversationChatter:@"ioskefu" conversationType:EMConversationTypeChat];
-        vc.title = @"客服";
-        vc.defaultUserAvatarName = @"user.png";
-        [self.navigationController pushViewController:vc animated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kUnreadMsgChangeNotification object:nil];
-
-    }
-
-}
+////客服
+//- (void)chat {
+//
+//    if (![ZHUser user].isLogin) {
+//        
+//        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
+//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+//        [self presentViewController:nav animated:YES completion:nil];
+////        loginVC.loginSuccess = ^(){
+////            [self buy];
+////        };
+//        
+//    } else {
+//    
+//        ChatViewController *vc = [[ChatViewController alloc] initWithConversationChatter:@"ioskefu" conversationType:EMConversationTypeChat];
+//        vc.title = @"客服";
+//        vc.defaultUserAvatarName = @"user.png";
+//        [self.navigationController pushViewController:vc animated:YES];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kUnreadMsgChangeNotification object:nil];
+//
+//    }
+//
+//}
 
 #pragma mark- 夺宝后刷新
 - (void)treasureRefresh {
@@ -438,7 +438,7 @@
         
         [TLAlert alertWithHUDText:@"添加到购物车成功"];
         
-        [ZHCartManager manager].count = [ZHCartManager manager].count + self.stepView.count;
+//        [ZHCartManager manager].count = [ZHCartManager manager].count + self.stepView.count;
         
     } failure:^(NSError *error) {
         

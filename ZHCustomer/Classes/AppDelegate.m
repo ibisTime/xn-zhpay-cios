@@ -8,23 +8,28 @@
 
 #import "AppDelegate.h"
 #import "ZHTabBarController.h"
-#import "AppDelegate+Chat.h"
+//#import "AppDelegate+Chat.h"
 #import "AppDelegate+JPush.h"
 
 #import "UMMobClick/MobClick.h"
 #import "WXApi.h"
 #import "IQKeyboardManager.h"
-#import "ChatViewController.h"
+
+//#import "ChatViewController.h"
+
 #import "TLWXManager.h"
 #import "ZHUserRegistVC.h"
 #import "ZHUserLoginVC.h"
 #import "SVProgressHUD.h"
 #import "AppConfig.h"
-#import "TLRealmPlayground.h"
+//#import "TLRealmPlayground.h"
 #import <CoreLocation/CoreLocation.h>
-#import "ChatManager.h"
 
-#import "ZHCartManager.h"
+
+//#import "ChatManager.h"
+
+
+//#import "ZHCartManager.h"
 #import "TLAlipayManager.h"
 #import <AMapFoundationKit/AMapFoundationKit.h>
 
@@ -51,9 +56,9 @@
     //--pppp--//
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
-    
+
     //初始化环信
-    [self chatInit];
+//    [self chatInit];
     
     //微信
     TLWXManager *wxManager = [TLWXManager manager];
@@ -93,7 +98,7 @@
     manager.shouldResignOnTouchOutside = YES;
     manager.shouldToolbarUsesTextFieldTintColor = YES;
     manager.enableAutoToolbar = YES;
-    [manager.disabledToolbarClasses addObject:[ChatViewController class]];
+//    [manager.disabledToolbarClasses addObject:[ChatViewController class]];
     [manager.disabledToolbarClasses addObject:[ZHUserLoginVC class]];
     [manager.disabledToolbarClasses addObject:[ZHUserRegistVC class]];
 
@@ -115,10 +120,10 @@
     if ([ZHUser user].isLogin) {
         
         //--//
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[ChatManager defaultManager] loginWithUserName:[ZHUser user].userId];
-
-        });
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            [[ChatManager defaultManager] loginWithUserName:[ZHUser user].userId];
+//
+//        });
 
         //已经由用户信息
         [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
@@ -134,7 +139,7 @@
 
 //    [JPUSHService setAlias:[ZHUser user].userId callbackSelector:nil object:nil];
     
-    [[ZHCartManager manager] getCartCount];
+//    [[ZHCartManager manager] getCartCount];
 
     TLLog(@"%@",[ZHUser user].userId);
 }
@@ -143,10 +148,10 @@
 - (void)userLoginOut {
     
     //chat
-    [[ChatManager defaultManager] chatLoginOut];
+//    [[ChatManager defaultManager] chatLoginOut];
     
     //重置购物车
-    [[ZHCartManager manager] reset];
+//    [[ZHCartManager manager] reset];
 
     [self userLoginOutCancleLocation];
 
@@ -268,14 +273,14 @@ void UncaughtExceptionHandler(NSException *exception){
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     
-    [self chatApplicationDidEnterBackground:application];
+//    [self chatApplicationDidEnterBackground:application];
     
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     
     //环信
-    [self chatApplicationWillEnterForeground:application];
+//    [self chatApplicationWillEnterForeground:application];
 
     [application cancelAllLocalNotifications];
 }
