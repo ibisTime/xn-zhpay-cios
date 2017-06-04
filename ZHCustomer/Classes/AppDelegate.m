@@ -31,7 +31,7 @@
 
 //#import "ZHCartManager.h"
 #import "TLAlipayManager.h"
-#import <AMapFoundationKit/AMapFoundationKit.h>
+//#import <AMapFoundationKit/AMapFoundationKit.h>
 
 //#ifdef NSFoundationVersionNumber_iOS_9_x_Max
 //#import <UserNotifications/UserNotifications.h>
@@ -51,7 +51,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvTest;
     
     //--pppp--//
     self.locationManager = [[CLLocationManager alloc] init];
@@ -65,7 +65,7 @@
     [wxManager registerApp];
     
     //高德
-    [AMapServices sharedServices].apiKey = [AppConfig config].aliMapKey;
+//    [AMapServices sharedServices].apiKey = [AppConfig config].aliMapKey;
     
     //HUD
     [SVProgressHUD setMinimumDismissTimeInterval:2.5];

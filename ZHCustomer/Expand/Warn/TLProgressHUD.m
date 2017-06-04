@@ -10,6 +10,14 @@
 
 @implementation TLProgressHUD
 
++ (void)show {
+
+    [super setDefaultMaskType:SVProgressHUDMaskTypeClear];
+    [super show];
+    
+}
+
+
 + (void)showWithStatus:(NSString *)msg {
     
     [super setDefaultMaskType:SVProgressHUDMaskTypeClear];

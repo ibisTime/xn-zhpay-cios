@@ -140,7 +140,6 @@
     ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
     payVC.type = ZHPayViewCtrlTypeHZB;
     payVC.HZBModel = self.HZBModel;
-    payVC.balanceString = @"余额";
     payVC.amoutAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@",[self.HZBModel.price convertToRealMoney]]
                                                              attributes:@{
                                                                           NSForegroundColorAttributeName : [UIColor zh_themeColor]                              }];

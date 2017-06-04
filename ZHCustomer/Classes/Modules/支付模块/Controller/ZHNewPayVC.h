@@ -33,8 +33,6 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 //
 @property (nonatomic,copy) void(^paySucces)();
 
-//需要显示的余额
-@property (nonatomic, copy) NSString *balanceString;
 
 //汇赚宝支付只需传该模型
 @property (nonatomic,strong) ZHHZBModel *HZBModel;

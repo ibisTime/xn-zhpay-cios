@@ -7,7 +7,7 @@
 //
 
 #import "TLNetworking.h"
-#import "SVProgressHUD.h"
+#import "TLProgressHUD.h"
 #import "AppConfig.h"
 
 //121.43.101.148:5703/cd-qlqq-front
@@ -85,7 +85,7 @@
         
     if(self.showView){
     
-        [SVProgressHUD show];
+        [TLProgressHUD show];
     }
     
     if(self.code && self.code.length > 0){
@@ -121,7 +121,7 @@
         NSLog(@"url 不存在啊");
         if (self.showView) {
             
-            [SVProgressHUD dismiss];
+            [TLProgressHUD dismiss];
         }
         return nil;
     }
@@ -132,7 +132,7 @@
 
       if(self.showView){
           
-          [SVProgressHUD dismiss];
+          [TLProgressHUD dismiss];
           
       }
       
@@ -174,8 +174,8 @@
        
        if (self.isShowMsg) {
 
-           [SVProgressHUD showErrorWithStatus:@"网络异常"];
-           [SVProgressHUD dismissWithDelay:3];
+           [TLProgressHUD showErrorWithStatus:@"网络异常"];
+           [TLProgressHUD dismissWithDelay:3];
 
        }
        

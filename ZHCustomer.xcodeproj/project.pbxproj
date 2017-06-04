@@ -144,8 +144,6 @@
 		2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2267521E50A91000C7126E /* TLAlipayManager.m */; };
 		2E2267571E50B26000C7126E /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2267561E50B26000C7126E /* AppConfig.m */; };
 		2E2308701E6181D400322ED8 /* ZHShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E23086F1E6181D400322ED8 /* ZHShareView.m */; };
-		2E37AA251E9F15F300D8B7F2 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E37AA241E9F15F300D8B7F2 /* AMapFoundationKit.framework */; };
-		2E37AA2D1E9F1C5600D8B7F2 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E37AA2C1E9F1C5600D8B7F2 /* AMapLocationKit.framework */; };
 		2E4E8BC31E20D9BB00AC022A /* ZHReferralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E8BC21E20D9BB00AC022A /* ZHReferralModel.m */; };
 		2E4E8BC61E20F1E100AC022A /* ZHMonthCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E8BC51E20F1E100AC022A /* ZHMonthCardModel.m */; };
 		2E4E8BCA1E2228B000AC022A /* ZHHZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E8BC91E2228B000AC022A /* ZHHZBVC.m */; };
@@ -675,8 +673,6 @@
 		2E2267561E50B26000C7126E /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
 		2E23086E1E6181D400322ED8 /* ZHShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShareView.h; sourceTree = "<group>"; };
 		2E23086F1E6181D400322ED8 /* ZHShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShareView.m; sourceTree = "<group>"; };
-		2E37AA241E9F15F300D8B7F2 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
-		2E37AA2C1E9F1C5600D8B7F2 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
 		2E4E8BC11E20D9BB00AC022A /* ZHReferralModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHReferralModel.h; sourceTree = "<group>"; };
 		2E4E8BC21E20D9BB00AC022A /* ZHReferralModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHReferralModel.m; sourceTree = "<group>"; };
 		2E4E8BC41E20F1E100AC022A /* ZHMonthCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMonthCardModel.h; sourceTree = "<group>"; };
@@ -1163,10 +1159,8 @@
 				2EC2AE861E0CFF00003EF503 /* libsqlite3.tbd in Frameworks */,
 				2EC2AE841E0CFEF5003EF503 /* libstdc++.6.0.9.tbd in Frameworks */,
 				2EC2AE801E0CFEE2003EF503 /* libc++.tbd in Frameworks */,
-				2E37AA2D1E9F1C5600D8B7F2 /* AMapLocationKit.framework in Frameworks */,
 				2E2264321E4DA8B400C7126E /* HyphenateLite.framework in Frameworks */,
 				2EC2AE7E1E0CFED5003EF503 /* ImageIO.framework in Frameworks */,
-				2E37AA251E9F15F300D8B7F2 /* AMapFoundationKit.framework in Frameworks */,
 				2EC2AE7A1E0CFEC3003EF503 /* AVFoundation.framework in Frameworks */,
 				2E2265D11E4DB12300C7126E /* HyphenateLite.framework in Frameworks */,
 				2EC2AE761E0CFEAC003EF503 /* CoreMedia.framework in Frameworks */,
@@ -2482,8 +2476,6 @@
 		2EC2ABB81E0CC91D003EF503 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				2E37AA2C1E9F1C5600D8B7F2 /* AMapLocationKit.framework */,
-				2E37AA241E9F15F300D8B7F2 /* AMapFoundationKit.framework */,
 				2E917AE51E9231DA003ED4A8 /* ZHStatusHeader.h */,
 				2EC2ABB91E0CC946003EF503 /* ZHTabBarController.h */,
 				2EC2ABBA1E0CC946003EF503 /* ZHTabBarController.m */,

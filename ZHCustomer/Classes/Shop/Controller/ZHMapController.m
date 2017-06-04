@@ -10,10 +10,10 @@
 
 //#import <MAMapKit/MAMapKit.h>
 //#import <AMapNaviKit/AMapNaviKit.h>
-#import <AMapLocationKit/AMapLocationKit.h>
+//#import <AMapLocationKit/AMapLocationKit.h>
 #import <MapKit/MapKit.h>
 
-@interface ZHMapController ()<MKMapViewDelegate,AMapLocationManagerDelegate>
+@interface ZHMapController ()<MKMapViewDelegate>
 
 @property (nonatomic,strong) UIImageView *locationImageView;
 //@property (nonatomic,strong) MAMapView *mapV;
@@ -24,7 +24,7 @@
 @property (nonatomic,assign) BOOL isFailure;
 //
 //@property (nonatomic,strong) AMapNaviDriveManager *driveManager;
-@property (nonatomic,strong) AMapLocationManager *locationManager;
+//@property (nonatomic,strong) AMapLocationManager *locationManager;
 
 //@property (nonatomic,strong) MAPolyline *polyLine;
 
@@ -92,83 +92,43 @@
 }
 
 
-////
-- (void)initNav {
 
-    //获取用户当前位置
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [ self.locationManager startUpdatingLocation];
-    
-//    return;
-//    
-//    
-//     [self.locationManager requestLocationWithReGeocode:NO completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
-//         
-//         [MBProgressHUD hideHUDForView:self.view animated:YES];
+//#pragma mark - locationManagerDelegate
+//- (void)amapLocationManager:(AMapLocationManager *)manager didFailWithError:(NSError *)error
+//{
+//    [TLAlert alertWithHUDText:@"无法获取您的当前位置"];
+//    //定位错误
+//}
 //
-//         if (!error) {
-    
-             //
-//             AMapNaviPoint *startPoint = [AMapNaviPoint locationWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
-//             //
-//             AMapNaviPoint *endPoint = [AMapNaviPoint locationWithLatitude:self.point.latitude longitude:self.point.longitude];
-//             
-//             //计算路线
-//             BOOL isSuccess = [self.driveManager calculateDriveRouteWithStartPoints:@[startPoint] endPoints:@[endPoint] wayPoints:nil drivingStrategy:AMapNaviDrivingStrategySingleDefault];
-//             if (isSuccess) {
-//                 
-//                 
-//             } else {
-//                 
-//                 [TLAlert alertWithHUDText:@"路线规划失败"];
-//             }
-//             
-//             return ;
-//         }
-//         
-//         [TLAlert alertWithHUDText:@"无法获取您的当前位置"];
-//
-//     }];
-
-    
-}
-
-#pragma mark - locationManagerDelegate
-- (void)amapLocationManager:(AMapLocationManager *)manager didFailWithError:(NSError *)error
-{
-    [TLAlert alertWithHUDText:@"无法获取您的当前位置"];
-    //定位错误
-}
-
-- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode
-{
-    
-    if (self.isFirst) {
-        
-        self.isFirst = NO;
-    
-//    //
-//    AMapNaviPoint *startPoint = [AMapNaviPoint locationWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
-//    //
-//    AMapNaviPoint *endPoint = [AMapNaviPoint locationWithLatitude:self.point.latitude longitude:self.point.longitude];
+//- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode
+//{
 //    
-//    //计算路线
-//    BOOL isSuccess = [self.driveManager calculateDriveRouteWithStartPoints:@[startPoint]
-//                                                                 endPoints:@[endPoint]
-//                                                                 wayPoints:nil
-//                                                           drivingStrategy:AMapNaviDrivingStrategySingleDefault];
+//    if (self.isFirst) {
 //        
-//    if (isSuccess) {
-//        
-//        
-//    } else {
-//        
-//        [TLAlert alertWithHUDText:@"路线规划失败"];
+//        self.isFirst = NO;
+//    
+////    //
+////    AMapNaviPoint *startPoint = [AMapNaviPoint locationWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
+////    //
+////    AMapNaviPoint *endPoint = [AMapNaviPoint locationWithLatitude:self.point.latitude longitude:self.point.longitude];
+////    
+////    //计算路线
+////    BOOL isSuccess = [self.driveManager calculateDriveRouteWithStartPoints:@[startPoint]
+////                                                                 endPoints:@[endPoint]
+////                                                                 wayPoints:nil
+////                                                           drivingStrategy:AMapNaviDrivingStrategySingleDefault];
+////        
+////    if (isSuccess) {
+////        
+////        
+////    } else {
+////        
+////        [TLAlert alertWithHUDText:@"路线规划失败"];
+////        
+////    }
 //        
 //    }
-        
-    }
-}
+//}
 
 #pragma mark - 路线规划 -delegate
 //- (void)driveManagerOnCalculateRouteSuccess:(AMapNaviDriveManager *)driveManager {
@@ -342,17 +302,17 @@
 //    return _driveManager;
 //}
 
-- (AMapLocationManager *)locationManager {
-    
-    if (!_locationManager) {
-        
-        _locationManager = [[AMapLocationManager alloc] init];
-        _locationManager.delegate = self;
-        _locationManager.distanceFilter = 5;
-        
-    }
-    return _locationManager;
-}
+//- (AMapLocationManager *)locationManager {
+//    
+//    if (!_locationManager) {
+//        
+//        _locationManager = [[AMapLocationManager alloc] init];
+//        _locationManager.delegate = self;
+//        _locationManager.distanceFilter = 5;
+//        
+//    }
+//    return _locationManager;
+//}
 
 
 @end

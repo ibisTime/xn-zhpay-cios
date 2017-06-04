@@ -489,11 +489,6 @@
 }
 
 
-
-
-
-
-
 //- (CAEmitterLayer *)currencyLayer {
 //    
 //    if (!_currencyLayer) {

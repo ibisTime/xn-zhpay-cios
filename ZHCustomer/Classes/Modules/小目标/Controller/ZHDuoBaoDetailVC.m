@@ -478,7 +478,7 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
             }];
         }
         
-        payVC.balanceString = [NSString stringWithFormat:@"余额(%@)",[@([frb longValue] + [gxjl longLongValue]) convertToRealMoney]];
+//        payVC.balanceString = [NSString stringWithFormat:@"余额(%@)",[@([frb longValue] + [gxjl longLongValue]) convertToRealMoney]];
    
         
         //构造收费信息

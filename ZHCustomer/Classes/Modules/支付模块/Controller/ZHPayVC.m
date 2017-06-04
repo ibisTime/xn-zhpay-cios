@@ -11,8 +11,7 @@
 #import "ZHPayFuncModel.h"
 #import "ZHPayFuncCell.h"
 #import "ZHCurrencyHelper.h"
-#import "ZHCoupon.h"
-#import "ZHCouponSelectedVC.h"
+
 #import "WXApi.h"
 #import "ZHPaySceneManager.h"
 #import "TLWXManager.h"
@@ -27,11 +26,9 @@
 
 //消费金额输入
 @property (nonatomic,strong) TLTextField *amountTf;
-//@property (nonatomic,strong) TLTextField *tradePwdTf;
 
 
-@property (nonatomic,strong) ZHPayInfoCell *couponsCell;
-
+@property (nonatomic, strong) UIView *payView;
 //底部总价
 @property (nonatomic,strong) UILabel *priceLbl;
 
@@ -39,57 +36,27 @@
 
 @property (nonatomic,strong) UITableView *payTableView;
 
-
-
 @end
 
+
+
 @implementation ZHPayVC
-
-
 
 #pragma mark- textField--代理
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 
-    if (![textField isEqual:self.amountTf]) {
-        return;
-    }
     
     if (!textField.text && textField.text.length <= 0) {
         
         self.priceLbl.text = @"0";
         return ;
     }
-    
-    if (self.selectedCoupon) {
-        
-        if ([textField.text greaterThanOrEqual:self.selectedCoupon.storeTicket.key1]) {
-            
-            CGFloat value1 = [textField.text floatValue];
-            CGFloat value2 = [[self.selectedCoupon.storeTicket.key2 convertToRealMoney] floatValue];
-            
-            CGFloat num = value1 - value2;
-            
-            self.priceLbl.text = [NSString stringWithFormat:@"%.2f",num];
-            
-        } else {
-            
-            self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
-            
-        }
-        
-    } else {
-        
-        self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
-        
-    }
-    
 
+        
+    self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
+    
 }
-
-//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-//
-//}
 
 
 - (void)canclePay {
@@ -97,6 +64,18 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 
 }
+
+- (void)dealloc {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+}
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    [self.amountTf becomeFirstResponder];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -112,7 +91,6 @@
 #pragma mark- 检测是否设置了交易密码
     if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
         
-        
         [self setPlacholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
         [self addPlaeholderView];
         
@@ -121,9 +99,6 @@
         [self beginLoad];
     
     }
-    
-
-
     
 #pragma mark- 除汇赚宝外  获得余额
     //首先获得总额
@@ -143,6 +118,27 @@
 //        
 //    }];
     
+    //addNotification
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+}
+
+- (void)keyboardWillAppear:(NSNotification *)notification {
+    
+    //获取键盘高度
+    CGFloat duration =  [notification.userInfo[@"UIKeyboardAnimationDurationUserInfoKey"] floatValue];
+    CGRect keyBoardFrame = [notification.userInfo[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    
+    
+    [UIView animateWithDuration:duration delay:0 options: 458752 | UIViewAnimationOptionBeginFromCurrentState animations:^{
+        
+        self.payView.y = CGRectGetMinY(keyBoardFrame) - 64 - self.payView.height;
+        
+        
+    } completion:NULL];
+    
+    
 }
 
 - (void)tl_placeholderOperation {
@@ -159,17 +155,8 @@
 
 }
 
-
-
 - (void)beginLoad {
 
-    
-    
-    
-    if (!self.balanceString) {
-        NSLog(@"请传入余额");
-        return;
-    }
     //--//
     NSArray *imgs = @[@"zh_pay",@"we_chat",@"alipay"];
     NSArray *payNames;
@@ -196,20 +183,13 @@
     
     //--//
     self.paySceneManager = [[ZHPaySceneManager alloc] init];
-    
     self.paySceneManager.isInitiative = YES;
     
     //1.第一组
     ZHPaySceneUIItem *priceItem = [[ZHPaySceneUIItem alloc] init];
     priceItem.headerHeight = 10.0;
-    priceItem.footerHeight = 0.1;
+    priceItem.footerHeight = 10.0;
     priceItem.rowNum = 1;
-    
-    //2.优惠券
-    ZHPaySceneUIItem *couponItem = [[ZHPaySceneUIItem alloc] init];
-    couponItem.headerHeight = 10.0;
-    couponItem.footerHeight = 10.0;
-    couponItem.rowNum = 1;
     
     //3.支付
     ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
@@ -217,20 +197,11 @@
     payFuncItem.footerHeight = 0.1;
     payFuncItem.rowNum = self.pays.count;
     
-    self.paySceneManager.groupItems = @[priceItem,couponItem,payFuncItem];
-    
+    self.paySceneManager.groupItems = @[priceItem,payFuncItem];
     
     
     //界面
     [self setUpUI];
-    
-    
-
-    
-    
-    
-    
-    
     
 #pragma mark- 微信支付回调
     [TLWXManager manager].wxPay = ^(BOOL isSuccess,int errorCode){
@@ -272,13 +243,12 @@
             
             [TLAlert alertWithHUDText:@"支付失败"];
             
-            
         }
         
     }];
 
-
 }
+
 
 #pragma mark- 支付
 - (void)pay {
@@ -318,8 +288,6 @@
             break;
             
         case ZHPayTypeOther: {
-            
-      
             
             payType = @"1";
         }
@@ -382,11 +350,6 @@
         http.parameters[@"storeCode"] = self.shop.code;
   
         http.parameters[@"tradePwd"] = pwd;
-
-        if (self.selectedCoupon && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.storeTicket.key1]) {
-            
-            http.parameters[@"ticketCode"] = self.selectedCoupon.code; //优惠券编号
-        }
     
         http.parameters[@"amount"] = [self.amountTf.text convertToSysMoney];
         http.parameters[@"token"] = [ZHUser user].token;
@@ -460,34 +423,6 @@
 #pragma mark - tableView代理
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if ( indexPath.section == 1 && self.coupons.count > 0) { //选择折扣券
-        
-        ZHCouponSelectedVC *selectedVC = [[ZHCouponSelectedVC alloc] init];
-        selectedVC.coupons = self.coupons;
-        selectedVC.selected = ^(ZHMineCouponModel *coupon) {
-        
-            self.couponsCell.infoLbl.text = [NSString stringWithFormat:@"满 %@减 %@",[coupon.storeTicket.key1 convertToSimpleRealMoney],[coupon.storeTicket.key2 convertToSimpleRealMoney]];
-            self.selectedCoupon = coupon;
-            
-            //重新计算金额
-            if (self.amountTf.text && [self.amountTf.text greaterThanOrEqual:self.selectedCoupon.storeTicket.key1]) {
-                
-                CGFloat num = [self.amountTf.text floatValue] - [[self.selectedCoupon.storeTicket.key2 convertToRealMoney] floatValue];
-                
-                self.priceLbl.text = [NSString stringWithFormat:@"%.2f",num];
-                
-            } else {
-            
-                self.priceLbl.text = self.amountTf.text;
-            }
-            
-        };
-        
-        [self.navigationController pushViewController:selectedVC animated:YES];
-        
-    }
-    
-    
     //支持点击整个cell,选择支付方式
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell isKindOfClass:[ZHPayFuncCell class]]) {
@@ -498,24 +433,7 @@
         }
         
        [[NSNotificationCenter defaultCenter] postNotificationName:@"PAY_TYPE_CHANGE_NOTIFICATION" object:nil userInfo:@{@"sender" : cell}];
-        
-//        if (self.pays[indexPath.row].payType == ZHPayTypeOther) {
-//            //余额支付
-//            self.paySceneManager.groupItems[0].rowNum ++;
-//            
-//        } else {
-//            
-//            self.paySceneManager.groupItems[0].rowNum --;
-//
-//        }
-//        if (self.paySceneManager.groupItems[0].rowNum <= 0) {
-//            self.paySceneManager.groupItems[0].rowNum = 1;
-//        }
-//        [self.tradePwdTf removeFromSuperview];
-//        [tableView reloadData];
-//        //--//
-        
-        
+   
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -523,15 +441,6 @@
    
 }
 
-- (NSMutableArray<ZHMineCouponModel *> *)coupons {
-
-    if (!_coupons) {
-        
-        _coupons = [[NSMutableArray alloc] init];
-    }
-    
-    return _coupons;
-}
 
 //
 - (void)setUpUI {
@@ -549,6 +458,7 @@
     UIView *payView = [[UIView alloc] initWithFrame:CGRectMake(0, payTableView.yy, SCREEN_WIDTH, 49)];
     payView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:payView];
+    self.payView = payView;
     
     //按钮
     UIButton *payBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 0, 100, payView.height) title:@"确认支付" backgroundColor:[UIColor zh_themeColor]];
@@ -575,9 +485,8 @@
     payAmountLbl.numberOfLines = 0;
     self.priceLbl = payAmountLbl;
 
-    
-    
 }
+
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -614,7 +523,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
         
-        if (section == 2) {
+        if (section == 1) {
             return [self payFuncHeaderView];
         }
         
@@ -627,7 +536,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if (indexPath.section == 2) {
+    if (indexPath.section == 1) {
         
        static NSString * payFuncCellId = @"ZHPayFuncCell";
        ZHPayFuncCell  *cell = [tableView dequeueReusableCellWithIdentifier:payFuncCellId];
@@ -665,27 +574,30 @@
         }
   
 
-    } else if (indexPath.section == 1 ) {
-        
-        //
-        infoCell.titleLbl.text = @"使用抵扣券";
-        if (self.coupons.count > 0) {
-        
-            infoCell.infoLbl.text = @"请选择折扣券";
-            
-        } else {
-        
-            infoCell.infoLbl.text = @"还没有折扣券";
-
-        }
-        [infoCell.titleLbl mas_updateConstraints:^(MASConstraintMaker *make) {
-            
-            make.width.mas_equalTo(100);
-        }];
-        self.couponsCell = infoCell;
-        infoCell.hidenArrow = NO;
-    
     }
+    
+    
+//    else if (indexPath.section == 1 ) {
+//        
+//        //
+//        infoCell.titleLbl.text = @"使用抵扣券";
+//        if (self.coupons.count > 0) {
+//        
+//            infoCell.infoLbl.text = @"请选择折扣券";
+//            
+//        } else {
+//        
+//            infoCell.infoLbl.text = @"还没有折扣券";
+//
+//        }
+//        [infoCell.titleLbl mas_updateConstraints:^(MASConstraintMaker *make) {
+//            
+//            make.width.mas_equalTo(100);
+//        }];
+//        self.couponsCell = infoCell;
+//        infoCell.hidenArrow = NO;
+//    
+//    }
     return infoCell;
 
 }
