@@ -14,12 +14,8 @@
 
 #import "ZHTreasureInfoView.h"
 #import "ZHImmediateBuyVC.h"
-
-//#import "ZHTreasureProgressVC.h"//夺宝进度
 #import "ZHEvaluateListVC.h" //评价列表
 #import "ZHSingleDetailVC.h" //详情列表
-#import "ZHGoodsParameterVC.h"
-
 #import "ZHShoppingCartVC.h"
 #import "ZHUserLoginVC.h"
 //#import "ChatViewController.h"
@@ -30,11 +26,14 @@
 
 #import "ZHShareView.h"
 #import "AppConfig.h"
+#import "CDGoodsParameterChooseView.h"
 
 @interface ZHGoodsDetailVC ()<ZHBuyToolViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic,strong) UIScrollView *bgScrollView;
-@property (nonatomic,strong) ZHBuyToolView *buyView;
+
+//@property (nonatomic,strong) ZHBuyToolView *buyView;
+
 @property (nonatomic,weak) TLBannerView *bannerView;
 @property (nonatomic, strong) UIScrollView *goodsDetailTypeScrollView;
 
@@ -62,7 +61,7 @@
 @property (nonatomic, strong) UIButton *lastBtn;
 @property (nonatomic, strong) UIView *detailView;
 @property (nonatomic, strong) UIView *evaluateViwe;
-@property (nonatomic, strong) UIView *goodsArgsView;
+//@property (nonatomic, strong) UIView *goodsArgsView;
 
 
 @end
@@ -111,7 +110,7 @@
     self.goodsDetailTypeScrollView.showsHorizontalScrollIndicator = NO;
     self.goodsDetailTypeScrollView.backgroundColor = [UIColor zh_backgroundColor];
     self.goodsDetailTypeScrollView.delegate = self;
-    self.goodsDetailTypeScrollView.contentSize = CGSizeMake(self.goodsDetailTypeScrollView.width*4, self.goodsDetailTypeScrollView.height);
+    self.goodsDetailTypeScrollView.contentSize = CGSizeMake(self.goodsDetailTypeScrollView.width*3, self.goodsDetailTypeScrollView.height);
     
     
     
@@ -124,11 +123,15 @@
 
     
     //底部工具条
-    self.buyView = [[ZHBuyToolView alloc] initWithFrame:CGRectMake(0, self.bgScrollView.yy, SCREEN_WIDTH, 49)];
-    self.buyView.delegate = self;
-    [self.view addSubview:self.buyView];
+//    self.buyView = [[ZHBuyToolView alloc] initWithFrame:CGRectMake(0, self.bgScrollView.yy, SCREEN_WIDTH, 49)];
+//    self.buyView.delegate = self;
+//    [self.view addSubview:self.buyView];
     
-
+    UIButton *buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.bgScrollView.yy, SCREEN_WIDTH, 49) title:@"立即购买" backgroundColor:[UIColor zh_themeColor]];
+    [buyBtn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
+    buyBtn.titleLabel.font = FONT(18);
+    [self.view addSubview:buyBtn];
+    
     //ui
     [self setUpUI];
     
@@ -194,14 +197,14 @@
             break;
             
             //参数
-        case 2:
-            
-            [self.goodsDetailTypeScrollView addSubview:self.goodsArgsView];
-            
-            break;
-            
-            //评价
-        case 3 :
+//        case 2:
+//            
+//            [self.goodsDetailTypeScrollView addSubview:self.goodsArgsView];
+//            
+//            break;
+//            
+//            //评价
+        case 2 :
             [self.goodsDetailTypeScrollView addSubview:self.evaluateViwe];
             
             break;
@@ -262,14 +265,14 @@
             break;
             
             //参数
-        case 2:
-            
-            [self.goodsDetailTypeScrollView addSubview:self.goodsArgsView];
-            
-            break;
+//        case 2:
+//            
+//            [self.goodsDetailTypeScrollView addSubview:self.goodsArgsView];
+//            
+//            break;
             
             //评价
-        case 3 :
+        case 2 :
             [self.goodsDetailTypeScrollView addSubview:self.evaluateViwe];
             
             break;
@@ -350,7 +353,10 @@
 #pragma mark- 购买
 - (void)buy {
     
+    CDGoodsParameterChooseView *chooseView = [CDGoodsParameterChooseView chooseView];
+    [chooseView show];
     
+    //
     if (![ZHUser user].isLogin) {
        
         ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
@@ -502,7 +508,7 @@
         
         evaluateListVC.goodsCode = self.goods.code;
         evaluateListVC.peopleNum = self.goods.boughtCount;
-        evaluateListVC.view.frame = CGRectOffset(self.bgScrollView.frame, SCREEN_WIDTH*3, 0);
+        evaluateListVC.view.frame = CGRectOffset(self.bgScrollView.frame, SCREEN_WIDTH*2, 0);
         [self addChildViewController:evaluateListVC];
         [self.view addSubview:evaluateListVC.view];
 
@@ -514,23 +520,23 @@
     
 }
 
-- (UIView *)goodsArgsView {
-
-    if (!_goodsArgsView) {
-        
-        ZHGoodsParameterVC *vc = [ZHGoodsParameterVC new];
-        vc.view.frame = CGRectOffset(self.bgScrollView.frame, SCREEN_WIDTH*2, 0);;
-        vc.productCode = self.goods.code;
-        [self addChildViewController:vc];
-        [self.view addSubview:vc.view];
-        
-        _goodsArgsView = vc.view;
-        
-    }
-    
-    return _goodsArgsView;
-
-}
+//- (UIView *)goodsArgsView {
+//
+//    if (!_goodsArgsView) {
+//        
+//        ZHGoodsParameterVC *vc = [ZHGoodsParameterVC new];
+//        vc.view.frame = CGRectOffset(self.bgScrollView.frame, SCREEN_WIDTH*2, 0);;
+//        vc.productCode = self.goods.code;
+//        [self addChildViewController:vc];
+//        [self.view addSubview:vc.view];
+//        
+//        _goodsArgsView = vc.view;
+//        
+//    }
+//    
+//    return _goodsArgsView;
+//
+//}
 
 - (void)setUpUI {
 
@@ -661,7 +667,7 @@
         [bgView addSubview:self.switchLine];
         self.switchSubView = bgView;
         
-        NSArray *types = @[@"商品",@"详情",@"规格",@"评价"];
+        NSArray *types = @[@"商品",@"详情",@"评价"];
         for (NSInteger i = 0; i < types.count; i ++) {
             
             CGFloat x = _switchView.width/types.count;
