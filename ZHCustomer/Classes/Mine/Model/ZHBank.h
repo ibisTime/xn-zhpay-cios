@@ -10,6 +10,7 @@
 
 @interface ZHBank : TLBaseModel
 
+@property (nonatomic,copy) NSString *code;
 @property (nonatomic,copy) NSString *bankCode;
 @property (nonatomic,copy) NSString *bankName;
 @property (nonatomic,copy) NSString *channelType;

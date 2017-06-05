@@ -37,6 +37,8 @@
     [super viewDidLoad];
     self.title = @"添加银行卡";
     
+    
+    
     //只能添加本人银行卡
     if ([ZHUser user].realName && [ZHUser user].idNo) {
         
@@ -54,6 +56,7 @@
         
     
     }
+    
     
 }
 

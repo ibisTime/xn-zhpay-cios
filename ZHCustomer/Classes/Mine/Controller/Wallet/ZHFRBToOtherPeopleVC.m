@@ -29,7 +29,7 @@
 
     [super viewDidLoad];
     
-    self.title = @"分润币转账";
+    self.title = @"分润转账";
     
     if (!self.frbSysMoney) {
         [TLAlert alertWithError:@"传入 余额"];
@@ -83,32 +83,34 @@
     TLTextField *phoneTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 20, SCREEN_WIDTH, 45)
                                                     leftTitle:@"收款人账号"
                                                    titleWidth:leftW
-                                                  placeholder:@"输入收款人账号"];
+                                                  placeholder:@"输入完整手机号"];
     [self.bgSV addSubview:phoneTf];
     self.phoneTf = phoneTf;
     self.phoneTf.keyboardType = UIKeyboardTypeNumberPad;
 
     
+
+    
     //
-    UILabel *hintLbl = [UILabel labelWithFrame:CGRectMake(15, phoneTf.yy, SCREEN_WIDTH - 30, 45) textAligment:NSTextAlignmentLeft
+    self.moneyTf = [[TLTextField alloc] initWithframe:CGRectMake(0, phoneTf.yy + 1, SCREEN_WIDTH, 45)
+                                                    leftTitle:@"转账金额"
+                                                   titleWidth:leftW
+                                                  placeholder:@"转账金额必须为 100 的整倍数"];
+    [self.bgSV addSubview:self.moneyTf];
+    self.moneyTf.keyboardType = UIKeyboardTypeNumberPad;
+    //
+    //
+    UILabel *hintLbl = [UILabel labelWithFrame:CGRectMake(15, self.moneyTf.yy, SCREEN_WIDTH - 30, 30) textAligment:NSTextAlignmentLeft
                                backgroundColor:[UIColor clearColor]
                                           font:FONT(13)
                                      textColor:[UIColor themeColor]];
     [self.bgSV addSubview:hintLbl];
     hintLbl.numberOfLines = 0;
-//    => 100*n
-    hintLbl.text = [NSString stringWithFormat:@"%@\n可转账余额：%@",@"转账金额必须为 100 的整倍数",[self.frbSysMoney convertToRealMoney]];
+    //    => 100*n
+    hintLbl.text = [NSString stringWithFormat:@"可转账余额：%@",[self.frbSysMoney convertToRealMoney]];
     
     //
-    self.moneyTf = [[TLTextField alloc] initWithframe:CGRectMake(0, hintLbl.yy + 1, SCREEN_WIDTH, 45)
-                                                    leftTitle:@"转账金额"
-                                                   titleWidth:leftW
-                                                  placeholder:@"请输入转账金额"];
-    [self.bgSV addSubview:self.moneyTf];
-    self.moneyTf.keyboardType = UIKeyboardTypeNumberPad;
-    
-    //
-    self.tradePwdTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.moneyTf.yy + 1, SCREEN_WIDTH, 45)
+    self.tradePwdTf = [[TLTextField alloc] initWithframe:CGRectMake(0, hintLbl.yy + 1, SCREEN_WIDTH, 45)
                                             leftTitle:@"支付密码"
                                            titleWidth:leftW
                                           placeholder:@"请输入支付密码"];
@@ -158,7 +160,7 @@
     bgView.layer.masksToBounds = YES;
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(maskCtrl.mas_centerX);
-        make.centerY.equalTo(maskCtrl.mas_centerY).offset(-40);
+        make.centerY.equalTo(maskCtrl.mas_centerY).offset(-70);
         make.width.equalTo(@280);
         make.height.equalTo(@200);
     }];
@@ -166,17 +168,30 @@
     UILabel *reHintLbl = [UILabel labelWithFrame:CGRectZero
                                     textAligment:NSTextAlignmentLeft
                                  backgroundColor:[UIColor whiteColor]
-                                            font:FONT(16)
+                                            font:FONT(17)
                                        textColor:[UIColor textColor]];
     [bgView addSubview:reHintLbl];
-    reHintLbl.numberOfLines = 0;
     [reHintLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(bgView.mas_left).offset(10);
         make.right.equalTo(bgView.mas_right).offset(-10);
-        make.top.equalTo(bgView.mas_top).offset(25);
+        make.top.equalTo(bgView.mas_top).offset(15);
     }];
     
-    reHintLbl.text = [NSString stringWithFormat:@"收款人账号：%@\n转账金额：%@",    self.phoneTf.text ? :self.phoneTf.text,self.moneyTf.text];
+    UILabel *reHintLbl1 = [UILabel labelWithFrame:CGRectZero
+                                    textAligment:NSTextAlignmentLeft
+                                 backgroundColor:[UIColor whiteColor]
+                                            font:FONT(17)
+                                       textColor:[UIColor textColor]];
+    [bgView addSubview:reHintLbl1];
+    [reHintLbl1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(bgView.mas_left).offset(10);
+        make.right.equalTo(bgView.mas_right).offset(-10);
+        make.top.equalTo(reHintLbl.mas_bottom).offset(5);
+    }];
+    
+    reHintLbl.text = [NSString stringWithFormat:@"收款人账号：%@",self.phoneTf.text];
+    reHintLbl1.text = [NSString stringWithFormat:@"转账金额：%@",self.moneyTf.text];
+
     
     //
     UILabel *warnLbl = [UILabel labelWithFrame:CGRectZero
@@ -189,11 +204,10 @@
     [warnLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(bgView.mas_left).offset(10);
         make.right.equalTo(bgView.mas_right).offset(-10);
-        make.top.equalTo(reHintLbl.mas_bottom).offset(5);
+        make.top.equalTo(reHintLbl1.mas_bottom).offset(15);
     }];
     
     warnLbl.text = @"您正在进行转账操作，请仔细核对对方账号和转账金额！\n转账成功后平台概不负责追回款项，请小心操作";
-    
     
     UIButton *cancleBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"取消"];
     [bgView addSubview:cancleBtn];
@@ -205,7 +219,7 @@
     
     [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(90);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(35);
         make.bottom.equalTo(bgView.mas_bottom).offset(-20);
         
         //

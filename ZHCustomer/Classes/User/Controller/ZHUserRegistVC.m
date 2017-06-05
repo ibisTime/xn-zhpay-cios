@@ -235,28 +235,24 @@
             http.parameters[@"token"] = tokenId;
             [http postWithSuccess:^(id responseObject) {
                 
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                if ([[ChatManager defaultManager] loginWithUserName:userId]) {
+                NSDictionary *userInfo = responseObject[@"data"];
+                [ZHUser user].userId = userId;
+                [ZHUser user].token = tokenId;
+                [[ZHUser user] saveUserInfo:userInfo];
+                [[ZHUser user] setUserInfoWithDict:userInfo];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+                
+                //进行账号密码的存储
+                UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
+                [keyChainStore setString:self.phoneTf.text forKey:KEY_CHAIN_USER_NAME_KEY error:nil];
+                [keyChainStore setString:self.pwdTf.text forKey:KEY_CHAIN_USER_PASS_WORD_KEY error:nil];
+                
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    NSDictionary *userInfo = responseObject[@"data"];
-                    [ZHUser user].userId = userId;
-                    [ZHUser user].token = tokenId;
-                    [[ZHUser user] saveUserInfo:userInfo];
-                    [[ZHUser user] setUserInfoWithDict:userInfo];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
-                    
-                    //进行账号密码的存储
-                    UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
-                    [keyChainStore setString:self.phoneTf.text forKey:KEY_CHAIN_USER_NAME_KEY error:nil];
-                    [keyChainStore setString:self.pwdTf.text forKey:KEY_CHAIN_USER_PASS_WORD_KEY error:nil];
-                    
-                } else {
-                    
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    [TLAlert alertWithHUDText:@"登录失败"];
-                    
-                }
+                    [[ChatManager defaultManager] loginWithUserName:userId];
+                });
+    
                 
             } failure:^(NSError *error) {
                 

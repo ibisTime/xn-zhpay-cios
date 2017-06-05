@@ -15,7 +15,7 @@
 @interface ZHBankCardListVC()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) TLTableView *bankCardTV;
-@property (nonatomic,strong) NSMutableArray *banks;
+@property (nonatomic,strong) NSMutableArray <ZHBankCard *>*banks;
 @property (nonatomic,assign) BOOL isFirst;
 
 @end
@@ -46,7 +46,7 @@
     [super viewDidLoad];
     self.title = @"我的银行卡";
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(add)];
+
     
     TLTableView *bankCardTV = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
                                                        delegate:self
@@ -72,10 +72,13 @@
             weakSelf.banks = objs;
             
             //限定绑一张
-            if (objs.count) {
+            if (objs.count >= 1) {
                 
                 self.navigationItem.rightBarButtonItem = nil;
                 
+            } else {
+            
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(add)];
             }
             
             [weakSelf.bankCardTV reloadData_tl];
@@ -116,6 +119,44 @@
 
 }
 
+
+- (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault
+                                                                      title:@"删除"
+                                                                    handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+                                                                        
+                                                                        [self deleteBankCardWithTableView:tableView index:indexPath];
+                                                                        
+                                                                    }];
+    
+    return @[action];
+    
+}
+
+//
+
+//
+- (void)deleteBankCardWithTableView:(UITableView *)tv index:(NSIndexPath *)indexPath {
+    
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"802011";
+    http.parameters[@"token"] = [ZHUser user].token;
+    http.parameters[@"code"] = self.banks[indexPath.row].code;
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    
+    [http postWithSuccess:^(id responseObject) {
+        
+        //
+        [self.bankCardTV beginRefreshing];
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+    
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
