@@ -375,6 +375,7 @@
 		2EDC53D21E1E33FD00CACE31 /* ZHCurrencyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDC53D11E1E33FD00CACE31 /* ZHCurrencyModel.m */; };
 		2EDC53D51E1E389E00CACE31 /* NSNumber+TLAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDC53D41E1E389E00CACE31 /* NSNumber+TLAdd.m */; };
 		2EDC53D81E1E463C00CACE31 /* ZHWithdrawalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDC53D71E1E463C00CACE31 /* ZHWithdrawalVC.m */; };
+		2EEF8E191EE4FFED00453109 /* ZHFRBToOtherPeopleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E181EE4FFED00453109 /* ZHFRBToOtherPeopleVC.m */; };
 		2EF892A41E51C0A80068CE16 /* ZHAboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF892A31E51C0A80068CE16 /* ZHAboutUsVC.m */; };
 		2EF9DBEE1E1B8584005E2943 /* ZHWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DBED1E1B8584005E2943 /* ZHWalletCell.m */; };
 		2EF9DBF11E1B97AF005E2943 /* ZHHBConvertFRVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DBF01E1B97AF005E2943 /* ZHHBConvertFRVC.m */; };
@@ -1113,6 +1114,8 @@
 		2EDC53D41E1E389E00CACE31 /* NSNumber+TLAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+TLAdd.m"; sourceTree = "<group>"; };
 		2EDC53D61E1E463C00CACE31 /* ZHWithdrawalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHWithdrawalVC.h; sourceTree = "<group>"; };
 		2EDC53D71E1E463C00CACE31 /* ZHWithdrawalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHWithdrawalVC.m; sourceTree = "<group>"; };
+		2EEF8E171EE4FFED00453109 /* ZHFRBToOtherPeopleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHFRBToOtherPeopleVC.h; sourceTree = "<group>"; };
+		2EEF8E181EE4FFED00453109 /* ZHFRBToOtherPeopleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHFRBToOtherPeopleVC.m; sourceTree = "<group>"; };
 		2EF892A21E51C0A80068CE16 /* ZHAboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHAboutUsVC.h; sourceTree = "<group>"; };
 		2EF892A31E51C0A80068CE16 /* ZHAboutUsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHAboutUsVC.m; sourceTree = "<group>"; };
 		2EF9DBEC1E1B8584005E2943 /* ZHWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHWalletCell.h; sourceTree = "<group>"; };
@@ -2172,6 +2175,8 @@
 				2EF9DBF01E1B97AF005E2943 /* ZHHBConvertFRVC.m */,
 				2EDC53D61E1E463C00CACE31 /* ZHWithdrawalVC.h */,
 				2EDC53D71E1E463C00CACE31 /* ZHWithdrawalVC.m */,
+				2EEF8E171EE4FFED00453109 /* ZHFRBToOtherPeopleVC.h */,
+				2EEF8E181EE4FFED00453109 /* ZHFRBToOtherPeopleVC.m */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -3223,6 +3228,7 @@
 				2E917B2C1E953396003ED4A8 /* ZHMineEarningsVC.m in Sources */,
 				2E01F6C31ECABA990078ABF8 /* ZHPayVC.m in Sources */,
 				2E6E47B31E128A0C00FD2CA7 /* ZHGoodsCell.m in Sources */,
+				2EEF8E191EE4FFED00453109 /* ZHFRBToOtherPeopleVC.m in Sources */,
 				2E6E47DA1E13A2DD00FD2CA7 /* ZHSettingGroup.m in Sources */,
 				2E2265CB1E4DACB200C7126E /* EaseFaceView.m in Sources */,
 				2E2265C41E4DACB200C7126E /* EaseBubbleView+Video.m in Sources */,

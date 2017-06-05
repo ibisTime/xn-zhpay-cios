@@ -36,6 +36,11 @@
 
 }
 
++ (void)show {
+
+    [super setDefaultMaskType:SVProgressHUDMaskTypeClear];
+    [super show];
+}
 
 + (void)dismiss {
     

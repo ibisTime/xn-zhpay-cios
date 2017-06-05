@@ -38,6 +38,12 @@
     }
     
 }
+
+- (void)dealloc {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -48,7 +54,15 @@
     [self refreshWalletInfo];
 
 
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"zh_acount_change" object:nil];
     
+}
+
+- (void)refresh {
+
+    [self.bgScrollView.mj_header beginRefreshing];
+
 }
 
 - (void)setUpUI {
