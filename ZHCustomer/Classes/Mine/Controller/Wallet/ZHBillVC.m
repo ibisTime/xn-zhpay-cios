@@ -162,6 +162,18 @@
         [self howWithDraw];
         
         
+#pragma mark- 转贡献值
+        UIButton *zhuanZhangeBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"转账"];
+        [currencyConvertView addSubview:zhuanZhangeBtn];
+        [zhuanZhangeBtn addTarget:self action:@selector(zhuanZhangAction) forControlEvents:UIControlEventTouchUpInside];
+        [zhuanZhangeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.centerY.equalTo(currencyConvertView.mas_centerY);
+            make.width.equalTo(currencyConvertView.rightBtn.mas_width);
+            make.height.equalTo(currencyConvertView.rightBtn.mas_height);
+            make.right.equalTo(currencyConvertView.rightBtn.mas_left).offset(-20);
+            
+        }];
 
         
     } else if ([self.currencyModel.currency isEqualToString:kGXB]) {
@@ -174,18 +186,7 @@
             [TLAlert alertWithHUDText:@"去消费"];
         };
         
-#pragma mark- 转贡献值
-        UIButton *zhuanZhangeBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"转账"];
-        [currencyConvertView addSubview:zhuanZhangeBtn];
-        [zhuanZhangeBtn addTarget:self action:@selector(zhuanZhangAction) forControlEvents:UIControlEventTouchUpInside];
-        [zhuanZhangeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.centerY.equalTo(currencyConvertView.mas_centerY);
-            make.width.equalTo(currencyConvertView.rightBtn.mas_width);
-            make.height.equalTo(currencyConvertView.rightBtn.mas_height);
-            make.right.equalTo(currencyConvertView.mas_right).offset(-15);
-            
-        }];
+
     
     
     } else if (
