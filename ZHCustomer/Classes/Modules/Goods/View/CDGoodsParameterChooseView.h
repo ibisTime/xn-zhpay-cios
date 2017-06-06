@@ -14,4 +14,6 @@
 
 - (void)show;
 
+- (void)loadArr:(NSArray <NSString *>*)strArr;
+
 @end

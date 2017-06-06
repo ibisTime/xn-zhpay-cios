@@ -10,4 +10,6 @@
 
 @interface CDParameterDisplayView : UIView
 
+- (void)loadArr:(NSArray <NSString *>*)strArr;
+
 @end
