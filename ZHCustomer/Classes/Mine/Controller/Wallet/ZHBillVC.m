@@ -47,7 +47,7 @@
 - (void)zhuanZhangAction {
 
     ZHFRBToOtherPeopleVC *vc = [[ZHFRBToOtherPeopleVC alloc] init];
-    vc.frbSysMoney = self.currencyModel.amount;
+    vc.sysMoney = self.currencyModel.amount;
     [vc setSuccess:^(NSNumber *frbSysMoney){
         
         //修改
@@ -162,7 +162,19 @@
         [self howWithDraw];
         
         
-#pragma mark- 增加转账功能
+
+        
+    } else if ([self.currencyModel.currency isEqualToString:kGXB]) {
+    
+    
+        hiddenLeft = YES;
+        rightTitle = @"消费";
+        hiddenRight = YES;
+        self.rightAciton = ^(){
+            [TLAlert alertWithHUDText:@"去消费"];
+        };
+        
+#pragma mark- 转贡献值
         UIButton *zhuanZhangeBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"转账"];
         [currencyConvertView addSubview:zhuanZhangeBtn];
         [zhuanZhangeBtn addTarget:self action:@selector(zhuanZhangAction) forControlEvents:UIControlEventTouchUpInside];
@@ -171,11 +183,12 @@
             make.centerY.equalTo(currencyConvertView.mas_centerY);
             make.width.equalTo(currencyConvertView.rightBtn.mas_width);
             make.height.equalTo(currencyConvertView.rightBtn.mas_height);
-            make.right.equalTo(currencyConvertView.rightBtn.mas_left).offset(-20);
+            make.right.equalTo(currencyConvertView.mas_right).offset(-15);
             
         }];
-        
-    } else if ([self.currencyModel.currency isEqualToString:kGXB] ||
+    
+    
+    } else if (
                [self.currencyModel.currency isEqualToString:kQBB] ||
                [self.currencyModel.currency isEqualToString:kGWB]) {//消费
     

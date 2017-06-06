@@ -10,7 +10,7 @@
 
 @interface ZHFRBToOtherPeopleVC : TLBaseVC
 
-@property (nonatomic, strong) NSNumber *frbSysMoney;
-@property (nonatomic, copy) void(^success)(NSNumber *frbSysMoney);
+@property (nonatomic, strong) NSNumber *sysMoney;
+@property (nonatomic, copy) void(^success)(NSNumber *sysMoney);
 
 @end

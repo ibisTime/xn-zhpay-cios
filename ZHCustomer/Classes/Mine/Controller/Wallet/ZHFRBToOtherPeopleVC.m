@@ -29,9 +29,9 @@
 
     [super viewDidLoad];
     
-    self.title = @"分润转账";
+    self.title = @"贡献值转账";
     
-    if (!self.frbSysMoney) {
+    if (!self.sysMoney) {
         [TLAlert alertWithError:@"传入 余额"];
         return;
     }
@@ -107,7 +107,7 @@
     [self.bgSV addSubview:hintLbl];
     hintLbl.numberOfLines = 0;
     //    => 100*n
-    hintLbl.text = [NSString stringWithFormat:@"可转账余额：%@",[self.frbSysMoney convertToRealMoney]];
+    hintLbl.text = [NSString stringWithFormat:@"可转账余额：%@",[self.sysMoney convertToRealMoney]];
     
     //
     self.tradePwdTf = [[TLTextField alloc] initWithframe:CGRectMake(0, hintLbl.yy + 1, SCREEN_WIDTH, 45)
@@ -260,7 +260,7 @@
 
       [self.navigationController popViewControllerAnimated:YES];
         if (self.success) {
-            NSNumber *currentNum = @([self.frbSysMoney longLongValue] - [self.moneyTf.text longLongValue]*1000);
+            NSNumber *currentNum = @([self.sysMoney longLongValue] - [self.moneyTf.text longLongValue]*1000);
             self.success(currentNum);
         }
         
