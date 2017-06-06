@@ -91,7 +91,7 @@
 #pragma mark- 检测是否设置了交易密码
     if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
         
-        [self setPlacholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
+        [self setPlaceholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
         [self addPlaeholderView];
         
     } else {//

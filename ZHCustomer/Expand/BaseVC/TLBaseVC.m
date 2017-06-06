@@ -52,7 +52,7 @@
 
 }
 
-- (void)setPlacholderViewTitle:(NSString *)title  operationTitle:(NSString *)opTitle {
+- (void)setPlaceholderViewTitle:(NSString *)title  operationTitle:(NSString *)opTitle {
 
     if (self.tl_placeholderView) {
         

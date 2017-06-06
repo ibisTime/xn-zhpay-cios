@@ -69,7 +69,7 @@
             
         } else { //无卡
             
-            [self setPlacholderViewTitle:@"您还未添加银行卡" operationTitle:@"前往添加"];
+            [self setPlaceholderViewTitle:@"您还未添加银行卡" operationTitle:@"前往添加"];
             [self addPlaeholderView];
         
             

@@ -78,7 +78,7 @@
     if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
         
         
-        [self setPlacholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
+        [self setPlaceholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
         [self addPlaeholderView];
         
     } else {//

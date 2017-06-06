@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger,ZHStepViewType){
 
 //所能达到的最大数量
 @property (nonatomic, assign) NSInteger maxCount;
+@property (nonatomic,strong) UILabel *hintLbl;
 
 
 @end

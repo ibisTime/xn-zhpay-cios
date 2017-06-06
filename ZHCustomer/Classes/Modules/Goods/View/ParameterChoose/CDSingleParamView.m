@@ -13,6 +13,20 @@
 //
 @implementation CDSingleParamView
 
+
+- (void)unSelected {
+
+    self.backgroundColor = [UIColor backgroundColor];
+    self.contentLbl.textColor = [UIColor textColor];
+    
+}
+
+- (void)selected {
+
+    self.backgroundColor = [UIColor themeColor];
+    self.contentLbl.textColor = [UIColor whiteColor];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -20,7 +34,6 @@
         
         self.layer.cornerRadius = 5;
         self.layer.masksToBounds = YES;
-        self.backgroundColor = [UIColor grayColor];
         
 //        //
         self.contentLbl = [UILabel labelWithFrame:CGRectZero

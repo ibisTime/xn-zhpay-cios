@@ -12,7 +12,6 @@
 
 @property (nonatomic,strong) UILabel *countLbl;
 @property (nonatomic,strong) UIButton *buyAllBtn;
-@property (nonatomic,strong) UILabel *hintLbl;
 
 @property (nonatomic,strong) UIButton *leftBtn;//左减
 @property (nonatomic,strong) UIButton *rightBtn;//右加

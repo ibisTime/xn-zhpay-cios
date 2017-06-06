@@ -7,12 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+@class CDGoodsParameterModel;
 
-#define SINGLE_CONTENT_MARGIN 10
-#define SINGLE_CONTENT_FONT [UIFont systemFontOfSize:12]
+#define SINGLE_CONTENT_MARGIN 15
+#define SINGLE_CONTENT_FONT [UIFont systemFontOfSize:14]
 
 @interface CDSingleParamView : UIButton
 
 @property (nonatomic, strong) UILabel *contentLbl;
+
+- (void)unSelected;
+- (void)selected;
+
+@property (nonatomic, strong) CDGoodsParameterModel *parameterModel;
 
 @end

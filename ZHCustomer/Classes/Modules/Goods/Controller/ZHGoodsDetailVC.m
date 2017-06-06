@@ -18,17 +18,13 @@
 #import "ZHSingleDetailVC.h" //详情列表
 #import "ZHShoppingCartVC.h"
 #import "ZHUserLoginVC.h"
-//#import "ChatViewController.h"
-
-//#import "ZHCartManager.h"
 #import "MJRefresh.h"
-//#import "ChatManager.h"
-
 #import "ZHShareView.h"
 #import "AppConfig.h"
 #import "CDGoodsParameterChooseView.h"
+#import "CDGoodsParameterModel.h"
 
-@interface ZHGoodsDetailVC ()<ZHBuyToolViewDelegate,UIScrollViewDelegate>
+@interface ZHGoodsDetailVC ()<GoodsParameterChooseDelegate,UIScrollViewDelegate>
 
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 
@@ -47,8 +43,8 @@
 @property (nonatomic,strong) UIView *line1;
 @property (nonatomic,strong) UIView *line2;
 
-@property (nonatomic, weak) ZHStepView *stepView;
-@property (nonatomic, strong) ZHTreasureInfoView *infoView;
+//@property (nonatomic, weak) ZHStepView *stepView;
+//@property (nonatomic, strong) ZHTreasureInfoView *infoView;
 
 //
 @property (nonatomic,strong) UIView *switchView;
@@ -62,9 +58,10 @@
 @property (nonatomic, strong) UIView *detailView;
 @property (nonatomic, strong) UIView *evaluateViwe;
 //@property (nonatomic, strong) UIView *goodsArgsView;
-
+@property (nonatomic, copy) NSArray <CDGoodsParameterModel *> *parameterModelArr;
 
 @end
+
 
 @implementation ZHGoodsDetailVC
 
@@ -74,98 +71,56 @@
     self.bannerView.timer = nil;
 }
 
-
-
-
-//#pragma mark - 客服消息变更
-//- (void)kefuUnreadMsgChange:(NSNotification *)notification {
-//    
-//    if (self.buyView.kefuMsgHintView) {
-//        
-//       self.buyView.kefuMsgHintView.hidden = ![notification.userInfo[kKefuUnreadMsgKey] boolValue];
-//    }
-//    
-//}
+- (void)tl_placeholderOperation {
+    
+    //先查询规格
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"808037";
+    http.parameters[@"productCode"] = self.goods.code;
+    [http postWithSuccess:^(id responseObject) {
+        
+        self.parameterModelArr = [CDGoodsParameterModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+        
+        [self setUpUI];
+        [self addEvent];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
+}
 
 
 - (void)viewDidLoad {
-    [super viewDidLoad];    
-    self.navigationItem.titleView = self.switchView;
+    [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
-    
-//    //客服消息变更
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kefuUnreadMsgChange:) name:kKefuUnreadMsgChangeNotification object:nil];
-//    
-//    //购物车变化
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
-    
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    //底部负责左右切换的背景
-    self.goodsDetailTypeScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
-    [self.view addSubview:self.goodsDetailTypeScrollView];
-    self.goodsDetailTypeScrollView.pagingEnabled = YES;
-    self.goodsDetailTypeScrollView.showsHorizontalScrollIndicator = NO;
-    self.goodsDetailTypeScrollView.backgroundColor = [UIColor zh_backgroundColor];
-    self.goodsDetailTypeScrollView.delegate = self;
-    self.goodsDetailTypeScrollView.contentSize = CGSizeMake(self.goodsDetailTypeScrollView.width*3, self.goodsDetailTypeScrollView.height);
-    
-    
-    
-    
-    //商品信息背景
-    self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
-    self.bgScrollView.backgroundColor = [UIColor whiteColor];
-    
-    [self.goodsDetailTypeScrollView addSubview: self.bgScrollView];
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+    [self tl_placeholderOperation];
+  
+}
 
-    
-    //底部工具条
-//    self.buyView = [[ZHBuyToolView alloc] initWithFrame:CGRectMake(0, self.bgScrollView.yy, SCREEN_WIDTH, 49)];
-//    self.buyView.delegate = self;
-//    [self.view addSubview:self.buyView];
-    
-    UIButton *buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.bgScrollView.yy, SCREEN_WIDTH, 49) title:@"立即购买" backgroundColor:[UIColor zh_themeColor]];
-    [buyBtn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
-    buyBtn.titleLabel.font = FONT(18);
-    [self.view addSubview:buyBtn];
-    
-    //ui
-    [self setUpUI];
-    
+- (void)addEvent {
+
+
     //
     self.bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     
-        //拍普通商品，价格在上面
-        self.bannerView.imgUrls = @[[self.goods.advPic convertImageUrl]];
+    //拍普通商品，价格在上面
+    self.bannerView.imgUrls = @[[self.goods.advPic convertImageUrl]];
     
     
-        //---//
-        self.nameLbl.text = self.goods.name;
-        self.advLbl.text = self.goods.slogan;
-        self.priceLbl.text = self.goods.totalPrice;
-//        self.buyView.countView.msgCount = [ZHCartManager manager].count;
-        self.postageLbl.text = @"邮费:10元";
+    //---//
+    self.nameLbl.text = self.goods.name;
+    self.advLbl.text = self.goods.slogan;
+    self.priceLbl.text = self.goods.totalPrice;
+    //        self.buyView.countView.msgCount = [ZHCartManager manager].count;
+    self.postageLbl.text = @"邮费:10元";
     
     //扩大
-    self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.stepView.yy + 10);
-
+//    self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.stepView.yy + 10);
     
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(treasureSuccess) name:@"dbBuySuccess" object:nil];
-    
-//    self.buyView.kefuMsgHintView.hidden = ![ChatManager defaultManager].isHaveKefuUnredMsg;
-//    
-//    //
-//    [ZHCartManager  getPostage:^(NSNumber *postage) {
-//        
-//        self.postageLbl.text = [NSString stringWithFormat:@"邮费：%@元",         [postage convertToRealMoney]];
-//
-//    } failure:^{
-//        
-//    }];
     
 }
 
@@ -227,8 +182,6 @@
     
     //
     [self.goodsDetailTypeScrollView setContentOffset:CGPointMake(self.goodsDetailTypeScrollView.width*tag, 0) animated:YES];
-    
-    
     
 }
 
@@ -350,11 +303,25 @@
 
 }
 
+#pragma mark- 规格选择的代理
+- (void)finishChooseWithType:(GoodsParameterChooseType)type chooseView:(CDGoodsParameterChooseView *)chooseView parameter:(CDGoodsParameterModel *)parameterModel count:(NSInteger)count {
+
+    [chooseView dismiss];
+    
+    //
+    ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
+    buyVC.type = ZHIMBuyTypeSingle;
+    buyVC.goodsRoom = @[self.goods];
+    [self.navigationController pushViewController:buyVC animated:YES];
+    
+}
 #pragma mark- 购买
 - (void)buy {
     
     CDGoodsParameterChooseView *chooseView = [CDGoodsParameterChooseView chooseView];
-    [chooseView loadArr:@[@"fsdklfk 山卡拉放开了 都快来撒",@"sdklfk 山卡拉放开了 都快来撒 sdklfk 山卡拉放开了 都快来撒",@"sdklfk 山卡拉放开了 都快来撒 sdklfk 山卡拉放开了 都快来撒 sdklfk 山卡拉放开了 都快来撒"]];
+    chooseView.coverImageUrl = [self.goods.advPic convertImageUrl];
+    [chooseView loadArr:self.parameterModelArr];
+    chooseView.delegate = self;
     [chooseView show];
     
     //
@@ -369,114 +336,64 @@
         return;
     }
 
-        //查看数量
-    
-    
-//    [ZHCartManager getPostage:^(NSNumber *postage) {
-//        
-//        ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
-//        buyVC.type = ZHIMBuyTypeSingle;
-//        buyVC.postage = postage;
-//        self.goods.count = self.stepView.count;
-//        buyVC.goodsRoom = @[self.goods];
-//        [self.navigationController pushViewController:buyVC animated:YES];
-//        
-//    } failure:^{
-//        
-//        
-//    }];
     
 }
 
-#pragma mark- 前往客服
-////客服
-//- (void)chat {
+
+//#pragma mark- 加入购物车
+//- (void)addToShopCar {
 //
 //    if (![ZHUser user].isLogin) {
 //        
 //        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
 //        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
 //        [self presentViewController:nav animated:YES completion:nil];
-////        loginVC.loginSuccess = ^(){
-////            [self buy];
-////        };
-//        
-//    } else {
-//    
-//        ChatViewController *vc = [[ChatViewController alloc] initWithConversationChatter:@"ioskefu" conversationType:EMConversationTypeChat];
-//        vc.title = @"客服";
-//        vc.defaultUserAvatarName = @"user.png";
-//        [self.navigationController pushViewController:vc animated:YES];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kUnreadMsgChangeNotification object:nil];
-//
+//        loginVC.loginSuccess = ^(){
+//            [self buy];
+//        };
+//        return;
 //    }
+//    
+//    TLNetworking *http = [TLNetworking new];
+//    http.showView = self.view;
+//    http.code = @"808040";
+//    http.parameters[@"userId"] = [ZHUser user].userId;
+//    http.parameters[@"token"] = [ZHUser user].token;
+//
+//    http.parameters[@"productCode"] = self.goods.code;
+//    http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",self.stepView.count];
+//    [http postWithSuccess:^(id responseObject) {
+//        
+//        [TLAlert alertWithHUDText:@"添加到购物车成功"];
+//        
+////        [ZHCartManager manager].count = [ZHCartManager manager].count + self.stepView.count;
+//        
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
+//    
 //
 //}
 
-#pragma mark- 夺宝后刷新
-- (void)treasureRefresh {
-
-
-}
-
-#pragma mark- 加入购物车
-- (void)addToShopCar {
-
-    if (![ZHUser user].isLogin) {
-        
-        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        [self presentViewController:nav animated:YES completion:nil];
-        loginVC.loginSuccess = ^(){
-            [self buy];
-        };
-        return;
-    }
-    
-    TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
-    http.code = @"808040";
-    http.parameters[@"userId"] = [ZHUser user].userId;
-    http.parameters[@"token"] = [ZHUser user].token;
-
-    http.parameters[@"productCode"] = self.goods.code;
-    http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",self.stepView.count];
-    [http postWithSuccess:^(id responseObject) {
-        
-        [TLAlert alertWithHUDText:@"添加到购物车成功"];
-        
-//        [ZHCartManager manager].count = [ZHCartManager manager].count + self.stepView.count;
-        
-    } failure:^(NSError *error) {
-        
-        
-    }];
-    
-
-}
-
-#pragma mark- 购物车
-- (void)openShopCar {
-
-    if (![ZHUser user].isLogin) {
-        
-        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        [self presentViewController:nav animated:YES completion:nil];
-        loginVC.loginSuccess = ^(){
-            [self buy];
-        };
-        return;
-    }
-    
-    ZHShoppingCartVC *vc = [[ZHShoppingCartVC alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
-
-}
-
-
-
-
+//#pragma mark- 购物车
+//- (void)openShopCar {
+//
+//    if (![ZHUser user].isLogin) {
+//        
+//        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
+//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+//        [self presentViewController:nav animated:YES completion:nil];
+//        loginVC.loginSuccess = ^(){
+//            [self buy];
+//        };
+//        return;
+//    }
+//    
+//    ZHShoppingCartVC *vc = [[ZHShoppingCartVC alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
+//
+//}
 
 
 
@@ -541,6 +458,37 @@
 
 - (void)setUpUI {
 
+    self.navigationItem.titleView = self.switchView;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
+    
+    
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    //底部负责左右切换的背景
+    self.goodsDetailTypeScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
+    [self.view addSubview:self.goodsDetailTypeScrollView];
+    self.goodsDetailTypeScrollView.pagingEnabled = YES;
+    self.goodsDetailTypeScrollView.showsHorizontalScrollIndicator = NO;
+    self.goodsDetailTypeScrollView.backgroundColor = [UIColor zh_backgroundColor];
+    self.goodsDetailTypeScrollView.delegate = self;
+    self.goodsDetailTypeScrollView.contentSize = CGSizeMake(self.goodsDetailTypeScrollView.width*3, self.goodsDetailTypeScrollView.height);
+    
+    //商品信息背景
+    self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
+    self.bgScrollView.backgroundColor = [UIColor whiteColor];
+    
+    [self.goodsDetailTypeScrollView addSubview: self.bgScrollView];
+    
+    
+    UIButton *buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.bgScrollView.yy, SCREEN_WIDTH, 49) title:@"立即购买" backgroundColor:[UIColor zh_themeColor]];
+    [buyBtn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
+    buyBtn.titleLabel.font = FONT(18);
+    [self.view addSubview:buyBtn];
+    
+    
+    
     //轮播图
     TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*0.6)];
     [self.bgScrollView addSubview:bannerView];
@@ -636,23 +584,8 @@
     }];
    
    //
-   ZHStepView *stepV = [[ZHStepView alloc] initWithFrame:CGRectZero type:ZHStepViewTypeDefault];
-   self.stepView = stepV;
-   self.stepView.isDefault = YES;
-
-   [self.bgScrollView addSubview:self.stepView];
-   [stepV mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-        make.left.equalTo(self.bgScrollView.mas_left).offset(LEFT_MARGIN);
-        make.top.equalTo(priceBottomLine.mas_bottom).offset(20);
-        make.width.mas_equalTo(@250);
-        make.height.mas_equalTo(@25);
-   }];
-   
-    
+ 
 }
-
-
 
 #pragma mark- 顶部切换UI
 - (UIView *)switchView {

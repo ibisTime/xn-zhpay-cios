@@ -6,7 +6,7 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //  物品详情
 
-#import <UIKit/UIKit.h>
+#import "TLBaseVC.h"
 #import "ZHGoodsModel.h"
 //#import "ZHTreasureModel.h"
 
@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger,ZHGoodsDetailType){
 //    ZHGoodsDetailTypeLookForTreasure
 };
 
-@interface ZHGoodsDetailVC : UIViewController
+@interface ZHGoodsDetailVC : TLBaseVC
 
 //普通商品的模型
 @property (nonatomic,strong) ZHGoodsModel *goods;

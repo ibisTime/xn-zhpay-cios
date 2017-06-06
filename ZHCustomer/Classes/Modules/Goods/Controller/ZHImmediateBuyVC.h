@@ -8,12 +8,13 @@
 
 #import "TLBaseVC.h"
 #import "ZHGoodsModel.h"
-#import "ZHCartGoodsModel.h"
+
+//#import "ZHCartGoodsModel.h"
 
 typedef NS_ENUM(NSInteger,ZHIMBuyType){
     
-    ZHIMBuyTypeSingle = 0, //单个商品
-    ZHIMBuyTypeAll //购物车商品
+    ZHIMBuyTypeSingle = 0 //单个商品
+//  ZHIMBuyTypeAll //购物车商品
     
 };
 
@@ -25,7 +26,7 @@ typedef NS_ENUM(NSInteger,ZHIMBuyType){
 @property (nonatomic,strong) NSArray<ZHGoodsModel *> *goodsRoom;
 
 //购物车商品
-@property (nonatomic,strong) NSArray<ZHCartGoodsModel *> *cartGoodsRoom;
+//@property (nonatomic,strong) NSArray<ZHCartGoodsModel *> *cartGoodsRoom;
 
 
 //购物车专用

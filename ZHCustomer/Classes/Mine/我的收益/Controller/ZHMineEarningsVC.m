@@ -73,7 +73,7 @@
     self.title = @"我的收益";
     _group = dispatch_group_create();
     
-    [self setPlacholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
 
     [self getDataSuccess];
 

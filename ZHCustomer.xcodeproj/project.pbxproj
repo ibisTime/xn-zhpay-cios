@@ -239,6 +239,7 @@
 		2EAE613D1E4856EA00F1E032 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAE613C1E4856EA00F1E032 /* SystemConfiguration.framework */; };
 		2EAE613F1E48570D00F1E032 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAE613E1E48570D00F1E032 /* UserNotifications.framework */; };
 		2EAE61411E48572800F1E032 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EAE61401E48572800F1E032 /* libresolv.tbd */; };
+		2EB8F7F81EE685C2006B65F6 /* CDGoodsParameterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8F7F71EE685C2006B65F6 /* CDGoodsParameterModel.m */; };
 		2EBB38261E826EE4003D8BED /* ZHNewMineWalletVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBB38251E826EE4003D8BED /* ZHNewMineWalletVC.m */; };
 		2EBCF5051E4860CC003A3A5E /* AppDelegate+JPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBCF5041E4860CC003A3A5E /* AppDelegate+JPush.m */; };
 		2EC04A321ECBFC8800E52C9C /* TLMsgPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC04A311ECBFC8700E52C9C /* TLMsgPlayView.m */; };
@@ -373,7 +374,6 @@
 		2EEF8E6C1EE5639900453109 /* ZHStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E511EE5639900453109 /* ZHStepView.m */; };
 		2EEF8E6D1EE5639900453109 /* ZHTreasureInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E531EE5639900453109 /* ZHTreasureInfoView.m */; };
 		2EEF8E7E1EE659D100453109 /* CDGoodsParameterChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E791EE659D100453109 /* CDGoodsParameterChooseView.m */; };
-		2EEF8E7F1EE659D100453109 /* CDParameterDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E7B1EE659D100453109 /* CDParameterDisplayView.m */; };
 		2EEF8E801EE659D100453109 /* CDSingleParamView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E7D1EE659D100453109 /* CDSingleParamView.m */; };
 		2EF892A41E51C0A80068CE16 /* ZHAboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF892A31E51C0A80068CE16 /* ZHAboutUsVC.m */; };
 		2EF9DBEE1E1B8584005E2943 /* ZHWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DBED1E1B8584005E2943 /* ZHWalletCell.m */; };
@@ -854,6 +854,8 @@
 		2EAE613E1E48570D00F1E032 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		2EAE61401E48572800F1E032 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		2EAE61421E48577400F1E032 /* ZHCustomer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZHCustomer.entitlements; sourceTree = "<group>"; };
+		2EB8F7F61EE685C2006B65F6 /* CDGoodsParameterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDGoodsParameterModel.h; sourceTree = "<group>"; };
+		2EB8F7F71EE685C2006B65F6 /* CDGoodsParameterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDGoodsParameterModel.m; sourceTree = "<group>"; };
 		2EBB38241E826EE4003D8BED /* ZHNewMineWalletVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHNewMineWalletVC.h; sourceTree = "<group>"; };
 		2EBB38251E826EE4003D8BED /* ZHNewMineWalletVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHNewMineWalletVC.m; sourceTree = "<group>"; };
 		2EBCF5031E4860CC003A3A5E /* AppDelegate+JPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+JPush.h"; sourceTree = "<group>"; };
@@ -1111,8 +1113,6 @@
 		2EEF8E531EE5639900453109 /* ZHTreasureInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHTreasureInfoView.m; sourceTree = "<group>"; };
 		2EEF8E781EE659D100453109 /* CDGoodsParameterChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDGoodsParameterChooseView.h; sourceTree = "<group>"; };
 		2EEF8E791EE659D100453109 /* CDGoodsParameterChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDGoodsParameterChooseView.m; sourceTree = "<group>"; };
-		2EEF8E7A1EE659D100453109 /* CDParameterDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDParameterDisplayView.h; sourceTree = "<group>"; };
-		2EEF8E7B1EE659D100453109 /* CDParameterDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDParameterDisplayView.m; sourceTree = "<group>"; };
 		2EEF8E7C1EE659D100453109 /* CDSingleParamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSingleParamView.h; sourceTree = "<group>"; };
 		2EEF8E7D1EE659D100453109 /* CDSingleParamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSingleParamView.m; sourceTree = "<group>"; };
 		2EF892A21E51C0A80068CE16 /* ZHAboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHAboutUsVC.h; sourceTree = "<group>"; };
@@ -2949,6 +2949,8 @@
 				2EEF8E341EE5639800453109 /* ZHGoodsModel.m */,
 				2EEF8E351EE5639800453109 /* ZHTreasureRecord.h */,
 				2EEF8E361EE5639800453109 /* ZHTreasureRecord.m */,
+				2EB8F7F61EE685C2006B65F6 /* CDGoodsParameterModel.h */,
+				2EB8F7F71EE685C2006B65F6 /* CDGoodsParameterModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3008,8 +3010,6 @@
 			children = (
 				2EEF8E781EE659D100453109 /* CDGoodsParameterChooseView.h */,
 				2EEF8E791EE659D100453109 /* CDGoodsParameterChooseView.m */,
-				2EEF8E7A1EE659D100453109 /* CDParameterDisplayView.h */,
-				2EEF8E7B1EE659D100453109 /* CDParameterDisplayView.m */,
 				2EEF8E7C1EE659D100453109 /* CDSingleParamView.h */,
 				2EEF8E7D1EE659D100453109 /* CDSingleParamView.m */,
 			);
@@ -3336,6 +3336,7 @@
 				2E1762A21E23286300CAE489 /* UIDevice+FCUUID.m in Sources */,
 				2EEF8DC11EE15C3E00453109 /* ZHGoodsCategoryManager.m in Sources */,
 				2E917B321E953396003ED4A8 /* ZHProfitCell.m in Sources */,
+				2EB8F7F81EE685C2006B65F6 /* CDGoodsParameterModel.m in Sources */,
 				2E2265AA1E4DACB200C7126E /* UIViewController+DismissKeyboard.m in Sources */,
 				2EF9DBFE1E1C95A8005E2943 /* ZHChatMerchantCell.m in Sources */,
 				2E1762A11E23286300CAE489 /* FCUUID.m in Sources */,
@@ -3468,7 +3469,6 @@
 				2EEF8E5D1EE5639900453109 /* ZHEvaluateModel.m in Sources */,
 				2EC2AE6C1E0CF5B3003EF503 /* ZHUserLoginVC.m in Sources */,
 				2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */,
-				2EEF8E7F1EE659D100453109 /* CDParameterDisplayView.m in Sources */,
 				2EA5218F1E63D68B0080965C /* TLHTMLStrVC.m in Sources */,
 				2EEF8DBF1EE15C3E00453109 /* ZHCartGoodsModel.m in Sources */,
 				2EEF8E5F1EE5639900453109 /* ZHGoodsModel.m in Sources */,

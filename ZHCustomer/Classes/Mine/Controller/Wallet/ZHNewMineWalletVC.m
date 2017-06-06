@@ -44,7 +44,7 @@
     self.title = @"我的钱包";
     self.isFirst = YES;
 
-    [self setPlacholderViewTitle:@"加载失败" operationTitle:@"点击重新加载"];
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"点击重新加载"];
     [self refreshWalletInfo];
 
 
