@@ -29,7 +29,7 @@
 
     [super viewDidLoad];
     
-    self.title = @"贡献值转账";
+    self.title = @"转账";
     
     if (!self.sysMoney) {
         [TLAlert alertWithError:@"传入 余额"];
