@@ -372,8 +372,9 @@
 		2EEF8E6B1EE5639900453109 /* ZHProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E4F1EE5639800453109 /* ZHProgressView.m */; };
 		2EEF8E6C1EE5639900453109 /* ZHStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E511EE5639900453109 /* ZHStepView.m */; };
 		2EEF8E6D1EE5639900453109 /* ZHTreasureInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E531EE5639900453109 /* ZHTreasureInfoView.m */; };
-		2EEF8E701EE5647000453109 /* CDGoodsParameterChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E6F1EE5647000453109 /* CDGoodsParameterChooseView.m */; };
-		2EEF8E731EE569FB00453109 /* CDParameterDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E721EE569FB00453109 /* CDParameterDisplayView.m */; };
+		2EEF8E7E1EE659D100453109 /* CDGoodsParameterChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E791EE659D100453109 /* CDGoodsParameterChooseView.m */; };
+		2EEF8E7F1EE659D100453109 /* CDParameterDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E7B1EE659D100453109 /* CDParameterDisplayView.m */; };
+		2EEF8E801EE659D100453109 /* CDSingleParamView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E7D1EE659D100453109 /* CDSingleParamView.m */; };
 		2EF892A41E51C0A80068CE16 /* ZHAboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF892A31E51C0A80068CE16 /* ZHAboutUsVC.m */; };
 		2EF9DBEE1E1B8584005E2943 /* ZHWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DBED1E1B8584005E2943 /* ZHWalletCell.m */; };
 		2EF9DBF11E1B97AF005E2943 /* ZHHBConvertFRVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DBF01E1B97AF005E2943 /* ZHHBConvertFRVC.m */; };
@@ -1108,10 +1109,12 @@
 		2EEF8E511EE5639900453109 /* ZHStepView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHStepView.m; sourceTree = "<group>"; };
 		2EEF8E521EE5639900453109 /* ZHTreasureInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHTreasureInfoView.h; sourceTree = "<group>"; };
 		2EEF8E531EE5639900453109 /* ZHTreasureInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHTreasureInfoView.m; sourceTree = "<group>"; };
-		2EEF8E6E1EE5647000453109 /* CDGoodsParameterChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDGoodsParameterChooseView.h; sourceTree = "<group>"; };
-		2EEF8E6F1EE5647000453109 /* CDGoodsParameterChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDGoodsParameterChooseView.m; sourceTree = "<group>"; };
-		2EEF8E711EE569FB00453109 /* CDParameterDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDParameterDisplayView.h; sourceTree = "<group>"; };
-		2EEF8E721EE569FB00453109 /* CDParameterDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDParameterDisplayView.m; sourceTree = "<group>"; };
+		2EEF8E781EE659D100453109 /* CDGoodsParameterChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDGoodsParameterChooseView.h; sourceTree = "<group>"; };
+		2EEF8E791EE659D100453109 /* CDGoodsParameterChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDGoodsParameterChooseView.m; sourceTree = "<group>"; };
+		2EEF8E7A1EE659D100453109 /* CDParameterDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDParameterDisplayView.h; sourceTree = "<group>"; };
+		2EEF8E7B1EE659D100453109 /* CDParameterDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDParameterDisplayView.m; sourceTree = "<group>"; };
+		2EEF8E7C1EE659D100453109 /* CDSingleParamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSingleParamView.h; sourceTree = "<group>"; };
+		2EEF8E7D1EE659D100453109 /* CDSingleParamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSingleParamView.m; sourceTree = "<group>"; };
 		2EF892A21E51C0A80068CE16 /* ZHAboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHAboutUsVC.h; sourceTree = "<group>"; };
 		2EF892A31E51C0A80068CE16 /* ZHAboutUsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHAboutUsVC.m; sourceTree = "<group>"; };
 		2EF9DBEC1E1B8584005E2943 /* ZHWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHWalletCell.h; sourceTree = "<group>"; };
@@ -2953,6 +2956,7 @@
 		2EEF8E371EE5639800453109 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2EEF8E771EE659D100453109 /* ParameterChoose */,
 				2EEF8E381EE5639800453109 /* cell */,
 				2EEF8E451EE5639800453109 /* ShoppingCart */,
 				2EEF8E481EE5639800453109 /* ZHBuyToolView.h */,
@@ -2967,10 +2971,6 @@
 				2EEF8E511EE5639900453109 /* ZHStepView.m */,
 				2EEF8E521EE5639900453109 /* ZHTreasureInfoView.h */,
 				2EEF8E531EE5639900453109 /* ZHTreasureInfoView.m */,
-				2EEF8E6E1EE5647000453109 /* CDGoodsParameterChooseView.h */,
-				2EEF8E6F1EE5647000453109 /* CDGoodsParameterChooseView.m */,
-				2EEF8E711EE569FB00453109 /* CDParameterDisplayView.h */,
-				2EEF8E721EE569FB00453109 /* CDParameterDisplayView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3001,6 +3001,19 @@
 				2EEF8E471EE5639800453109 /* ZHShoppingCartCell.m */,
 			);
 			path = ShoppingCart;
+			sourceTree = "<group>";
+		};
+		2EEF8E771EE659D100453109 /* ParameterChoose */ = {
+			isa = PBXGroup;
+			children = (
+				2EEF8E781EE659D100453109 /* CDGoodsParameterChooseView.h */,
+				2EEF8E791EE659D100453109 /* CDGoodsParameterChooseView.m */,
+				2EEF8E7A1EE659D100453109 /* CDParameterDisplayView.h */,
+				2EEF8E7B1EE659D100453109 /* CDParameterDisplayView.m */,
+				2EEF8E7C1EE659D100453109 /* CDSingleParamView.h */,
+				2EEF8E7D1EE659D100453109 /* CDSingleParamView.m */,
+			);
+			path = ParameterChoose;
 			sourceTree = "<group>";
 		};
 		2EF892A11E51C08D0068CE16 /* AboutUs */ = {
@@ -3304,7 +3317,6 @@
 				2E6C3E031E2C60AB006A7AA2 /* TLImagePicker.m in Sources */,
 				2E6E47F41E13C64900FD2CA7 /* ZHPwdRelatedVC.m in Sources */,
 				2E2265B41E4DACB200C7126E /* EaseConversationListViewController.m in Sources */,
-				2EEF8E701EE5647000453109 /* CDGoodsParameterChooseView.m in Sources */,
 				2EEF8DD91EE15CBE00453109 /* ZHBriberyMoneyVC.m in Sources */,
 				2EC2AE4E1E0CF55A003EF503 /* TLMsgBadgeView.m in Sources */,
 				2E2265641E4DACB100C7126E /* EMVoiceConverter.mm in Sources */,
@@ -3318,7 +3330,6 @@
 				2E4E8BC61E20F1E100AC022A /* ZHMonthCardModel.m in Sources */,
 				2EEF8E571EE5639900453109 /* ZHGoodsDetailVC.m in Sources */,
 				2EC2AE6A1E0CF5B3003EF503 /* ZHAccountBaseVC.m in Sources */,
-				2EEF8E731EE569FB00453109 /* CDParameterDisplayView.m in Sources */,
 				2E2265881E4DACB200C7126E /* EMSDWebImageDownloader.m in Sources */,
 				2E2267571E50B26000C7126E /* AppConfig.m in Sources */,
 				2EC2AE6E1E0CF5B3003EF503 /* ZHUser.m in Sources */,
@@ -3452,10 +3463,12 @@
 				2E22658D1E4DACB200C7126E /* NSData+EMImageContentType.m in Sources */,
 				2E917B2F1E953396003ED4A8 /* ZHEarningFlowModel.m in Sources */,
 				2E22655C1E4DACB100C7126E /* EMAudioRecorderUtil.m in Sources */,
+				2EEF8E7E1EE659D100453109 /* CDGoodsParameterChooseView.m in Sources */,
 				2E16D02B1E5C4B870029B0A5 /* ZHCurrencyConvertView.m in Sources */,
 				2EEF8E5D1EE5639900453109 /* ZHEvaluateModel.m in Sources */,
 				2EC2AE6C1E0CF5B3003EF503 /* ZHUserLoginVC.m in Sources */,
 				2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */,
+				2EEF8E7F1EE659D100453109 /* CDParameterDisplayView.m in Sources */,
 				2EA5218F1E63D68B0080965C /* TLHTMLStrVC.m in Sources */,
 				2EEF8DBF1EE15C3E00453109 /* ZHCartGoodsModel.m in Sources */,
 				2EEF8E5F1EE5639900453109 /* ZHGoodsModel.m in Sources */,
@@ -3510,6 +3523,7 @@
 				2E6E47F31E13C64900FD2CA7 /* ZHChangeMobileVC.m in Sources */,
 				2E2265C51E4DACB200C7126E /* EaseBubbleView+Voice.m in Sources */,
 				2E875D141E0D1FAE007F97A5 /* ZHShopTypeView.m in Sources */,
+				2EEF8E801EE659D100453109 /* CDSingleParamView.m in Sources */,
 				2E6E480D1E14F5E900FD2CA7 /* ZHReceivingAddress.m in Sources */,
 				2EC2AE541E0CF55A003EF503 /* TLTimeButton.m in Sources */,
 				2EC2AE701E0CF5B3003EF503 /* ZHAccountTf.m in Sources */,

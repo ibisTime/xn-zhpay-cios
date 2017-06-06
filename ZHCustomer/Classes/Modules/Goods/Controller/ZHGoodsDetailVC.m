@@ -354,6 +354,7 @@
 - (void)buy {
     
     CDGoodsParameterChooseView *chooseView = [CDGoodsParameterChooseView chooseView];
+    [chooseView loadArr:@[@"fsdklfk 山卡拉放开了 都快来撒",@"sdklfk 山卡拉放开了 都快来撒 sdklfk 山卡拉放开了 都快来撒",@"sdklfk 山卡拉放开了 都快来撒 sdklfk 山卡拉放开了 都快来撒 sdklfk 山卡拉放开了 都快来撒"]];
     [chooseView show];
     
     //

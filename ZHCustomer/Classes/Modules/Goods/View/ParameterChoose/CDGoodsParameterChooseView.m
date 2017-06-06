@@ -7,13 +7,17 @@
 //
 
 #import "CDGoodsParameterChooseView.h"
+#import "CDSingleParamView.h"
+
 
 @interface CDGoodsParameterChooseView()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) UIView *validBgView;
+@property (nonatomic, strong) UITableView *validTableView;
 
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, strong) NSMutableArray <NSValue *> *rectArr;
+@property (nonatomic, copy) NSArray <NSString *>*strArr;
 
 @end
 
@@ -23,8 +27,8 @@
     
     CDGoodsParameterChooseView *chooseView = [[CDGoodsParameterChooseView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     return chooseView;
-    
 }
+
 
 - (void)show {
 
@@ -32,15 +36,17 @@
     
 }
 
+
 - (void)remove:(UIControl*)maskCtrl {
 
     [maskCtrl removeFromSuperview];
 
 }
 
+
 - (void)loadArr:(NSArray <NSString *>*)strArr {
 
-    
+    self.strArr = strArr;
     //1.计算cell
     
     CGFloat horiaonMargin = 10;
@@ -53,21 +59,20 @@
     //
     [strArr enumerateObjectsUsingBlock:^(NSString * _Nonnull strObj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        CGFloat w = self.validBgView.width - 2*horiaonMargin;
+        CGFloat outerW = self.validBgView.width - 2*horiaonMargin;
+        CGFloat contentW = outerW - 2*SINGLE_CONTENT_MARGIN;
+        
         
         //
-        CGSize size = [strObj calculateStringSize:CGSizeMake(w, MAXFLOAT) font:FONT(12)];
-        CGRect frame = CGRectMake(horiaonMargin, verticalMargin + lastHeight, w, size.height);
+        CGSize size = [strObj calculateStringSize:CGSizeMake(contentW, MAXFLOAT) font:FONT(12)];
+        
+        //
+        CGRect frame = CGRectMake(horiaonMargin, verticalMargin + lastHeight, size.width + 2*SINGLE_CONTENT_MARGIN,size.height + 2*SINGLE_CONTENT_MARGIN);
+        
         [self.rectArr addObject:[NSValue valueWithCGRect:frame]];
         
         //
-//        UILabel *lbl = [[UILabel alloc] initWithFrame:frame];
-//        lbl.numberOfLines = 0;
-//        [self addSubview:lbl];
-//        lbl.text = strObj;
-//        lbl.backgroundColor = [UIColor grayColor];
-//        lbl.textColor = [UIColor textColor];
-//        lastHeight = lbl.yy;
+        lastHeight = CGRectGetMaxY(frame);
         
     }];
     
@@ -75,6 +80,7 @@
     self.cellHeight = lastHeight;
     
 
+    [self.validTableView reloadData];
 }
 
 
@@ -95,6 +101,7 @@
         
         //
         UITableView *parameterTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        self.validTableView = parameterTableView;
         [self.validBgView addSubview:parameterTableView];
         parameterTableView.delegate = self;
         parameterTableView.dataSource = self;
@@ -130,11 +137,17 @@
 }
 
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return self.cellHeight;
+    return 100;
 
 }
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    return self.cellHeight;
+//
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
@@ -149,16 +162,61 @@
     if (!cell) {
         
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellId"];
-        
+        cell.backgroundColor = [UIColor orangeColor];
     }
     
-    [self.rectArr enumerateObjectsUsingBlock:^(NSValue * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    if (self.strArr) {
+        //
+        __block UIView *lastV = nil;
         
-//        [cell addSubview:];
+        [self.strArr enumerateObjectsUsingBlock:^(NSString * _Nonnull strObj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+                CDSingleParamView *v = [[CDSingleParamView alloc] initWithFrame:CGRectZero];
+                [cell.contentView addSubview:v];
+                v.contentLbl.text = strObj;
+            
+                //
+                if (idx == 0) {
+                    
+                    [v mas_makeConstraints:^(MASConstraintMaker *make) {
+                        
+                        make.left.equalTo(cell.contentView.mas_left).offset(10);
+                        make.right.equalTo(cell.contentView.mas_right).offset(-10);
+                        make.top.equalTo(cell.contentView.mas_top).offset(10);
+                        make.bottom.equalTo(v.contentLbl.mas_bottom).offset(10);
+                        
+                    }];
+                    
+                }  else {
+                    
+                    [v mas_makeConstraints:^(MASConstraintMaker *make) {
+                        
+                        make.left.equalTo(cell.contentView.mas_left).offset(10);
+                        make.right.equalTo(cell.contentView.mas_right).offset(-10);
+                        make.top.equalTo(lastV.mas_bottom).offset(10);
+                        make.bottom.equalTo(v.contentLbl.mas_bottom).offset(10);
+                        
+                    }];
+                    
+                }
+                
+                lastV = v;
+                
+        }];
         
-    }];
+        
+        [cell.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.bottom.equalTo(lastV.mas_bottom).offset(10);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+            
+        }];
+        
+    }
+
     
     return cell;
-
+    
 }
+
 @end
