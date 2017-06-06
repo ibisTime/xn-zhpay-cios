@@ -16,7 +16,7 @@
 @property (nonatomic,strong) UILabel *advLbl; //广告语
 
 //优惠
-@property (nonatomic,strong) UIImageView *discountImageView;
+//@property (nonatomic,strong) UIImageView *discountImageView;
 @property (nonatomic,strong) UILabel *discountLbl;
 
 //优惠
@@ -79,17 +79,22 @@
     NSString *coverUrl = [_shop.advPic convertThumbnailImageUrl];
     
     [self.coverImageView sd_setImageWithURL:[[NSURL alloc] initWithString:coverUrl] placeholderImage:nil];
+    self.nameLbl.text = _shop.name;
+
+    
     if ([_shop.level isEqualToString:@"2"]) {
         
-        self.nameLbl.text = [NSString stringWithFormat:@"%@(公益)",_shop.name];
-
+       self.discountLbl.text = @"公益商家";
+        
     } else {
-        self.nameLbl.text = _shop.name;
 
+        self.discountLbl.text = @"普通商家";
     }
+    
     self.advLbl.text = _shop.slogan;
     self.discountLbl.text = [_shop discountDescription];
     
+    //
     NSMutableAttributedString *mutableAttr = [[NSMutableAttributedString alloc] initWithAttributedString:self.locationAttrStr];
     [mutableAttr appendAttributedString: [[NSAttributedString alloc] initWithString:[_shop distanceDescription]]];
     self.distanceLbl.attributedText = mutableAttr;
@@ -127,14 +132,17 @@
     [self addSubview:self.advLbl];
     
     //
-    self.discountImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.nameLbl.x, self.advLbl.yy + 3, 15, 15)];
-    //抵
-    self.discountImageView.image = [UIImage imageNamed:@"减"];
-    [self addSubview:self.discountImageView];
+//    self.discountImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.nameLbl.x, self.advLbl.yy + 3, 15, 15)];
+//    //抵
+//    self.discountImageView.image = [UIImage imageNamed:@"减"];
+//    [self addSubview:self.discountImageView];
+//
+    
     
     //
-    CGFloat disCountLblW = SCREEN_WIDTH - self.discountImageView.xx - 5 - 120;
-    self.discountLbl = [UILabel labelWithFrame:CGRectMake(self.discountImageView.xx + 5, self.discountImageView.y, disCountLblW, 15)
+//    CGFloat disCountLblW = SCREEN_WIDTH - self.discountImageView.xx - 5 - 120;
+    
+    self.discountLbl = [UILabel labelWithFrame:CGRectZero
                                   textAligment:NSTextAlignmentLeft
                                backgroundColor:[UIColor whiteColor]
                                           font:FONT(11)
@@ -142,25 +150,24 @@
     [self addSubview:self.discountLbl];
     
     [self.discountLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.discountImageView.mas_right).offset(5);
-        make.centerY.equalTo(self.discountImageView.mas_centerY);
+        
+        make.left.equalTo(self.nameLbl.mas_left);
+        make.top.equalTo(self.advLbl.mas_bottom).offset(3);
         make.height.mas_equalTo(15);
-
+        
     }];
-    self.discountLbl.centerY = self.discountImageView.centerY;
-
+    
     
     //位置
-    self.distanceLbl = [UILabel labelWithFrame:CGRectMake(SCREEN_WIDTH - 115, self.discountImageView.y, 100, 15)
+    self.distanceLbl = [UILabel labelWithFrame:CGRectZero
                                   textAligment:NSTextAlignmentRight
                                backgroundColor:[UIColor whiteColor]
                                           font:FONT(11)
                                      textColor:[UIColor zh_textColor]];
     [self addSubview:self.distanceLbl];
-    self.distanceLbl.centerY = self.discountImageView.centerY;
     [self.distanceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(-15);
-        make.centerY.equalTo(self.discountImageView.mas_centerY);
+        make.centerY.equalTo(self.discountLbl.mas_centerY);
         make.height.mas_equalTo(15);
     }];
     
