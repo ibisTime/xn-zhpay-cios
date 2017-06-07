@@ -18,6 +18,7 @@
 @property (nonatomic,strong) UILabel *orderCodeLbl;
 @property (nonatomic,strong) UILabel *orderTimeLbl;
 @property (nonatomic,strong) UILabel *orderStatusLbl;
+@property (nonatomic, strong) UILabel *parameterLbl;
 @property (nonatomic,strong) ZHAddressChooseView *addressView;
 
 @property (nonatomic,strong) UILabel *expressNameLbl;
@@ -45,6 +46,7 @@
     self.orderCodeLbl.text = [NSString stringWithFormat:@"订单号：%@",self.order.code];
     self.orderTimeLbl.text = [NSString stringWithFormat:@"下单时间：%@",[self.order.applyDatetime convertToDetailDate]];
     self.orderStatusLbl.text = [NSString stringWithFormat:@"订单状态：%@",[self.order getStatusName]];
+    self.parameterLbl.text = [NSString stringWithFormat:@"产品规格：%@",self.order.productSpecsName];
    
     self.addressView.nameLbl.text = [@"收货人" add:self.order.receiver];
     self.addressView.mobileLbl.text = self.order.reMobile;
@@ -260,7 +262,8 @@
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     http.code = @"808240";
-    http.parameters[@"storeCode"] = self.order.productOrderList[0].productCode;
+    http.parameters[@"storeCode"] = self.order.product.code;
+    
     http.parameters[@"userId"] = [ZHUser user].userId;
     http.parameters[@"type"] = @"3";
     [http postWithSuccess:^(id responseObject) {
@@ -362,11 +365,20 @@
     [headerView addSubview:self.orderStatusLbl];
     
     //
-    UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, self.orderStatusLbl.yy + 16, SCREEN_WIDTH, 10)];
+    self.parameterLbl = [UILabel labelWithFrame:CGRectMake(LEFT_MARGIN, self.orderStatusLbl.yy + 5, SCREEN_WIDTH - 30,self.orderCodeLbl.height)
+                                     textAligment:NSTextAlignmentLeft
+                                  backgroundColor:[UIColor whiteColor]
+                                             font:FONT(13)
+                                        textColor:[UIColor zh_textColor]];
+    [headerView addSubview:self.parameterLbl];
+    
+    
+    //
+    UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, self.parameterLbl.yy + 16, SCREEN_WIDTH, 10)];
     [headerView addSubview:lineV];
     lineV.backgroundColor = [UIColor zh_backgroundColor];
     
-    //
+    //收货信息
     self.addressView = [[ZHAddressChooseView alloc] initWithFrame:CGRectMake(0, lineV.yy, SCREEN_WIDTH, 89)];
     self.addressView.type = ZHAddressChooseTypeDisplay;
     [headerView addSubview:self.addressView];
@@ -379,7 +391,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return self.order.productOrderList.count;
+//    return self.order.productOrderList.count;
+    return 1;
 
 }
 
@@ -399,7 +412,7 @@
         
     }
     
-    cell.orderGoods = self.order.productOrderList[indexPath.row];
+    cell.order = self.order;
     return cell;
     
 }

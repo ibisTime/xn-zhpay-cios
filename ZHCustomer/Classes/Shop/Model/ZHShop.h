@@ -60,10 +60,6 @@
 @property (nonatomic,strong) NSArray <NSNumber *>* imgHeights;
 
 
-
-//优惠信息
-- (NSString *)discountDescription;
-
 - (NSString *)distanceDescription;
 //位置信息
 //- (NSString *)distance;
@@ -74,8 +70,6 @@
 
 - (void)changShopInfoWithDict:(NSDictionary *)dict;
 
-//图片URl
-//- (NSArray <NSString *>*)detailPics;
 
 
 

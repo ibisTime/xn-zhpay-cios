@@ -36,7 +36,7 @@
 @property (nonatomic,copy) NSString *userId;
 
 @property (nonatomic,strong) ZHShop *store; //店铺
-@property (nonatomic,strong) ZHCoupon *storeTicket;
+//@property (nonatomic,strong) ZHCoupon *storeTicket;
 
 //code = XF201704072234037989;
 //companyCode = "CD-CZH000001";

@@ -118,12 +118,6 @@
     
     //判断的同时进行赋值
     if ([ZHUser user].isLogin) {
-        
-        //--//
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            [[ChatManager defaultManager] loginWithUserName:[ZHUser user].userId];
-//
-//        });
 
         //已经由用户信息
         [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
@@ -139,8 +133,6 @@
 
 //    [JPUSHService setAlias:[ZHUser user].userId callbackSelector:nil object:nil];
     
-//    [[ZHCartManager manager] getCartCount];
-
     TLLog(@"%@",[ZHUser user].userId);
 }
 

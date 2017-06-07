@@ -7,6 +7,7 @@
 //
 
 #import "ZHOrderGoodsCell.h"
+#import "ZHOrderModel.h"
 
 @interface ZHOrderGoodsCell()
 
@@ -81,27 +82,28 @@
 }
 
 
-- (void)commentAction {
+//- (void)commentAction {
+//
+//    if (self.comment) {
+//        
+//        self.comment(self.cartGoods.code);
+//        
+//    }
+//
+//}
 
-    if (self.comment) {
-        
-        self.comment(self.cartGoods.code);
-        
-    }
+//- (void)setCartGoods:(ZHCartGoodsModel *)cartGoods {
+//
+//    _cartGoods = cartGoods;
+//    NSString *urlStr = _cartGoods.product.advPic;
+//    [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[urlStr convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
+//    //
+//    self.nameLbl.text = _cartGoods.product.name;
+//    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_cartGoods.qbb GWB:_cartGoods.gwb RMB:_cartGoods.rmb];
+//    self.numLbl.text = [NSString stringWithFormat:@"X%@",_cartGoods.quantity];
+//
+//}
 
-}
-
-- (void)setCartGoods:(ZHCartGoodsModel *)cartGoods {
-
-    _cartGoods = cartGoods;
-    NSString *urlStr = _cartGoods.product.advPic;
-    [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[urlStr convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
-    //
-    self.nameLbl.text = _cartGoods.product.name;
-    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_cartGoods.qbb GWB:_cartGoods.gwb RMB:_cartGoods.rmb];
-    self.numLbl.text = [NSString stringWithFormat:@"X%@",_cartGoods.quantity];
-
-}
 - (void)setGoods:(ZHGoodsModel *)goods {
 
     _goods = goods;
@@ -116,18 +118,35 @@
 
 
 
-- (void)setOrderGoods:(ZHOrderDetailModel *)orderGoods {
+- (void)setOrder:(ZHOrderModel *)order {
 
-    _orderGoods = orderGoods;
+    _order = order;
     
-    NSString *urlStr = _orderGoods.advPic;
+    NSString *urlStr = _order.product.advPic;
     [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[urlStr convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
     //
-    self.nameLbl.text = _orderGoods.productName;
-    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_orderGoods.price3 GWB:_orderGoods.price2 RMB:_orderGoods.price1];
-    self.numLbl.text = [NSString stringWithFormat:@"X%@",_orderGoods.quantity];
+    self.nameLbl.text = _order.product.name;
     
+    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_order.product.currentParameterPriceQBB GWB:_order.product.currentParameterPriceGWB RMB:_order.product.currentParameterPriceRMB];
+    
+    self.numLbl.text = [NSString stringWithFormat:@"X%@",_order.quantity];
+
 }
+
+//- (void)setOrderGoods:(ZHGoodsModel *)orderGoods {
+//
+//    _orderGoods = orderGoods;
+//    
+//    NSString *urlStr = _orderGoods.advPic;
+//    [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[urlStr convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
+//    //
+//    self.nameLbl.text = _orderGoods.name;
+//    
+//    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_orderGoods.currentParameterPriceQBB GWB:_orderGoods.currentParameterPriceGWB RMB:_orderGoods.currentParameterPriceRMB];
+//    
+//    self.numLbl.text = [NSString stringWithFormat:@"X%@",_orderGoods.quantity];
+//    
+//}
 
 + (CGFloat)rowHeight {
 

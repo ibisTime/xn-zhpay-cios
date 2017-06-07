@@ -349,13 +349,15 @@
                 make.right.equalTo(bgView.mas_right);
                 make.top.equalTo(countLbl.mas_bottom);
                 make.height.mas_equalTo(LINE_HEIGHT);
+                make.bottom.equalTo(bgView.mas_bottom);
             }];
  
     
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self.validScrollView);
-        make.width.mas_equalTo(SCREEN_WIDTH);
-        make.bottom.equalTo(bottomLine.mas_bottom);
+        make.left.top.right.bottom.equalTo(self.validScrollView);
+        make.width.equalTo(self.validScrollView.mas_width);
+        
+//        make.bottom.equalTo(bottomLine.mas_bottom);
     }];
 
 

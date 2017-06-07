@@ -19,7 +19,9 @@
 @property (nonatomic,copy) NSString *code; //接口编号
 @property (nonatomic,strong) UIView *showView; //hud展示superView
 @property (nonatomic,assign) BOOL isShowMsg; //是否展示警告信息
-@property (nonatomic,assign) BOOL isDeliverCompanyCode; //是否展示警告信息
+
+
+@property (nonatomic,assign) BOOL isDeliverCompanyCode; //是否传递companyCode
 
 
 @property (nonatomic,copy) NSString *url;

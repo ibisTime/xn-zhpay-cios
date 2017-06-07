@@ -22,21 +22,12 @@
 //    
 //}
 
-- (NSNumber *)rmb {
++ (NSDictionary *)mj_objectClassInArray {
 
-    return self.price1;
+    return @{@"productSpecsList" : [CDGoodsParameterModel class]};
+    
 }
 
-- (NSNumber *)gwb {
-
-    return self.price2;
-}
-
-- (NSNumber *)qbb {
-
-    return self.price3;
-
-}
 
 - (void)setPic:(NSString *)pic {
 
@@ -44,6 +35,8 @@
     _pic = [pic copy];
 
 }
+
+
 
 - (NSArray *)pics {
 
@@ -98,39 +91,9 @@
 - (NSString *)totalPrice {
 
     if (!_totalPrice) {
+
+        _totalPrice = [ZHCurrencyHelper totalPriceWithQBB:self.currentParameterPriceQBB GWB:self.currentParameterPriceGWB RMB:self.currentParameterPriceRMB];
         
-           //剔除为价格为 - 0 -的
-//        NSMutableString *priceStr  = [NSMutableString string];
-//        
-//        if (![self.price1 isEqual:@0]) {
-//            
-//            [priceStr appendString:[NSString stringWithFormat:@"￥%@ +",[self coverMoney:self.price1]]];
-//        }
-//        
-//        if (![self.price2 isEqual:@0]) {
-//            
-//            [priceStr appendString:[NSString stringWithFormat:@" 购物币%@ +",[self coverMoney:self.price2]]];
-//        } else {
-//            
-//            if (priceStr.length > 0) {
-//              priceStr = [[NSMutableString alloc] initWithString:[priceStr substringWithRange:NSMakeRange(0, priceStr.length - 1)]];
-//            }
-//     
-//        }
-//        
-//        
-//        if (![self.price3 isEqual:@0]) {
-//            
-//            [priceStr appendString:[NSString stringWithFormat:@" 钱包币%@",[self coverMoney:self.price3]]];
-//            
-//        } else {
-//            
-//            if (priceStr.length > 0) {
-//                priceStr = [[NSMutableString alloc] initWithString:[priceStr substringWithRange:NSMakeRange(0, priceStr.length - 1)]];
-//            }
-//        }
-        
-        _totalPrice = [ZHCurrencyHelper totalPriceWithQBB:self.qbb GWB:self.gwb RMB:self.rmb];
     }
     
     return _totalPrice;
@@ -155,19 +118,47 @@
     
 }
 
-- (NSNumber *)RMB {
 
-    return self.price1;
+//
+
+- (NSNumber *)RMB {
+    
+    if (self.productSpecsList.count > 0) {
+        
+        return self.productSpecsList[0].price1;
+        
+    } else {
+        
+        return @0;
+    }
+    
 }
 
 - (NSNumber *)GWB {
     
-    return self.price2;
+    if (self.productSpecsList.count > 0) {
+        
+        return self.productSpecsList[0].price2;
+        
+    } else {
+        
+        return @0;
+    }
 }
+
 
 - (NSNumber *)QBB {
     
-    return self.price3;
+    if (self.productSpecsList.count > 0) {
+        
+        return self.productSpecsList[0].price3;
+        
+    } else  {
+        
+        return @0;
+    }
 }
+
+
 
 @end

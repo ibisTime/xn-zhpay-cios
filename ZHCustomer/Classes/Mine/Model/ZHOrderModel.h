@@ -8,6 +8,7 @@
 
 #import "TLBaseModal.h"
 #import "ZHOrderDetailModel.h"
+#import "ZHGoodsModel.h"
 
 @interface ZHOrderModel : TLBaseModal
 
@@ -21,7 +22,9 @@
 @property (nonatomic,copy) NSString *applyNote; //商家嘱托
 
 //物品数组 <ZHOrderDetailModel *>
-@property (nonatomic,copy) NSArray <ZHOrderDetailModel *> *productOrderList;
+//@property (nonatomic,copy) NSArray <ZHOrderDetailModel *> *productOrderList;
+
+@property (nonatomic, strong) ZHGoodsModel *product;
 
 //1待支付 2 已支付待发货 3 已发货待收货 4 已收货 91用户取消 92 商户取消 93 快递异常
 @property (nonatomic,copy) NSString *status; //状态
@@ -31,6 +34,15 @@
 
 @property (nonatomic,copy) NSString *logisticsCode; //快递编号
 @property (nonatomic,copy) NSString *logisticsCompany; //快递公司
+
+@property (nonatomic, strong) NSNumber *quantity;
+
+
+//规格价格，和规格名称
+@property (nonatomic, copy) NSString *productSpecsName;
+@property (nonatomic,strong) NSNumber *price1;
+@property (nonatomic,strong) NSNumber *price2;
+@property (nonatomic,strong) NSNumber *price3;
 
 @property (nonatomic,strong) NSNumber *payAmount1;
 @property (nonatomic,strong) NSNumber *payAmount2;

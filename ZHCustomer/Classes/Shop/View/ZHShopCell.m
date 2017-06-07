@@ -92,7 +92,6 @@
     }
     
     self.advLbl.text = _shop.slogan;
-    self.discountLbl.text = [_shop discountDescription];
     
     //
     NSMutableAttributedString *mutableAttr = [[NSMutableAttributedString alloc] initWithAttributedString:self.locationAttrStr];

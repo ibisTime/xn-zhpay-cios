@@ -11,6 +11,7 @@
 #import "ZHReceivingAddress.h"
 #import "ZHAddressChooseVC.h"
 #import "ZHOrderGoodsCell.h"
+
 #import "ZHCurrencyHelper.h"
 #import "ZHAddressChooseView.h"
 #import "ZHNewPayVC.h"
@@ -66,7 +67,7 @@
     //根据有无地址创建UI
     [self getAddress];
     
-    if (!self.goodsRoom && !self.cartGoodsRoom) {
+    if (!self.goodsRoom) {
         
         NSLog(@"请传递购物模型");
         return;
@@ -76,16 +77,19 @@
         
         
         ZHGoodsModel *goods = self.goodsRoom[0];
-       self.totalPriceLbl.attributedText = [ZHCurrencyHelper calculatePriceWithQBB:goods.price3
-                                                                           GWB:goods.price2
-                                                                           RMB:goods.price1
+       self.totalPriceLbl.attributedText = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
+                                                                           GWB:goods.currentParameterPriceGWB
+                                                                           RMB:goods.currentParameterPriceRMB
                                                                          count:goods.count ];
         
-    } else if(self.type == ZHIMBuyTypeAll) {//购物车购买
-     
-        self.totalPriceLbl.attributedText = self.priceAttr;
-        
     }
+    
+    
+//    else if(self.type == ZHIMBuyTypeAll) {//购物车购买
+//     
+//        self.totalPriceLbl.attributedText = self.priceAttr;
+//        
+//    }
     
 
 }
@@ -93,125 +97,8 @@
 #pragma mark- 立即购买行为
 - (void)buyAction {
     
-    if (self.type == ZHIMBuyTypeAll) { //购物车购买方式
-        
-        if (!self.currentAddress) {
-            
-            [TLAlert alertWithHUDText:@"请选择收货地址"];
-            return;
-        }
-        
-        NSMutableArray *codes = [NSMutableArray arrayWithCapacity:self.cartGoodsRoom.count];
-        
-        [self.cartGoodsRoom enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [codes addObject:obj.code];
-        }];
-        
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"808051";
-        
-        http.parameters[@"cartCodeList"] = codes ;
 
-        NSMutableDictionary *pojo = [NSMutableDictionary dictionary];
-        pojo[@"receiver"] = self.currentAddress.addressee;
-        pojo[@"reMobile"] = self.currentAddress.mobile;
-        pojo[@"reAddress"] = self.currentAddress.totalAddress;
-        pojo[@"applyUser"] = [ZHUser user].userId;
-        pojo[@"companyCode"] = @"CD-CZH000001";
-        pojo[@"systemCode"] = @"CD-CZH000001";
-        
-        http.parameters[@"pojo"] = pojo;
-        http.parameters[@"token"] = [ZHUser user].token;
-        
-        if ([self.enjoinTf.text valid]) {
-            
-          pojo[@"applyNote"] = self.enjoinTf.text;
-            
-        }
-        
-       [http postWithSuccess:^(id responseObject) {
-           
-           if (self.placeAnOrderSuccess) {
-               
-               self.placeAnOrderSuccess();
-               
-           }
-           
-           NSArray *goodsCodeList = responseObject[@"data"];
-
-               
-               //商品购买
-               ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
-               //订单编号
-               
-               //传人民币过去
-               __block  long long totalRmb = 0;
-               [self.cartGoodsRoom enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                   
-                   totalRmb += [obj.rmb longLongValue]*[obj.quantity integerValue];
-                   
-               }];
-               
-               payVC.rmbAmount = @(totalRmb);
-           
-               //
-               payVC.goodsCodeList = goodsCodeList;
-           
-               //不包含邮费的价格
-               payVC.amoutAttr = self.priceAttr;
-           
-           
-           __block  long qbb = 0;
-           __block  long gwb = 0;
-           __block  long rmb = 0;
-           //
-           [self.cartGoodsRoom enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-               if (obj.isSelected) {
-                   
-                   qbb += obj.totalQBB;
-                   gwb += obj.totalGWB;
-                   rmb += obj.totalRMB;
-                   
-               }
-               
-           }];
-           
-           
-           //包含邮费的价格
-            payVC.amoutAttrAddPostage = [ZHCurrencyHelper totalPriceAttr2WithQBB:@(qbb) GWB: @(gwb) RMB:@(rmb + [self.postage longLongValue]*goodsCodeList.count) bouns:CGRectMake(0, -3, 15, 15)];
-           
-               //邮费
-               payVC.postage = @([self.postage longLongValue]*goodsCodeList.count);
-
-           
-               payVC.paySucces = ^(){
-                   
-                   [TLAlert alertWithHUDText:@"支付成功"];
-                   [self.navigationController popToRootViewControllerAnimated:YES];
-                   
-               };
-               //购物车支付 和 普通商品 购买方式相同
-               payVC.type = ZHPayViewCtrlTypeNewGoods;
-               
-               UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-               [self presentViewController:nav animated:YES completion:nil];
-           
-        
-
-       } failure:^(NSError *error) {
-           
-           
-           
-       }];
-        
-        
-        
-       return;
-    }
-    
-    
-    ///------////
+    //
     if (self.type == ZHIMBuyTypeSingle && self.goodsRoom) { //普通商品购买
         
         if (!self.currentAddress) {
@@ -220,57 +107,58 @@
             return;
         }
         
+        if (! self.goodsRoom[0].selectedParameter) {
+            
+            [TLAlert alertWithHUDText:@"请传递规格"];
+            return;
+        }
+        
         //单个购买
         ZHGoodsModel *goods = self.goodsRoom[0];
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
         http.code = @"808050";
-        http.parameters[@"productCode"] = goods.code;
-        http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",goods.count];
+        http.parameters[@"productSpecsCode"] = self.goodsRoom[0].selectedParameter.code;
         
-        NSMutableDictionary *pojo = [NSMutableDictionary dictionary];
-        pojo[@"receiver"] = self.currentAddress.addressee;
-        pojo[@"reMobile"] = self.currentAddress.mobile;
-        pojo[@"reAddress"] = self.currentAddress.totalAddress;
-        pojo[@"applyUser"] = [ZHUser user].userId;
+        http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",goods.count];
+        http.parameters[@"receiver"] = self.currentAddress.addressee;
+        http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
+        http.parameters[@"reMobile"] = self.currentAddress.mobile;
 
-        pojo[@"companyCode"] = @"CD-CZH000001";
-        pojo[@"systemCode"] = @"CD-CZH000001";
-
-        http.parameters[@"pojo"] = pojo;
-
-
+        http.parameters[@"applyUser"] = [ZHUser user].userId;
+        http.parameters[@"companyCode"] = @"CD-CZH000001";
+        http.parameters[@"systemCode"] = @"CD-CZH000001";
+        
         //根据收货地址
         http.parameters[@"token"] = [ZHUser user].token;
         if ([self.enjoinTf.text valid]) {
             
-            pojo[@"applyNote"] = self.enjoinTf.text;
-            
+            http.parameters[@"applyNote"] = self.enjoinTf.text;
         }
         
         [http postWithSuccess:^(id responseObject) {
             
             //订单编号
-            NSString *orderCode = responseObject[@"data"];
+            NSString *orderCode = responseObject[@"data"][@"code"];
             
             //商品购买
             ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
             payVC.goodsCodeList = @[orderCode];
-            NSNumber *rmb = self.goodsRoom[0].price1;
+            NSNumber *rmb = self.goodsRoom[0].currentParameterPriceRMB;
             payVC.rmbAmount = @([rmb longLongValue]*self.goodsRoom[0].count); //把人民币传过去
             
             
             ZHGoodsModel *goods = self.goodsRoom[0];
 
             //不加邮费的价格
-            payVC.amoutAttr = [ZHCurrencyHelper calculatePriceWithQBB:goods.price3
-                                                                  GWB:goods.price2
-                                                                  RMB:goods.price1
+            payVC.amoutAttr = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
+                                                                  GWB:goods.currentParameterPriceGWB
+                                                                  RMB:goods.currentParameterPriceRMB
                                                                 count:goods.count];
             //加邮费的价格
-            payVC.amoutAttrAddPostage = [ZHCurrencyHelper calculatePriceWithQBB:goods.price3
-                                                                            GWB:goods.price2
-                                                                            RMB:goods.price1
+            payVC.amoutAttrAddPostage = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
+                                                                            GWB:goods.currentParameterPriceGWB
+                                                                            RMB:goods.currentParameterPriceRMB
                                                                           count:goods.count addPostageRmb:self.postage];
             //邮费
             payVC.postage = self.postage;
@@ -295,8 +183,9 @@
     }
     
 
-    
 }
+
+
 
 - (void)getAddress {
 
@@ -431,16 +320,11 @@
 
     
     
-    if (self.type == ZHIMBuyTypeAll) {
-        
-        return self.cartGoodsRoom.count;
 
-    } else {
     
         return 1;
 
-    
-    }
+
 
 }
 
@@ -466,21 +350,10 @@
         cell = [[ZHOrderGoodsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhOrderGoodsCell];
     }
     
-   if(self.type == ZHIMBuyTypeAll) {
-    
-        cell.cartGoods = self.cartGoodsRoom[indexPath.row];
-   } else {
-   
-//       if (self.type == ZHIMBuyTypeSingle || self.type == ZHIMBuyTypeSingle) {
-       
+
+
        cell.goods = self.goodsRoom[indexPath.row];
 
-    
-           
-//       }
-       
-   }
-    
     return cell;
 }
 

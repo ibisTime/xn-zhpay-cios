@@ -80,6 +80,8 @@
     http.parameters[@"productCode"] = self.goods.code;
     [http postWithSuccess:^(id responseObject) {
         
+        [self removePlaceholderView];
+        
         self.parameterModelArr = [CDGoodsParameterModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
         [self setUpUI];
@@ -87,7 +89,10 @@
         
     } failure:^(NSError *error) {
         
+        [self addPlaeholderView];
+
     }];
+    //
     
 }
 
@@ -113,8 +118,8 @@
     //---//
     self.nameLbl.text = self.goods.name;
     self.advLbl.text = self.goods.slogan;
-    self.priceLbl.text = self.goods.totalPrice;
-    //        self.buyView.countView.msgCount = [ZHCartManager manager].count;
+    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:self.goods.QBB GWB:self.goods.GWB  RMB:self.goods.RMB];
+    
     self.postageLbl.text = @"邮费:10元";
     
     //扩大
@@ -311,6 +316,14 @@
     //
     ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
     buyVC.type = ZHIMBuyTypeSingle;
+    buyVC.postage = @10000;
+    self.goods.count = count;
+    
+    self.goods.currentParameterPriceRMB = parameterModel.price1;
+    self.goods.currentParameterPriceGWB = parameterModel.price2;
+    self.goods.currentParameterPriceQBB = parameterModel.price3;
+    self.goods.selectedParameter = parameterModel;
+    
     buyVC.goodsRoom = @[self.goods];
     [self.navigationController pushViewController:buyVC animated:YES];
     

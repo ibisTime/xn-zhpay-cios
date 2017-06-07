@@ -8,6 +8,7 @@
 
 #import "TLBaseModal.h"
 #import "ZHCurrencyProtocol.h"
+#import "CDGoodsParameterModel.h"
 
 @interface ZHGoodsModel : TLBaseModal<ZHCurrencyProtocol>
 
@@ -35,26 +36,33 @@
 
 //由pic1 转化成的 数组,eg: http://wwwa.dfdsf.dcom
 @property (nonatomic,copy) NSArray *pics;
+@property (nonatomic, copy) NSArray <CDGoodsParameterModel*> *productSpecsList;
+
+
+@property (nonatomic, strong) CDGoodsParameterModel *selectedParameter;
 
 //price 1 人民币 price2 购物币，price 3 钱包币
 
-/**
- 人民币
- */
-@property (nonatomic,strong) NSNumber *price1; //人民币
-@property (nonatomic,strong) NSNumber *rmb;
-/**
- 购物
- */
-@property (nonatomic,strong) NSNumber *price2; //购物币
-@property (nonatomic,strong) NSNumber *gwb;
+///**
+// 人民币
+// */
+//@property (nonatomic,strong) NSNumber *price1; //人民币
+//
+///**
+// 购物
+// */
+//@property (nonatomic,strong) NSNumber *price2; //购物币
+//
+//
+///**
+// 钱宝币
+// */
+//@property (nonatomic,strong) NSNumber *price3; //钱包币
 
+@property (nonatomic, strong) NSNumber *currentParameterPriceRMB;
+@property (nonatomic, strong) NSNumber *currentParameterPriceQBB;
+@property (nonatomic, strong) NSNumber *currentParameterPriceGWB;
 
-/**
- 钱宝币
- */
-@property (nonatomic,strong) NSNumber *price3; //钱包币
-@property (nonatomic,strong) NSNumber *qbb;
 
 
 //图片高度存储,计算得到
@@ -68,6 +76,5 @@
  合并后的价格
  */
 @property (nonatomic,copy) NSString *totalPrice;
-
 
 @end

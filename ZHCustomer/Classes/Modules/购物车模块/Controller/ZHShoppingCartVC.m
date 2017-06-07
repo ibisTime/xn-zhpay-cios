@@ -84,32 +84,32 @@
     }
     
     
-    //现获取单个邮费
-    [ZHCartManager getPostage:^(NSNumber *postage) {
-        
-        ZHImmediateBuyVC *imvc = [[ZHImmediateBuyVC alloc] init];
-        imvc.type = ZHIMBuyTypeAll;
-        imvc.cartGoodsRoom = goods;
-        imvc.postage = postage;
-        imvc.placeAnOrderSuccess = ^(){
-            
-            __block  NSInteger count = 0;
-            [goods enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                count += [obj.quantity integerValue];
-                
-            }];
-            
-            [ZHCartManager manager].count = [ZHCartManager manager].count - count;
-            
-        };
-        imvc.priceAttr = self.totalPriceLbl.attributedText;
-        [self.navigationController pushViewController:imvc animated:YES];
-        
-    } failure:^{
-        
-        
-    }];
+//    //现获取单个邮费
+//    [ZHCartManager getPostage:^(NSNumber *postage) {
+//        
+//        ZHImmediateBuyVC *imvc = [[ZHImmediateBuyVC alloc] init];
+//        imvc.type = ZHIMBuyTypeAll;
+//        imvc.cartGoodsRoom = goods;
+//        imvc.postage = postage;
+//        imvc.placeAnOrderSuccess = ^(){
+//            
+//            __block  NSInteger count = 0;
+//            [goods enumerateObjectsUsingBlock:^(ZHCartGoodsModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                
+//                count += [obj.quantity integerValue];
+//                
+//            }];
+//            
+//            [ZHCartManager manager].count = [ZHCartManager manager].count - count;
+//            
+//        };
+//        imvc.priceAttr = self.totalPriceLbl.attributedText;
+//        [self.navigationController pushViewController:imvc animated:YES];
+//        
+//    } failure:^{
+//        
+//        
+//    }];
 
     
 }

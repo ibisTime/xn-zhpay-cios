@@ -29,20 +29,20 @@
 
 
 
-- (NSNumber *)rmb {
-    
-    return self.product.price1;
-}
-
-- (NSNumber *)gwb {
-    
-    return self.product.price2;
-}
-
-- (NSNumber *)qbb {
-    
-    return self.product.price3;
-    
-}
+//- (NSNumber *)rmb {
+//    
+//    return self.product.price1;
+//}
+//
+//- (NSNumber *)gwb {
+//    
+//    return self.product.price2;
+//}
+//
+//- (NSNumber *)qbb {
+//    
+//    return self.product.price3;
+//    
+//}
 
 @end

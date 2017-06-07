@@ -361,10 +361,7 @@
         }
         
     }];
-    
-    
 
-    
     NSString *payType;
     switch (type) {
         case ZHPayTypeAlipay: {
