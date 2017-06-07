@@ -11,7 +11,8 @@
 #import "ZHUserForgetPwdVC.h"
 #import "ZHNavigationController.h"
 //#import "ZHHomeVC.h"
-#import "ChatManager.h"
+//#import "ChatManager.h"
+
 #import "UICKeyChainStore.h"
 
 
@@ -173,11 +174,11 @@
         
          
             
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-             
-             [[ChatManager defaultManager] loginWithUserName:userId];
-
-         });
+//         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//             
+//             [[ChatManager defaultManager] loginWithUserName:userId];
+//
+//         });
             
                 //登录环信
 //                if ([[ChatManager defaultManager] loginWithUserName:userId]) {

@@ -10,7 +10,7 @@
 #import "ZHNavigationController.h"
 //#import "ZHMineVC.h"
 #import "ZHUserLoginVC.h"
-#import "ChatManager.h"
+//#import "ChatManager.h"
 
 @interface ZHTabBarController ()<UITabBarControllerDelegate>
 
@@ -47,8 +47,8 @@
 
             self.selectedIndex = 2;
 
-    //消息变更
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMsgChange) name:kUnreadMsgChangeNotification object:nil];
+//    //消息变更
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unreadMsgChange) name:kUnreadMsgChangeNotification object:nil];
     
     //退出通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(usrLoginOut) name:kUserLoginOutNotification object:nil];
@@ -65,28 +65,29 @@
 
 }
 
-- (void)userLogin {
 
-    [self unreadMsgChange];
-    
-}
+//- (void)userLogin {
+//
+//    [self unreadMsgChange];
+//    
+//}
 
-- (void)unreadMsgChange {
-
-    NSInteger count = [[ChatManager defaultManager] unreadMsgCount];
-    if (count <= 0) {
-       
-        self.tabBar.items[3].badgeValue = nil;
-        
-    } else {
-        
-      self.tabBar.items[3].badgeValue =  [NSString stringWithFormat:@"%ld",count];
-
-    }
-    
-   [UIApplication sharedApplication].applicationIconBadgeNumber = [ChatManager defaultManager].unreadMsgCount;
-    
-}
+//- (void)unreadMsgChange {
+//
+//    NSInteger count = [[ChatManager defaultManager] unreadMsgCount];
+//    if (count <= 0) {
+//       
+//        self.tabBar.items[3].badgeValue = nil;
+//        
+//    } else {
+//        
+//      self.tabBar.items[3].badgeValue =  [NSString stringWithFormat:@"%ld",count];
+//
+//    }
+//    
+//   [UIApplication sharedApplication].applicationIconBadgeNumber = [ChatManager defaultManager].unreadMsgCount;
+//    
+//}
 
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {

@@ -7,8 +7,9 @@
 //
 
 #import "ZHChatVC.h"
-#import "ChatViewController.h"
-#import "ChatManager.h"
+//#import "ChatViewController.h"
+//#import "ChatManager.h"
+
 #import "ZHSegmentView.h"
 #import "ZHChatUserCell.h"
 #import "ZHChatMerchantCell.h"
@@ -21,7 +22,7 @@
 @property (nonatomic, strong) UIScrollView *switchScrollView;
 @property (nonatomic, strong)  NSMutableArray <ZHReferralModel *>*userRoom;
 @property (nonatomic, strong) UIView *kefuUnreadMsgHintView;
-@property (nonatomic, copy) NSArray <EMConversation *>*conversations;
+//@property (nonatomic, copy) NSArray <EMConversation *>*conversations;
 
 @property (nonatomic,assign) BOOL isFirst;
 
@@ -76,7 +77,7 @@
     
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"客服"] style:UIBarButtonItemStylePlain target:self action:@selector(goKefu)];
     
-    self.conversations = [[EMClient sharedClient].chatManager getAllConversations];
+//    self.conversations = [[EMClient sharedClient].chatManager getAllConversations];
     
     //
 //    ZHSegmentView *segmentV = [[ZHSegmentView alloc] initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 45)];
@@ -130,7 +131,7 @@
 //            }];
             
             //根据列表用户找出--会话场景
-            [weakself getConversionByListUser];
+//            [weakself getConversionByListUser];
 
             [weakself.userTableV reloadData_tl];
             [weakself.userTableV endRefreshHeader];
@@ -150,27 +151,27 @@
     //用户退出
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:kUserLoginOutNotification object:nil];
     
-    //消息变更的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unReadMsgChange) name:kUnreadMsgChangeNotification object:nil];
-    
-    //客服消息变更
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kefuUnreadMsgChange:) name:kKefuUnreadMsgChangeNotification object:nil];
+//    //消息变更的通知
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unReadMsgChange) name:kUnreadMsgChangeNotification object:nil];
+//    
+//    //客服消息变更
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kefuUnreadMsgChange:) name:kKefuUnreadMsgChangeNotification object:nil];
     
 }
 
 
-#pragma mark - 客服消息变更
-- (void)kefuUnreadMsgChange:(NSNotification *)notification {
-    
-    self.kefuUnreadMsgHintView.hidden = ![notification.userInfo[kKefuUnreadMsgKey] boolValue];
-    
-}
+//#pragma mark - 客服消息变更
+//- (void)kefuUnreadMsgChange:(NSNotification *)notification {
+//    
+//    self.kefuUnreadMsgHintView.hidden = ![notification.userInfo[kKefuUnreadMsgKey] boolValue];
+//    
+//}
 
 
 
 - (void)unReadMsgChange {
     
-    self.conversations = [[EMClient sharedClient].chatManager getAllConversations];
+//    self.conversations = [[EMClient sharedClient].chatManager getAllConversations];
 
     //根据列表用户找出，
 //    [self.userRoom enumerateObjectsUsingBlock:^(ZHReferralModel * _Nonnull user, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -188,88 +189,88 @@
 //        
 //    }];
     
-    [self getConversionByListUser];
+//    [self getConversionByListUser];
 
     [self.userTableV reloadData];
 
 }
 
-#pragma mark-
-//进入客服也会触发消息改变事件
-- (void)getConversionByListUser {
-
-    self.conversations = [[EMClient sharedClient].chatManager getAllConversations];
-
-    
-    __weak typeof(self) weakSelf = self;
-    [weakSelf.userRoom enumerateObjectsUsingBlock:^(ZHReferralModel * _Nonnull user, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        [weakSelf.conversations enumerateObjectsUsingBlock:^(EMConversation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            //            NSLog(@"%@ %@",user.userId,obj.conversationId);
-            
-            if ([[user.userId lowercaseString] isEqualToString:obj.conversationId]) {
-                *stop = YES;
-                
-                user.conversion = obj;
-            }
-            
-        }];
-        
-    }];
-    
-   //后台查询有无客服消息,处理客服消息的额外逻辑
-   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-       
-       [weakSelf.conversations enumerateObjectsUsingBlock:^(EMConversation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-           //            NSLog(@"%@ %@",user.userId,obj.conversationId);
-//           TLLog(@"%@",obj.conversationId);
-           
-//           BOOL hasUnreadMsg = obj.unreadMessagesCount > 0; //有客服未读消息
-//           BOOL lastHasKefuMsg = [ChatManager defaultManager].isHaveKefuUnredMsg;
+//#pragma mark-
+////进入客服也会触发消息改变事件
+//- (void)getConversionByListUser {
+//
+//    self.conversations = [[EMClient sharedClient].chatManager getAllConversations];
+//
+//    
+//    __weak typeof(self) weakSelf = self;
+//    [weakSelf.userRoom enumerateObjectsUsingBlock:^(ZHReferralModel * _Nonnull user, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        [weakSelf.conversations enumerateObjectsUsingBlock:^(EMConversation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            //            NSLog(@"%@ %@",user.userId,obj.conversationId);
+//            
+//            if ([[user.userId lowercaseString] isEqualToString:obj.conversationId]) {
+//                *stop = YES;
+//                
+//                user.conversion = obj;
+//            }
+//            
+//        }];
+//        
+//    }];
+//    
+//   //后台查询有无客服消息,处理客服消息的额外逻辑
+//   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+//       
+//       [weakSelf.conversations enumerateObjectsUsingBlock:^(EMConversation * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//           //            NSLog(@"%@ %@",user.userId,obj.conversationId);
+////           TLLog(@"%@",obj.conversationId);
 //           
-//           if (!((hasUnreadMsg && !lastHasKefuMsg) || (!hasUnreadMsg && lastHasKefuMsg))) {
-//               return ;
-//           }
- 
-           
-          dispatch_async(dispatch_get_main_queue(), ^{
-              
-              if([obj.conversationId isEqualToString:kKefuID]) {
-                  
-                  if (obj.unreadMessagesCount > 0) {
-                      [[NSNotificationCenter defaultCenter] postNotificationName:kKefuUnreadMsgChangeNotification object:nil userInfo:@{
-                                                                                                                                        
-                                                                                                                                        kKefuUnreadMsgKey : @(YES)
-                                                                                                                                        }];
-                      
-                  } else {
-                      
-                      [[NSNotificationCenter defaultCenter] postNotificationName:kKefuUnreadMsgChangeNotification object:nil userInfo:@{
-                                                                                                                                        
-                                                                                                                                        kKefuUnreadMsgKey : @(NO)
-                                                                                                                                        }];
-                      
-                  }
-                  
-              }
-
-              
-          });
-           
-           
-       }];
-       
-       
-   });
-
-
-}
+////           BOOL hasUnreadMsg = obj.unreadMessagesCount > 0; //有客服未读消息
+////           BOOL lastHasKefuMsg = [ChatManager defaultManager].isHaveKefuUnredMsg;
+////           
+////           if (!((hasUnreadMsg && !lastHasKefuMsg) || (!hasUnreadMsg && lastHasKefuMsg))) {
+////               return ;
+////           }
+// 
+//           
+//          dispatch_async(dispatch_get_main_queue(), ^{
+//              
+//              if([obj.conversationId isEqualToString:kKefuID]) {
+//                  
+//                  if (obj.unreadMessagesCount > 0) {
+//                      [[NSNotificationCenter defaultCenter] postNotificationName:kKefuUnreadMsgChangeNotification object:nil userInfo:@{
+//                                                                                                                                        
+//                                                                                                                                        kKefuUnreadMsgKey : @(YES)
+//                                                                                                                                        }];
+//                      
+//                  } else {
+//                      
+//                      [[NSNotificationCenter defaultCenter] postNotificationName:kKefuUnreadMsgChangeNotification object:nil userInfo:@{
+//                                                                                                                                        
+//                                                                                                                                        kKefuUnreadMsgKey : @(NO)
+//                                                                                                                                        }];
+//                      
+//                  }
+//                  
+//              }
+//
+//              
+//          });
+//           
+//           
+//       }];
+//       
+//       
+//   });
+//
+//
+//}
 
 - (void)userLoginOut {
 
     
     self.userRoom = nil;
-    self.conversations = nil;
+//    self.conversations = nil;
     [self.userTableV beginRefreshing];
 
 }
@@ -277,7 +278,7 @@
 - (void)userLoginSuccess {
 
     self.userRoom = nil;
-    self.conversations = nil;
+//    self.conversations = nil;
     [self.userTableV reloadData_tl];
     [self.userTableV beginRefreshing];
 
@@ -331,53 +332,53 @@
 
 }
 
+//
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    ZHReferralModel *model = self.userRoom[indexPath.row];
+//    ChatViewController *vc = [[ChatViewController alloc] initWithConversationChatter:model.userId conversationType:EMConversationTypeChat];
+//    
+//    vc.title = model.nickname;
+//    vc.defaultUserAvatarName = @"user.png";
+//    if ([ZHUser user].userExt.photo) {
+//        
+//        vc.mineAvatarUrlPath = [[ZHUser user].userExt.photo convertThumbnailImageUrl];
+//        
+//    }
+//    
+//    vc.oppositeAvatarUrlPath =  [self.userRoom[indexPath.row].userExt[@"photo"] convertThumbnailImageUrl]? :nil;
+//    
+//    [self.navigationController pushViewController:vc animated:YES];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kUnreadMsgChangeNotification object:nil];
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//
+//    //防止环信登录失败
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        
+//        [[ChatManager defaultManager] loginWithUserName:[ZHUser user].userId];
+//        
+//    });
+//    
+//    //
+//    
+//    //
+//}
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    ZHReferralModel *model = self.userRoom[indexPath.row];
-    ChatViewController *vc = [[ChatViewController alloc] initWithConversationChatter:model.userId conversationType:EMConversationTypeChat];
-    
-    vc.title = model.nickname;
-    vc.defaultUserAvatarName = @"user.png";
-    if ([ZHUser user].userExt.photo) {
-        
-        vc.mineAvatarUrlPath = [[ZHUser user].userExt.photo convertThumbnailImageUrl];
-        
-    }
-    
-    vc.oppositeAvatarUrlPath =  [self.userRoom[indexPath.row].userExt[@"photo"] convertThumbnailImageUrl]? :nil;
-    
-    [self.navigationController pushViewController:vc animated:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kUnreadMsgChangeNotification object:nil];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    //防止环信登录失败
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        [[ChatManager defaultManager] loginWithUserName:[ZHUser user].userId];
-        
-    });
-    
-    //
-    
-    //
-}
-
-
-- (void)goKefu {
-
-    ChatViewController *vc = [[ChatViewController alloc] initWithConversationChatter:kKefuID conversationType:EMConversationTypeChat];
-    vc.title = @"客服";
-    
-    vc.defaultUserAvatarName = @"user.png";
-    if ([ZHUser user].userExt.photo) {
-        
-         vc.mineAvatarUrlPath = [[ZHUser user].userExt.photo convertThumbnailImageUrl];
-    }
-   
-    [self.navigationController pushViewController:vc animated:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kUnreadMsgChangeNotification object:nil];
-
-}
+//- (void)goKefu {
+//
+//    ChatViewController *vc = [[ChatViewController alloc] initWithConversationChatter:kKefuID conversationType:EMConversationTypeChat];
+//    vc.title = @"客服";
+//    
+//    vc.defaultUserAvatarName = @"user.png";
+//    if ([ZHUser user].userExt.photo) {
+//        
+//         vc.mineAvatarUrlPath = [[ZHUser user].userExt.photo convertThumbnailImageUrl];
+//    }
+//   
+//    [self.navigationController pushViewController:vc animated:YES];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kUnreadMsgChangeNotification object:nil];
+//
+//}
 
 @end

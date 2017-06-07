@@ -8,8 +8,8 @@
 
 #import "ZHChatUserCell.h"
 //#import "EMConversation.h"
-#import <HyphenateLite/EMConversation.h>
-#import <HyphenateLite/EMMessage.h>
+//#import <HyphenateLite/EMConversation.h>
+//#import <HyphenateLite/EMMessage.h>
 
 #import "TLMsgBadgeView.h"
 
@@ -96,28 +96,27 @@
 //    self.typeLbl.text = str;
     
     
-    EMConversation *conversion = self.referral.conversion;
-    if (conversion) {
-        
-        if (!conversion.latestMessage.localTime || conversion.latestMessage.localTime == 0) {
-            
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            formatter.dateFormat = @"yyyy-MM-dd hh:mm";
-            //
-            self.timeLbl.text = [NSString stringWithFormat:@"来访时间：%@",[formatter stringFromDate:[NSDate date]]];
-            self.msgBadgeView.msgCount = conversion.unreadMessagesCount;
-            
-        } else {
-        
-            NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:conversion.latestMessage.localTime/1000.0];
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            formatter.dateFormat = @"yyyy-MM-dd hh:mm";
-            //
-            self.timeLbl.text = [NSString stringWithFormat:@"来访时间：%@",[formatter stringFromDate:date]] ;
-            self.msgBadgeView.msgCount = conversion.unreadMessagesCount;
-        
-        }
-
+//    EMConversation *conversion = self.referral.conversion;
+    if (0) {
+//
+//        if (!conversion.latestMessage.localTime || conversion.latestMessage.localTime == 0) {
+//            
+//            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//            formatter.dateFormat = @"yyyy-MM-dd hh:mm";
+//            //
+//            self.timeLbl.text = [NSString stringWithFormat:@"来访时间：%@",[formatter stringFromDate:[NSDate date]]];
+//            self.msgBadgeView.msgCount = conversion.unreadMessagesCount;
+//            
+//        } else {
+//        
+//            NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:conversion.latestMessage.localTime/1000.0];
+//            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//            formatter.dateFormat = @"yyyy-MM-dd hh:mm";
+//            //
+//            self.timeLbl.text = [NSString stringWithFormat:@"来访时间：%@",[formatter stringFromDate:date]] ;
+//            self.msgBadgeView.msgCount = conversion.unreadMessagesCount;
+//        
+//        }
 
 
     } else {

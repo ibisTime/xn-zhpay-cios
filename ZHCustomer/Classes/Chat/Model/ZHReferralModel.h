@@ -8,7 +8,7 @@
 
 #import "TLBaseModal.h"
 
-#import <HyphenateLite/HyphenateLite.h>
+//#import <HyphenateLite/HyphenateLite.h>
 //#import "EMConversation.h"
 
 @interface ZHReferralModel : TLBaseModal
@@ -20,7 +20,7 @@
 
 
 //会话对象
-@property (nonatomic,strong) EMConversation *conversion;
+//@property (nonatomic,strong) EMConversation *conversion;
 
 //@property (nonatomic,copy) NSString *<#name#>;
 //@property (nonatomic,copy) NSString *<#name#>;

@@ -9,7 +9,7 @@
 #import "ZHAccountSecurityVC.h"
 #import "ZHChangeMobileVC.h"
 #import "ZHPwdRelatedVC.h"
-#import "ChatManager.h"
+//#import "ChatManager.h"
 #import "ZHRealNameAuthVC.h"
 #import "ZHChangeNickNameVC.h"
 #import "ZHAboutUsVC.h"

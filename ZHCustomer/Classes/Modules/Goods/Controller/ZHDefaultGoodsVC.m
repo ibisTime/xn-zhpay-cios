@@ -17,8 +17,6 @@
 @property (nonatomic,strong) NSMutableArray <ZHGoodsModel *>*goods;
 @property (nonatomic,assign) BOOL isFirst;
 
-
-
 @end
 
 
