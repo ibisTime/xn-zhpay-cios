@@ -17,6 +17,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TLHTMLStrVC.h"
 
+#define OLD_VERSION @"3.2.1"
 
 @interface ZHShakeItOffVC ()<CLLocationManagerDelegate>
 
@@ -172,7 +173,7 @@
         //线上版本
         NSString *str = data[@"results"][0][@"version"];
         //版本号不同就要更新
-        if (![str isEqualToString:@"3.0.2"] && ![str isEqualToString:[NSString appCurrentBundleVersion]]) {
+        if (![str isEqualToString:OLD_VERSION] && ![str isEqualToString:[NSString appCurrentBundleVersion]]) {
             
             UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"有新版本了,前往更新" message:@"" preferredStyle:UIAlertControllerStyleAlert];
             

@@ -89,7 +89,7 @@
         
     } failure:^(NSError *error) {
         
-        [self addPlaeholderView];
+        [self addPlaceholderView];
 
     }];
     //
@@ -503,7 +503,7 @@
     
     
     //轮播图
-    TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*0.6)];
+    TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*0.8)];
     [self.bgScrollView addSubview:bannerView];
     self.bannerView = bannerView;
     

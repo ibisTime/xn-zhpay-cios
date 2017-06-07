@@ -15,7 +15,9 @@ target 'ZHCustomer' do
   pod 'IQKeyboardManager'
   #七牛云
   pod 'Qiniu'
-  pod 'Realm','2.1.2'
+#  pod 'Realm','2.1.2'
+
+  pod 'Realm'
 
   #一组
   #pod 'AMap2DMap'

@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZHDefaultGoodsVC : UIViewController
+@interface ZHDefaultGoodsVC : TLBaseVC
 
 //@property (nonatomic,copy) NSString *bigCategoryCode;
 //小类1

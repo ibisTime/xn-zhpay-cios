@@ -42,7 +42,7 @@
     
 }
 
-- (void)addPlaeholderView{
+- (void)addPlaceholderView{
 
     if (self.tl_placeholderView) {
         
@@ -72,11 +72,11 @@
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, lbl.yy + 10, 200, 40)];
         [self.view addSubview:btn];
         btn.titleLabel.font = FONT(15);
-        [btn setTitleColor:[UIColor zh_themeColor] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor textColor] forState:UIControlStateNormal];
         btn.centerX = view.width/2.0;
         btn.layer.cornerRadius = 5;
         btn.layer.borderWidth = 1;
-        btn.layer.borderColor = [UIColor zh_themeColor].CGColor;
+        btn.layer.borderColor = [UIColor textColor].CGColor;
         [btn addTarget:self action:@selector(tl_placeholderOperation) forControlEvents:UIControlEventTouchUpInside];
         [btn setTitle:opTitle forState:UIControlStateNormal];
         [view addSubview:btn];

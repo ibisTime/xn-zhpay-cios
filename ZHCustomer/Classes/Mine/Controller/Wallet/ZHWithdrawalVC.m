@@ -70,7 +70,7 @@
         } else { //无卡
             
             [self setPlaceholderViewTitle:@"您还未添加银行卡" operationTitle:@"前往添加"];
-            [self addPlaeholderView];
+            [self addPlaceholderView];
         
             
         }

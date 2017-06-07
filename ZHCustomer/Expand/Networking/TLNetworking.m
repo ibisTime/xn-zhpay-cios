@@ -98,11 +98,11 @@
         self.parameters[@"systemCode"] = [[self class] systemCode];
      
 #warning -- 公司编码，祸害
-//        if (self.isDeliverCompanyCode) {
-//            
-//            self.parameters[@"companyCode"] = [[self class] systemCode];
-//
-//        }
+        if (self.isDeliverCompanyCode) {
+            
+            self.parameters[@"companyCode"] = [[self class] systemCode];
+
+        }
         
         if (!self.kind || self.kind.length <= 0 ) {
             

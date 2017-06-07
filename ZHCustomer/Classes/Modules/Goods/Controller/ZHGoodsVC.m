@@ -27,7 +27,8 @@
 @property (nonatomic,strong) UIScrollView *switchScrollView;
 @property (nonatomic,strong) UIView *typeChangeView;
 //@property (nonatomic,strong) UIButton *goShoppingCartBtn;
-@property (nonatomic,strong) UIView *reloaView;
+//@property (nonatomic,strong) UIView *reloaView;
+
 @property (nonatomic,strong) ZHGoodsCategoryVC *zeroBuyVC;
 //@property (nonatomic, strong) ZHSegmentView *segmentView;
 
@@ -38,11 +39,7 @@
 
 
 @implementation ZHGoodsVC
-{
 
-    dispatch_group_t _getCategoryGroup;
-    
-}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -52,12 +49,12 @@
     [super viewDidLoad];
     
     self.title = @"尖货";
-    _getCategoryGroup = dispatch_group_create();
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search"] style:UIBarButtonItemStylePlain target:self action:@selector(search)];
 
     //去请求类别
-    [self reload];
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+    [self tl_placeholderOperation];
   
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
@@ -66,138 +63,31 @@
     
 }
 
-//#pragma mark- 数量改变通知
-//- (void)cartCountChange {
-//
-//    if (self.msgBadgeView) {
-//        
-////      NSLog(@"%@--%ld",[ZHCartManager manager],[ZHCartManager manager].count);
-//
-//        //--//
-//        self.msgBadgeView.msgCount = [ZHCartManager manager].count;
-//
-//    }
-//
-//}
+- (void)tl_placeholderOperation {
 
-
-//获取失败,重新获取
-- (void)reload {
-
-    __block  NSInteger count = 0;
     
-    //获取剁手合集的小类
-    dispatch_group_enter(_getCategoryGroup);
-        //获取分类接口
-        TLNetworking *http = [TLNetworking new];
-        http.code = @"808007";
-        http.showView = self.view;
-        http.parameters[@"status"] = @"1";
-        http.parameters[@"parentCode"] = @"FL201700000000000001";
-        [http postWithSuccess:^(id responseObject) {
-            count ++;
-            dispatch_group_leave(_getCategoryGroup);
-            
-            [ZHGoodsCategoryManager manager].dshjCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-            
-        } failure:^(NSError *error) {
-            
-            dispatch_group_leave(_getCategoryGroup);
-            [self.view addSubview:self.reloaView];
-            
-        }];
-    
-    //获取零元试购的小类
-//    dispatch_group_enter(_getCategoryGroup);
-//    TLNetworking *http1 = [TLNetworking new];
-//    http1.code = @"808007";
-//    http1.parameters[@"status"] = @"1";
-//    http1.showView = self.view;
-//    http1.parameters[@"parentCode"] = @"FL201700000000000002";
-//    [http1 postWithSuccess:^(id responseObject) {
-//        
-//        count ++;
-//        dispatch_group_leave(_getCategoryGroup);
-//        
-//        [ZHGoodsCategoryManager manager].lysgCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-//        
-//    } failure:^(NSError *error) {
-//        
-//        dispatch_group_leave(_getCategoryGroup);
-//        [self.view addSubview:self.reloaView];
-//        
-//    }];
-    
-    dispatch_group_notify(_getCategoryGroup, dispatch_get_main_queue(), ^{
+    //获取分类接口
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"808007";
+    http.showView = self.view;
+    http.parameters[@"status"] = @"1";
+    http.parameters[@"parentCode"] = @"FL201700000000000001";
+    [http postWithSuccess:^(id responseObject) {
+   
+        [self removePlaceholderView];
+        [ZHGoodsCategoryManager manager].dshjCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
-        if (count == 1) {
-            
-            [self setUpUI];
-            
-            //
-//            self.segmentView.selectedIndex = 1;
-#pragma mark- 购物车初始化
-            //购物车初始值
-//            if (self.msgBadgeView && [ZHUser user].userId) {
-//                
-//                self.msgBadgeView.msgCount = [ZHCartManager manager].count;
-//                
-//            }
+        [self setUpUI];
 
-        }
         
-    });
+    } failure:^(NSError *error) {
+        
+        [self addPlaceholderView];
+
+        
+    }];
 
 }
-
-
-- (UIView *)reloaView {
-
-    if (!_reloaView) {
-        
-      _reloaView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 100)];
-        _reloaView.centerY = (SCREEN_WIDTH - 64 - 49) / 2.0;
-        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
-        lbl.text = @"亲，加载失败了";
-        lbl.font = [UIFont systemFontOfSize:20];
-        lbl.textAlignment = NSTextAlignmentCenter;
-        lbl.textColor = [UIColor zh_textColor];
-        [_reloaView addSubview:lbl];
-        
-        UIButton *reLoadBtn = [[UIButton alloc] initWithFrame:CGRectMake(30,lbl.yy, 150, 40) title:@"重新加载" backgroundColor:[UIColor clearColor]];
-        reLoadBtn.centerX = _reloaView.width/2.0;
-        reLoadBtn.layer.borderColor = [UIColor zh_textColor2].CGColor;
-        reLoadBtn.layer.borderWidth = 1;
-        [reLoadBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
-        [reLoadBtn addTarget:self action:@selector(reload) forControlEvents:UIControlEventTouchUpInside];
-        [_reloaView addSubview:reLoadBtn];
-        
-    }
-    
-    return _reloaView;
-
-}
-
-
-
-#pragma mark- 点击购物车选项
-//- (void)goShoppingCart {
-//    
-//    if (![ZHUser user].isLogin) {
-//        
-//        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-//        
-//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-//        [self presentViewController:nav animated:YES completion:nil];
-//        
-//        
-//        return;
-//    }
-//    ZHShoppingCartVC *vc = [[ZHShoppingCartVC alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
-//    
-//}
-
 
 - (void)search {
     
@@ -293,8 +183,6 @@
 
 
 - (void)setUpUI {
-
-    [self.reloaView removeFromSuperview];
 
 //    //顶部切换按钮
     CGFloat h = 45;

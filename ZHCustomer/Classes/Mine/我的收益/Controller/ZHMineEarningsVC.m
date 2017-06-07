@@ -220,7 +220,7 @@
 
         } else {
             //所有请求失败
-            [self addPlaeholderView];
+            [self addPlaceholderView];
         
         }
         

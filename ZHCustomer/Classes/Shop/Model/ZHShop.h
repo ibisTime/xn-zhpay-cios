@@ -19,7 +19,7 @@
 //OFF("4", "已下架");
 
 //从本地读取店铺信息，有返回yes,并初始化用户信息 否则返回NO
-- (BOOL)getInfo;
+//- (BOOL)getInfo;
 
 
 @property (nonatomic,copy)  NSString *code;

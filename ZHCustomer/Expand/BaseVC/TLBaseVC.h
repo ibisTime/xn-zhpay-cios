@@ -17,7 +17,7 @@
 
 
 - (void)removePlaceholderView; //移除
-- (void)addPlaeholderView; // 添加
+- (void)addPlaceholderView; // 添加
 //更新placeholderView
 - (void)setPlaceholderViewTitle:(NSString *)title  operationTitle:(NSString *)optitle;
 

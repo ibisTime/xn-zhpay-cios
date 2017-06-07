@@ -120,7 +120,7 @@
 }
 
 
-#warning -可删除
+#warning --mark delete
 //- (void)setCoupon:(ZHCoupon *)coupon {
 //
 //    _coupon = coupon;

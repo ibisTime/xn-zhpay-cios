@@ -167,7 +167,7 @@
 //        [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
         //        [weakSelf.mineTableView endRefreshHeader];
         
-        [self addPlaeholderView];
+        [self addPlaceholderView];
         
     }];
     

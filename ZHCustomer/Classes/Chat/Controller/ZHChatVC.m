@@ -63,12 +63,11 @@
         make.top.equalTo(kefuImageV.mas_top);
     }];
     
-    
-    kefuImageV.image = [UIImage imageNamed:@"客服"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:kefuImageV];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goKefu)];
-    [kefuImageV addGestureRecognizer:tap];
+//    kefuImageV.image = [UIImage imageNamed:@"客服"];
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:kefuImageV];
+//    
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goKefu)];
+//    [kefuImageV addGestureRecognizer:tap];
     
     
 //    UIView *kefuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 23)];

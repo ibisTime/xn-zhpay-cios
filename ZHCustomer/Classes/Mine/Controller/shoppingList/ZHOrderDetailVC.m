@@ -15,6 +15,9 @@
 
 @interface ZHOrderDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 
+@property (nonatomic, strong) UITableView *orderDetailTableView;
+
+
 @property (nonatomic,strong) UILabel *orderCodeLbl;
 @property (nonatomic,strong) UILabel *orderTimeLbl;
 @property (nonatomic,strong) UILabel *orderStatusLbl;
@@ -36,7 +39,9 @@
     tableV.dataSource = self;
     tableV.delegate = self;
     [self.view addSubview:tableV];
+    self.orderDetailTableView = tableV;
     
+    //
     tableV.backgroundColor = [UIColor zh_backgroundColor];
     tableV.rowHeight = [ZHOrderGoodsCell rowHeight];
     
@@ -336,10 +341,14 @@
     
 
 }
+
+//--//
 - (UIView *)orderHeaderView {
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 195)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
     headerView.backgroundColor = [UIColor whiteColor];
+    self.orderDetailTableView.tableHeaderView = headerView;
+    
     
     //
     self.orderCodeLbl = [UILabel labelWithFrame:CGRectMake(LEFT_MARGIN, 16, SCREEN_WIDTH - 30, [FONT(13) lineHeight])
@@ -382,9 +391,38 @@
     self.addressView = [[ZHAddressChooseView alloc] initWithFrame:CGRectMake(0, lineV.yy, SCREEN_WIDTH, 89)];
     self.addressView.type = ZHAddressChooseTypeDisplay;
     [headerView addSubview:self.addressView];
-    //
     
-    headerView.height = self.addressView.yy;
+    //添加约束
+    [self.parameterLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.orderStatusLbl.mas_top).offset(5);
+        make.left.equalTo(headerView.mas_left).offset(LEFT_MARGIN);
+        make.right.lessThanOrEqualTo(headerView.mas_right).offset(-LEFT_MARGIN);
+        
+    }];
+    
+    [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.parameterLbl.mas_bottom).offset(16);
+        make.left.right.equalTo(headerView);
+        make.height.mas_equalTo(10);
+        
+    }];
+    
+    [self.addressView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(headerView);
+        make.top.equalTo(lineV.mas_bottom);
+        make.height.equalTo(@89);
+        make.bottom.equalTo(headerView.mas_bottom);
+    }];
+    
+    //
+//    [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.width.mas_equalTo(SCREEN_WIDTH);
+//    }];
+    
+    [self.orderDetailTableView layoutIfNeeded];
+//    headerView.height = self.addressView.yy;
     return headerView;
 
 }
