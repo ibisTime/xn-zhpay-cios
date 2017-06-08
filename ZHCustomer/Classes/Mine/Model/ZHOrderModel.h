@@ -40,17 +40,13 @@
 
 //规格价格，和规格名称
 @property (nonatomic, copy) NSString *productSpecsName;
-@property (nonatomic,strong) NSNumber *price1;
-@property (nonatomic,strong) NSNumber *price2;
-@property (nonatomic,strong) NSNumber *price3;
+@property (nonatomic, strong) NSNumber *price1;
+@property (nonatomic, strong) NSNumber *price2;
+@property (nonatomic, strong) NSNumber *price3;
 
-@property (nonatomic,strong) NSNumber *payAmount1;
-@property (nonatomic,strong) NSNumber *payAmount2;
-@property (nonatomic,strong) NSNumber *payAmount3;
-
-@property (nonatomic,strong) NSNumber *amount1;
-@property (nonatomic,strong) NSNumber *amount2;
-@property (nonatomic,strong) NSNumber *amount3;
+@property (nonatomic, strong) NSNumber *amount1;
+@property (nonatomic, strong) NSNumber *amount2;
+@property (nonatomic, strong) NSNumber *amount3;
 
 - (NSString *)getStatusName;
 

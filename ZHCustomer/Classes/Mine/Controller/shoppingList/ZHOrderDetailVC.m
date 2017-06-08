@@ -16,7 +16,7 @@
 @interface ZHOrderDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *orderDetailTableView;
-
+@property (nonatomic, strong) UIView *tableViewHeaderView;
 
 @property (nonatomic,strong) UILabel *orderCodeLbl;
 @property (nonatomic,strong) UILabel *orderTimeLbl;
@@ -27,7 +27,9 @@
 @property (nonatomic,strong) UILabel *expressNameLbl;
 @property (nonatomic,strong) UILabel *expressCodeLbl;
 
+
 @end
+
 
 @implementation ZHOrderDetailVC
 
@@ -45,17 +47,42 @@
     tableV.backgroundColor = [UIColor zh_backgroundColor];
     tableV.rowHeight = [ZHOrderGoodsCell rowHeight];
     
-    //header
-    tableV.tableHeaderView = [self orderHeaderView];
+    //创建headerView
+    [self orderHeaderView];
+
     
+    
+    //********headerView 数据
     self.orderCodeLbl.text = [NSString stringWithFormat:@"订单号：%@",self.order.code];
     self.orderTimeLbl.text = [NSString stringWithFormat:@"下单时间：%@",[self.order.applyDatetime convertToDetailDate]];
     self.orderStatusLbl.text = [NSString stringWithFormat:@"订单状态：%@",[self.order getStatusName]];
+    
+    self.parameterLbl.lineBreakMode = NSLineBreakByCharWrapping;
     self.parameterLbl.text = [NSString stringWithFormat:@"产品规格：%@",self.order.productSpecsName];
    
     self.addressView.nameLbl.text = [@"收货人" add:self.order.receiver];
     self.addressView.mobileLbl.text = self.order.reMobile;
     self.addressView.addressLbl.text = [@"收货地址：" add:self.order.reAddress];
+    //********headerView 数据
+    
+    
+    [self.tableViewHeaderView layoutIfNeeded];
+    
+    self.tableViewHeaderView.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.addressView.yy);
+    self.orderDetailTableView.tableHeaderView = self.tableViewHeaderView;
+    
+    
+//  [self.tableViewHeaderView layoutIfNeeded];
+    
+//    [self.tableViewHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.width.equalTo(self.orderDetailTableView.mas_width);
+//    }];
+//    
+//    [self.tableViewHeaderView layoutIfNeeded];
+//    self.orderDetailTableView.tableHeaderView = self.tableViewHeaderView;
+
+    
+    
     
 //    || [self.order.status isEqualToString:@"4"] //已经收货
     if ([self.order.status isEqualToString:@"3"] || [self.order.status isEqualToString:@"4"]) {// 已发货
@@ -91,6 +118,7 @@
 
 }
 
+
 #pragma mark- 支付
 - (void)pay {
     
@@ -102,7 +130,7 @@
         
         newPayVC.rmbAmount = self.order.amount1; //把人民币传过去
         
-        newPayVC.postage = postage;
+//        newPayVC.postage = postage;
         newPayVC.amoutAttrAddPostage = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:@([self.order.amount1 longValue] + [postage longLongValue])];
         newPayVC.amoutAttr = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:self.order.amount1];
         
@@ -343,12 +371,11 @@
 }
 
 //--//
-- (UIView *)orderHeaderView {
+- ( void )orderHeaderView {
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
-    headerView.backgroundColor = [UIColor whiteColor];
-    self.orderDetailTableView.tableHeaderView = headerView;
-    
+    self.tableViewHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableViewHeaderView.backgroundColor = [UIColor whiteColor];
+    UIView *headerView = self.tableViewHeaderView;
     
     //
     self.orderCodeLbl = [UILabel labelWithFrame:CGRectMake(LEFT_MARGIN, 16, SCREEN_WIDTH - 30, [FONT(13) lineHeight])
@@ -357,6 +384,7 @@
                                            font:FONT(13)
                                       textColor:[UIColor zh_textColor]];
     [headerView addSubview:self.orderCodeLbl];
+    
     //
     self.orderTimeLbl = [UILabel labelWithFrame:CGRectMake(LEFT_MARGIN, self.orderCodeLbl.yy + 5, SCREEN_WIDTH - 30, self.orderCodeLbl.height)
                                    textAligment:NSTextAlignmentLeft
@@ -380,6 +408,7 @@
                                              font:FONT(13)
                                         textColor:[UIColor zh_textColor]];
     [headerView addSubview:self.parameterLbl];
+    self.parameterLbl.numberOfLines = 0;
     
     
     //
@@ -395,7 +424,7 @@
     //添加约束
     [self.parameterLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.orderStatusLbl.mas_top).offset(5);
+        make.top.equalTo(self.orderStatusLbl.mas_bottom).offset(5);
         make.left.equalTo(headerView.mas_left).offset(LEFT_MARGIN);
         make.right.lessThanOrEqualTo(headerView.mas_right).offset(-LEFT_MARGIN);
         
@@ -413,17 +442,9 @@
         make.left.right.equalTo(headerView);
         make.top.equalTo(lineV.mas_bottom);
         make.height.equalTo(@89);
-        make.bottom.equalTo(headerView.mas_bottom);
+//        make.bottom.equalTo(headerView.mas_bottom);
     }];
     
-    //
-//    [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.width.mas_equalTo(SCREEN_WIDTH);
-//    }];
-    
-    [self.orderDetailTableView layoutIfNeeded];
-//    headerView.height = self.addressView.yy;
-    return headerView;
 
 }
 

@@ -89,14 +89,9 @@
 
 
 - (NSString *)totalPrice {
-
-    if (!_totalPrice) {
-
-        _totalPrice = [ZHCurrencyHelper totalPriceWithQBB:self.currentParameterPriceQBB GWB:self.currentParameterPriceGWB RMB:self.currentParameterPriceRMB];
         
-    }
     
-    return _totalPrice;
+    return [ZHCurrencyHelper totalPriceWithQBB:self.currentParameterPriceQBB GWB:self.currentParameterPriceGWB RMB:self.currentParameterPriceRMB];;
 
 }
 

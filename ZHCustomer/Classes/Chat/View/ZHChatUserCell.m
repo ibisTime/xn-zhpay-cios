@@ -17,9 +17,9 @@
 
 @property (nonatomic,strong) UIImageView *iconImageV;
 @property (nonatomic,strong) UILabel *nameLbl;
-@property (nonatomic,strong) UILabel *typeLbl;
+//@property (nonatomic,strong) UILabel *typeLbl;
 @property (nonatomic,strong) UILabel *timeLbl;
-@property (nonatomic,strong) TLMsgBadgeView *msgBadgeView;
+//@property (nonatomic,strong) TLMsgBadgeView *msgBadgeView;
 
 
 @end
@@ -55,7 +55,9 @@
     }
     
     //
-    NSString *nickName = _referral.nickname ? _referral.nickname : @"未知";
+//    手机号：%@
+    NSString *nickName = [NSString stringWithFormat:@"%@",_referral.nickname];
+    
     CGSize size1 = [nickName calculateStringSize:CGSizeMake(100, 30) font:[UIFont secondFont]];
     self.nameLbl.width = size1.width;
     self.nameLbl.text = nickName;
@@ -65,23 +67,23 @@
     NSString *str;
     UIColor *backgroundColor = [UIColor whiteColor];
     
-     if ([_referral.refeereLevel isEqualToString:@"-1"]) {
+     if ([_referral.level isEqualToString:@"0"]) {
         
         str = @"P1";
         backgroundColor = [UIColor colorWithHexString:@"#f95c63"];
         
         
-    } else if ([_referral.refeereLevel isEqualToString:@"1"]  ) {
+    } else if ([_referral.level isEqualToString:@"1"]  ) {
         
         str = @"C1";
         backgroundColor = [UIColor colorWithHexString:@"#fc8461"];
         
-    }  else if([_referral.refeereLevel isEqualToString:@"2"]) {
+    }  else if([_referral.level isEqualToString:@"2"]) {
     
         str = @"C2";
         backgroundColor = [UIColor colorWithHexString:@"#73cb98"];
 
-    } else  if ([_referral.refeereLevel isEqualToString:@"3"]) {
+    } else  if ([_referral.level isEqualToString:@"3"]) {
     
         str = @"C3";
         backgroundColor = [UIColor colorWithHexString:@"#60d4e5"];
@@ -90,6 +92,10 @@
     }
     
     self.layer.backgroundColor = backgroundColor.CGColor;
+    
+    
+    self.timeLbl.text = [NSString stringWithFormat:@"加入时间:%@",[_referral.createDatetime convertToDetailDate]];
+
 //    CGSize size2 = [str calculateStringSize:CGSizeMake(100, 30) font:FONT(10)];
 //    self.typeLbl.x = self.nameLbl.xx + 8;
 //    self.typeLbl.width = size2.width + 16;
@@ -121,7 +127,6 @@
 
     } else {
     
-        self.timeLbl.text = @"还未来访";
 
     }
 
@@ -147,17 +152,22 @@
         [self addSubview:self.iconImageV];
         
         //消息提示
-        self.msgBadgeView = [[TLMsgBadgeView alloc] initWithFrame:CGRectMake(self.iconImageV.xx  - 15, 11, 20, 15)];
-        [self addSubview:self.msgBadgeView];
-        self.msgBadgeView.isRightResize = YES;
-
-        
+//        self.msgBadgeView = [[TLMsgBadgeView alloc] initWithFrame:CGRectMake(self.iconImageV.xx  - 15, 11, 20, 15)];
+//        [self addSubview:self.msgBadgeView];
+//        self.msgBadgeView.isRightResize = YES;
+//
+//        
         //
         self.nameLbl = [UILabel labelWithFrame:CGRectMake(self.iconImageV.xx + 10, 20, 10, [FONT(15) lineHeight]) textAligment:NSTextAlignmentLeft
                                backgroundColor:[UIColor clearColor]
                                           font:[UIFont secondFont]
                                      textColor:[UIColor whiteColor]];
         [self addSubview:self.nameLbl];
+        
+        [self.nameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.iconImageV.mas_right).offset(10);
+            make.top.equalTo(self.mas_top).offset(20);
+        }];
         
 //        [self.nameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.left.equalTo(self.iconImageV.mas_right).offset(10);
@@ -166,16 +176,16 @@
 //        }];
         //
         //类型
-        self.typeLbl = [UILabel labelWithFrame:CGRectMake(0, self.nameLbl.y, 100, self.nameLbl.height)
-                                  textAligment:NSTextAlignmentCenter
-                               backgroundColor:[UIColor whiteColor]
-                                          font:FONT(10)
-                                     textColor:[UIColor zh_themeColor]];
-//        [self addSubview:self.typeLbl];
-        self.typeLbl.layer.masksToBounds = YES;
-        self.typeLbl.layer.cornerRadius = [FONT(15) lineHeight]/2.0;
-        self.typeLbl.layer.borderWidth = 1;
-        self.typeLbl.layer.borderColor = [UIColor zh_themeColor].CGColor;
+//        self.typeLbl = [UILabel labelWithFrame:CGRectMake(0, self.nameLbl.y, 100, self.nameLbl.height)
+//                                  textAligment:NSTextAlignmentCenter
+//                               backgroundColor:[UIColor whiteColor]
+//                                          font:FONT(10)
+//                                     textColor:[UIColor zh_themeColor]];
+////        [self addSubview:self.typeLbl];
+//        self.typeLbl.layer.masksToBounds = YES;
+//        self.typeLbl.layer.cornerRadius = [FONT(15) lineHeight]/2.0;
+//        self.typeLbl.layer.borderWidth = 1;
+//        self.typeLbl.layer.borderColor = [UIColor zh_themeColor].CGColor;
         
 //        [self.typeLbl mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.left.equalTo(self.nameLbl.mas_right).offset(8);

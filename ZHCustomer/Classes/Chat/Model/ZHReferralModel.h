@@ -15,8 +15,12 @@
 
 @property (nonatomic,copy) NSString *userId;
 @property (nonatomic,copy) NSString *nickname;
-@property (nonatomic,copy) NSString *refeereLevel;
+//@property (nonatomic,copy) NSString *refeereLevel;
+
 @property (nonatomic,copy) NSDictionary *userExt;
+@property (nonatomic, copy) NSString *level;
+
+@property (nonatomic, copy) NSString *createDatetime;
 
 
 //会话对象

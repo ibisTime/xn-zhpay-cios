@@ -19,14 +19,19 @@
 //订单cell
 @interface ZHOrderGoodsCell : UITableViewCell
 
-@property (nonatomic,strong) ZHGoodsModel *goods;//直接立即购买的界面
 
 
-//@property (nonatomic,strong) ZHCartGoodsModel *cartGoods;//从购物车进入的
+/**
+ 直接立即购买界面,进入传递该模型
+ */
+@property (nonatomic,strong) ZHGoodsModel *goods;
 
-//@property (nonatomic,strong) ZHOrderDetailModel *orderGoods;//从购物清单
 
+/**
+ 从购物清单列表进入传入该模型
+ */
 @property (nonatomic, strong) ZHOrderModel *order;
+
 
 @property (nonatomic,copy) void(^comment)(NSString *code);
 

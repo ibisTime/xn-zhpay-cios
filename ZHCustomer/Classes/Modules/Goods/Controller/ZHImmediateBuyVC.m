@@ -62,8 +62,6 @@
     [super viewDidLoad];
 //    self.title = @"";
     
-//    [[IQKeyboardManager sharedManager].enabledToolbarClasses addObject:[self class]];
-    
     //根据有无地址创建UI
     [self getAddress];
     
@@ -80,16 +78,9 @@
        self.totalPriceLbl.attributedText = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
                                                                            GWB:goods.currentParameterPriceGWB
                                                                            RMB:goods.currentParameterPriceRMB
-                                                                         count:goods.count ];
+                                                                         count:goods.currentCount ];
         
     }
-    
-    
-//    else if(self.type == ZHIMBuyTypeAll) {//购物车购买
-//     
-//        self.totalPriceLbl.attributedText = self.priceAttr;
-//        
-//    }
     
 
 }
@@ -120,7 +111,7 @@
         http.code = @"808050";
         http.parameters[@"productSpecsCode"] = self.goodsRoom[0].selectedParameter.code;
         
-        http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",goods.count];
+        http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",goods.currentCount];
         http.parameters[@"receiver"] = self.currentAddress.addressee;
         http.parameters[@"reAddress"] = self.currentAddress.totalAddress;
         http.parameters[@"reMobile"] = self.currentAddress.mobile;
@@ -145,7 +136,7 @@
             ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
             payVC.goodsCodeList = @[orderCode];
             NSNumber *rmb = self.goodsRoom[0].currentParameterPriceRMB;
-            payVC.rmbAmount = @([rmb longLongValue]*self.goodsRoom[0].count); //把人民币传过去
+            payVC.rmbAmount = @([rmb longLongValue]*self.goodsRoom[0].currentCount); //把人民币传过去
             
             
             ZHGoodsModel *goods = self.goodsRoom[0];
@@ -154,14 +145,14 @@
             payVC.amoutAttr = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
                                                                   GWB:goods.currentParameterPriceGWB
                                                                   RMB:goods.currentParameterPriceRMB
-                                                                count:goods.count];
-            //加邮费的价格
-            payVC.amoutAttrAddPostage = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
-                                                                            GWB:goods.currentParameterPriceGWB
-                                                                            RMB:goods.currentParameterPriceRMB
-                                                                          count:goods.count addPostageRmb:self.postage];
-            //邮费
-            payVC.postage = self.postage;
+                                                                count:goods.currentCount];
+//            //加邮费的价格
+//            payVC.amoutAttrAddPostage = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
+//                                                                            GWB:goods.currentParameterPriceGWB
+//                                                                            RMB:goods.currentParameterPriceRMB
+//                                                                          count:goods.count addPostageRmb:self.postage];
+//            //邮费
+//            payVC.postage = self.postage;
             
             
             payVC.paySucces = ^(){
@@ -350,11 +341,11 @@
         cell = [[ZHOrderGoodsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhOrderGoodsCell];
     }
     
-
-
-       cell.goods = self.goodsRoom[indexPath.row];
-
+    
+   
+    cell.goods = self.goodsRoom[indexPath.row];
     return cell;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

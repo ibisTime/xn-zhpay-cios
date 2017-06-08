@@ -26,7 +26,7 @@
 
 - (NSString *)getPrice {
 
-    return [ZHCurrencyHelper totalPriceWithQBB:self.price1 GWB:self.price2 RMB:self.price3];
+    return [ZHCurrencyHelper totalPriceWithQBB:self.price3 GWB:self.price2 RMB:self.price1];
 }
 
 - (NSString *)getDetailText {

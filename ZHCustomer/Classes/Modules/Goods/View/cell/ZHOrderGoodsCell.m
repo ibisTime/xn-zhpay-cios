@@ -112,7 +112,9 @@
     //
     self.nameLbl.text = _goods.name;
     self.priceLbl.text = _goods.totalPrice;
-    self.numLbl.text = [NSString stringWithFormat:@"X%ld",_goods.count];
+    
+    //
+    self.numLbl.text = [NSString stringWithFormat:@"X%ld",_goods.currentCount];
     
 }
 
@@ -127,10 +129,13 @@
     //
     self.nameLbl.text = _order.product.name;
     
-    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_order.product.currentParameterPriceQBB GWB:_order.product.currentParameterPriceGWB RMB:_order.product.currentParameterPriceRMB];
+    //
+    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_order.price3 GWB:_order.price2 RMB:_order.price1];
     
+    //
     self.numLbl.text = [NSString stringWithFormat:@"X%@",_order.quantity];
-
+    
+    //
 }
 
 //- (void)setOrderGoods:(ZHGoodsModel *)orderGoods {

@@ -15,7 +15,6 @@ typedef NS_ENUM(NSInteger,ZHIMBuyType){
     
     ZHIMBuyTypeSingle = 0 //单个商品
 //  ZHIMBuyTypeAll //购物车商品
-    
 };
 
 @interface ZHImmediateBuyVC : TLBaseVC
@@ -24,9 +23,6 @@ typedef NS_ENUM(NSInteger,ZHIMBuyType){
 
 //普通商品
 @property (nonatomic,strong) NSArray<ZHGoodsModel *> *goodsRoom;
-
-//购物车商品
-//@property (nonatomic,strong) NSArray<ZHCartGoodsModel *> *cartGoodsRoom;
 
 
 //购物车专用

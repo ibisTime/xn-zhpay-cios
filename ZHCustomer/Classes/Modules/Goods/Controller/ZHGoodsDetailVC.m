@@ -36,7 +36,7 @@
 @property (nonatomic,strong) UILabel *nameLbl;
 @property (nonatomic,strong) UILabel *advLbl;
 @property (nonatomic,strong) UILabel *priceLbl;
-@property (nonatomic,strong) UILabel *postageLbl;
+//@property (nonatomic,strong) UILabel *postageLbl;
 
 
 
@@ -57,7 +57,9 @@
 @property (nonatomic, strong) UIButton *lastBtn;
 @property (nonatomic, strong) UIView *detailView;
 @property (nonatomic, strong) UIView *evaluateViwe;
+
 //@property (nonatomic, strong) UIView *goodsArgsView;
+
 @property (nonatomic, copy) NSArray <CDGoodsParameterModel *> *parameterModelArr;
 
 @end
@@ -120,7 +122,7 @@
     self.advLbl.text = self.goods.slogan;
     self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:self.goods.QBB GWB:self.goods.GWB  RMB:self.goods.RMB];
     
-    self.postageLbl.text = @"邮费:10元";
+//    self.postageLbl.text = @"邮费:10元";
     
     //扩大
 //    self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.stepView.yy + 10);
@@ -316,9 +318,9 @@
     //
     ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
     buyVC.type = ZHIMBuyTypeSingle;
-    buyVC.postage = @10000;
-    self.goods.count = count;
+    buyVC.postage = @0;
     
+    self.goods.currentCount = count;
     self.goods.currentParameterPriceRMB = parameterModel.price1;
     self.goods.currentParameterPriceGWB = parameterModel.price2;
     self.goods.currentParameterPriceQBB = parameterModel.price3;
@@ -331,15 +333,9 @@
 #pragma mark- 购买
 - (void)buy {
     
-    CDGoodsParameterChooseView *chooseView = [CDGoodsParameterChooseView chooseView];
-    chooseView.coverImageUrl = [self.goods.advPic convertImageUrl];
-    [chooseView loadArr:self.parameterModelArr];
-    chooseView.delegate = self;
-    [chooseView show];
-    
     //
     if (![ZHUser user].isLogin) {
-       
+        
         ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
         [self presentViewController:nav animated:YES completion:nil];
@@ -348,6 +344,14 @@
         };
         return;
     }
+    
+    CDGoodsParameterChooseView *chooseView = [CDGoodsParameterChooseView chooseView];
+    chooseView.coverImageUrl = [self.goods.advPic convertImageUrl];
+    [chooseView loadArr:self.parameterModelArr];
+    chooseView.delegate = self;
+    [chooseView show];
+    
+ 
 
     
 }
@@ -572,16 +576,16 @@
     
     
     //
-    self.postageLbl = [UILabel labelWithFrame:CGRectZero
-                               textAligment:NSTextAlignmentLeft
-                            backgroundColor:[UIColor whiteColor]
-                                       font:FONT(14)
-                                  textColor:[UIColor zh_textColor]];
-    [self.bgScrollView addSubview:self.postageLbl];
-    [self.postageLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.priceLbl.mas_bottom).offset(11);
-        make.left.equalTo(self.bgScrollView.mas_left).offset(15);
-    }];
+//    self.postageLbl = [UILabel labelWithFrame:CGRectZero
+//                               textAligment:NSTextAlignmentLeft
+//                            backgroundColor:[UIColor whiteColor]
+//                                       font:FONT(14)
+//                                  textColor:[UIColor zh_textColor]];
+//    [self.bgScrollView addSubview:self.postageLbl];
+//    [self.postageLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.priceLbl.mas_bottom).offset(11);
+//        make.left.equalTo(self.bgScrollView.mas_left).offset(15);
+//    }];
     
     //
     UIView *priceBottomLine = [[UIView alloc] init];
@@ -589,7 +593,7 @@
     [self.bgScrollView addSubview:priceBottomLine];
     [priceBottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.postageLbl.mas_bottom).offset(11);
+        make.top.equalTo(self.priceLbl.mas_bottom).offset(11);
         make.left.equalTo(self.bgScrollView.mas_left);
         make.width.mas_equalTo(@(SCREEN_WIDTH));
         make.height.mas_equalTo(@(1));

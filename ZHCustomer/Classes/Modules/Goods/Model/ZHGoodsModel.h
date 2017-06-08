@@ -59,9 +59,18 @@
 // */
 //@property (nonatomic,strong) NSNumber *price3; //钱包币
 
+
+//购买选择数量后，设置的数量
+@property (nonatomic, assign) NSInteger currentCount;
 @property (nonatomic, strong) NSNumber *currentParameterPriceRMB;
 @property (nonatomic, strong) NSNumber *currentParameterPriceQBB;
 @property (nonatomic, strong) NSNumber *currentParameterPriceGWB;
+
+
+/**
+ 合并后的价格
+ */
+@property (nonatomic,copy,readonly) NSString *totalPrice;
 
 
 
@@ -69,12 +78,6 @@
 @property (nonatomic,strong) NSArray <NSNumber *>* imgHeights;
 - (CGFloat)detailHeight;
 
-//数量
-@property (nonatomic,assign) NSInteger count;
 
-/**
- 合并后的价格
- */
-@property (nonatomic,copy) NSString *totalPrice;
 
 @end

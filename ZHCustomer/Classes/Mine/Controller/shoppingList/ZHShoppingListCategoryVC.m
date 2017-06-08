@@ -223,11 +223,12 @@
     }
 //    NSArray *arr =  self.orderGroups[indexPath.section].productOrderList;
 //    cell.orderGoods = arr[indexPath.row];
-    ZHGoodsModel *model = self.orderGroups[indexPath.row].product;
-    model.currentParameterPriceRMB = self.orderGroups[indexPath.row].price1;
-    model.currentParameterPriceGWB = self.orderGroups[indexPath.row].price2;
-    model.currentParameterPriceQBB = self.orderGroups[indexPath.row].price3;
-    cell.order = self.orderGroups[indexPath.row];
+//    ZHGoodsModel *model = self.orderGroups[indexPath.row].product;
+//    model.currentParameterPriceRMB = self.orderGroups[indexPath.row].price1;
+//    model.currentParameterPriceGWB = self.orderGroups[indexPath.row].price2;
+//    model.currentParameterPriceQBB = self.orderGroups[indexPath.row].price3;
+    
+    cell.order = self.orderGroups[indexPath.section];
     
     return cell;
     

@@ -12,7 +12,8 @@
 #import "ZHAccountSecurityVC.h"
 #import "ZHHZBVC.h"
 #import "TLMsgPlayView.h"
-#import "ZHChatVC.h"
+//#import "ZHChatVC.h"
+#import "CDUserReleationVC.h"
 //#import "ZHWalletView.h"
 //#import "ZHCurrencyModel.h"
 
@@ -47,8 +48,7 @@
 
 //@property (nonatomic,strong) NSMutableArray <ZHCurrencyModel *>*currencyRoom; //币种
 //@property (nonatomic,strong) NSMutableDictionary <NSString *,ZHCurrencyModel *>*currencyDict;
-
-@property (nonatomic,assign) BOOL   isFist;
+@property (nonatomic,assign) BOOL isFist;
 
 
 @end
@@ -475,8 +475,8 @@
     releationModel.action = ^(){
         
         //
-        ZHChatVC *chatVC = [[ZHChatVC alloc] init];
-        [self.navigationController pushViewController:chatVC animated:YES];
+        CDUserReleationVC *releationVC = [[CDUserReleationVC alloc] init];
+        [self.navigationController pushViewController:releationVC animated:YES];
         
     };
     

@@ -68,6 +68,8 @@
     self.title = @"支付";
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    //暂时去掉邮费
+    self.postage = nil;
     
     //----//----//
     if (self.navigationController) {
