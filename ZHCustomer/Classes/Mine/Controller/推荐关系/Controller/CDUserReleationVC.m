@@ -72,6 +72,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
 
     CDUserReleationListVC *vc = [[CDUserReleationListVC alloc] init];
     

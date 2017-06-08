@@ -67,33 +67,52 @@
     NSString *str;
     UIColor *backgroundColor = [UIColor whiteColor];
     
-     if ([_referral.level isEqualToString:@"0"]) {
-        
-        str = @"P1";
-        backgroundColor = [UIColor colorWithHexString:@"#f95c63"];
-        
-        
-    } else if ([_referral.level isEqualToString:@"1"]  ) {
-        
-        str = @"C1";
-        backgroundColor = [UIColor colorWithHexString:@"#fc8461"];
-        
-    }  else if([_referral.level isEqualToString:@"2"]) {
     
-        str = @"C2";
+    
+    if ([self.level isEqualToString:@"1"]) {
+        
+        backgroundColor = [UIColor colorWithHexString:@"#fc8461"];
+
+        
+    } else if ([self.level isEqualToString:@"2"]) {
+    
         backgroundColor = [UIColor colorWithHexString:@"#73cb98"];
 
-    } else  if ([_referral.level isEqualToString:@"3"]) {
-    
-        str = @"C3";
-        backgroundColor = [UIColor colorWithHexString:@"#60d4e5"];
+    } else if ([self.level isEqualToString:@"3"]) {
 
+        backgroundColor = [UIColor colorWithHexString:@"#60d4e5"];
 
     }
     
+    
+    
+//    
+//     if ([_referral.level isEqualToString:@"0"]) {
+//        
+//        str = @"P1";
+//        
+//        
+//    } else if ([_referral.level isEqualToString:@"1"]  ) {
+//        
+//        str = @"C1";
+//        backgroundColor = [UIColor colorWithHexString:@"#fc8461"];
+//        
+//    }  else if([_referral.level isEqualToString:@"2"]) {
+//    
+//        str = @"C2";
+//        backgroundColor = [UIColor colorWithHexString:@"#73cb98"];
+//        
+//    } else  if ([_referral.level isEqualToString:@"3"]) {
+//    
+//        str = @"C3";
+//        backgroundColor = [UIColor colorWithHexString:@"#60d4e5"];
+//
+//
+//    }
+    
+    
+    
     self.layer.backgroundColor = backgroundColor.CGColor;
-    
-    
     self.timeLbl.text = [NSString stringWithFormat:@"加入时间:%@",[_referral.createDatetime convertToDetailDate]];
 
 //    CGSize size2 = [str calculateStringSize:CGSizeMake(100, 30) font:FONT(10)];

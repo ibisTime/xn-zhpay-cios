@@ -18,5 +18,6 @@
 
 
 @property (nonatomic,strong) ZHReferralModel *referral;
+@property (nonatomic, copy) NSString *level;
 
 @end

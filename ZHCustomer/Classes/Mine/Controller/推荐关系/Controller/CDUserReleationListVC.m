@@ -57,7 +57,9 @@
     
     self.releationTableView.rowHeight = [ZHChatUserCell rowHeight];
     
+    self.releationTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"尚无推荐人"];
     
+    //
     __weak typeof(self) weakSelf = self;
     // -1上级 -2上上级  1.下级 2. 下下级
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
@@ -115,7 +117,11 @@
         
     }
     
+    //
+    cell.level = self.level;
     cell.referral = self.users[indexPath.row];
+    
+    //
     return cell;
 }
 
