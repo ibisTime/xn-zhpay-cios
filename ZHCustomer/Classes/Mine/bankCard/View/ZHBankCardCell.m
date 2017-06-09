@@ -37,7 +37,7 @@
 
     } else {
     
-        self.backgroundImageView.image = [UIImage imageNamed:@"ICBC_bg"];
+        self.backgroundImageView.image = [UIImage imageNamed:@"CCB_bg"];
 
     }
     
@@ -66,8 +66,13 @@
     self.bankNameLbl.text = _bankCard.bankName;
     
     //银行卡号
-    NSString *subStr = [_bankCard.bankcardNumber substringWithRange:NSMakeRange(_bankCard.bankcardNumber.length - 4, 4)];
-    NSString *str = [@"**** **** **** " add:subStr];
+    NSString *str = _bankCard.bankcardNumber;
+    if (str.length > 4) {
+        
+        NSString *subStr = [_bankCard.bankcardNumber substringWithRange:NSMakeRange(_bankCard.bankcardNumber.length - 4, 4)];
+        str = [@"**** **** **** " add:subStr];
+    }
+ 
     self.bankNumLbl.text = str;
 }
 

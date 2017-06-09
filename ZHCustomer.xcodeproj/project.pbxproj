@@ -129,6 +129,7 @@
 		2E989CBC1E1E810900F3643A /* ZHCouponsMgtVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CBB1E1E810900F3643A /* ZHCouponsMgtVC.m */; };
 		2E989CC51E1F3DF500F3643A /* ZHCouponsDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CC41E1F3DF500F3643A /* ZHCouponsDetailVC.m */; };
 		2E989CC81E1F574800F3643A /* ZHCouponSelectedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E989CC71E1F574800F3643A /* ZHCouponSelectedVC.m */; };
+		2E993FAE1EEA93D7005A53FE /* Address.json in Resources */ = {isa = PBXBuildFile; fileRef = 2E993FAD1EEA93D7005A53FE /* Address.json */; };
 		2E9A77891E5441C9009D8FAA /* TLRealmPlayground.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A77881E5441C9009D8FAA /* TLRealmPlayground.m */; };
 		2E9A778C1E54492F009D8FAA /* TLPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A778B1E54492F009D8FAA /* TLPerson.m */; };
 		2E9A778F1E54494B009D8FAA /* TLDog.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A778E1E54494B009D8FAA /* TLDog.m */; };
@@ -524,6 +525,7 @@
 		2E989CC41E1F3DF500F3643A /* ZHCouponsDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHCouponsDetailVC.m; sourceTree = "<group>"; };
 		2E989CC61E1F574800F3643A /* ZHCouponSelectedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHCouponSelectedVC.h; sourceTree = "<group>"; };
 		2E989CC71E1F574800F3643A /* ZHCouponSelectedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHCouponSelectedVC.m; sourceTree = "<group>"; };
+		2E993FAD1EEA93D7005A53FE /* Address.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Address.json; sourceTree = "<group>"; };
 		2E9A77871E5441C9009D8FAA /* TLRealmPlayground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLRealmPlayground.h; sourceTree = "<group>"; };
 		2E9A77881E5441C9009D8FAA /* TLRealmPlayground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLRealmPlayground.m; sourceTree = "<group>"; };
 		2E9A778A1E54492F009D8FAA /* TLPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLPerson.h; sourceTree = "<group>"; };
@@ -1127,6 +1129,7 @@
 		2E6E47FC1E14E72300FD2CA7 /* AddressPickerView */ = {
 			isa = PBXGroup;
 			children = (
+				2E993FAD1EEA93D7005A53FE /* Address.json */,
 				2E6E47FD1E14E72300FD2CA7 /* address.txt */,
 				2E6E47FE1E14E72300FD2CA7 /* AddressPickerView.h */,
 				2E6E47FF1E14E72300FD2CA7 /* AddressPickerView.m */,
@@ -2384,6 +2387,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E993FAE1EEA93D7005A53FE /* Address.json in Resources */,
 				2E5945571E2871A500331BAF /* QRCodeTopRight@2x.png in Resources */,
 				2EC2AB9F1E0CC8A7003EF503 /* Info.plist in Resources */,
 				2E59455D1E2871D600331BAF /* QRCodeTopLeft@2x.png in Resources */,

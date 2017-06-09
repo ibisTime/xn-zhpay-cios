@@ -26,7 +26,6 @@
 @property (nonatomic, strong) UILabel *countLbl;
 @property (nonatomic, strong) UILabel *priceLbl;
 
-
 @property (nonatomic, copy) NSArray <CDGoodsParameterModel *>*paramerModels;
 
 @property (nonatomic, strong) CDSingleParamView *lastParamView;
@@ -95,9 +94,7 @@
 
     self.paramerModels = strArr;
     //1.计算cell
-    
-    
-    
+
     //
     self.priceLbl.text = [NSString stringWithFormat:@"价格%@",@"222"];
     
@@ -231,8 +228,8 @@
 
 - (void)loadData {
 
-    UIView *bgView = [[UIView alloc] init];
-    [self.validScrollView addSubview:bgView];
+    UIView *contentView = [[UIView alloc] init];
+    [self.validScrollView addSubview:contentView];
 
     //
     UILabel *parameterHintLbl = [UILabel labelWithFrame:CGRectMake(15, 0, 70, 30) textAligment:NSTextAlignmentLeft
@@ -240,7 +237,7 @@
                                                    font:FONT(15)
                                               textColor:[UIColor textColor]];
     
-    [bgView addSubview:parameterHintLbl];
+    [contentView addSubview:parameterHintLbl];
     parameterHintLbl.text = @"规格";
     
     //
@@ -249,7 +246,7 @@
     [self.paramerModels enumerateObjectsUsingBlock:^(CDGoodsParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         CDSingleParamView *v = [[CDSingleParamView alloc] initWithFrame:CGRectZero];
-        [bgView addSubview:v];
+        [contentView addSubview:v];
         v.parameterModel = obj;
         v.contentLbl.text = [obj getDetailText];
         [v addTarget:self action:@selector(chooseOne:) forControlEvents:UIControlEventTouchUpInside];
@@ -264,9 +261,9 @@
             
             [v mas_makeConstraints:^(MASConstraintMaker *make) {
                 
-                make.left.equalTo(bgView.mas_left).offset(15);
-                make.right.equalTo(bgView.mas_right).offset(-15);
-                make.top.equalTo(bgView.mas_top).offset(parameterHintLbl.height);
+                make.left.equalTo(contentView.mas_left).offset(15);
+                make.right.equalTo(contentView.mas_right).offset(-15);
+                make.top.equalTo(contentView.mas_top).offset(parameterHintLbl.height);
                 make.bottom.equalTo(v.contentLbl.mas_bottom).offset(10);
                 
             }];
@@ -276,8 +273,8 @@
             [v unSelected];
             [v mas_makeConstraints:^(MASConstraintMaker *make) {
                 
-                make.left.equalTo(bgView.mas_left).offset(15);
-                make.right.equalTo(bgView.mas_right).offset(-15);
+                make.left.equalTo(contentView.mas_left).offset(15);
+                make.right.equalTo(contentView.mas_right).offset(-15);
                 make.top.equalTo(lastV.mas_bottom).offset(10);
                 make.bottom.equalTo(v.contentLbl.mas_bottom).offset(10);
                 
@@ -295,10 +292,10 @@
 //    //加线
     UIView *line = [[UIView alloc] init];
     line.backgroundColor = [UIColor lineColor];
-    [bgView addSubview:line];
+    [contentView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(bgView.mas_left).offset(15);
-        make.right.equalTo(bgView.mas_right);
+        make.left.equalTo(contentView.mas_left).offset(15);
+        make.right.equalTo(contentView.mas_right);
         make.top.equalTo(lastV.mas_bottom).offset(10);
         make.height.mas_equalTo(LINE_HEIGHT);
         
@@ -311,12 +308,12 @@
                                                    font:FONT(15)
                                               textColor:[UIColor textColor]];
     
-            [bgView addSubview:countLbl];
+            [contentView addSubview:countLbl];
             countLbl.text = @"购买数量";
             [countLbl mas_makeConstraints:^(MASConstraintMaker *make) {
     
                 make.top.equalTo(line.mas_bottom);
-                make.left.equalTo(bgView.mas_left).offset(15);
+                make.left.equalTo(contentView.mas_left).offset(15);
                 make.width.equalTo(@70);
                 make.height.equalTo(@50);
     
@@ -327,11 +324,11 @@
             self.stepView = stepV;
             self.stepView.hintLbl.hidden = YES;
             self.stepView.isDefault = YES;
-            [bgView addSubview:self.stepView];
+            [contentView addSubview:self.stepView];
     
             [stepV mas_makeConstraints:^(MASConstraintMaker *make) {
     
-                make.right.equalTo(bgView.mas_right).offset(25);
+                make.right.equalTo(contentView.mas_right).offset(25);
                 make.centerY.equalTo(countLbl.mas_centerY);
                 make.width.mas_equalTo(@250);
                 make.height.mas_equalTo(@25);
@@ -342,18 +339,18 @@
             //加线
             UIView *bottomLine = [[UIView alloc] init];
             bottomLine.backgroundColor = [UIColor lineColor];
-            [bgView addSubview:bottomLine];
+            [contentView addSubview:bottomLine];
     
             [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(bgView.mas_left).offset(15);
-                make.right.equalTo(bgView.mas_right);
+                make.left.equalTo(contentView.mas_left).offset(15);
+                make.right.equalTo(contentView.mas_right);
                 make.top.equalTo(countLbl.mas_bottom);
                 make.height.mas_equalTo(LINE_HEIGHT);
-                make.bottom.equalTo(bgView.mas_bottom);
+                make.bottom.equalTo(contentView.mas_bottom);
             }];
  
     
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.bottom.equalTo(self.validScrollView);
         make.width.equalTo(self.validScrollView.mas_width);
         
@@ -378,11 +375,7 @@
     self.priceLbl.text = [btn.parameterModel getPrice];
     self.countLbl.text = [btn.parameterModel getCountDesc];
     self.lastParamView = btn;
-
+    
 }
-
-
-
-
 
 @end

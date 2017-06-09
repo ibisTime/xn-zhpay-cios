@@ -8,6 +8,7 @@
 
 #import "TLBaseVC.h"
 #import "ZHGoodsModel.h"
+#import "CDGoodsParameterModel.h"
 
 //#import "ZHCartGoodsModel.h"
 

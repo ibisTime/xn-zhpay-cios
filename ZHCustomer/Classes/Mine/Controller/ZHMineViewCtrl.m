@@ -470,7 +470,7 @@
 //    };
     
     ZHSettingModel *releationModel = [[ZHSettingModel alloc] init];
-    releationModel.imgName = @"我的折扣券";
+    releationModel.imgName = @"推荐关系";
     releationModel.text = @"推荐关系";
     releationModel.action = ^(){
         

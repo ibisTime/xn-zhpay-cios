@@ -219,8 +219,8 @@
         [[ZHUser user] updateUserInfo];
     }
     
-    
 }
+
 
 #pragma mark- scrollViewDidscroll
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -496,12 +496,6 @@
                 self.lat = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];
                 self.pageDataHelper.parameters[@"latitude"] = self.lat;
                 
-//                if (!self.isLocationSuccess) {
-//
-                //                self.isLocationSuccess = YES;
-//
-//                    
-//                }
                 [self.shopTableView beginRefreshing];
                 
             }];
@@ -558,8 +552,8 @@
     ZHNavigationController *nav = [[ZHNavigationController alloc] initWithRootViewController:cityVC];
     [self presentViewController:nav animated:YES completion:nil];
     
-
 }
+
 
 - (void)setUpSearchView {
 
@@ -656,7 +650,6 @@
 #pragma mark- dasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    
 //    return 0;
     return self.shops.count;
 
@@ -699,7 +692,6 @@
     self.bannerView = bannerView;
     
     
-    
     //中部分类
     CGFloat h = 2*(SCREEN_WIDTH - 1.5)/4.0 + 1;
     
@@ -728,7 +720,6 @@
     //调节高度
     bgView.height = self.announcementsView.yy + 5;
 
-
 }
 
 #pragma mark- 查看公告
@@ -737,8 +728,8 @@
     ZHMsgVC *msgVC = [[ZHMsgVC alloc] init];
     [self.navigationController pushViewController:msgVC animated:YES];
 
-
 }
+
 
 //公告view
 - (UIView *)announcementsView {
@@ -773,11 +764,11 @@
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookGG)];
         [announceContentLbl addGestureRecognizer:tap];
-                                       
         
     }
 
     return _announcementsView;
+    
 }
 
 

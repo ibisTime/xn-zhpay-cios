@@ -42,21 +42,13 @@
 
 @implementation ZHPayVC
 
-#pragma mark- textField--代理
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-
-    
-    if (!textField.text && textField.text.length <= 0) {
-        
-        self.priceLbl.text = @"0";
-        return ;
-    }
-
-        
-    self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
-    
-}
+//#pragma mark- textField--代理
+//
+//- (void)textFieldDidEndEditing:(UITextField *)textField {
+//
+//    
+//   
+//}
 
 
 - (void)canclePay {
@@ -77,10 +69,27 @@
 }
 
 
+- (void)inputChange:(UITextField *)textField {
+
+    if (!textField.text && textField.text.length <= 0) {
+        
+        self.priceLbl.text = @"0";
+        return ;
+    }
+    
+    
+    self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
+    
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"支付";
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.amountTf.delegate = self;
+    
+    [self.amountTf addTarget:self action:@selector(inputChange:) forControlEvents:UIControlEventEditingChanged];
     
     //----//----//
     if (self.navigationController) {
@@ -645,7 +654,7 @@
         _amountTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
         _amountTf.backgroundColor = [UIColor whiteColor];
         _amountTf.placeholder = @"请输入消费金额";
-        _amountTf.delegate = self;
+//        _amountTf.delegate = self;
         _amountTf.keyboardType = UIKeyboardTypeDecimalPad;
     }
     return _amountTf;

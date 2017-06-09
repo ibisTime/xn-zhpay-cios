@@ -29,7 +29,7 @@
 
 @property (nonatomic,strong) NSMutableArray <ZHPayFuncModel *>*pays;
 
-//@property (nonatomic, strong) TLTextField *tradePwdTf;
+@property (nonatomic, strong) UIView *payView;
 //底部价格
 @property (nonatomic,strong) UILabel *priceLbl;
 @property (nonatomic,strong) ZHPaySceneManager *paySceneManager;
@@ -91,6 +91,24 @@
     
   
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+}
+
+- (void)keyboardWillAppear:(NSNotification *)notification {
+    
+    //获取键盘高度
+    CGFloat duration =  [notification.userInfo[@"UIKeyboardAnimationDurationUserInfoKey"] floatValue];
+    CGRect keyBoardFrame = [notification.userInfo[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    
+    
+    [UIView animateWithDuration:duration delay:0 options: 458752 | UIViewAnimationOptionBeginFromCurrentState animations:^{
+        
+        self.payView.y = CGRectGetMinY(keyBoardFrame) - 64 - self.payView.height;
+        
+        
+    } completion:NULL];
+    
     
 }
 
@@ -279,19 +297,8 @@
             self.paySceneManager.groupItems = @[priceItem,payFuncItem];
             [self setUpUI];
             
-            self.priceLbl.attributedText = self.amoutAttrAddPostage;
+            self.priceLbl.attributedText = self.amoutAttr;
             
-            
-            //            if (self.amoutAttr) {
-            //
-            //                //
-            ////                self.tempAttrLbl.attributedText = self.amoutAttrAddPostage;
-            //
-            //            } else {
-            //
-            //                self.priceLbl.text = self.paySceneManager.amount;
-            //
-            //            }
             
         } break;
             
@@ -721,6 +728,7 @@
     UIView *payView = [[UIView alloc] initWithFrame:CGRectMake(0, payTableView.yy, SCREEN_WIDTH, 49)];
     payView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:payView];
+    self.payView = payView;
     
     //按钮
     UIButton *payBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 0, 100, payView.height) title:@"确认支付" backgroundColor:[UIColor zh_themeColor]];

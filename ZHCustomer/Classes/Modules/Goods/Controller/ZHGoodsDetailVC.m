@@ -324,7 +324,8 @@
     self.goods.currentParameterPriceRMB = parameterModel.price1;
     self.goods.currentParameterPriceGWB = parameterModel.price2;
     self.goods.currentParameterPriceQBB = parameterModel.price3;
-    self.goods.selectedParameter = parameterModel;
+    self.goods.currentParameterModel = parameterModel;
+
     
     buyVC.goodsRoom = @[self.goods];
     [self.navigationController pushViewController:buyVC animated:YES];

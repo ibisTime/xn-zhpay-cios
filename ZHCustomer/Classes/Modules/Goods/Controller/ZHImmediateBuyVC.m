@@ -98,7 +98,7 @@
             return;
         }
         
-        if (! self.goodsRoom[0].selectedParameter) {
+        if (! self.goodsRoom[0].currentParameterModel) {
             
             [TLAlert alertWithHUDText:@"请传递规格"];
             return;
@@ -109,7 +109,7 @@
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
         http.code = @"808050";
-        http.parameters[@"productSpecsCode"] = self.goodsRoom[0].selectedParameter.code;
+        http.parameters[@"productSpecsCode"] = self.goodsRoom[0].currentParameterModel.code;
         
         http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",goods.currentCount];
         http.parameters[@"receiver"] = self.currentAddress.addressee;

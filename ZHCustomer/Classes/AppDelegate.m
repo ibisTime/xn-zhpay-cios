@@ -70,6 +70,9 @@
     //HUD
     [SVProgressHUD setMinimumDismissTimeInterval:2.5];
     [SVProgressHUD setMaximumDismissTimeInterval:8];
+//    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
+//    [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
+//    [SVProgressHUD set];
     
     //推送注册
     [self jpushInitWithLaunchOption:launchOptions];

@@ -4,7 +4,7 @@
 //
 //  Created by  tianlei on 2017/1/4.
 //  Copyright © 2017年  tianlei. All rights reserved.
-// 购物清单
+//  店铺消费清单
 
 #import <UIKit/UIKit.h>
 #import "ZHShopOrderModel.h"

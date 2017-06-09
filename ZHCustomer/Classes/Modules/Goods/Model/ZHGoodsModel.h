@@ -39,7 +39,7 @@
 @property (nonatomic, copy) NSArray <CDGoodsParameterModel*> *productSpecsList;
 
 
-@property (nonatomic, strong) CDGoodsParameterModel *selectedParameter;
+//@property (nonatomic, strong) CDGoodsParameterModel *selectedParameter;
 
 //price 1 人民币 price2 购物币，price 3 钱包币
 
@@ -65,6 +65,7 @@
 @property (nonatomic, strong) NSNumber *currentParameterPriceRMB;
 @property (nonatomic, strong) NSNumber *currentParameterPriceQBB;
 @property (nonatomic, strong) NSNumber *currentParameterPriceGWB;
+@property (nonatomic, strong) CDGoodsParameterModel *currentParameterModel;
 
 
 /**

@@ -19,10 +19,11 @@
 
 @property (nonatomic ,strong) NSMutableArray * pArr;/**< 地址选择器数据源,装省份模型,每个省份模型内包含城市模型*/
 
-@property (nonatomic ,strong) NSDictionary   * dataDict;/**< 省市区数据源字典*/
-@property (nonatomic ,strong) NSMutableArray * provincesArr;/**< 省份名称数组*/
-@property (nonatomic ,strong) NSDictionary   * citysDict;/**< 所有城市的字典*/
-@property (nonatomic ,strong) NSDictionary   * areasDict;/**< 所有地区的字典*/
+//只在loadArr中使用
+//@property (nonatomic ,strong) NSDictionary   * dataDict;/**< 省市区数据源字典*/
+//@property (nonatomic ,strong) NSMutableArray * provincesArr;/**< 省份名称数组*/
+//@property (nonatomic ,strong) NSDictionary   * citysDict;/**< 所有城市的字典*/
+//@property (nonatomic ,strong) NSDictionary   * areasDict;/**< 所有地区的字典*/
 
 
 @end
@@ -134,7 +135,7 @@ static CGFloat const TITLEBUTTONWIDTH = 75.0;
     [self addSubview:self.addressPickerView];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        [self.addressPickerView selectRow:10 inComponent:0 animated:YES];
+        [self.addressPickerView selectRow:29 inComponent:0 animated:YES];
         [self.addressPickerView reloadComponent:1];
         [self.addressPickerView reloadComponent:2];
 
@@ -146,49 +147,136 @@ static CGFloat const TITLEBUTTONWIDTH = 75.0;
 
 #pragma mark - 加载地址数据
 - (void)loadAddressData{
-    NSString * filePath = [[NSBundle mainBundle] pathForResource:@"address"
-                                                          ofType:@"txt"];
+//    NSString * filePath = [[NSBundle mainBundle] pathForResource:@"Address"
+//                                                          ofType:@"json"];
+    
+    
+//    NSDictionary
+//    //
+//    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:filePath]];
+    
+    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"Address" ofType:@"json"];
+    NSData *data=[NSData dataWithContentsOfFile:jsonPath];
+    NSError *jsonError;
+    id jsonObject=[NSJSONSerialization JSONObjectWithData:data
+                                                  options:NSJSONReadingAllowFragments
+                                                    error:&jsonError];
+    
+    NSArray <NSDictionary *>*provinceArr = jsonObject[@"root"][@"province"];
+    //
+    
+    self.pArr = [[NSMutableArray alloc] init];
 
-    NSError  * error;
-    NSString * str22 = [NSString stringWithContentsOfFile:filePath
-                                                 encoding:NSUTF8StringEncoding
-                                                    error:&error];
-    
-    if (error) {
-        return;
-    }
-    
-    _dataDict = [self dictionaryWithJsonString:str22];
-    
-    if (!_dataDict) {
-        return;
-    }
-    
-    _provincesArr = [_dataDict objectForKey:@"p"];
-    _citysDict    = [_dataDict objectForKey:@"c"];
-    _areasDict    = [_dataDict objectForKey:@"a"];
 
-    _pArr         = [[NSMutableArray alloc]init];
-    
-    //省份模型数组加载各个省份模型
-    for (int i = 0 ;i < _provincesArr.count; i++) {
-        NSArray  * citys = [_citysDict objectForKey:_provincesArr[i]];
-        Province * p     = [Province provinceWithName:_provincesArr[i]
-                                               cities:citys];
-        [_pArr addObject:p];
-    }
-    
-    //各个省份模型加载各自的所有城市模型
-    for (Province * p in _pArr) {
-        NSMutableArray * areasArr = [[NSMutableArray alloc]init];
-        for (NSString * cityName in p.cities) {
-            NSString * cityKey = [NSString stringWithFormat:@"%@-%@",p.name,cityName];
-            NSArray  * cityArr = [_areasDict objectForKey:cityKey];
-            City     * city    = [City cityWithName:cityName areas:cityArr];
-            [areasArr addObject:city];
+    //遍历省
+    [provinceArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull provienceDict, NSUInteger idx, BOOL * _Nonnull stop) {
+       
+        Province *province = [[Province alloc] init];
+        province.name = provienceDict[@"-name"];
+        
+        NSMutableArray *cityNames = [[NSMutableArray alloc] init];
+        NSMutableArray <City *>*cityModels = [[NSMutableArray alloc] init];
+     
+        
+        //遍历城市
+        NSArray <NSDictionary *>*citys = provienceDict[@"city"];
+        if ([citys isKindOfClass:[NSDictionary class]]) {
+            
+            citys = @[provienceDict[@"city"]];
+            NSLog(@"城市-%@",citys);
         }
-        p.cityModels = areasArr;
-    }
+        [citys enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            City *city = [[City alloc] init];
+            city.cityName = obj[@"-name"];
+            
+            NSMutableArray <NSString *>*areaStrs = [[NSMutableArray alloc] init];
+            
+            //遍历城市的区
+            NSArray *areas =  obj[@"district"];
+            if ([areas isKindOfClass:[NSDictionary class]]) {
+                
+                NSLog(@"区域-%@",areas);
+                
+            } else {
+            
+                [areas enumerateObjectsUsingBlock:^(NSDictionary  *area, NSUInteger idx, BOOL * _Nonnull stop) {
+                    
+                    [areaStrs addObject:area[@"-name"]];
+                    
+                }];
+            
+            }
+           
+            
+            city.areas = areaStrs;
+            
+            
+            //
+            [cityModels addObject:city];
+            [cityNames addObject:city.cityName];
+
+        }];
+        
+        province.cities = cityNames;
+        province.cityModels = cityModels;
+        [self.pArr addObject:province];
+        
+    }];
+    
+    
+    
+    
+    
+//    NSError  * error;
+//    NSString * str22 = [NSString stringWithContentsOfFile:filePath
+//                                                 encoding:NSUTF8StringEncoding
+//                                                    error:&error];
+//    
+//    if (error) {
+//        return;
+//    }
+//    
+//    _dataDict = [self dictionaryWithJsonString:str22];
+//    NSLog(@"%@",_dataDict);
+//    if (!_dataDict) {
+//        return;
+//    }
+//    
+//    _provincesArr = [_dataDict objectForKey:@"p"];
+//    _citysDict    = [_dataDict objectForKey:@"c"];
+//    _areasDict    = [_dataDict objectForKey:@"a"];
+//
+//    _pArr         = [[NSMutableArray alloc]init];
+//    
+//    //省份模型数组加载各个省份模型
+//    for (int i = 0 ;i < _provincesArr.count; i++) {
+//        NSArray  * citys = [_citysDict objectForKey:_provincesArr[i]];
+//        Province * p     = [Province provinceWithName:_provincesArr[i]
+//                  
+//                                               cities:citys];
+//        //确定省的数组
+//        [self.pArr addObject:p];
+//        
+//    }
+//    
+//    //各个省份模型加载各自的所有城市模型
+//    for (Province * p in _pArr) {
+//        NSMutableArray * areasArr = [[NSMutableArray alloc]init];
+//        for (NSString * cityName in p.cities) {
+//            NSString * cityKey = [NSString stringWithFormat:@"%@-%@",p.name,cityName];
+//            NSArray  * cityArr = [_areasDict objectForKey:cityKey];
+//            City     * city    = [City cityWithName:cityName areas:cityArr];
+//            [areasArr addObject:city];
+//        }
+//        
+//        //确定市的数组
+//        p.cityModels = areasArr;
+//        
+//    }
+    
+    //省 -市 -区  -县  -自治县 -地区 -自治州
+    
 }
 
 #pragma mark - UIPickerDatasource
@@ -208,6 +296,7 @@ numberOfRowsInComponent:(NSInteger)component{
         return p.cities.count;
     }
     else if (2 == component){
+        
         NSInteger selectProvince = [pickerView selectedRowInComponent:0];
         NSInteger selectCity     = [pickerView selectedRowInComponent:1];
         Province  * p            = _pArr[selectProvince];
@@ -216,6 +305,7 @@ numberOfRowsInComponent:(NSInteger)component{
         }
         City * c = p.cityModels[selectCity];
         return c.areas.count;
+        
     }
     
     return 0;

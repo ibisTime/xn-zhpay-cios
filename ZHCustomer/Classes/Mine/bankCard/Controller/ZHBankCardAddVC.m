@@ -11,15 +11,19 @@
 #import "ZHBank.h"
 #import "ZHRealNameAuthVC.h"
 
+
 @interface ZHBankCardAddVC ()
 
 @property (nonatomic,strong) TLTextField *realNameTf;
 
 @property (nonatomic,strong) TLPickerTextField *bankNameTf; //开户行
-@property (nonatomic,strong) TLTextField *subbranchTf; //支行
+//@property (nonatomic,strong) TLTextField *subbranchTf; //支行
 
 @property (nonatomic,strong) TLTextField *bankCardTf;
-@property (nonatomic,strong) TLTextField *mobileTf;
+//@property (nonatomic,strong) TLTextField *mobileTf;
+
+//
+@property (nonatomic, strong) TLTextField *tradePwdTf;
 @property (nonatomic,strong) UIScrollView *bgSV;
 
 @property (nonatomic,strong) UIButton *operationBtn;
@@ -52,8 +56,8 @@
         }];
         [self.navigationController pushViewController:authVC animated:YES];
         
-    
     }
+    //
     
 }
 
@@ -67,7 +71,7 @@
     [self.view addSubview:bgScrollView];
     self.bgSV = bgScrollView;
     
-    
+    //
     [self setUpUI];
     
     
@@ -79,10 +83,12 @@
         
         self.realNameTf.text = self.bankCard.realName;
         self.bankNameTf.text = self.bankCard.bankName;
-        self.subbranchTf.text = self.bankCard.subbranch;
+//        self.subbranchTf.text = self.bankCard.subbranch;
         self.bankCardTf.text = self.bankCard.bankcardNumber;
-        self.mobileTf.text = self.bankCard.bindMobile;
+//        self.mobileTf.text = self.bankCard.bindMobile;
         [self.operationBtn setTitle:@"修改" forState:UIControlStateNormal];
+        self.title = @"修改银行卡";
+        
     }
     
     //查询能绑定的银行卡
@@ -125,6 +131,7 @@
 
 }
 
+
 - (void)bindCard {
 
     if (![self.realNameTf.text valid]) {
@@ -138,29 +145,36 @@
         return;
     }
     
-    if (![self.subbranchTf.text valid]) {
-        [TLAlert alertWithMsg:@"请填写开户支行"];
-        return;
-    }
+//    if (![self.subbranchTf.text valid]) {
+//        [TLAlert alertWithMsg:@"请填写开户支行"];
+//        return;
+//    }
     
     if (![self.bankCardTf.text valid]) {
         [TLAlert alertWithMsg:@"请填写银行卡号"];
         return;
     }
     
-    if (![self.mobileTf.text valid]) {
-        [TLAlert alertWithMsg:@"请填写与银行卡绑定的手机号"];
-        return;
-    }
+//    if (![self.mobileTf.text valid]) {
+//        [TLAlert alertWithMsg:@"请填写与银行卡绑定的手机号"];
+//        return;
+//    }
     
+    //
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     
     if (self.bankCard) {//修改
-        
-        http.code = @"802012";
+        //
+        if (![self.tradePwdTf.text valid]) {
+            [TLAlert alertWithInfo:@"请填写支付密码"];
+            return;
+        }
+        //
+        http.code = @"802013";
         http.parameters[@"code"] = self.bankCard.code;
         http.parameters[@"status"] = @"1";
+        http.parameters[@"tradePwd"] = self.tradePwdTf.text;
         
     } else {//绑定
     
@@ -199,9 +213,9 @@
     http.parameters[@"bankName"] = self.bankNameTf.text;
     http.parameters[@"bankCode"] = bankCode;
 
-    http.parameters[@"subbranch"] = self.subbranchTf.text;//支行
+//    http.parameters[@"subbranch"] = self.subbranchTf.text;//支行
     http.parameters[@"bankcardNumber"] = self.bankCardTf.text; //卡号
-    http.parameters[@"bindMobile"] = self.mobileTf.text; //绑定的手机号
+//    http.parameters[@"bindMobile"] = self.mobileTf.text; //绑定的手机号
     http.parameters[@"currency"] = @"CNY"; //币种
     http.parameters[@"type"] = @"B"; //b端用户
 
@@ -256,27 +270,41 @@
     self.bankNameTf = bankPick;
     
     //开户支行
-    TLTextField *subbranchTf = [[TLTextField alloc] initWithframe:CGRectMake(0, bankPick.yy + margin, SCREEN_WIDTH, 45) leftTitle:@"开户支行" titleWidth:leftW placeholder:@"请输入开户支行"];
-    [self.bgSV addSubview:subbranchTf];
-    self.subbranchTf = subbranchTf;
+//    TLTextField *subbranchTf = [[TLTextField alloc] initWithframe:CGRectMake(0, bankPick.yy + margin, SCREEN_WIDTH, 45) leftTitle:@"开户支行" titleWidth:leftW placeholder:@"请输入开户支行"];
+//    [self.bgSV addSubview:subbranchTf];
+//    self.subbranchTf = subbranchTf;
     
     //卡号
-    TLTextField *bankCardTf = [[TLTextField alloc] initWithframe:CGRectMake(0, subbranchTf.yy + margin, SCREEN_WIDTH, 45) leftTitle:@"银行卡号  " titleWidth:leftW placeholder:@"请输入银行卡号"];
+    TLTextField *bankCardTf = [[TLTextField alloc] initWithframe:CGRectMake(0, bankPick.yy + margin, SCREEN_WIDTH, 45) leftTitle:@"银行卡号  " titleWidth:leftW placeholder:@"请输入银行卡号"];
     [self.bgSV addSubview:bankCardTf];
     bankCardTf.keyboardType = UIKeyboardTypeNumberPad;
     self.bankCardTf = bankCardTf;
     
     //手机号
-    TLTextField *mobileTf = [[TLTextField alloc] initWithframe:CGRectMake(0, bankCardTf.yy + margin, SCREEN_WIDTH, 45) leftTitle:@"手机号" titleWidth:leftW placeholder:@"请输入银行卡预留手机号"];
-    [self.bgSV addSubview:mobileTf];
-    mobileTf.keyboardType = UIKeyboardTypeNumberPad;
-    self.mobileTf = mobileTf;
+//    TLTextField *mobileTf = [[TLTextField alloc] initWithframe:CGRectMake(0, bankCardTf.yy + margin, SCREEN_WIDTH, 45) leftTitle:@"手机号" titleWidth:leftW placeholder:@"请输入银行卡预留手机号"];
+//    [self.bgSV addSubview:mobileTf];
+//    mobileTf.keyboardType = UIKeyboardTypeNumberPad;
+//    self.mobileTf = mobileTf;
     
     //
-    UIButton *addBtn = [UIButton zhBtnWithFrame:CGRectMake(15, mobileTf.yy + 30, SCREEN_WIDTH - 30, 45) title:@"添加"];
+    self.tradePwdTf = [[TLTextField alloc] initWithframe:CGRectMake(0, bankCardTf.yy + margin, SCREEN_WIDTH, 45) leftTitle:@"支付密码" titleWidth:leftW placeholder:@"请输入支付密码"];
+    [self.bgSV addSubview:self.tradePwdTf];
+    self.tradePwdTf.secureTextEntry = YES;
+
+    //--//
+    if (!self.bankCard) {
+        self.tradePwdTf.height = 0.01;
+        self.tradePwdTf.hidden = YES;
+    }
+    
+    //
+    UIButton *addBtn = [UIButton zhBtnWithFrame:CGRectMake(15, self.tradePwdTf.yy + 30, SCREEN_WIDTH - 30, 45) title:@"添加"];
     [self.bgSV addSubview:addBtn];
     [addBtn addTarget:self action:@selector(bindCard) forControlEvents:UIControlEventTouchUpInside];
     self.operationBtn = addBtn;
+    
+    
+ 
 
 }
 

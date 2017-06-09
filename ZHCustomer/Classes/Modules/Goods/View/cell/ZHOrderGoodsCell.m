@@ -13,14 +13,14 @@
 
 @property (nonatomic,strong) UIImageView *coverImageV;
 @property (nonatomic,strong) UILabel *nameLbl;
-
 @property (nonatomic,strong) UILabel *priceLbl;
+@property (nonatomic, strong) UILabel *parameterLbl;
+
 @property (nonatomic,strong) UILabel *numLbl; //数目
-
-
 
 @end
 
+//
 @implementation ZHOrderGoodsCell
 
 
@@ -43,17 +43,28 @@
         [self addSubview:self.nameLbl];
         self.nameLbl.height = [[UIFont secondFont] lineHeight];
         
-        //价格
+        //规格
+
         
-        self.priceLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.nameLbl.yy + 10, self.nameLbl.width, [FONT(13) lineHeight])
+        
+        //价格
+        self.priceLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.nameLbl.yy + 5, self.nameLbl.width, [FONT(13) lineHeight])
                                    textAligment:NSTextAlignmentLeft
                                 backgroundColor:[UIColor clearColor]
                                            font:FONT(13)
                                       textColor:[UIColor zh_themeColor]];
         [self addSubview:self.priceLbl];
         
+        //规格
+        self.parameterLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.priceLbl.yy + 5, self.nameLbl.width, [FONT(13) lineHeight])
+                                       textAligment:NSTextAlignmentLeft
+                                    backgroundColor:[UIColor clearColor]
+                                               font:FONT(13)
+                                          textColor:[UIColor zh_themeColor]];
+        [self addSubview:self.parameterLbl];
+        
         //广告语
-        self.numLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.priceLbl.yy + 8, self.nameLbl.width, [FONT(11) lineHeight])
+        self.numLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.parameterLbl.yy + 5, self.nameLbl.width, [FONT(11) lineHeight])
                                 textAligment:NSTextAlignmentLeft
                              backgroundColor:[UIColor clearColor]
                                         font:FONT(11)
@@ -62,9 +73,9 @@
         
         //评价的按钮
         CGFloat w = 50;
-        UIButton *pjBtn = [UIButton zhBtnWithFrame:CGRectMake(SCREEN_WIDTH - 10 - w, self.priceLbl.yy + 5, w, 25) title:@"评价"];
-//        [self addSubview:pjBtn];
-        [pjBtn addTarget:self action:@selector(commentAction) forControlEvents:UIControlEventTouchUpInside];
+//        UIButton *pjBtn = [UIButton zhBtnWithFrame:CGRectMake(SCREEN_WIDTH - 10 - w, self.priceLbl.yy + 5, w, 25) title:@"评价"];
+////        [self addSubview:pjBtn];
+//        [pjBtn addTarget:self action:@selector(commentAction) forControlEvents:UIControlEventTouchUpInside];
  
         
         //
@@ -112,7 +123,7 @@
     //
     self.nameLbl.text = _goods.name;
     self.priceLbl.text = _goods.totalPrice;
-    
+    self.parameterLbl.text = _goods.currentParameterModel.name;
     //
     self.numLbl.text = [NSString stringWithFormat:@"X%ld",_goods.currentCount];
     
@@ -128,7 +139,7 @@
     [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[urlStr convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
     //
     self.nameLbl.text = _order.product.name;
-    
+    self.parameterLbl.text = _order.productSpecsName;
     //
     self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_order.price3 GWB:_order.price2 RMB:_order.price1];
     
