@@ -11,6 +11,7 @@
 #import "ZHPayFuncModel.h"
 #import "ZHPayFuncCell.h"
 #import "ZHCurrencyHelper.h"
+#import "CDShopPaySuccessVC.h"
 
 #import "WXApi.h"
 #import "ZHPaySceneManager.h"
@@ -384,6 +385,12 @@
                     self.paySucces();
                 }
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                
+                
+//                CDShopPaySuccessVC *VC = [[CDShopPaySuccessVC alloc] init];
+//                VC.payMoney = self.amountTf.text;
+//                VC.shopName = self.shop.name;
+//                [self.navigationController pushViewController:VC animated:YES];
                 
             }
             

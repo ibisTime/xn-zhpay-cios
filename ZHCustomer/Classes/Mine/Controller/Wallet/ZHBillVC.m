@@ -89,7 +89,7 @@
     pageDataHelper.parameters[@"token"] = [ZHUser user].token;
 //    类型C=C端用户；B=B端用户；P=平台
     pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
-    pageDataHelper.parameters[@"type"] = @"C";
+    pageDataHelper.parameters[@"type"] = TERMINAL_TYPE;
     
     pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
 

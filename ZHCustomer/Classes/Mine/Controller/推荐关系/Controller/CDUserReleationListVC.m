@@ -57,7 +57,7 @@
     
     self.releationTableView.rowHeight = [ZHChatUserCell rowHeight];
     
-    self.releationTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"尚无推荐人"];
+    self.releationTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"尚无用户"];
     
     //
     __weak typeof(self) weakSelf = self;

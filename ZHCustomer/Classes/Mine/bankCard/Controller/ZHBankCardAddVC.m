@@ -10,6 +10,7 @@
 #import "TLPickerTextField.h"
 #import "ZHBank.h"
 #import "ZHRealNameAuthVC.h"
+#import "ZHPwdRelatedVC.h"
 
 
 @interface ZHBankCardAddVC ()
@@ -306,21 +307,29 @@
     
  
 
+    UIButton *setPwdBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, addBtn.yy + 10, SCREEN_WIDTH - 30, 30) title:@"您还未设置支付密码,前往设置->" backgroundColor:[UIColor clearColor]];
+    [self.view addSubview:setPwdBtn];
+    [setPwdBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
+    setPwdBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [setPwdBtn addTarget:self action:@selector(setTrade:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if ([[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
+        setPwdBtn.hidden = YES;
+    }
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setTrade:(UIButton *)btn {
+    
+    ZHPwdRelatedVC *tradeVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
+    tradeVC.success = ^() {
+        
+        btn.hidden = YES;
+        
+    };
+    [self.navigationController pushViewController:tradeVC animated:YES];
+    
+    
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

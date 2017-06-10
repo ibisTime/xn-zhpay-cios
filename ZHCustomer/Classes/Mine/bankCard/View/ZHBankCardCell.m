@@ -37,7 +37,7 @@
 
     } else {
     
-        self.backgroundImageView.image = [UIImage imageNamed:@"CCB_bg"];
+        self.backgroundImageView.image = [UIImage imageNamed:@"ABC_bg"];
 
     }
     
