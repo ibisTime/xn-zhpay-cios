@@ -275,14 +275,6 @@
         
         [priceStr appendString:[NSString stringWithFormat:@" 购物币%@ +",[self coverMoney:gwb]]];
     }
-//    else {
-//        
-//        if ([rmb isEqual:@0]) {
-//            
-//          priceStr = [[NSMutableString alloc] initWithString:[priceStr substringWithRange:NSMakeRange(0, priceStr.length - 1)]];
-//        }
-//    
-//    }
     
     
     if (![qbb isEqual:@0]) {
@@ -296,6 +288,12 @@
                  priceStr = [[NSMutableString alloc] initWithString:[priceStr substringWithRange:NSMakeRange(0, priceStr.length - 1)]];
         }
    
+    }
+    
+    //三种币都为0
+    if ([rmb isEqual:@0] && [gwb isEqual:@0] && [qbb isEqual:@0]) {
+        
+        return @"￥0 + 购物币0 + 钱包币0";
     }
     
     return priceStr;

@@ -51,7 +51,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvTest;
     
     //--pppp--//
     self.locationManager = [[CLLocationManager alloc] init];

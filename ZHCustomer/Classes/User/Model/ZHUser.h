@@ -31,6 +31,8 @@
 @property (nonatomic, copy) NSString *realName;
 @property (nonatomic, copy) NSString *idNo;
 
+//推荐人
+@property (nonatomic, copy) NSString *userRefereeName;
 
 @property (nonatomic, copy) NSString *remark;
 @property (nonatomic, copy) NSString *totalFansNum;

@@ -148,6 +148,7 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     self.realName = dict[@"realName"];
     self.idNo = dict[@"idNo"];
     self.tradepwdFlag = dict[@"tradepwdFlag"];
+    self.userRefereeName = dict[@"userRefereeName"];
     
     NSDictionary *userExt = dict[@"userExt"];
     if (userExt) {

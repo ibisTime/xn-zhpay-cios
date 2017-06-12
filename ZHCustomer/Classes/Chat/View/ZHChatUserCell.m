@@ -45,8 +45,9 @@
 
     _referral = referral;
     
-    if (referral.userExt[@"photo"]) {
-        [self.iconImageV sd_setImageWithURL:[NSURL URLWithString:[referral.userExt[@"photo"] convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"user_placeholder"]];
+    if (referral.userExt.photo) {
+        
+        [self.iconImageV sd_setImageWithURL:[NSURL URLWithString:[referral.userExt.photo convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"user_placeholder"]];
 
     } else {
     

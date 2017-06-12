@@ -7,6 +7,7 @@
 //
 
 #import "TLBaseModal.h"
+@class ZHUserExt;
 
 //#import <HyphenateLite/HyphenateLite.h>
 //#import "EMConversation.h"
@@ -17,10 +18,12 @@
 @property (nonatomic,copy) NSString *nickname;
 //@property (nonatomic,copy) NSString *refeereLevel;
 
-@property (nonatomic,copy) NSDictionary *userExt;
+
+@property (nonatomic, strong) ZHUserExt *userExt;
 @property (nonatomic, copy) NSString *level;
 
 @property (nonatomic, copy) NSString *createDatetime;
+@property (nonatomic, copy) NSString *userRefereeName;
 
 
 //会话对象

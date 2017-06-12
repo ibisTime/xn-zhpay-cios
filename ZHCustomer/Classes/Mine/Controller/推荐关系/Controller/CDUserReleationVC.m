@@ -8,6 +8,7 @@
 
 #import "CDUserReleationVC.h"
 #import "CDUserReleationListVC.h"
+#import "ZHChatUserCell.h"
 
 @interface CDUserReleationVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -106,6 +107,12 @@
 
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+
+    return 1;
+    
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
@@ -115,6 +122,29 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+//    if (indexPath.section == 0) {
+//        
+//        ZHChatUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZHChatUserCell"];
+//        if (!cell) {
+//            
+//            cell = [[ZHChatUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ZHChatUserCell"];
+//            
+//        }
+//        
+//        ZHReferralModel *model = [ZHReferralModel new];
+////        model.createDatetime = [ZHUser user].;
+//        model.userRefereeName = [ZHUser user].userRefereeName;
+//        model.userExt = [ZHUser user].userExt;
+//        
+//        //
+//        cell.level = @"0";
+//        cell.referral = model;
+//        
+//        //
+//        return cell;
+//        
+//    }
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellId"];
     if (!cell) {

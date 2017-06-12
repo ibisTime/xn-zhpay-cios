@@ -17,7 +17,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TLHTMLStrVC.h"
 
-#define OLD_VERSION @"3.2.1"
 
 @interface ZHShakeItOffVC ()<CLLocationManagerDelegate>
 
@@ -164,11 +163,10 @@
 }
 
 
-//
 - (void)updateApp {
-
     
-    [TLNetworking GET:@"http://itunes.apple.com/lookup?id=1167284604" parameters:nil success:^(NSString *msg, id data) {
+    
+    [TLNetworking GET:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@",APP_ID] parameters:nil success:^(NSString *msg, id data) {
         
         //线上版本
         NSString *str = data[@"results"][0][@"version"];
@@ -180,7 +178,10 @@
             //
             UIAlertAction *updateAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/%E6%AD%A3%E6%B1%87%E9%92%B1%E5%8C%85/id1167284604?mt=8"]];
+                NSString *appName = APP_NAME;
+
+                NSString *urlStr = [NSString stringWithFormat:@"https://itunes.apple.com/cn/app/%@/id%@?mt=8",appName,APP_ID];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
                 
             }];
             
@@ -195,7 +196,7 @@
             
             //
             [self presentViewController:alertCtrl animated:YES completion:nil];
-
+            
         }
         
     } abnormality:nil failure:nil];

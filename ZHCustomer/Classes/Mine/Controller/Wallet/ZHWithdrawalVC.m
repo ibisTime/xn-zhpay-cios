@@ -302,7 +302,15 @@
                                 textColor:[UIColor themeColor]];
     [bgV addSubview:self.hinLbl];
     self.hinLbl.text = @"*每月最大取现次数:--";
-    bgV.height = self.hinLbl.yy + 10;
+    
+    //
+    UILabel *hinLbl2 = [UILabel labelWithFrame:CGRectMake(0, self.hinLbl.yy + 3, SCREEN_WIDTH - 15, 20) textAligment:NSTextAlignmentRight
+                          backgroundColor:[UIColor whiteColor]
+                                     font:FONT(12)
+                                textColor:[UIColor themeColor]];
+    [bgV addSubview:hinLbl2];
+    hinLbl2.text = @"提现金额必须是5的倍数，单笔最高5万";
+    bgV.height = hinLbl2.yy + 10;
     
     return bgV;
 

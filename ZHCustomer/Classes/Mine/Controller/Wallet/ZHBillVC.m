@@ -15,6 +15,7 @@
 #import "ZHWithdrawalVC.h"
 #import "ZHHBConvertFRVC.h"
 #import "ZHFRBToOtherPeopleVC.h"
+#import "CDBillHistoryVC.h"
 
 
 @interface ZHBillVC ()<UITableViewDelegate, UITableViewDataSource>
@@ -59,17 +60,28 @@
 
 }
 
+- (void)lookHistoryBill {
+
+    CDBillHistoryVC *vc = [[CDBillHistoryVC alloc] init];
+    vc.accountNumber = self.currencyModel.accountNumber;
+    [self.navigationController pushViewController:vc animated:YES];
+
+
+}
+
 //
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史账单" style:0 target:self action:@selector(lookHistoryBill)];
     
 //    if (!self.currencyModel || !(self.currency && self.bizType)) {
 //        [TLAlert alertWithHUDText:@"无模型数据"];
 //        return;
 //    }
     
-    self.title = @"账单";
+    self.title = @"今日账单";
     TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
                                                        delegate:self
                                                      dataSource:self];
@@ -92,7 +104,12 @@
     pageDataHelper.parameters[@"type"] = TERMINAL_TYPE;
     
     pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
-
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd";
+    //
+    pageDataHelper.parameters[@"dateStart"] = [formatter stringFromDate:[NSDate date]];
+    pageDataHelper.parameters[@"dateEnd"] = [formatter stringFromDate:[NSDate date]];
 
     //1=待对账，3=已对账且账已平，4=帐不平待调账审批 5=已对账且账不平 6=无需对账
     //pageDataHelper.parameters[@"status"] = [ZHUser user].token;
