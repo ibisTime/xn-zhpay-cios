@@ -69,7 +69,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"夺宝";
+    self.title = @"小目标";
     self.isFirst = YES;
     
     [self.view addSubview:self.browseView];

@@ -286,7 +286,7 @@
     
     if (!_buyBtn) {
         
-        _buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 49) title:@"立即购买" backgroundColor:[UIColor zh_themeColor]];
+        _buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 49) title:@"确认订单" backgroundColor:[UIColor zh_themeColor]];
         [_buyBtn addTarget:self action:@selector(buyAction) forControlEvents:UIControlEventTouchUpInside];
         
     }

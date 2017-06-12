@@ -15,7 +15,7 @@
 //info
 + (void)alertWithInfo:(NSString *)msg {
     [SVProgressHUD showInfoWithStatus:msg];
-    [SVProgressHUD dismissWithDelay:2];
+    [SVProgressHUD dismissWithDelay:3];
 }
 
 //error
@@ -30,20 +30,14 @@
 + (void)alertWithSucces:(NSString *)msg {
     
     [SVProgressHUD showSuccessWithStatus:msg];
-    [SVProgressHUD dismissWithDelay:2];
+    [SVProgressHUD dismissWithDelay:3];
     
 }
 
 
 + (void )alertWithHUDText:(NSString *)text {
 
-    [SVProgressHUD showInfoWithStatus:text];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        [SVProgressHUD dismiss];
-
-    });
-//   return [self alertWithHUDText:text duration:2.0 complection:nil];
+    [self alertWithInfo:text];
 
 }
 

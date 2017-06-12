@@ -20,6 +20,7 @@
 //@property (nonatomic,strong) UILabel *typeLbl;
 @property (nonatomic,strong) UILabel *timeLbl;
 //@property (nonatomic,strong) TLMsgBadgeView *msgBadgeView;
+@property (nonatomic, strong) UILabel *refreLbl;
 
 
 @end
@@ -62,6 +63,7 @@
     CGSize size1 = [nickName calculateStringSize:CGSizeMake(100, 30) font:[UIFont secondFont]];
     self.nameLbl.width = size1.width;
     self.nameLbl.text = nickName;
+//    self.refreLbl.text = [NSString stringWithFormat:@"推荐人：%@",_referral.userRefereeName];
     
     //
     
@@ -226,6 +228,20 @@
             make.top.equalTo(self.nameLbl.mas_bottom).offset(8);
             
         }];
+        
+        //
+        self.refreLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentLeft
+                                backgroundColor:[UIColor clearColor]
+                                           font:FONT(11)
+                                      textColor:[UIColor whiteColor]];
+        [self addSubview:self.refreLbl];
+        
+        [self.refreLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.contentView.mas_right).offset(-10);
+            make.top.equalTo(self.nameLbl.mas_top);
+            
+        }];
+
         
         //
         

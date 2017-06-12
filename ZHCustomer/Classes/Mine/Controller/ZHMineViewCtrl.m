@@ -423,7 +423,7 @@
     //小目标
     ZHSettingModel *smallTarget = [[ZHSettingModel alloc] init];
     smallTarget.imgName = @"小目标记录";
-    smallTarget.text = @"夺宝记录";
+    smallTarget.text = @"小目标记录";
     smallTarget.action = ^(){
         
         ZHMineDBRecordVC  *dbRecordVC = [[ZHMineDBRecordVC alloc] init];
@@ -448,7 +448,7 @@
     //优店清单
     ZHSettingModel *shopDetail = [[ZHSettingModel alloc] init];
     shopDetail.imgName = @"我的优店";
-    shopDetail.text = @"我的优店";
+    shopDetail.text = @"优店清单";
     shopDetail.action = ^(){
         //
         

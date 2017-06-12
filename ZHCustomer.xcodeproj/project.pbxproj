@@ -1941,12 +1941,12 @@
 		2EEF8D511EE15A0B00453109 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2EEF8D561EE15A0B00453109 /* ZHDuoBaoVC.h */,
+				2EEF8D571EE15A0B00453109 /* ZHDuoBaoVC.m */,
 				2EEF8D521EE15A0B00453109 /* ZHDBHistoryRecordVC.h */,
 				2EEF8D531EE15A0B00453109 /* ZHDBHistoryRecordVC.m */,
 				2EEF8D541EE15A0B00453109 /* ZHDuoBaoDetailVC.h */,
 				2EEF8D551EE15A0B00453109 /* ZHDuoBaoDetailVC.m */,
-				2EEF8D561EE15A0B00453109 /* ZHDuoBaoVC.h */,
-				2EEF8D571EE15A0B00453109 /* ZHDuoBaoVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
