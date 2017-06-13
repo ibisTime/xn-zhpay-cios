@@ -327,7 +327,7 @@
       NSArray <ZHCurrencyModel *> *currencyRoom =  [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
         ZHBillVC *billVC = [[ZHBillVC alloc] init];
-        billVC.currency = kHBYJ;
+//        billVC.currency = kHBYJ;
         
         [currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj.currency isEqualToString:kHBYJ]) {

@@ -63,7 +63,12 @@
     CGSize size1 = [nickName calculateStringSize:CGSizeMake(100, 30) font:[UIFont secondFont]];
     self.nameLbl.width = size1.width;
     self.nameLbl.text = nickName;
-//    self.refreLbl.text = [NSString stringWithFormat:@"推荐人：%@",_referral.userRefereeName];
+    
+    if (_referral.userRefereeName) {
+        
+      self.refreLbl.text = [NSString stringWithFormat:@"推荐人：%@",_referral.userRefereeName];
+    }
+
     
     //
     
@@ -85,6 +90,10 @@
 
         backgroundColor = [UIColor colorWithHexString:@"#60d4e5"];
 
+    } else {
+    
+        backgroundColor = [UIColor colorWithHexString:@"#f95c63"];
+    
     }
     
     
@@ -232,7 +241,7 @@
         //
         self.refreLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentLeft
                                 backgroundColor:[UIColor clearColor]
-                                           font:FONT(11)
+                                           font:FONT(14)
                                       textColor:[UIColor whiteColor]];
         [self addSubview:self.refreLbl];
         

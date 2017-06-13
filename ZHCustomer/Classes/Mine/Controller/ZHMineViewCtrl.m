@@ -113,7 +113,7 @@
 //        }];
         
                     [weakSelf.mineTableView endRefreshHeader];
-
+        [[ZHUser user] updateUserInfo];
         
     }];
     
@@ -168,7 +168,7 @@
         
     }
     
-    [self.mineTableView beginRefreshing];
+//    [self.mineTableView beginRefreshing];
     
 }
 
@@ -434,7 +434,7 @@
     //尖货清单
     ZHSettingModel *goodsDetail = [[ZHSettingModel alloc] init];
     goodsDetail.imgName = @"购物清单";
-    goodsDetail.text = @"购物清单";
+    goodsDetail.text = @"尖货清单";
     goodsDetail.action = ^(){
         //
         ZHShoppingListVC  *vc = [ZHShoppingListVC new];
@@ -450,11 +450,13 @@
     shopDetail.imgName = @"我的优店";
     shopDetail.text = @"优店清单";
     shopDetail.action = ^(){
-        //
         
+        //
         ZHShopOrderVC  *vc = [ZHShopOrderVC new];
         [weakself.navigationController pushViewController:vc animated:YES];
   
+        //
+        
     };
     
     //我的折扣券

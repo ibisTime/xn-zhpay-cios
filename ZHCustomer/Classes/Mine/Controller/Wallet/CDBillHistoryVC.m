@@ -99,6 +99,21 @@
     };
     
     //
+    
+    //
+    TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, self.endTimeTf.yy + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - self.endTimeTf.yy - 10)
+                                                        delegate:self
+                                                      dataSource:self];
+    [self.view addSubview:billTableView];
+    self.isFirst = YES;
+    
+    billTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    billTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录"];
+    self.billTV = billTableView;
+    
+    
+    
+    //
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     
     NSDateComponents *minComponents = [[NSDateComponents alloc] init];
@@ -113,23 +128,24 @@
     
     self.datePicker.datePicker.minimumDate =  [calendar dateByAddingComponents:minComponents toDate:[NSDate date] options:0];
     
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd";
+    self.beginTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.minimumDate];
+    self.endTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.maximumDate];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [self beginSearch];
+
+    });
+    
     //
 //    UIButton *confirmBtn =  [UIButton zhBtnWithFrame:CGRectMake(20, self.endTimeTf.yy + 20, SCREEN_WIDTH - 40, 40) title:@"查询"];
 //    [self.view addSubview:confirmBtn];
 //    [confirmBtn addTarget:self action:@selector(look) forControlEvents:UIControlEventTouchUpInside];
 //    [confirmBtn setBackgroundColor:[UIColor billThemeColor] forState:UIControlStateNormal];
     
-    //
-    TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, self.endTimeTf.yy + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - self.endTimeTf.yy - 10)
-                                                        delegate:self
-                                                      dataSource:self];
-    [self.view addSubview:billTableView];
-    self.isFirst = YES;
-    
-    billTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    billTableView.rowHeight = 110;
-    billTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录"];
-    self.billTV = billTableView;
+
     
     
 }
@@ -168,13 +184,20 @@
     self.pageDataHelper = pageDataHelper;
     pageDataHelper.code = @"802531";
     pageDataHelper.tableView = self.billTV;
+    pageDataHelper.limit = 10;
 //    pageDataHelper.parameters[@"token"] = [ZHUser user].token;
 //    pageDataHelper.parameters[@"type"] = TERMINAL_TYPE;
 //    pageDataHelper.isAutoDeliverCompanyCode = NO;
-    pageDataHelper.parameters[@"accountNumber"] = self.accountNumber;
+    pageDataHelper.parameters[@"accountNumber"] = self.accountNumber ? : @"";
     
     pageDataHelper.parameters[@"dateStart"] = self.beginTimeTf.text;
     pageDataHelper.parameters[@"dateEnd"] = self.endTimeTf.text;
+    
+    //
+    if ( self.bizType) {
+        
+        pageDataHelper.parameters[@"bizType"] = self.bizType;
+    }
     
     //0 刚生成待回调，1 已回调待对账，2 对账通过, 3 对账不通过待调账,4 已调账,9,无需对账
     //pageDataHelper.parameters[@"status"] = [ZHUser user].token;

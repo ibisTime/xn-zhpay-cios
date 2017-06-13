@@ -64,6 +64,9 @@
 
     CDBillHistoryVC *vc = [[CDBillHistoryVC alloc] init];
     vc.accountNumber = self.currencyModel.accountNumber;
+    
+    //摇摇红包业绩 发发红包业绩使用
+    vc.bizType = self.bizType;
     [self.navigationController pushViewController:vc animated:YES];
 
 
@@ -98,19 +101,21 @@
     TLPageDataHelper *pageDataHelper = [[TLPageDataHelper alloc] init];
     pageDataHelper.code = @"802524";
     pageDataHelper.tableView = billTableView;
+    pageDataHelper.limit = 10;
     pageDataHelper.parameters[@"token"] = [ZHUser user].token;
 //    类型C=C端用户；B=B端用户；P=平台
     pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
     pageDataHelper.parameters[@"type"] = TERMINAL_TYPE;
     
     pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
+ 
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyy-MM-dd";
     //
     pageDataHelper.parameters[@"dateStart"] = [formatter stringFromDate:[NSDate date]];
     pageDataHelper.parameters[@"dateEnd"] = [formatter stringFromDate:[NSDate date]];
-
+    
     //1=待对账，3=已对账且账已平，4=帐不平待调账审批 5=已对账且账不平 6=无需对账
     //pageDataHelper.parameters[@"status"] = [ZHUser user].token;
     [pageDataHelper modelClass:[ZHBillModel class]];
@@ -144,13 +149,13 @@
     }];
     
     
-    if (self.currency && self.bizType) {
+    if ( self.bizType) {
         
         pageDataHelper.parameters[@"bizType"] = self.bizType;
-//        pageDataHelper.parameters[@"currency"] = self.currency;
+        //        pageDataHelper.parameters[@"currency"] = self.currency;
         return;
-        
     }
+
     
     ZHCurrencyConvertView *currencyConvertView = [[ZHCurrencyConvertView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
     billTableView.tableHeaderView = currencyConvertView;
@@ -166,7 +171,6 @@
     BOOL hiddenRight = NO;
     NSString *leftTitle = @"";
     NSString *rightTitle = @"";
-    
     
     
     __weak typeof(self) weakself = self;

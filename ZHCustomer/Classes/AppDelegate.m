@@ -25,7 +25,6 @@
 //#import "TLRealmPlayground.h"
 #import <CoreLocation/CoreLocation.h>
 
-
 //#import "ChatManager.h"
 
 
@@ -47,28 +46,25 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-        
+    
     //设置应用环境
     [AppConfig config].runEnv = RunEnvDev;
     
     //--pppp--//
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
-
+    
     //初始化环信
-//    [self chatInit];
+//  [self chatInit];
     
     //微信
     TLWXManager *wxManager = [TLWXManager manager];
     [wxManager registerApp];
     
-    //高德
-//    [AMapServices sharedServices].apiKey = [AppConfig config].aliMapKey;
     
     //HUD
-    [SVProgressHUD setMinimumDismissTimeInterval:2.5];
+    [SVProgressHUD setMinimumDismissTimeInterval:3];
     [SVProgressHUD setMaximumDismissTimeInterval:8];
 //    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
 //    [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
@@ -121,7 +117,7 @@
     
     //判断的同时进行赋值
     if ([ZHUser user].isLogin) {
-
+        
         //已经由用户信息
         [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
         

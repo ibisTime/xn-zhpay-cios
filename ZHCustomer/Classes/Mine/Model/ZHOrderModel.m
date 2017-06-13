@@ -38,6 +38,23 @@
 
 }
 
+- (NSString *)deliveryDatetime {
+
+    return _deliveryDatetime ? : @"--";
+    
+}
+
+- (NSString *)productSpecsName {
+
+    if (_productSpecsName) {
+        
+        return _productSpecsName;
+        
+    }
+    //
+    return @"无";
+
+}
 
 @end
 

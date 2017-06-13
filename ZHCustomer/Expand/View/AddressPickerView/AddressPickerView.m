@@ -183,7 +183,6 @@ static CGFloat const TITLEBUTTONWIDTH = 75.0;
         if ([citys isKindOfClass:[NSDictionary class]]) {
             
             citys = @[provienceDict[@"city"]];
-            NSLog(@"城市-%@",citys);
         }
         [citys enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             

@@ -17,9 +17,13 @@
 @property (nonatomic,strong) TLPickerTextField *bankPickTf;
 @property (nonatomic,strong) UILabel *balanceLbl;
 @property (nonatomic,strong) UILabel *hinLbl;
+@property (nonatomic, strong) UILabel *withdrawRuleLbl;
 @property (nonatomic,strong) UITextField *moneyTf;
 @property (nonatomic,strong) NSMutableArray <ZHBankCard *>*banks;
 @property (nonatomic,strong) TLTextField *tradePwdTf;
+
+@property (nonatomic, strong) NSNumber *maxCount;
+@property (nonatomic, strong) NSNumber *beiShu;
 
 @end
 
@@ -28,7 +32,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"提现";
+    self.maxCount = @0;
+    self.beiShu = @0;
     
+    //
     [self beginLoad];
     
 }
@@ -45,7 +52,6 @@
     [http postWithSuccess:^(id responseObject) {
         
         
-        
         NSArray *banks = responseObject[@"data"];
         if (banks.count >0 ) {
             
@@ -59,8 +65,36 @@
             http.parameters[@"key"] = @"CUSERMONTIMES";
             [http postWithSuccess:^(id responseObject) {
                 
-                self.hinLbl.text = [NSString stringWithFormat:@"*每月最大取现次数: %@ 次", responseObject[@"data"][@"cvalue"]];
+               self.hinLbl.text = [NSString stringWithFormat:@"每月最大取现次数: %@ 次", responseObject[@"data"][@"cvalue"]];
+                
+            } failure:^(NSError *error) {
+                
+            }];
+            
+            //倍数
+            TLNetworking *http2 = [TLNetworking new];
+            http2.code = @"802027";
+            http2.parameters[@"key"] = @"CUSERQXBS";
+            [http2 postWithSuccess:^(id responseObject) {
+                
+                self.beiShu = responseObject[@"data"][@"cvalue"];
+
+           self.withdrawRuleLbl.text = [NSString stringWithFormat:@"提现金额必须是%@的倍数，单笔最高%@",[self.beiShu isEqual:@0] ? @"--":self.beiShu,[self.maxCount isEqual:@0] ? @"--":self.maxCount];
+
+            } failure:^(NSError *error) {
+                
+            }];
+            
+            //限额
+            TLNetworking *http3 = [TLNetworking new];
+            http3.code = @"802027";
+            http3.parameters[@"key"] = @"QXDBZDJE";
+            [http3 postWithSuccess:^(id responseObject) {
+                
+                self.maxCount = responseObject[@"data"][@"cvalue"];
                
+self.withdrawRuleLbl.text = [NSString stringWithFormat:@"提现金额必须是%@的倍数，单笔最高%@",[self.beiShu isEqual:@0] ? @"--":self.beiShu,[self.maxCount isEqual:@0] ? @"--":self.maxCount];
+                
             } failure:^(NSError *error) {
                 
             }];
@@ -302,7 +336,7 @@
                                      font:FONT(12)
                                 textColor:[UIColor themeColor]];
     [bgV addSubview:self.hinLbl];
-    self.hinLbl.text = @"*每月最大取现次数:--";
+    self.hinLbl.text = @"每月最大取现次数:--";
     
     //
     UILabel *hinLbl2 = [UILabel labelWithFrame:CGRectMake(0, self.hinLbl.yy + 3, SCREEN_WIDTH - 15, 20) textAligment:NSTextAlignmentRight
@@ -310,8 +344,9 @@
                                      font:FONT(12)
                                 textColor:[UIColor themeColor]];
     [bgV addSubview:hinLbl2];
-    hinLbl2.text = @"提现金额必须是5的倍数，单笔最高5万";
+    hinLbl2.text = @"提现金额必须是-的倍数，单笔最高-万";
     bgV.height = hinLbl2.yy + 10;
+    self.withdrawRuleLbl = hinLbl2;
     
     return bgV;
 

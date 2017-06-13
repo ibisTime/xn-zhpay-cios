@@ -20,6 +20,8 @@
 @property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, strong) NSString *status;
 
+@property (nonatomic, copy) NSString *createDatetime;
+
 @property (nonatomic, copy) NSString *amount;
 @property (nonatomic, copy) NSString *kind;
 @property (nonatomic, copy) NSString *level;

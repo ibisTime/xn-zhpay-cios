@@ -77,7 +77,6 @@
 - (NSString *)getStatusName;
 - (NSString *)getTypeName;
 
-- (void)loginOut;
 
 + (void)getShopInfoWithToken:(NSString *)token userId:(NSString *)userId  showInfoView:(UIView *)view success:(void(^)(NSDictionary *shopDict))success failure:(void(^)(NSError *error))failure;
 

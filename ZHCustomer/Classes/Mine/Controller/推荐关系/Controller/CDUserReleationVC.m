@@ -74,6 +74,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if(indexPath.section == 0) {
+    
+        return;
+    }
     
 
     CDUserReleationListVC *vc = [[CDUserReleationListVC alloc] init];
@@ -107,44 +111,60 @@
 
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-
-    return 1;
+    return indexPath.section == 0 ? [ZHChatUserCell rowHeight] : 40;
     
 }
 
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+
+    return 2;
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+
+    return section == 0 ? 5 : 10;
+
+}
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 3;
+    return section == 0 ? 1 : 3;
 
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    if (indexPath.section == 0) {
-//        
-//        ZHChatUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZHChatUserCell"];
-//        if (!cell) {
-//            
-//            cell = [[ZHChatUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ZHChatUserCell"];
-//            
-//        }
-//        
-//        ZHReferralModel *model = [ZHReferralModel new];
-////        model.createDatetime = [ZHUser user].;
-//        model.userRefereeName = [ZHUser user].userRefereeName;
-//        model.userExt = [ZHUser user].userExt;
-//        
-//        //
-//        cell.level = @"0";
-//        cell.referral = model;
-//        
-//        //
-//        return cell;
-//        
-//    }
+    if(indexPath.section == 0) {
+        
+        ZHChatUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZHChatUserCell"];
+        if (!cell) {
+            
+            cell = [[ZHChatUserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ZHChatUserCell"];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+        }
+        
+        //
+        cell.level = @"0";
+        ZHReferralModel *model = [ZHReferralModel new];
+        model.userExt = [ZHUser user].userExt;
+        model.nickname = [ZHUser user].nickname;
+        model.userRefereeName = [ZHUser user].userRefereeName;
+        model.createDatetime = [ZHUser user].createDatetime;
+        cell.referral = model;
+        
+        //
+        return cell;
+    }
+
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellId"];
     if (!cell) {

@@ -11,5 +11,6 @@
 @interface CDBillHistoryVC : TLBaseVC
 
 @property (nonatomic,copy) NSString *accountNumber;
+@property (nonatomic, copy) NSString *bizType;
 
 @end

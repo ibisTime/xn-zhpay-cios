@@ -100,8 +100,9 @@
     
     //未登录
     UINavigationController *mineNav = tabBarController.viewControllers[4];
-    UINavigationController *chatNav = tabBarController.viewControllers[3];
-    UINavigationController *sendToSendNav = tabBarController.viewControllers[1];
+    
+//    UINavigationController *chatNav = tabBarController.viewControllers[3];
+//    UINavigationController *sendToSendNav = tabBarController.viewControllers[1];
 
 
     if ([mineNav isEqual:viewController]) {
@@ -117,19 +118,21 @@
             return NO;
             
         
-    } else if([chatNav isEqual:viewController]) {
-    
-        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        loginVC.loginSuccess = ^(){
-            
-            self.selectedIndex = 3;
-            
-        };
-        [self presentViewController:nav animated:YES completion:nil];
-        return NO;
-        
     }
+    
+//    else if([chatNav isEqual:viewController]) {
+//    
+//        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
+//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+//        loginVC.loginSuccess = ^(){
+//            
+//            self.selectedIndex = 3;
+//            
+//        };
+//        [self presentViewController:nav animated:YES completion:nil];
+//        return NO;
+//        
+//    }
     
 //    else if([sendToSendNav isEqual:viewController]) {
 //        
