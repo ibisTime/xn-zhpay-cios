@@ -19,23 +19,22 @@
 #import "ZHSearchVC.h"
 #import "ZHMsgVC.h"
 #import <MapKit/MapKit.h>
-#import "ZHShopTypeDisplayView.h"
+//#import "ZHShopTypeDisplayView.h"
 #import <CoreLocation/CoreLocation.h>
-#import "ZHShopTypeModel.h"
-#import "UIButton+WebCache.h"
+//#import "ZHShopTypeModel.h"
 #import "HYCityViewController.h"
 #import "ZHNavigationController.h"
 #import "TLWebVC.h"
 #import "ZHShareView.h"
+#import "CDShopTypeChooseView.h"
 
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
 
-@interface ZHShopVC ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate,HYCityViewDelegate>
+@interface ZHShopVC ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate,HYCityViewDelegate,CDShopTypeChoosDelegate>
 
 @property (nonatomic,strong) TLTableView *shopTableView;
-@property (nonatomic, strong) UIPageControl *shopTypePageCtrl;
-
 @property (nonatomic,strong) TLPageDataHelper *pageDataHelper;
+
 //公告view
 @property (nonatomic,strong) NSMutableArray *shops;
 
@@ -48,7 +47,6 @@
 @property (nonatomic,assign) BOOL isFirst;
 
 @property (nonatomic,strong) CLLocationManager *sysLocationManager;
-@property (nonatomic, strong) UIScrollView *shopTypeScrollView;
 //
 @property (nonatomic,copy) NSString *lon;
 @property (nonatomic,copy) NSString *lat;
@@ -56,14 +54,13 @@
 //
 @property (nonatomic,copy) NSString *currentCityName;
 @property (nonatomic,copy) NSString *willDisplayCityName;
-
 //
 @property (nonatomic,strong) MBProgressHUD *hud;
 
 @property (nonatomic,strong) NSMutableArray <ZHBannerModel *>*bannerRoom;
-@property (nonatomic,strong) NSMutableArray <ZHShopTypeView *>*shopTypeViewRooms;
-
 @property (nonatomic,strong) NSMutableArray *bannerPics; //图片
+
+@property (nonatomic, strong) CDShopTypeChooseView *shopTypeChooseView;
 
 @end
 
@@ -86,7 +83,6 @@
         }];
         
         return;
-        
     }
     
     if (self.isFirst) {
@@ -112,13 +108,11 @@
 
     self.isLocationSuccess = NO;
     self.isFirst = YES;
-    
     //1.思路，定位有结果后，
     //取请求banner sysMsg 和 店铺类型，成功之后展示UI并且，去刷新tab
 
     //搜索 及 位置信息
     [self setUpSearchView];
-    
     
     //先读取上次城市名称
     NSString *cityName =  [[NSUserDefaults standardUserDefaults] objectForKey:USER_CITY_NAME_KEY];
@@ -222,15 +216,7 @@
 }
 
 
-#pragma mark- scrollViewDidscroll
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-    if ([scrollView isEqual:self.shopTypeScrollView]) {
-        
-        self.shopTypePageCtrl.currentPage = scrollView.contentOffset.x/self.shopTypeScrollView.width;
-        
-    }
-}
 
 #pragma mark- 获得店铺类型
 - (void)getType {
@@ -244,53 +230,8 @@
         //1.获取数据
         NSArray <ZHShopTypeModel *>* models = [ZHShopTypeModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
-        
-        //2.先移除原来的
-        if (self.shopTypeViewRooms.count > 0) {
-            
-            [self.shopTypeViewRooms makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            [self.shopTypeViewRooms removeAllObjects];
-        }
-        
-        //计算几页
-        NSInteger pageCount = models.count/9 + 1;
-        //
-        self.shopTypePageCtrl.numberOfPages = pageCount;
-//        [self.shopTypePageCtrl updateCurrentPageDisplay];
-        self.shopTypePageCtrl.defersCurrentPageDisplay = YES;
-        self.shopTypeScrollView.contentSize = CGSizeMake(pageCount*SCREEN_WIDTH, self.shopTypeScrollView.height);
-        
-        //3.然后添加新的
-        CGFloat margin = 0.5;
-        
-        //
-        CGFloat w = (SCREEN_WIDTH - 3*margin)/4.0;
-        CGFloat h = 97;
-        
-        __weak typeof(self) weakSelf = self;
-        for (NSInteger i = 0; i < models.count; i ++) {
-            
-            //i 无要求
-            CGFloat x = (w + margin)*(i%4) + SCREEN_WIDTH *(i/8);
-            
-             CGFloat y = (97 + margin)*((i - 8*(i/8))/4) + 0.5;
-            
-            ZHShopTypeView *shopTypeView = [[ZHShopTypeView alloc] initWithFrame:CGRectMake(x, y, w, h)
-                                            
-                                                                       funcImage:nil
-                                                                        funcName:models[i].name];
-            [self.shopTypeScrollView  addSubview:shopTypeView];
-            
-            [self.shopTypeViewRooms addObject:shopTypeView];
-            [shopTypeView.funcBtn sd_setImageWithURL:[NSURL URLWithString:[models[i].pic convertImageUrl]] forState:UIControlStateNormal];
-            shopTypeView.index = i;
-            shopTypeView.selected = ^(NSInteger index) {
-                
-                [weakSelf selectedShopType:models[index].code];
-                
-            };
-            
-        }
+        self.shopTypeChooseView.typeModels = models;
+
         
     } failure:^(NSError *error) {
         
@@ -380,9 +321,8 @@
         
         _sysLocationManager = [[CLLocationManager alloc] init];
         _sysLocationManager.delegate = self;
-        _sysLocationManager.distanceFilter = 300.0;
+        _sysLocationManager.distanceFilter = 500.0;
 //        [_sysLocationManager requestLocation]; //只定为一次
-        
     }
     
     return _sysLocationManager;
@@ -392,7 +332,7 @@
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error {
 
-    [self.shopTableView beginRefreshing];
+      [self.shopTableView beginRefreshing];
 
 }
 
@@ -422,7 +362,6 @@
             
         }
         
-        
     } else { //第一次进入没有记录
         
         //        if (!self.hud) {
@@ -439,10 +378,11 @@
                 //            [self.hud hideAnimated:YES];
                 //            self.hud = nil;
                 
-                self.cityLbl.text = placemark.locality ? : placemark.administrativeArea;
-                self.currentCityName = placemark.locality ? : placemark.administrativeArea;
+                NSString *cityName = [self getCityNameByPlacemark:placemark];
+             
+                self.cityLbl.text = cityName;
+                self.currentCityName = cityName;
                 
-                //        [manager stopUpdatingLocation];
                 //定位成功
 //                self.locationManager.distanceFilter = 10;
                 self.pageDataHelper.parameters[@"city"] = self.currentCityName;
@@ -473,11 +413,9 @@
         
         CLPlacemark *placemark = [placemarks lastObject];
         
-        NSString *newCityName = placemark.locality ? : placemark.administrativeArea;
+        NSString *newCityName = [self getCityNameByPlacemark:placemark];
         //异步
         if (newCityName && self.currentCityName && ![newCityName isEqualToString:self.currentCityName]) {
-            
-         
             
             [TLAlert alertWithTitle:nil Message:[NSString stringWithFormat:@"您当前的位置是%@\n是否切换",newCityName] confirmMsg:@"确定" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
                 
@@ -506,6 +444,32 @@
 
 }
 
+- (NSString *)getCityNameByPlacemark:(CLPlacemark *)placemark {
+
+    NSString *cityName = nil;
+    
+    if (placemark.locality) {
+        
+        cityName = placemark.locality;
+        
+    } else {
+        
+        if (placemark.subLocality) {
+            
+            cityName = placemark.subLocality;
+            
+        } else {
+            
+            cityName = placemark.administrativeArea;
+            
+        }
+        
+    }
+
+    return cityName;
+
+}
+
 
 #pragma mark- tableView  --- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -518,17 +482,24 @@
     
 }
 
-- (void)selectedShopType:(NSString *)code {
+#pragma mark- 地铺选择代理
+- (void)didChoose:(NSInteger)idx typeModel:(ZHShopTypeModel *)model {
 
+    if (!model) {
+        NSLog(@"请选择模型");
+        return;
+    }
+    
     ZHShopListVC *listVC = [[ZHShopListVC alloc] init];
-//    listVC.title = self.types[index];
+    //    listVC.title = self.types[index];
     listVC.lon = self.lon;
     listVC.lat = self.lat;
     listVC.cityName = self.currentCityName;
-    listVC.type = code;
+    listVC.type = model.code;
     [self.navigationController pushViewController:listVC animated:YES];
 
 }
+
 
 #pragma mark- 选择城市
 - (void)sendCityName:(NSString *)name {
@@ -668,16 +639,7 @@
     return cell;
 }
 
-- (NSMutableArray<ZHShopTypeView *> *)shopTypeViewRooms {
 
-    if (!_shopTypeViewRooms) {
-        
-        _shopTypeViewRooms = [[NSMutableArray alloc] init];
-    }
-    
-    return _shopTypeViewRooms;
-
-}
 
 #pragma mark- 头部view
 - (void)setUpTableViewHeader {
@@ -691,31 +653,17 @@
     [bgView addSubview:bannerView];
     self.bannerView = bannerView;
     
-    
-    //中部分类
-    CGFloat h = 2*(SCREEN_WIDTH - 1.5)/4.0 + 1;
-    
-    CGFloat margin = 0.5;
-    //
-    UIScrollView *shopTypeScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, bannerView.yy, SCREEN_WIDTH, h)];
-    shopTypeScrollView.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
-    [bgView addSubview:shopTypeScrollView];
-    shopTypeScrollView.pagingEnabled = YES;
-    shopTypeScrollView.showsHorizontalScrollIndicator = NO;
-    self.shopTypeScrollView = shopTypeScrollView;
-    self.shopTypeScrollView.delegate = self;
-    
-    //可能出现pageControll
-    UIPageControl *pageCtrl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, shopTypeScrollView.yy + 0.5, SCREEN_WIDTH, 20)];
-    pageCtrl.backgroundColor = [UIColor whiteColor];
-    [bgView addSubview:pageCtrl];
-    pageCtrl.pageIndicatorTintColor = [UIColor colorWithHexString:@"#cccccc"];
-    pageCtrl.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"#fe4332"];
-    self.shopTypePageCtrl = pageCtrl;
-    
+
+    //地铺分类
+    self.shopTypeChooseView = [CDShopTypeChooseView chooseView];
+    [bgView addSubview:self.shopTypeChooseView];
+    self.shopTypeChooseView.delegate = self;
+    self.shopTypeChooseView.x = 0;
+    self.shopTypeChooseView.y = bannerView.yy;
+
     //底部--公告
     [bgView addSubview:self.announcementsView];
-    self.announcementsView.y = pageCtrl.yy;
+    self.announcementsView.y = self.shopTypeChooseView.yy;
     
     //调节高度
     bgView.height = self.announcementsView.yy + 5;

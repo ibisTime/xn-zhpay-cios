@@ -87,7 +87,7 @@
     } else {
         
         
-        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/quality/75!",[AppConfig config].qiniuDomain,self];
+        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/quality/90!",[AppConfig config].qiniuDomain,self];
         
     }
     

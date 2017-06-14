@@ -84,15 +84,36 @@
         //获得城市
 //        if (placemark.locality) {
         
+     
+        
+//        NSLog(@"%@",placemark.addressDictionary);
         if (error) {
             
 
         } else {
             
             self.province = placemark.administrativeArea ;
-            self.city = placemark.locality ? : placemark.administrativeArea; //市
-            self.area = placemark.subLocality; //区
+            
+            if (placemark.locality) {
+               
+                self.city = placemark.locality;
+                
+            } else {
+            
+                if (placemark.subLocality) {
+                    
+                    self.city = placemark.subLocality;
 
+                } else {
+                
+                    self.city = placemark.administrativeArea ;
+
+                }
+            
+            }
+            
+            self.area = placemark.subLocality; //区
+            
         }
         
         [self setUpUI];

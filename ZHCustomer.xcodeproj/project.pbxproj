@@ -286,6 +286,9 @@
 		2EF9DC0B1E1CD612005E2943 /* ZHShopOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DC0A1E1CD612005E2943 /* ZHShopOrderModel.m */; };
 		2EF9DC0E1E1CD67D005E2943 /* TLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DC0D1E1CD67D005E2943 /* TLBaseModel.m */; };
 		2EF9DC141E1CF209005E2943 /* ZHMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DC131E1CF209005E2943 /* ZHMapController.m */; };
+		2EFAF0A61EF119AB0096A312 /* CDShopTypeChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFAF0A51EF119AB0096A312 /* CDShopTypeChooseView.m */; };
+		2EFAF0AF1EF137E60096A312 /* CDHistorySingleProfitVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFAF0AE1EF137E60096A312 /* CDHistorySingleProfitVC.m */; };
+		2EFAF0B21EF137FB0096A312 /* CDChooseTimeIntervalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFAF0B11EF137FB0096A312 /* CDChooseTimeIntervalView.m */; };
 		5DFF6B3B9C2D679C9FCAA24B /* libPods-ZHCustomer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED0B1BD5C113B918AF7D0D40 /* libPods-ZHCustomer.a */; };
 /* End PBXBuildFile section */
 
@@ -826,6 +829,12 @@
 		2EF9DC0D1E1CD67D005E2943 /* TLBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBaseModel.m; sourceTree = "<group>"; };
 		2EF9DC121E1CF209005E2943 /* ZHMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMapController.h; sourceTree = "<group>"; };
 		2EF9DC131E1CF209005E2943 /* ZHMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHMapController.m; sourceTree = "<group>"; };
+		2EFAF0A41EF119AB0096A312 /* CDShopTypeChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDShopTypeChooseView.h; sourceTree = "<group>"; };
+		2EFAF0A51EF119AB0096A312 /* CDShopTypeChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDShopTypeChooseView.m; sourceTree = "<group>"; };
+		2EFAF0AD1EF137E60096A312 /* CDHistorySingleProfitVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDHistorySingleProfitVC.h; sourceTree = "<group>"; };
+		2EFAF0AE1EF137E60096A312 /* CDHistorySingleProfitVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDHistorySingleProfitVC.m; sourceTree = "<group>"; };
+		2EFAF0B01EF137FB0096A312 /* CDChooseTimeIntervalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDChooseTimeIntervalView.h; sourceTree = "<group>"; };
+		2EFAF0B11EF137FB0096A312 /* CDChooseTimeIntervalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDChooseTimeIntervalView.m; sourceTree = "<group>"; };
 		955D3B45169753D5CBA42134 /* Pods-ZHCustomer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZHCustomer.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZHCustomer/Pods-ZHCustomer.release.xcconfig"; sourceTree = "<group>"; };
 		ED0B1BD5C113B918AF7D0D40 /* libPods-ZHCustomer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZHCustomer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1295,6 +1304,8 @@
 				2E917B1F1E953396003ED4A8 /* ZHProfitDetailVC.m */,
 				2E917B201E953396003ED4A8 /* ZHSingleProfitFlowVC.h */,
 				2E917B211E953396003ED4A8 /* ZHSingleProfitFlowVC.m */,
+				2EFAF0AD1EF137E60096A312 /* CDHistorySingleProfitVC.h */,
+				2EFAF0AE1EF137E60096A312 /* CDHistorySingleProfitVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1313,6 +1324,8 @@
 		2E917B271E953396003ED4A8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2EFAF0B01EF137FB0096A312 /* CDChooseTimeIntervalView.h */,
+				2EFAF0B11EF137FB0096A312 /* CDChooseTimeIntervalView.m */,
 				2E917B281E953396003ED4A8 /* ZHEarningFlowCell.h */,
 				2E917B291E953396003ED4A8 /* ZHEarningFlowCell.m */,
 				2E917B2A1E953396003ED4A8 /* ZHProfitCell.h */,
@@ -1640,6 +1653,8 @@
 				2E875D1B1E0D31C5007F97A5 /* ShopDetail */,
 				2EC2ABD31E0CD28E003EF503 /* ZHShopCell.h */,
 				2EC2ABD41E0CD28E003EF503 /* ZHShopCell.m */,
+				2EFAF0A41EF119AB0096A312 /* CDShopTypeChooseView.h */,
+				2EFAF0A51EF119AB0096A312 /* CDShopTypeChooseView.m */,
 				2E875D121E0D1FAE007F97A5 /* ZHShopTypeView.h */,
 				2E875D131E0D1FAE007F97A5 /* ZHShopTypeView.m */,
 				2EC04A301ECBFC8700E52C9C /* TLMsgPlayView.h */,
@@ -2517,6 +2532,7 @@
 				2EC2AE531E0CF55A003EF503 /* TLTextView.m in Sources */,
 				2EEF8D971EE15A0B00453109 /* ZHPaySceneManager.m in Sources */,
 				2EC2ADDB1E0CF55A003EF503 /* UIFont+UI.m in Sources */,
+				2EFAF0A61EF119AB0096A312 /* CDShopTypeChooseView.m in Sources */,
 				2EC2AE511E0CF55A003EF503 /* TLTableView.m in Sources */,
 				2EC2AE521E0CF55A003EF503 /* TLTextField.m in Sources */,
 				2E917B2D1E953396003ED4A8 /* ZHProfitDetailVC.m in Sources */,
@@ -2566,6 +2582,7 @@
 				2EC2AE471E0CF55A003EF503 /* TLUploadManager.m in Sources */,
 				2EEF8E641EE5639900453109 /* ZHGoodsCell.m in Sources */,
 				2E5983C71E667B5800DE8F3C /* UIViewController+Extension.m in Sources */,
+				2EFAF0B21EF137FB0096A312 /* CDChooseTimeIntervalView.m in Sources */,
 				2E4E8BD01E2230B700AC022A /* ZHBusinessCardView.m in Sources */,
 				2EC2AE501E0CF55A003EF503 /* TLPlaceholderView.m in Sources */,
 				2E6E48071E14E72300FD2CA7 /* Province.m in Sources */,
@@ -2628,6 +2645,7 @@
 				2EEF8DCE1EE15C5200453109 /* ZHCouponsCell.m in Sources */,
 				2EC602791E5EA4EC0066C197 /* TLCellModel.m in Sources */,
 				2EEF8DCC1EE15C5200453109 /* ZHCoupon.m in Sources */,
+				2EFAF0AF1EF137E60096A312 /* CDHistorySingleProfitVC.m in Sources */,
 				2EA521921E64069C0080965C /* ZHUserProtocalVC.m in Sources */,
 				2EDC53D51E1E389E00CACE31 /* NSNumber+TLAdd.m in Sources */,
 				2EC2ABD51E0CD28E003EF503 /* ZHShopCell.m in Sources */,
@@ -2769,7 +2787,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2810,7 +2828,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

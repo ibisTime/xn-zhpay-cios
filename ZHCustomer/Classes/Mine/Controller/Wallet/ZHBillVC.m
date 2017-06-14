@@ -110,11 +110,12 @@
     pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
  
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"yyyy-MM-dd";
-    //
-    pageDataHelper.parameters[@"dateStart"] = [formatter stringFromDate:[NSDate date]];
-    pageDataHelper.parameters[@"dateEnd"] = [formatter stringFromDate:[NSDate date]];
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    formatter.dateFormat = @"yyyy-MM-dd";
+//    //
+//    pageDataHelper.parameters[@"dateStart"] = [formatter stringFromDate:[NSDate date]];
+//    pageDataHelper.parameters[@"dateEnd"] = [formatter stringFromDate:[NSDate date]];
+//
     
     //1=待对账，3=已对账且账已平，4=帐不平待调账审批 5=已对账且账不平 6=无需对账
     //pageDataHelper.parameters[@"status"] = [ZHUser user].token;

@@ -60,7 +60,7 @@
     self.parameterLbl.lineBreakMode = NSLineBreakByCharWrapping;
     self.parameterLbl.text = [NSString stringWithFormat:@"产品规格：%@",self.order.productSpecsName];
    
-    self.addressView.nameLbl.text = [@"收货人" add:self.order.receiver];
+    self.addressView.nameLbl.text = [@"收货人：" add:self.order.receiver];
     self.addressView.mobileLbl.text = self.order.reMobile;
     self.addressView.addressLbl.text = [@"收货地址：" add:self.order.reAddress];
     //********headerView 数据

@@ -10,12 +10,15 @@
 #import "ZHEarningModel.h"
 #import "TLPageDataHelper.h"
 #import "ZHEarningFlowCell.h"
+#import "CDHistorySingleProfitVC.h"
 
 
 @interface ZHSingleProfitFlowVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) TLTableView *flowTableView;
 @property (nonatomic, strong) NSMutableArray<ZHEarningFlowModel *> *flowModels;
+@property (nonatomic, assign) BOOL isFirst;
+
 @end
 
 @implementation ZHSingleProfitFlowVC
@@ -23,18 +26,37 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    [self.flowTableView beginRefreshing];
+    
+    if (self.isFirst) {
+        
+        self.isFirst = NO;
+        [self.flowTableView beginRefreshing];
+
+    }
+    
+}
+
+- (void)lookHistory {
+    
+    CDHistorySingleProfitVC *vc = [[CDHistorySingleProfitVC alloc] init];
+    vc.earnModel = self.earnModel;
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.isFirst = YES;
     if (!self.earnModel) {
         
         NSLog(@"模型传进来");
         return;
     }
     self.title = @"分红权收益详情";
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史查询" style:0 target:self action:@selector(lookHistory)];
+
     
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectZero delegate:self dataSource:self];
     [self.view addSubview:tableView];
