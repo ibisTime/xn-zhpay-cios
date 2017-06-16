@@ -11,114 +11,212 @@
 #import "ZHBankCardAddVC.h"
 #import "ZHPwdRelatedVC.h"
 
+#define WITHDRAW_RULE_MAX_KEY @"QXDBZDJE"
+#define WITHDRAW_RULE_MAX_COUNT_KEY @"CUSERMONTIMES"
+#define WITHDRAW_RULE_BEI_SHU_KEY @"CUSERQXBS"
+#define WITHDRAW_RULE_PROCEDURE_FEE_KEY @"CUSERQXFL"
+
 
 @interface ZHWithdrawalVC ()
 
 @property (nonatomic,strong) TLPickerTextField *bankPickTf;
 @property (nonatomic,strong) UILabel *balanceLbl;
-@property (nonatomic,strong) UILabel *hinLbl;
+@property (nonatomic,strong) UILabel *procedureFeeLbl;
+
+
+//--//
+//@property (nonatomic,strong) UILabel *hinLbl;
 @property (nonatomic, strong) UILabel *withdrawRuleLbl;
+@property (nonatomic, strong) UIButton *setPwdBtn;
+
 @property (nonatomic,strong) UITextField *moneyTf;
 @property (nonatomic,strong) NSMutableArray <ZHBankCard *>*banks;
 @property (nonatomic,strong) TLTextField *tradePwdTf;
 
-@property (nonatomic, strong) NSNumber *maxCount;
+@property (nonatomic, strong) NSNumber *maxMoney;
 @property (nonatomic, strong) NSNumber *beiShu;
+@property (nonatomic, strong) NSNumber *maxCount;
+@property (nonatomic, strong) NSNumber *produceFee;
+
+@property (nonatomic, assign) BOOL getBankCardSuccess;
+
+
 
 @end
 
-@implementation ZHWithdrawalVC
+@implementation ZHWithdrawalVC {
+
+    dispatch_group_t _group;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"提现";
-    self.maxCount = @0;
-    self.beiShu = @0;
+
+    _group = dispatch_group_create();
     
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     //
     [self beginLoad];
     
 }
 
-- (void)beginLoad {
 
-    //
-    TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
-    http.code = @"802016";
-    http.parameters[@"userId"] = [ZHUser user].userId;
-    http.parameters[@"token"] = [ZHUser user].token;
+
+
+
+- (void)hiddenSetPwdbtn {
+
     
-    [http postWithSuccess:^(id responseObject) {
-        
-        
-        NSArray *banks = responseObject[@"data"];
-        if (banks.count >0 ) {
-            
-            [self removePlaceholderView];
-            self.banks = [ZHBankCard tl_objectArrayWithDictionaryArray:banks];
-            [self setUpUI];
-            
-            //获取取现次数
-            TLNetworking *http = [TLNetworking new];
-            http.code = @"802027";
-            http.parameters[@"key"] = @"CUSERMONTIMES";
-            [http postWithSuccess:^(id responseObject) {
-                
-               self.hinLbl.text = [NSString stringWithFormat:@"每月最大取现次数: %@ 次", responseObject[@"data"][@"cvalue"]];
-                
-            } failure:^(NSError *error) {
-                
-            }];
-            
-            //倍数
-            TLNetworking *http2 = [TLNetworking new];
-            http2.code = @"802027";
-            http2.parameters[@"key"] = @"CUSERQXBS";
-            [http2 postWithSuccess:^(id responseObject) {
-                
-                self.beiShu = responseObject[@"data"][@"cvalue"];
+    self.setPwdBtn.hidden = YES;
+    self.setPwdBtn.height = 0.1;
 
-           self.withdrawRuleLbl.text = [NSString stringWithFormat:@"提现金额必须是%@的倍数，单笔最高%@",[self.beiShu isEqual:@0] ? @"--":self.beiShu,[self.maxCount isEqual:@0] ? @"--":self.maxCount];
+}
 
-            } failure:^(NSError *error) {
-                
-            }];
-            
-            //限额
-            TLNetworking *http3 = [TLNetworking new];
-            http3.code = @"802027";
-            http3.parameters[@"key"] = @"QXDBZDJE";
-            [http3 postWithSuccess:^(id responseObject) {
-                
-                self.maxCount = responseObject[@"data"][@"cvalue"];
-               
-self.withdrawRuleLbl.text = [NSString stringWithFormat:@"提现金额必须是%@的倍数，单笔最高%@",[self.beiShu isEqual:@0] ? @"--":self.beiShu,[self.maxCount isEqual:@0] ? @"--":self.maxCount];
-                
-            } failure:^(NSError *error) {
-                
-            }];
-
-            
-            
-        } else { //无卡
-            
-            [self setPlaceholderViewTitle:@"您还未添加银行卡" operationTitle:@"前往添加"];
-            [self addPlaceholderView];
+- (void)beginLoad {
+    
+    [TLProgressHUD showWithStatus:nil];
+    __block NSInteger successCount = 0;
+    
+    dispatch_group_enter(_group);
+    TLNetworking *ruleHttp = [TLNetworking new];
+    ruleHttp.code = @"802028";
+    ruleHttp.parameters[@"keyList"] = @[WITHDRAW_RULE_MAX_KEY,
+                                        WITHDRAW_RULE_MAX_COUNT_KEY,
+                                        WITHDRAW_RULE_BEI_SHU_KEY,
+                                        WITHDRAW_RULE_PROCEDURE_FEE_KEY];
+    
+    [ruleHttp postWithSuccess:^(id responseObject) {
         
-            
-        }
+        dispatch_group_leave(_group);
+        successCount ++;
+        
+        self.beiShu = responseObject[@"data"][WITHDRAW_RULE_BEI_SHU_KEY];
+        self.maxCount = responseObject[@"data"][WITHDRAW_RULE_MAX_COUNT_KEY];
+        
+        self.maxMoney = responseObject[@"data"][WITHDRAW_RULE_MAX_KEY];
+        self.produceFee = responseObject[@"data"][WITHDRAW_RULE_PROCEDURE_FEE_KEY];
         
     } failure:^(NSError *error) {
         
-        
+        dispatch_group_leave(_group);
+
     }];
 
+    //
+    dispatch_group_enter(_group);
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"802016";
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    http.parameters[@"token"] = [ZHUser user].token;
+    [http postWithSuccess:^(id responseObject) {
+     
+        dispatch_group_leave(_group);
+        successCount ++;
+        
+        NSArray *banks = responseObject[@"data"];
+        self.banks = [ZHBankCard tl_objectArrayWithDictionaryArray:banks];
+
+        
+    } failure:^(NSError *error) {
+        dispatch_group_leave(_group);
+
+        
+    }];
+    
+    
+    //
+    dispatch_group_notify(_group, dispatch_get_main_queue(), ^{
+        
+        [TLProgressHUD dismiss];
+        if (successCount == 2) {
+            self.getBankCardSuccess = YES;
+
+            [self addPlaceholderView];
+            
+            if (self.banks.count > 0 ) {
+                
+
+                //
+                [self setUpUI];
+                
+                //
+                if ([[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
+                    
+                    [self hiddenSetPwdbtn];
+                }
+                
+                self.procedureFeeLbl.text = @"本次提现手续费：0.00";
+                
+                //时间
+                [self.moneyTf addTarget:self action:@selector(moneyChange:) forControlEvents:UIControlEventEditingChanged];
+                
+                
+                //余额进行初始化
+                self.balanceLbl.text = [@"可用余额：" add:[self.balance convertToRealMoney]];
+                
+                NSMutableParagraphStyle *paragraphyStyle = [[NSMutableParagraphStyle alloc] init];
+                paragraphyStyle.lineSpacing = 5;
+                
+               NSString *flStr = [NSString stringWithFormat:@"%.f",[self.produceFee floatValue]*100];
+                
+                NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"取现规则：\n1.每月最大取现次数：%@\n2.提现金额必须是%@的倍数，单笔最高%@\n3.取现手续费率 %@%%",self.maxCount,self.beiShu,self.maxMoney,flStr ]attributes:@{NSParagraphStyleAttributeName : paragraphyStyle}];
+                
+                
+                
+                //
+                self.withdrawRuleLbl.attributedText = attr;
+                
+            } else { //无卡
+                
+                [self setPlaceholderViewTitle:@"您还未添加银行卡" operationTitle:@"前往添加"];
+                [self addPlaceholderView];
+                
+            }
+        
+        } else{
+            
+            [self removePlaceholderView];
+
+        }
+        
+    });;
+
+    
 }
+
+#pragma mark- 输入金额改变
+- (void)moneyChange:(UITextField *)moneyTf {
+
+    if (moneyTf.text.length) {
+        
+//        self.procedureFeeLbl.text = @"本次提现手续费：100";
+
+        CGFloat num = [self.produceFee floatValue];
+        
+        self.procedureFeeLbl.text = [NSString stringWithFormat:@"本次提现手续费：%.2f",[moneyTf.text floatValue]*num];
+
+
+    } else {
+    
+        self.procedureFeeLbl.text = @"本次提现手续费：0.00";
+
+    }
+    
+ 
+
+}
+
 
 #pragma mark- 站位图行为
 - (void)tl_placeholderOperation {
 
+    if (!self.getBankCardSuccess) {
+        
+        [self beginLoad];
+        return;
+    }
 
     ZHBankCardAddVC *addVC = [[ZHBankCardAddVC alloc] init];
     addVC.addSuccess = ^(ZHBankCard *card){
@@ -137,8 +235,7 @@ self.withdrawRuleLbl.text = [NSString stringWithFormat:@"提现金额必须是%@
     ZHPwdRelatedVC *tradeVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
     tradeVC.success = ^() {
     
-        btn.hidden = YES;
-    
+        [self hiddenSetPwdbtn];    
     };
     [self.navigationController pushViewController:tradeVC animated:YES];
 
@@ -175,10 +272,33 @@ self.withdrawRuleLbl.text = [NSString stringWithFormat:@"提现金额必须是%@
     [setPwdBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
     setPwdBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [setPwdBtn addTarget:self action:@selector(setTrade:) forControlEvents:UIControlEventTouchUpInside];
+    self.setPwdBtn = setPwdBtn;
+    
+    //
+    //
+//    self.hinLbl = [UILabel labelWithFrame:CGRectMake(15, setPwdBtn.yy, SCREEN_WIDTH - 30, 20)
+//                             textAligment:NSTextAlignmentLeft
+//                          backgroundColor:[UIColor whiteColor]
+//                                     font:FONT(12)
+//                                textColor:[UIColor themeColor]];
+//    [self.view addSubview:self.hinLbl];
+//    self.hinLbl.text = @"每月最大取现次数:--";
     
     
-    //给初始化数据
-    self.balanceLbl.text = [@"可用余额：" add:[self.balance convertToRealMoney]];
+    //
+    UILabel *hinLbl2 = [UILabel labelWithFrame:CGRectMake(15, setPwdBtn.yy + 3, SCREEN_WIDTH - 30, 20)
+                                  textAligment:NSTextAlignmentLeft
+                               backgroundColor:[UIColor clearColor]
+                                          font:FONT(12)
+                                     textColor:[UIColor themeColor]];
+    [self.view addSubview:hinLbl2];
+    self.withdrawRuleLbl = hinLbl2;
+    self.withdrawRuleLbl.numberOfLines = 0;
+    [hinLbl2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.top.equalTo(setPwdBtn.mas_bottom).offset(3);
+        make.right.equalTo(self.view.mas_right).offset(-15);
+    }];
     
     
     //取出银行卡
@@ -191,14 +311,15 @@ self.withdrawRuleLbl.text = [NSString stringWithFormat:@"提现金额必须是%@
     self.bankPickTf.tagNames = bankCards;
     self.bankPickTf.text = bankCards[0];
     
-    if ([[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
-        setPwdBtn.hidden = YES;
-    }
+  
 
 }
 
 - (void)withdrawal {
     
+
+    
+    //
     if ([self.balance isEqual:@0]) {
        
         [TLAlert alertWithHUDText:@"余额不足"];
@@ -319,35 +440,36 @@ self.withdrawRuleLbl.text = [NSString stringWithFormat:@"提现金额必须是%@
     tf.keyboardType = UIKeyboardTypeDecimalPad;
     self.moneyTf = tf;
     
+    
     //
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, tf.yy + 15, SCREEN_WIDTH - 15, 0.5)];
     [bgV addSubview:line];
     line.backgroundColor = [UIColor zh_lineColor];
     
     //
-    UILabel *balanceLbl = [UILabel labelWithFrame:CGRectMake(15, line.yy, SCREEN_WIDTH - 15, 38) textAligment:NSTextAlignmentLeft backgroundColor:[UIColor whiteColor] font:FONT(14) textColor:[UIColor zh_textColor2]];
+    self.procedureFeeLbl = [UILabel labelWithFrame:CGRectMake(15, line.yy + 3, SCREEN_WIDTH - 15, 25)
+                                      textAligment:NSTextAlignmentLeft
+                                   backgroundColor:[UIColor clearColor]
+                                              font:FONT(14)
+                                         textColor:[UIColor themeColor]];
+    [bgV addSubview:self.procedureFeeLbl];
+    
+    
+    //
+    UILabel *balanceLbl = [UILabel labelWithFrame:CGRectMake(15, self.procedureFeeLbl.yy, SCREEN_WIDTH - 15, 25)
+                                     textAligment:NSTextAlignmentLeft
+                                  backgroundColor:[UIColor whiteColor]
+                                             font:FONT(14)
+                                        textColor:[UIColor zh_textColor2]];
     [bgV addSubview:balanceLbl];
     balanceLbl.text = @"可取现余额";
     self.balanceLbl = balanceLbl;
+    
+   
+    //
+    bgV.height = balanceLbl.yy + 3;
 
-    //
-    self.hinLbl = [UILabel labelWithFrame:CGRectMake(0, self.balanceLbl.yy, SCREEN_WIDTH - 15, 20) textAligment:NSTextAlignmentRight
-                          backgroundColor:[UIColor whiteColor]
-                                     font:FONT(12)
-                                textColor:[UIColor themeColor]];
-    [bgV addSubview:self.hinLbl];
-    self.hinLbl.text = @"每月最大取现次数:--";
-    
-    //
-    UILabel *hinLbl2 = [UILabel labelWithFrame:CGRectMake(0, self.hinLbl.yy + 3, SCREEN_WIDTH - 15, 20) textAligment:NSTextAlignmentRight
-                          backgroundColor:[UIColor whiteColor]
-                                     font:FONT(12)
-                                textColor:[UIColor themeColor]];
-    [bgV addSubview:hinLbl2];
-    hinLbl2.text = @"提现金额必须是-的倍数，单笔最高-万";
-    bgV.height = hinLbl2.yy + 10;
-    self.withdrawRuleLbl = hinLbl2;
-    
+ 
     return bgV;
 
 }

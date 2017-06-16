@@ -22,14 +22,22 @@
     [super viewDidLoad];
     
     self.delegate = self;
-    NSArray *titles = @[@"优店",@"尖货",@"摇一摇",@"小目标",@"我的"];
     //, BPProjectCategoryVC  BPSubscriptionVC
     
     
 //    @"ZHMineVC"  ZHMineViewCtrl   ZHChatVC
-    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHShakeItOffVC",@"ZHDuoBaoVC",@"ZHMineViewCtrl"];
-    NSArray *imageNames = @[@"优店00",@"尖货00",@"摇一摇00",@"小目标00",@"我的00"];
-    NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"摇一摇01",@"小目标01",@"我的01"];
+    
+//    if (0/* 有夺宝*/) {
+//      
+//        NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHShakeItOffVC",@"ZHDuoBaoVC",@"ZHMineViewCtrl"];
+//        NSArray *imageNames = @[@"优店00",@"尖货00",@"摇一摇00",@"小目标00",@"我的00"];
+//        NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"摇一摇01",@"小目标01",@"我的01"];
+//    }
+
+    NSArray *titles = @[@"优店",@"尖货",@"摇一摇",@"我的"];
+    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHShakeItOffVC",@"ZHMineViewCtrl"];
+    NSArray *imageNames = @[@"优店00",@"尖货00",@"摇一摇00",@"我的00"];
+    NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"摇一摇01",@"我的01"];
     
 //    NSArray *titles = @[@"优店",@"尖货",@"小目标",@"发一发",@"我的"];
 //    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHDuoBaoVC", @"ZHBriberyMoneyVC",@"ZHMineViewCtrl"];
@@ -99,20 +107,22 @@
     }
     
     //未登录
-    UINavigationController *mineNav = tabBarController.viewControllers[4];
+//    UINavigationController *mineNav = tabBarController.viewControllers[3];
     
 //    UINavigationController *chatNav = tabBarController.viewControllers[3];
 //    UINavigationController *sendToSendNav = tabBarController.viewControllers[1];
 
-
-    if ([mineNav isEqual:viewController]) {
+//    ZHNavigationController *navCtrl = (ZHNavigationController *)viewController;
+//    navCtrl.roo
+    
+    if ([viewController isEqual:[tabBarController.viewControllers lastObject]]) {
         
-            
             ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
             loginVC.loginSuccess = ^(){
             
-                self.selectedIndex = 4;
+                self.selectedViewController = viewController;
+                
             };
             [self presentViewController:nav animated:YES completion:nil];
             return NO;

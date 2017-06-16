@@ -30,7 +30,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    [self.flowTableView beginRefreshing];
+//    [self.flowTableView beginRefreshing];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    [self beginSearch];
 }
 
 - (void)viewDidLoad {
@@ -62,7 +68,7 @@
     self.flowTableView = tableView;
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录"];
     
-    
+  
     
     
 }

@@ -39,6 +39,12 @@
 //@property (nonatomic,strong) UILabel *postageLbl;
 
 
+@property (nonatomic, strong) UIImageView *coverImageView;
+@property (nonatomic, strong) UILabel *shopNameLbl;
+@property (nonatomic, strong) UILabel *shopPhoneLbl;
+@property (nonatomic, strong) UILabel *shopAdvLbl;
+
+
 
 @property (nonatomic,strong) UIView *line1;
 @property (nonatomic,strong) UIView *line2;
@@ -123,6 +129,11 @@
     self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:self.goods.QBB GWB:self.goods.GWB  RMB:self.goods.RMB];
     
 //    self.postageLbl.text = @"邮费:10元";
+    
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[self.goods.store.advPic convertThumbnailImageUrl]] ];
+    self.shopPhoneLbl.text = [NSString stringWithFormat:@"联系电话：%@",self.goods.store.bookMobile];
+    self.shopAdvLbl.text = self.goods.store.slogan;
+    self.shopNameLbl.text = self.goods.store.name;
     
     //扩大
 //    self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.stepView.yy + 10);
@@ -493,11 +504,20 @@
     self.goodsDetailTypeScrollView.delegate = self;
     self.goodsDetailTypeScrollView.contentSize = CGSizeMake(self.goodsDetailTypeScrollView.width*3, self.goodsDetailTypeScrollView.height);
     
-    //商品信息背景
+    //商品信息背景 ，加在左右切换的背景上
     self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];
     self.bgScrollView.backgroundColor = [UIColor whiteColor];
-    
     [self.goodsDetailTypeScrollView addSubview: self.bgScrollView];
+    
+    //
+    UIView *contentView = [[UIView alloc] init];
+    [self.bgScrollView addSubview:contentView];
+    
+    //
+    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.top.equalTo(self.bgScrollView);
+        make.width.equalTo(self.bgScrollView.mas_width);
+    }];
     
     
     UIButton *buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.bgScrollView.yy, SCREEN_WIDTH, 49) title:@"立即购买" backgroundColor:[UIColor zh_themeColor]];
@@ -509,17 +529,17 @@
     
     //轮播图
     TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*0.8)];
-    [self.bgScrollView addSubview:bannerView];
+    [contentView addSubview:bannerView];
     self.bannerView = bannerView;
     
     
     //
     UIView *line0 = [[UIView alloc] init];
     line0.backgroundColor = [UIColor zh_lineColor];
-    [self.bgScrollView addSubview:line0];
+    [contentView addSubview:line0];
     [line0 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.bannerView.mas_bottom);
-        make.left.equalTo(self.bgScrollView.mas_left);
+        make.left.equalTo(contentView.mas_left);
         make.width.mas_equalTo(@(SCREEN_WIDTH));
         make.height.mas_equalTo(@(1));
     }];
@@ -531,11 +551,11 @@
                                       font:FONT(16)
                                  textColor:[UIColor zh_textColor]];
     self.nameLbl.numberOfLines = 0;
-    [self.bgScrollView addSubview:self.nameLbl];
+    [contentView addSubview:self.nameLbl];
     
     [self.nameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.bgScrollView.mas_left).offset(15);
+        make.left.equalTo(contentView.mas_left).offset(15);
         make.top.equalTo(self.bannerView.mas_bottom).offset(15);
         make.width.mas_equalTo(@(SCREEN_WIDTH - 30));
 
@@ -543,18 +563,17 @@
     
 
     //广告语
-//    CGRectMake(self.nameLbl.x, self.nameLbl.yy + 10, self.nameLbl.width, 10)
     self.advLbl = [[UILabel alloc] initWithFrame:CGRectZero
                                     textAligment:NSTextAlignmentLeft
                                  backgroundColor:[UIColor whiteColor]
                                             font:FONT(14)
                                        textColor:[UIColor zh_textColor2]];
-    [self.bgScrollView addSubview:self.advLbl];
+    [contentView addSubview:self.advLbl];
     self.advLbl.numberOfLines = 0;
     [self.advLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.nameLbl.mas_bottom).offset(10);
-        make.left.equalTo(self.bgScrollView.mas_left).offset(15);
+        make.left.equalTo(contentView.mas_left).offset(15);
         make.width.mas_equalTo(@(SCREEN_WIDTH - 30));
     }];
     
@@ -568,10 +587,10 @@
                             backgroundColor:[UIColor whiteColor]
                                        font:FONT(16)
                                   textColor:[UIColor zh_themeColor]];
-    [self.bgScrollView addSubview:self.priceLbl];
+    [contentView addSubview:self.priceLbl];
     [self.priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.advLbl.mas_bottom).offset(11);
-        make.left.equalTo(self.bgScrollView.mas_left).offset(15);
+        make.left.equalTo(contentView.mas_left).offset(15);
         make.width.mas_equalTo(@(SCREEN_WIDTH - 30));
     }];
     
@@ -591,17 +610,82 @@
     //
     UIView *priceBottomLine = [[UIView alloc] init];
     priceBottomLine.backgroundColor = [UIColor zh_lineColor];
-    [self.bgScrollView addSubview:priceBottomLine];
+    [contentView addSubview:priceBottomLine];
     [priceBottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.priceLbl.mas_bottom).offset(11);
-        make.left.equalTo(self.bgScrollView.mas_left);
+        make.left.equalTo(contentView.mas_left);
         make.width.mas_equalTo(@(SCREEN_WIDTH));
         make.height.mas_equalTo(@(1));
         
     }];
    
-   //
+    
+   //店铺封面
+    self.coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 80, 65)];
+    self.coverImageView.layer.borderWidth = 0.5;
+    self.coverImageView.layer.borderColor = [UIColor colorWithHexString:@"#dedede"].CGColor;
+    self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.coverImageView.layer.cornerRadius = 2;
+    self.coverImageView.layer.masksToBounds = YES;
+    self.coverImageView.backgroundColor = [UIColor whiteColor];
+    [contentView addSubview:self.coverImageView];
+    
+    [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(contentView.mas_left).offset(15);
+        make.top.equalTo(priceBottomLine.mas_top).offset(15);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(65);
+
+    }];
+    
+    //
+    self.shopNameLbl = [UILabel labelWithFrame:CGRectZero
+                              textAligment:NSTextAlignmentLeft
+                           backgroundColor:[UIColor clearColor]
+                                      font:[UIFont secondFont]
+                                 textColor:[UIColor zh_textColor]];
+    self.nameLbl.height = [[UIFont secondFont] lineHeight];
+    [contentView addSubview:self.shopNameLbl];
+    [self.shopNameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.coverImageView.mas_right).offset(10);
+        make.right.equalTo(contentView.mas_right).offset(-15);
+        make.top.equalTo(self.coverImageView.mas_top);
+    }];
+    
+    //
+    self.shopPhoneLbl = [UILabel labelWithFrame:CGRectZero
+                                   textAligment:NSTextAlignmentLeft
+                                backgroundColor:[UIColor whiteColor]
+                                           font:FONT(13)
+                                      textColor:[UIColor zh_textColor2]];
+    //    self.advLbl.height = [FONT(11) lineHeight];
+    [contentView addSubview:self.shopPhoneLbl];
+    [self.shopPhoneLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.shopNameLbl.mas_left);
+        make.top.equalTo(self.shopNameLbl.mas_bottom).offset(7);
+        make.right.equalTo(contentView.mas_right).offset(-15);
+    }];
+    
+    //
+    self.shopAdvLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.nameLbl.yy + 3, self.nameLbl.width, ceilf([FONT(11) lineHeight]*2))
+                             textAligment:NSTextAlignmentLeft
+                          backgroundColor:[UIColor whiteColor]
+                                     font:FONT(13)
+                                textColor:[UIColor zh_textColor2]];
+    //    self.advLbl.height = [FONT(11) lineHeight];
+    [contentView addSubview:self.shopAdvLbl];
+    [self.shopAdvLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.shopNameLbl.mas_left);
+        make.top.equalTo(self.shopPhoneLbl.mas_bottom).offset(7);
+        make.right.equalTo(contentView.mas_right).offset(-15);
+        make.bottom.equalTo(contentView.mas_bottom).offset(-10);
+    }];
+    //
+    
+
+
+    
  
 }
 

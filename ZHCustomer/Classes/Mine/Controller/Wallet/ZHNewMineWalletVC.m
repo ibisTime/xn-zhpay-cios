@@ -132,7 +132,7 @@
     
     //下部，钱包
     TLNetworking *http = [TLNetworking new];
-    //        http.showView = self.view;
+    http.showView = self.view;
     http.code = @"802503";
     http.parameters[@"token"] = [ZHUser user].token;
     http.parameters[@"userId"] = [ZHUser user].userId;

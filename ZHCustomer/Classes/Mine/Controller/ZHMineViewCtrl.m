@@ -508,7 +508,7 @@
     
 
     ZHSettingGroup *group01 = [[ZHSettingGroup alloc] init];
-    group01.items = @[mineWallet,smallTarget,goodsDetail,shopDetail,releationModel];
+    group01.items = @[mineWallet,goodsDetail,shopDetail,releationModel];
     return group01;
 }
 

@@ -9,6 +9,7 @@
 #import "TLBaseModal.h"
 #import "ZHCurrencyProtocol.h"
 #import "CDGoodsParameterModel.h"
+#import "ZHShop.h"
 
 @interface ZHGoodsModel : TLBaseModal<ZHCurrencyProtocol>
 
@@ -33,6 +34,8 @@
 // 0 已提交 1.审批通过 2.审批不通过 3.已上架 4.已下架
 @property (nonatomic,copy) NSString *status;
 @property (nonatomic,copy) NSString *type;
+@property (nonatomic, strong) ZHShop *store;
+
 
 //由pic1 转化成的 数组,eg: http://wwwa.dfdsf.dcom
 @property (nonatomic,copy) NSArray *pics;

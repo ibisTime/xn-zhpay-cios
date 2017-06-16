@@ -123,10 +123,10 @@
         self.datePicker.datePicker.minimumDate =  [calendar dateByAddingComponents:minComponents toDate:[NSDate date] options:0];
         
         //
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//        formatter.dateFormat = @"yyyy-MM-dd";
-//        self.beginTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.minimumDate];
-//        self.endTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.maximumDate];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy-MM-dd";
+        self.beginTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.minimumDate];
+        self.endTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.maximumDate];
     }
     return self;
 }

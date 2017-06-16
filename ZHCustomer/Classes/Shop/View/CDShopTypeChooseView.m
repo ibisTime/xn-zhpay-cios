@@ -112,12 +112,17 @@
     }
     
     //计算几页
-    NSInteger pageCount = models.count/9 + 1;
+    NSInteger pageCount = models.count/8;
+    if (models.count%8 != 0) {
+        pageCount += 1;
+    }
+    
     //
     self.shopTypePageCtrl.numberOfPages = pageCount;
     //        [self.shopTypePageCtrl updateCurrentPageDisplay];
     self.shopTypePageCtrl.defersCurrentPageDisplay = YES;
     
+    //计算contentSize
     self.contentScrollView.contentSize = CGSizeMake(pageCount*SCREEN_WIDTH, self.contentScrollView.height);
     
     //3.然后添加新的
