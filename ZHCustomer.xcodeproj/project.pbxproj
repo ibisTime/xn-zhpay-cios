@@ -276,6 +276,7 @@
 		2EEF8E6D1EE5639900453109 /* ZHTreasureInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E531EE5639900453109 /* ZHTreasureInfoView.m */; };
 		2EEF8E7E1EE659D100453109 /* CDGoodsParameterChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E791EE659D100453109 /* CDGoodsParameterChooseView.m */; };
 		2EEF8E801EE659D100453109 /* CDSingleParamView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8E7D1EE659D100453109 /* CDSingleParamView.m */; };
+		2EF8240E1EFBA4CC0017EDC1 /* TLMarqueeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF8240D1EFBA4CC0017EDC1 /* TLMarqueeView.m */; };
 		2EF892A41E51C0A80068CE16 /* ZHAboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF892A31E51C0A80068CE16 /* ZHAboutUsVC.m */; };
 		2EF9DBEE1E1B8584005E2943 /* ZHWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DBED1E1B8584005E2943 /* ZHWalletCell.m */; };
 		2EF9DBF11E1B97AF005E2943 /* ZHHBConvertFRVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DBF01E1B97AF005E2943 /* ZHHBConvertFRVC.m */; };
@@ -809,6 +810,8 @@
 		2EEF8E791EE659D100453109 /* CDGoodsParameterChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDGoodsParameterChooseView.m; sourceTree = "<group>"; };
 		2EEF8E7C1EE659D100453109 /* CDSingleParamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSingleParamView.h; sourceTree = "<group>"; };
 		2EEF8E7D1EE659D100453109 /* CDSingleParamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSingleParamView.m; sourceTree = "<group>"; };
+		2EF8240C1EFBA4CC0017EDC1 /* TLMarqueeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TLMarqueeView.h; path = BannerBrowser/TLMarqueeView.h; sourceTree = "<group>"; };
+		2EF8240D1EFBA4CC0017EDC1 /* TLMarqueeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TLMarqueeView.m; path = BannerBrowser/TLMarqueeView.m; sourceTree = "<group>"; };
 		2EF892A21E51C0A80068CE16 /* ZHAboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHAboutUsVC.h; sourceTree = "<group>"; };
 		2EF892A31E51C0A80068CE16 /* ZHAboutUsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHAboutUsVC.m; sourceTree = "<group>"; };
 		2EF9DBEC1E1B8584005E2943 /* ZHWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHWalletCell.h; sourceTree = "<group>"; };
@@ -1809,6 +1812,8 @@
 				2EC2ADA91E0CF55A003EF503 /* BannerBrowser */,
 				2EC2ADAE1E0CF55A003EF503 /* BPPhotoBrowser.h */,
 				2EC2ADAF1E0CF55A003EF503 /* BPPhotoBrowser.m */,
+				2EF8240C1EFBA4CC0017EDC1 /* TLMarqueeView.h */,
+				2EF8240D1EFBA4CC0017EDC1 /* TLMarqueeView.m */,
 				2EC2ADB01E0CF55A003EF503 /* TLCaptchaView.h */,
 				2EC2ADB11E0CF55A003EF503 /* TLCaptchaView.m */,
 				2EC2ADB21E0CF55A003EF503 /* TLDatePicker.h */,
@@ -2637,6 +2642,7 @@
 				2EC2AE551E0CF55A003EF503 /* TLAlert.m in Sources */,
 				2E917AEE1E9238BD003ED4A8 /* ZHShopManager.m in Sources */,
 				2E4E8BCA1E2228B000AC022A /* ZHHZBVC.m in Sources */,
+				2EF8240E1EFBA4CC0017EDC1 /* TLMarqueeView.m in Sources */,
 				2E875D1E1E0D31EA007F97A5 /* ZHShopInfoCell.m in Sources */,
 				2E917AEB1E923508003ED4A8 /* HYCityViewController.m in Sources */,
 				2E6E48281E164DE300FD2CA7 /* ZHSegmentView.m in Sources */,

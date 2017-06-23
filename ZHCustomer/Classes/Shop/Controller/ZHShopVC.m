@@ -27,6 +27,7 @@
 #import "TLWebVC.h"
 #import "ZHShareView.h"
 #import "CDShopTypeChooseView.h"
+#import "TLMarqueeView.h"
 
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
 
@@ -39,7 +40,11 @@
 @property (nonatomic,strong) NSMutableArray *shops;
 
 @property (nonatomic,strong) UILabel *cityLbl;
-@property (nonatomic,strong) UILabel *announceContentLbl;
+
+@property (nonatomic, strong) TLMarqueeView *sysMsgView;
+
+//@property (nonatomic,strong) UILabel *announceContentLbl;
+
 @property (nonatomic,strong) TLBannerView *bannerView;
 @property (nonatomic,strong) UIView *announcementsView;
 
@@ -289,7 +294,23 @@
         NSArray *msgs = responseObject[@"data"][@"list"];
         if (msgs.count > 0) {
             
-            self.announceContentLbl.text = msgs[0][@"smsTitle"];
+            self.sysMsgView.msg = msgs[0][@"smsTitle"];
+
+            
+//            static NSInteger i = 0;
+//            
+//            if (i%2) {
+//                
+//                self.sysMsgView.msg = msgs[0][@"smsContent"];
+//
+//            } else {
+//            
+//                self.sysMsgView.msg = msgs[0][@"smsTitle"];
+//
+//            }
+//            i ++ ;
+//            self.announceContentLbl.text = msgs[0][@"smsContent"];
+            
             
         }
         
@@ -698,20 +719,33 @@
         [_announcementsView addSubview:lbl];
         
         //
-        UILabel *announceContentLbl = [UILabel labelWithFrame:CGRectMake(lbl.xx + 5, 0, SCREEN_WIDTH - lbl.xx  - 10 , 20)
-                                        
-                                                  textAligment:NSTextAlignmentLeft
-                                               backgroundColor:[UIColor whiteColor]
-                                                          font:[UIFont thirdFont]
-                                                     textColor:[UIColor colorWithHexString:@"#222222"]];
-        [_announcementsView addSubview:announceContentLbl];
-        announceContentLbl.text = @"系统公告";
-        self.announceContentLbl = announceContentLbl;
-        announceContentLbl.userInteractionEnabled = YES;
-        announceContentLbl.centerY = _announcementsView.height/2.0;
+        self.sysMsgView = [[TLMarqueeView alloc] initWithFrame:CGRectMake(lbl.xx + 5, 0, SCREEN_WIDTH - lbl.xx  - 10 , 20)];
+         [_announcementsView addSubview:self.sysMsgView];
         
+         self.sysMsgView.centerY = _announcementsView.height/2.0;
+         self.sysMsgView.msg = @"系统公告";
+        self.sysMsgView.font = [UIFont thirdFont];
+        self.sysMsgView.backgroundColor = [UIColor whiteColor];
+        self.sysMsgView.textColor = [UIColor colorWithHexString:@"#222222"];
+        [self.sysMsgView begin];
+         self.sysMsgView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookGG)];
-        [announceContentLbl addGestureRecognizer:tap];
+        [self.sysMsgView addGestureRecognizer:tap];
+        
+//        
+//        UILabel *announceContentLbl = [UILabel labelWithFrame:CGRectMake(lbl.xx + 5, 0, SCREEN_WIDTH - lbl.xx  - 10 , 20)
+//                                        
+//                                                  textAligment:NSTextAlignmentLeft
+//                                               backgroundColor:[UIColor whiteColor]
+//                                                          font:[UIFont thirdFont]
+//                                                     textColor:[UIColor colorWithHexString:@"#222222"]];
+//        [_announcementsView addSubview:announceContentLbl];
+//        announceContentLbl.text = @"系统公告";
+//        self.announceContentLbl = announceContentLbl;
+//        announceContentLbl.userInteractionEnabled = YES;
+//
+//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookGG)];
+//        [announceContentLbl addGestureRecognizer:tap];
         
     }
 
