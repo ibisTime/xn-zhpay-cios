@@ -84,7 +84,9 @@
     
     if ([_shop.level isEqualToString:@"2"]) {
         
-       self.discountLbl.text = @"公益商家";
+//       self.discountLbl.text = @"公益商家";
+        self.discountLbl.text = @"普通商家";
+
         
     } else {
 

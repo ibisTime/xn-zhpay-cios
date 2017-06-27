@@ -15,6 +15,7 @@
 @interface ZHNewMineWalletVC ()
 
 @property (nonatomic,strong) UILabel *balanceLbl;
+@property (nonatomic, strong) UILabel *frozenLbl;
 
 
 @property (nonatomic,strong) NSMutableArray <ZHWalletView *>*walletViews;
@@ -153,6 +154,12 @@
             
             self.currencyDict[obj.currency] = obj;
             
+            if ([obj.currency isEqualToString:kFRB]) {
+                
+                  self.frozenLbl.text = [NSString stringWithFormat:@"提现中金额：%@",[obj.frozenAmount convertToRealMoney]];
+                
+            }
+            
         }];
         
         //刷新界面信息
@@ -172,9 +179,15 @@
                 
             }
             
+            if ([obj.code isEqualToString:kFRB]) {
+                
+                
+            }
+            
         }];
         
-        self.balanceLbl.text = [@(total) convertToRealMoney];
+      
+        self.balanceLbl.text = [NSString stringWithFormat:@"可用余额：%@",[@(total) convertToRealMoney]];
         
     } failure:^(NSError *error) {
         
@@ -217,32 +230,52 @@
     //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookAllBill)];
     
     bgV.contentMode = UIViewContentModeScaleAspectFill;
-    UILabel *lbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(12) lineHeight])
-                              textAligment:NSTextAlignmentCenter
-                           backgroundColor:[UIColor clearColor]
-                                      font:FONT(12)
-                                 textColor:[UIColor whiteColor]];
-    lbl.text = @"可用余额";
-    [bgV addSubview:lbl];
+    
+//    UILabel *lbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(12) lineHeight])
+//                              textAligment:NSTextAlignmentCenter
+//                           backgroundColor:[UIColor clearColor]
+//                                      font:FONT(12)
+//                                 textColor:[UIColor whiteColor]];
+//    lbl.text = @"可用余额";
+//    [bgV addSubview:lbl];
     
     //
-        self.balanceLbl = [UILabel labelWithFrame:CGRectMake(0, lbl.yy + 12, SCREEN_WIDTH, [FONT(30) lineHeight])
+    self.balanceLbl = [UILabel labelWithFrame:CGRectMake(0, 0 + 12, SCREEN_WIDTH, [FONT(30) lineHeight])
                                      textAligment:NSTextAlignmentCenter
                                   backgroundColor:[UIColor clearColor]
-                                             font:FONT(30)
+                                             font:FONT(20)
                                         textColor:[UIColor whiteColor]];
-    self.balanceLbl.y = lbl.yy + 12;
+//    self.balanceLbl.y = lbl.yy + 12;
     [bgV addSubview:self.balanceLbl];
     
     
-    //底部提示
-    UILabel *bootomHintlbl = [UILabel labelWithFrame:CGRectMake(0, self.balanceLbl.yy + 6, SCREEN_WIDTH, [FONT(11) lineHeight])
-                                        textAligment:NSTextAlignmentCenter
-                                     backgroundColor:[UIColor clearColor]
-                                                font:FONT(11)
-                                           textColor:[UIColor colorWithHexString:@"#99ffff"]];
-    bootomHintlbl.text = @"(分润+贡献值)";
-    [bgV addSubview:bootomHintlbl];
+//    //底部提示
+//    UILabel *bootomHintlbl = [UILabel labelWithFrame:CGRectMake(0, self.balanceLbl.yy + 6, SCREEN_WIDTH, [FONT(11) lineHeight])
+//                                        textAligment:NSTextAlignmentCenter
+//                                     backgroundColor:[UIColor clearColor]
+//                                                font:FONT(11)
+//                                           textColor:[UIColor colorWithHexString:@"#99ffff"]];
+//    bootomHintlbl.text = @"(分润+贡献值)";
+//    [bgV addSubview:bootomHintlbl];
+    
+    self.frozenLbl = [UILabel labelWithFrame:CGRectMake(0, 0 + 12, SCREEN_WIDTH, [FONT(30) lineHeight])
+                                 textAligment:NSTextAlignmentCenter
+                              backgroundColor:[UIColor clearColor]
+                                         font:self.balanceLbl.font
+                                    textColor:[UIColor whiteColor]];
+    //    self.balanceLbl.y = lbl.yy + 12;
+    [bgV addSubview:self.frozenLbl];
+    
+    [self.balanceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(bgV.mas_left).offset(15);
+        make.bottom.equalTo(bgV.mas_centerY).offset(-10);
+        
+    }];
+    
+    [self.frozenLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.balanceLbl.mas_left);
+        make.top.equalTo(bgV.mas_centerY).offset(10);
+    }];
     
     return bgV;
     

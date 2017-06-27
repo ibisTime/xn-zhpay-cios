@@ -293,7 +293,9 @@
     //三种币都为0
     if ([rmb isEqual:@0] && [gwb isEqual:@0] && [qbb isEqual:@0]) {
         
-        return @"￥0 + 购物币0 + 钱包币0";
+//        return @"￥0 + 购物币0 + 钱包币0";
+        return @"￥0";
+
     }
     
     return priceStr;

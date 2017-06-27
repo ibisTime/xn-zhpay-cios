@@ -265,7 +265,7 @@
                                           font:FONT(14)
                                      textColor:[UIColor whiteColor]];
     [bgImageView addSubview:hintLbl];
-    hintLbl.text = @"公益基金(元)";
+    hintLbl.text = @"免单额度(元)";
     
     //
     self.amountLbl = [UILabel labelWithFrame:CGRectZero
