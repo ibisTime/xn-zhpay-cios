@@ -44,7 +44,7 @@
 
     _shopOrderModel = shopOrderModel;
     self.orderLbl.text = [NSString stringWithFormat:@"订单编号: %@",_shopOrderModel.code];
-    self.timeLbl.text = [_shopOrderModel.createDatetime converDate];
+    self.timeLbl.text = [_shopOrderModel.createDatetime convertDate];
     
     
     [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[_shopOrderModel.store.advPic convertThumbnailImageUrl]]];

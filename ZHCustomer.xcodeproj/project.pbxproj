@@ -159,7 +159,6 @@
 		2EC2ABCC1E0CD083003EF503 /* ZHShakeItOffVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2ABCB1E0CD083003EF503 /* ZHShakeItOffVC.m */; };
 		2EC2ABCF1E0CD09D003EF503 /* ZHChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2ABCE1E0CD09D003EF503 /* ZHChatVC.m */; };
 		2EC2ABD51E0CD28E003EF503 /* ZHShopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2ABD41E0CD28E003EF503 /* ZHShopCell.m */; };
-		2EC2ADC51E0CF55A003EF503 /* TLBaseModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC431E0CF55A003EF503 /* TLBaseModal.m */; };
 		2EC2ADC61E0CF55A003EF503 /* TLBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC461E0CF55A003EF503 /* TLBaseVC.m */; };
 		2EC2ADD61E0CF55A003EF503 /* MBProgressHUD+add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC6E1E0CF55A003EF503 /* MBProgressHUD+add.m */; };
 		2EC2ADD71E0CF55A003EF503 /* NSObject+convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC701E0CF55A003EF503 /* NSObject+convert.m */; };
@@ -585,8 +584,6 @@
 		2EC2ABCE1E0CD09D003EF503 /* ZHChatVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHChatVC.m; sourceTree = "<group>"; };
 		2EC2ABD31E0CD28E003EF503 /* ZHShopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShopCell.h; sourceTree = "<group>"; };
 		2EC2ABD41E0CD28E003EF503 /* ZHShopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShopCell.m; sourceTree = "<group>"; };
-		2EC2AC421E0CF55A003EF503 /* TLBaseModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBaseModal.h; sourceTree = "<group>"; };
-		2EC2AC431E0CF55A003EF503 /* TLBaseModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBaseModal.m; sourceTree = "<group>"; };
 		2EC2AC451E0CF55A003EF503 /* TLBaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBaseVC.h; sourceTree = "<group>"; };
 		2EC2AC461E0CF55A003EF503 /* TLBaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBaseVC.m; sourceTree = "<group>"; };
 		2EC2AC6D1E0CF55A003EF503 /* MBProgressHUD+add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+add.h"; sourceTree = "<group>"; };
@@ -1727,8 +1724,6 @@
 		2EC2AC411E0CF55A003EF503 /* BaseModal */ = {
 			isa = PBXGroup;
 			children = (
-				2EC2AC421E0CF55A003EF503 /* TLBaseModal.h */,
-				2EC2AC431E0CF55A003EF503 /* TLBaseModal.m */,
 				2EF9DC0C1E1CD67D005E2943 /* TLBaseModel.h */,
 				2EF9DC0D1E1CD67D005E2943 /* TLBaseModel.m */,
 			);
@@ -2500,7 +2495,6 @@
 				2E22642B1E4D955000C7126E /* AppDelegate+JPush.h in Sources */,
 				2EEF8E601EE5639900453109 /* ZHTreasureRecord.m in Sources */,
 				2E6E48691E1B4D3800FD2CA7 /* ZHMsgVC.m in Sources */,
-				2EC2ADC51E0CF55A003EF503 /* TLBaseModal.m in Sources */,
 				2E22277E1E2DBB0A00B6F209 /* ZHSearchVC.m in Sources */,
 				2EC2ABC61E0CD04E003EF503 /* ZHShopVC.m in Sources */,
 				2EEF8E671EE5639900453109 /* ZHShoppingCartCell.m in Sources */,

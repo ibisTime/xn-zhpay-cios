@@ -159,9 +159,17 @@
         }
         
         
-    } else {
+    } else if(self.type == ZHPayViewCtrlTypeNewGoods) {
         
-        payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+        if (self.isDRBAndGXZ) {
+            
+            payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+
+        } else {
+            
+            payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+
+        }
         imgs = @[@"zh_pay",@"we_chat",@"alipay"];
         
         

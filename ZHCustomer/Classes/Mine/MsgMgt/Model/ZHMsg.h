@@ -6,10 +6,10 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 #import "ZHMsgContent.h"
 
-@interface ZHMsg : TLBaseModal
+@interface ZHMsg : TLBaseModel
 
 //@property (nonatomic,strong) NSNumber *id;
 //@property (nonatomic,copy) NSString *smsCode;

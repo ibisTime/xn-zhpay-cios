@@ -6,10 +6,10 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 @class ZHShop;
 
-@interface ZHCoupon : TLBaseModal
+@interface ZHCoupon : TLBaseModel
 
 @property (nonatomic,copy) NSString *code;
 @property (nonatomic,copy) NSString *name;

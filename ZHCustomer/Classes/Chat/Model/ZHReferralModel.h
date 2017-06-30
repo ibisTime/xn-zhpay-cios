@@ -6,13 +6,13 @@
 //  Copyright © 2017年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 @class ZHUserExt;
 
 //#import <HyphenateLite/HyphenateLite.h>
 //#import "EMConversation.h"
 
-@interface ZHReferralModel : TLBaseModal
+@interface ZHReferralModel : TLBaseModel
 
 @property (nonatomic,copy) NSString *userId;
 @property (nonatomic,copy) NSString *nickname;

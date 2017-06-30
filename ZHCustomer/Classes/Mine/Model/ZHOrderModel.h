@@ -6,11 +6,11 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 #import "ZHOrderDetailModel.h"
 #import "ZHGoodsModel.h"
 
-@interface ZHOrderModel : TLBaseModal
+@interface ZHOrderModel : TLBaseModel
 
 @property (nonatomic,copy) NSString *code;
 

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ZHGoodsModel.h"
-@interface ZHCartGoodsModel : TLBaseModal
+@interface ZHCartGoodsModel : TLBaseModel
 
 @property (nonatomic,strong) NSString *code;
 @property (nonatomic,strong) NSString *userId;

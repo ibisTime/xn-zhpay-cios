@@ -6,12 +6,12 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 #import "ZHUserExt.h"
 
 @class ZHUserExt;
 
-@interface ZHUser : TLBaseModal
+@interface ZHUser : TLBaseModel
 
 + (instancetype)user;
 

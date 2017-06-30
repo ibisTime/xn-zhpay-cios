@@ -16,7 +16,7 @@
 #import "TLTool.h"
 #import "TLProgressHUD.h"
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 #import "TLBaseModel.h"
 #import "NSNumber+TLAdd.h"
 #import "UIViewController+Extension.h"

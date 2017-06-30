@@ -6,9 +6,9 @@
 //  Copyright © 2017年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 
-@interface ZHMonthCardModel : TLBaseModal
+@interface ZHMonthCardModel : TLBaseModel
 
 @property (nonatomic,strong) NSNumber *backCount;
 

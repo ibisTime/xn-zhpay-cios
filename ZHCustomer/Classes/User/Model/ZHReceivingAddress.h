@@ -6,9 +6,9 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 
-@interface ZHReceivingAddress : TLBaseModal
+@interface ZHReceivingAddress : TLBaseModel
 @property (nonatomic,strong) NSString *code;
 
 @property (nonatomic,strong) NSString *addressee; //收货人

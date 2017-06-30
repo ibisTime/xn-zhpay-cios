@@ -21,6 +21,7 @@
 
 /** 是否为正确的银行名称 */
 - (BOOL)isBlankName;
+
 //是否为银行卡号
 - (BOOL)isBankCardNo;
 
@@ -54,13 +55,13 @@
 - (BOOL)greaterThanOrEqual:(NSNumber *)num;
 
 
-//122.89元  转换为  122890厘
+/*122.89元  转换为  122890厘*/
 - (NSString *)convertToSysMoney;
 
 
 //时间转换  Jan 5, 2017 12:00:00 AM -> 2016-02-02
 - (NSString *)convertToDetailDate; //带有时分秒
-- (NSString *)converDate;
+//- (NSString *)converDate;
 - (NSString *)convertDate;
 
 + (NSString *)appCurrentBundleVersion;

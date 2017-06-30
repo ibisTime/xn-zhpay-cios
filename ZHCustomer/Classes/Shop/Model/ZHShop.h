@@ -6,11 +6,11 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 #import "ZHCoupon.h"
 
 
-@interface ZHShop : TLBaseModal
+@interface ZHShop : TLBaseModel
 
 //TOCHECK("0", "待审核"), UNPASS("91", "审核不通过"),
 //PASS("1", "审核通过待上架"),
@@ -56,6 +56,12 @@
 @property (nonatomic,strong) NSArray <ZHCoupon *>*storeTickets;//商家折扣券
 @property (nonatomic,copy) NSString *distance;
 //
+
+/**
+ 1 = 分润    ；2 = 余额 = 分润 + 贡献值
+ */
+@property (nonatomic, copy) NSString *payCurrency;
+
 @property (nonatomic,copy) NSArray *detailPics;
 @property (nonatomic,strong) NSArray <NSNumber *>* imgHeights;
 

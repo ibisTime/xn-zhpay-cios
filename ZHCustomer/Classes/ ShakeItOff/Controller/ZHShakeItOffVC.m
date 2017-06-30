@@ -108,9 +108,11 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"玩法介绍" style:UIBarButtonItemStylePlain target:self action:@selector(introduce)];
     
     //必须在先
-    self.yyBeforeImageName = @"摇";
-    self.yyAfterImageName = @"摇";
+//    self.yyBeforeImageName = @"摇";
+//    self.yyAfterImageName = @"摇";
     
+    self.yyBeforeImageName = @"摇一摇";
+    self.yyAfterImageName = @"摇一摇";
     //必须在后
     [self setUpUI];
     
@@ -120,8 +122,8 @@
     NSString *str = [[NSUserDefaults standardUserDefaults] objectForKey:@"zh_pay_magic"];
     if ([str valid] && [str isEqualToString:@"上线"]) {
         
-        self.yyBeforeImageName = @"摇一摇before";
-        self.yyAfterImageName = @"摇一摇after";
+        self.yyBeforeImageName = @"摇一摇";
+        self.yyAfterImageName = @"摇一摇";
         
         self.bgImageView.contentMode = UIViewContentModeScaleAspectFill;
         self.bgImageView.image = [UIImage imageNamed:self.yyBeforeImageName];
@@ -136,8 +138,8 @@
             if ([str isEqualToString:[NSString appCurrentBundleVersion]]) {
                 
                 [[NSUserDefaults standardUserDefaults] setObject:@"上线" forKey:@"zh_pay_magic"];
-                self.yyBeforeImageName = @"摇一摇before";
-                self.yyAfterImageName = @"摇一摇after";
+                self.yyBeforeImageName = @"摇一摇";
+                self.yyAfterImageName = @"摇一摇";
                 
                 self.bgImageView.contentMode = UIViewContentModeScaleAspectFill;
                 self.bgImageView.image = [UIImage imageNamed:self.yyBeforeImageName];

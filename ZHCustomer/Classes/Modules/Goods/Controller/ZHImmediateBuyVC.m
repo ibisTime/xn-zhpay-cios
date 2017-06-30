@@ -135,6 +135,7 @@
             //商品购买
             ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
             payVC.goodsCodeList = @[orderCode];
+            payVC.isDRBAndGXZ = [self.goodsRoom[0].payCurrency isEqualToString:@"2"];
             NSNumber *rmb = self.goodsRoom[0].currentParameterPriceRMB;
             payVC.rmbAmount = @([rmb longLongValue]*self.goodsRoom[0].currentCount); //把人民币传过去
             

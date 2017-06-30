@@ -295,21 +295,6 @@
         if (msgs.count > 0) {
             
             self.sysMsgView.msg = msgs[0][@"smsTitle"];
-
-            
-//            static NSInteger i = 0;
-//            
-//            if (i%2) {
-//                
-//                self.sysMsgView.msg = msgs[0][@"smsContent"];
-//
-//            } else {
-//            
-//                self.sysMsgView.msg = msgs[0][@"smsTitle"];
-//
-//            }
-//            i ++ ;
-//            self.announceContentLbl.text = msgs[0][@"smsContent"];
             
             
         }

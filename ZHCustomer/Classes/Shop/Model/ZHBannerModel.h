@@ -6,9 +6,9 @@
 //  Copyright © 2017年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 
-@interface ZHBannerModel : TLBaseModal
+@interface ZHBannerModel : TLBaseModel
 
 @property (nonatomic, copy) NSString *pic;
 @property (nonatomic, copy) NSString *url;

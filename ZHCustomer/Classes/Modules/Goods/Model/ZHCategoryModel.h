@@ -6,9 +6,9 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //  商品分类的模型
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 
-@interface ZHCategoryModel : TLBaseModal
+@interface ZHCategoryModel : TLBaseModel
 
 @property (nonatomic,copy) NSString *code;
 @property (nonatomic,copy) NSString *name;

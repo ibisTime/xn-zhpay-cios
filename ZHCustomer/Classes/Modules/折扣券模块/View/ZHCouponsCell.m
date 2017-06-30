@@ -154,8 +154,8 @@
 //  
 //
 ////        self.time1Lbl.text = _coupon.bookMobile;
-//        [NSString  stringWithFormat:@"起始日期: %@",[_coupon.validateStart converDate]];
-//        self.time2Lbl.text = [NSString  stringWithFormat:@"有效期至: %@",[_coupon.validateEnd converDate]];
+//        [NSString  stringWithFormat:@"起始日期: %@",[_coupon.validateStart convertDate]];
+//        self.time2Lbl.text = [NSString  stringWithFormat:@"有效期至: %@",[_coupon.validateEnd convertDate]];
 //        
 ////   }
 //
@@ -199,8 +199,8 @@
     
     //时间
     
-     self.time1Lbl.text = [NSString  stringWithFormat:@"起始日期: %@",[_mineCoupon.storeTicket.validateStart converDate]];
-     self.time2Lbl.text = [NSString  stringWithFormat:@"有效期至: %@",[_mineCoupon.storeTicket.validateEnd converDate]];
+     self.time1Lbl.text = [NSString  stringWithFormat:@"起始日期: %@",[_mineCoupon.storeTicket.validateStart convertDate]];
+     self.time2Lbl.text = [NSString  stringWithFormat:@"有效期至: %@",[_mineCoupon.storeTicket.validateEnd convertDate]];
 
     
     //状态

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZHBankCard : TLBaseModal
+@interface ZHBankCard : TLBaseModel
 
 @property (nonatomic,strong) NSNumber *bankId;
 

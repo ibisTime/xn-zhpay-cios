@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZHBillModel : TLBaseModal
+@interface ZHBillModel : TLBaseModel
 
 @property (nonatomic,copy) NSString *accountNumber;
 @property (nonatomic,copy) NSString *bizNote; //备注

@@ -53,9 +53,10 @@
     [UIView animateWithDuration:0.3 animations:^{
         
         self.validBgView.y = orgY;
-        
-    } completion:^(BOOL finished) {
         self.backgroundColor = NORMAL_COLOR;
+
+    } completion:^(BOOL finished) {
+        
     }];
     
 }
@@ -71,10 +72,11 @@
     [UIView animateWithDuration:0.3 animations:^{
         
         self.validBgView.y = SCREEN_HEIGHT + 30;;
+        self.backgroundColor = NORMAL_COLOR;
+
         
     } completion:^(BOOL finished) {
         
-        self.backgroundColor = NORMAL_COLOR;
         [self removeFromSuperview];
 
     }];

@@ -6,9 +6,9 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 
-@interface ZHMsgContent : TLBaseModal
+@interface ZHMsgContent : TLBaseModel
 
 @property (nonatomic,copy) NSString *code;
 @property (nonatomic,copy) NSString *type;

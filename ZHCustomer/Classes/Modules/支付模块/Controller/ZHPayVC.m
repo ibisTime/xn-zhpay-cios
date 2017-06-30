@@ -170,7 +170,16 @@
     //--//
     NSArray *imgs = @[@"zh_pay",@"we_chat",@"alipay"];
     NSArray *payNames;
-    payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+    
+    if ([self.shop.payCurrency isEqualToString:@"1"]) {
+        
+        payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+
+    } else {
+    
+        payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+
+    }
     
     NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
     NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
@@ -592,28 +601,6 @@
 
     }
     
-    
-//    else if (indexPath.section == 1 ) {
-//        
-//        //
-//        infoCell.titleLbl.text = @"使用抵扣券";
-//        if (self.coupons.count > 0) {
-//        
-//            infoCell.infoLbl.text = @"请选择折扣券";
-//            
-//        } else {
-//        
-//            infoCell.infoLbl.text = @"还没有折扣券";
-//
-//        }
-//        [infoCell.titleLbl mas_updateConstraints:^(MASConstraintMaker *make) {
-//            
-//            make.width.mas_equalTo(100);
-//        }];
-//        self.couponsCell = infoCell;
-//        infoCell.hidenArrow = NO;
-//    
-//    }
     return infoCell;
 
 }
@@ -639,20 +626,7 @@
 }
 
 
-//- (TLTextField *)tradePwdTf {
-//
-//    if (!_tradePwdTf) {
-//        
-//        _tradePwdTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
-//        _tradePwdTf.backgroundColor = [UIColor whiteColor];
-//        _tradePwdTf.placeholder = @"请输入支付密码";
-//        _tradePwdTf.secureTextEntry = YES;
-//        _tradePwdTf.delegate = self;
-//    }
-//    
-//    return _tradePwdTf;
-//
-//}
+
 
 - (TLTextField *)amountTf {
     

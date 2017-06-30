@@ -6,10 +6,10 @@
 //  Copyright © 2017年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 #import "ZHShop.h"
 
-@interface ZHShopOrderModel : TLBaseModal
+@interface ZHShopOrderModel : TLBaseModel
 
 //@property (nonatomic,copy) NSString *code;
 //@property (nonatomic,copy) NSString *userId;

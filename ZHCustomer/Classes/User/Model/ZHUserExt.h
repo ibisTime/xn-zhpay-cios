@@ -6,9 +6,9 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 
-@interface ZHUserExt : TLBaseModal
+@interface ZHUserExt : TLBaseModel
 
 @property (nonatomic,copy) NSString *userId;
 @property (nonatomic,copy) NSString *photo;

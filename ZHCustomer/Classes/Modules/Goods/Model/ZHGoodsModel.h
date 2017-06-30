@@ -6,12 +6,12 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //  普通商品的模型
 
-#import "TLBaseModal.h"
+#import "TLBaseModel.h"
 #import "ZHCurrencyProtocol.h"
 #import "CDGoodsParameterModel.h"
 #import "ZHShop.h"
 
-@interface ZHGoodsModel : TLBaseModal<ZHCurrencyProtocol>
+@interface ZHGoodsModel : TLBaseModel<ZHCurrencyProtocol>
 
 @property (nonatomic,copy) NSString *advPic; //封面图片
 @property (nonatomic, strong) NSNumber *boughtCount;
@@ -35,6 +35,9 @@
 @property (nonatomic,copy) NSString *status;
 @property (nonatomic,copy) NSString *type;
 @property (nonatomic, strong) ZHShop *store;
+
+@property (nonatomic, copy) NSString *payCurrency;
+
 
 
 //由pic1 转化成的 数组,eg: http://wwwa.dfdsf.dcom

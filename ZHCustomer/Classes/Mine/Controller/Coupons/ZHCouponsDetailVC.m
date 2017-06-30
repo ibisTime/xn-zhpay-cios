@@ -140,8 +140,8 @@
         self.price1Lbl.attributedText = attr1Str;
         self.price2Lbl.attributedText = attr2Str;
         
-        self.titleLbl.text = [NSString  stringWithFormat:@"起始日期%@",[_coupon.validateStart converDate]];
-         self.timeLbl.text = [NSString  stringWithFormat:@"有效期至%@",[_coupon.validateEnd converDate]];
+        self.titleLbl.text = [NSString  stringWithFormat:@"起始日期%@",[_coupon.validateStart convertDate]];
+         self.timeLbl.text = [NSString  stringWithFormat:@"有效期至%@",[_coupon.validateEnd convertDate]];
         
         //底部购买按钮
         UIButton *buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 49 -64, SCREEN_WIDTH, 49) title:@"购买" backgroundColor:[UIColor zh_themeColor]];
@@ -172,8 +172,8 @@
         self.price1Lbl.attributedText = attr1Str;
         self.price2Lbl.attributedText = attr2Str;
         
-        self.titleLbl.text = [NSString  stringWithFormat:@"起始日期%@",[self.mineCoupon.storeTicket.validateStart converDate]];
-        self.timeLbl.text = [NSString  stringWithFormat:@"有效期至%@",[self.mineCoupon.storeTicket.validateEnd converDate]];
+        self.titleLbl.text = [NSString  stringWithFormat:@"起始日期%@",[self.mineCoupon.storeTicket.validateStart convertDate]];
+        self.timeLbl.text = [NSString  stringWithFormat:@"有效期至%@",[self.mineCoupon.storeTicket.validateEnd convertDate]];
     
         if ([self.mineCoupon.status isEqualToString:@"0"]) { //未使用
             

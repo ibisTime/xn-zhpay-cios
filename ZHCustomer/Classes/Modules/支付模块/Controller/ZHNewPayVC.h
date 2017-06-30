@@ -56,4 +56,10 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 @property (nonatomic, strong) NSNumber *postage;
 
 
+/**
+ 商品购买 显示分润还是月
+ */
+@property (nonatomic, assign) BOOL isDRBAndGXZ;
+
+
 @end
