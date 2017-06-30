@@ -117,7 +117,9 @@
     [self setUpUI];
     
     //注意顺序
-    self.bgImageView.contentMode = UIViewContentModeCenter;
+//    self.bgImageView.contentMode = UIViewContentModeCenter;
+    self.bgImageView.contentMode = UIViewContentModeScaleAspectFill;
+
 
     NSString *str = [[NSUserDefaults standardUserDefaults] objectForKey:@"zh_pay_magic"];
     if ([str valid] && [str isEqualToString:@"上线"]) {
@@ -141,7 +143,6 @@
                 self.yyBeforeImageName = @"摇一摇";
                 self.yyAfterImageName = @"摇一摇";
                 
-                self.bgImageView.contentMode = UIViewContentModeScaleAspectFill;
                 self.bgImageView.image = [UIImage imageNamed:self.yyBeforeImageName];
             }
             
