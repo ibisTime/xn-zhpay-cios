@@ -132,8 +132,9 @@
         
     } else {
         
+        
         //
-        [TLNetworking GET:@"http://itunes.apple.com/lookup?id=1167284604" parameters:nil success:^(NSString *msg, id data) {
+        [TLNetworking GET:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@",APP_ID] parameters:nil success:^(NSString *msg, id data) {
             
             NSString *str = data[@"results"][0][@"version"];
             //本地版本号 大于线上版本号，说明在审核,当版本号相等的时候 说明已经正式上线. 进行图片更换
