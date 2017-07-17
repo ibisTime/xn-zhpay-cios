@@ -55,7 +55,6 @@
     [self refreshWalletInfo];
 
 
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"zh_acount_change" object:nil];
     
 }
@@ -81,8 +80,8 @@
     [bgScrollView addSubview:headerV];
     
     //钱包
-    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"购物币"];
-    NSArray *typeCode =  @[kGXB,kFRB,kHBB,kHBYJ,kQBB,kGWB];
+    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"数字积分"];
+    NSArray *typeCode =  @[kGXB,kFRB,kHBB,kHBYJ,kQBB,kDigitalJF];
     
     
     self.walletViews = [[NSMutableArray alloc] initWithCapacity:typeNames.count];
@@ -119,7 +118,7 @@
     
     
     bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshWalletInfo)];
-
+    
 }
 
 - (void)tl_placeholderOperation {

@@ -10,16 +10,10 @@
 #import "ZHShopVC.h"
 
 #import "ZHPaySceneManager.h"
-#import "ZHHZBModel.h"
-#import "ZHDBModel.h"
-#import "ZHMineCouponModel.h"
 
-//typedef NS_ENUM(NSInteger,ZHPayVCType){
-//
-////    ZHPayVCTypeShop = 0,
-////    ZHPayVCTypeGoods //商品购买
-//
-//};
+
+@class ZHShop;
+
 @interface ZHPayVC : TLBaseVC
 
 //优店支付所需要的模型
@@ -27,6 +21,5 @@
 
 //
 @property (nonatomic,copy) void(^paySucces)();
-
 
 @end

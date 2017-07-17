@@ -12,22 +12,21 @@
 #import "ZHPayFuncCell.h"
 #import "ZHCurrencyHelper.h"
 #import "CDShopPaySuccessVC.h"
-
 #import "WXApi.h"
 #import "ZHPaySceneManager.h"
 #import "TLWXManager.h"
 #import "ZHCurrencyModel.h"
 #import "TLAlipayManager.h"
 #import "ZHPwdRelatedVC.h"
-
+#import "ZHShop.h"
+#import "ZHPayService.h"
+//
 @interface ZHPayVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 @property (nonatomic,strong) NSMutableArray <ZHPayFuncModel *>*pays;
 
-
 //消费金额输入
 @property (nonatomic,strong) TLTextField *amountTf;
-
 
 @property (nonatomic, strong) UIView *payView;
 //底部总价
@@ -40,17 +39,7 @@
 @end
 
 
-
 @implementation ZHPayVC
-
-//#pragma mark- textField--代理
-//
-//- (void)textFieldDidEndEditing:(UITextField *)textField {
-//
-//    
-//   
-//}
-
 
 - (void)canclePay {
 
@@ -63,10 +52,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 }
+
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
     [self.amountTf becomeFirstResponder];
+    
 }
 
 
@@ -81,8 +72,8 @@
     
     self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]];
     
-
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -92,7 +83,7 @@
     
     [self.amountTf addTarget:self action:@selector(inputChange:) forControlEvents:UIControlEventEditingChanged];
     
-    //----//----//
+    //
     if (self.navigationController) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(canclePay)];
     }
@@ -129,7 +120,6 @@
 //    }];
     
     //addNotification
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
     
 }
@@ -218,7 +208,6 @@
     
     self.paySceneManager.groupItems = @[priceItem,payFuncItem];
     
-    
     //界面
     [self setUpUI];
     
@@ -296,19 +285,19 @@
     switch (type) {
         case ZHPayTypeAlipay: {
             
-            payType = @"3";
+            payType = kZHAliPayTypeCode;
             
         }
             break;
         case ZHPayTypeWeChat: {
             
-            payType = @"2";
+            payType = kZHWXTypeCode;
         }
             break;
             
         case ZHPayTypeOther: {
             
-            payType = @"1";
+            payType = kZHDefaultPayTypeCode;
         }
             break;
     }
@@ -355,21 +344,13 @@
 
 #pragma mark- 优店支付, 余额支付需要支付密码
 - (void)shopPay:(NSString *)payType payPwd:(nullable NSString *)pwd {
-
-//    if (payType) {
-//        <#statements#>
-//    }
-//    
-//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
     
         TLNetworking *http = [TLNetworking new];
         http.showView = self.view;
         http.code = @"808241";
         http.parameters[@"userId"] = [ZHUser user].userId;
         http.parameters[@"storeCode"] = self.shop.code;
-  
         http.parameters[@"tradePwd"] = pwd;
-    
         http.parameters[@"amount"] = [self.amountTf.text convertToSysMoney];
         http.parameters[@"token"] = [ZHUser user].token;
         http.parameters[@"payType"] = payType;
@@ -377,11 +358,11 @@
         [http postWithSuccess:^(id responseObject) {
             
             
-            if ([payType isEqualToString: @"2"]) {
+            if ([payType isEqualToString: kZHWXTypeCode]) {
                 
                 [self wxPayWithInfo:responseObject[@"data"]];
                 
-            } else if([payType isEqualToString: @"3"]) {
+            } else if([payType isEqualToString: kZHAliPayTypeCode]) {
             
                 [self aliPayWithInfo:responseObject[@"data"]];
                 
@@ -396,10 +377,6 @@
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                 
                 
-//                CDShopPaySuccessVC *VC = [[CDShopPaySuccessVC alloc] init];
-//                VC.payMoney = self.amountTf.text;
-//                VC.shopName = self.shop.name;
-//                [self.navigationController pushViewController:VC animated:YES];
                 
             }
             
@@ -412,11 +389,9 @@
 
 - (void)aliPayWithInfo:(NSDictionary *)info {
 
-
     //支付宝回调
     [TLAlipayManager payWithOrderStr:info[@"signOrder"]];
     
-
 }
 
 
@@ -435,9 +410,8 @@
     
     if([WXApi sendReq:req]){
     
-    
     } else {
-    
+        
         [TLAlert alertWithHUDText:@"支付失败"];
         
     }
@@ -463,7 +437,6 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-   
 }
 
 
@@ -588,14 +561,13 @@
             
             infoCell.titleLbl.text = @"消费金额";
             infoCell.hidenArrow = YES;
-            
             [infoCell addSubview:self.amountTf];
+            
         } else {
+            
             infoCell.titleLbl.text = @"支付密码";
             infoCell.hidenArrow = YES;
             
-//            [infoCell addSubview:self.tradePwdTf];
-        
         }
   
 
@@ -635,8 +607,8 @@
         _amountTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
         _amountTf.backgroundColor = [UIColor whiteColor];
         _amountTf.placeholder = @"请输入消费金额";
-//        _amountTf.delegate = self;
         _amountTf.keyboardType = UIKeyboardTypeDecimalPad;
+        
     }
     return _amountTf;
     

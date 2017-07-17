@@ -23,15 +23,13 @@
 @interface ZHImmediateBuyVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) UIView *headeBGView;
 @property (nonatomic,strong) UILabel * totalPriceLbl;
-//
-//@property (nonatomic,strong) UILabel *nameLbl;
-//@property (nonatomic,strong) UILabel *mobileLbl;
-//@property (nonatomic,strong) UILabel *addressLbl;
 
 @property (nonatomic,strong) UITableView *tableV;
 @property (nonatomic,strong) UIImageView *arrowIV;
 @property (nonatomic,strong) UIButton *buyBtn;
+
 @property (nonatomic,strong) TLTextField *enjoinTf;
+@property (nonatomic, strong) TLTextField *postageTf;
 
 @property (nonatomic,strong) NSMutableArray <ZHReceivingAddress *>*addressRoom;
 @property (nonatomic,strong) ZHReceivingAddress *currentAddress;
@@ -60,7 +58,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-//    self.title = @"";
+    self.title = @"确认订单";
     
     //根据有无地址创建UI
     [self getAddress];
@@ -79,6 +77,8 @@
                                                                            GWB:goods.currentParameterPriceGWB
                                                                            RMB:goods.currentParameterPriceRMB
                                                                          count:goods.currentCount ];
+        
+        self.postageTf.text = @"0元";
         
     }
     
@@ -135,7 +135,7 @@
             //商品购买
             ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
             payVC.goodsCodeList = @[orderCode];
-            payVC.isDRBAndGXZ = [self.goodsRoom[0].payCurrency isEqualToString:@"2"];
+            payVC.isFRBAndGXZ = [self.goodsRoom[0].payCurrency isEqualToString:@"2"];
             NSNumber *rmb = self.goodsRoom[0].currentParameterPriceRMB;
             payVC.rmbAmount = @([rmb longLongValue]*self.goodsRoom[0].currentCount); //把人民币传过去
             
@@ -358,9 +358,22 @@
 
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90)];
     footerView.backgroundColor = [UIColor whiteColor];
-    TLTextField *tf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"买家嘱咐：" titleWidth:100 placeholder:@"对本次交易的说明"];
+    
+    //邮费
+    TLTextField *postageTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"邮费：" titleWidth:100 placeholder:@"邮费"];
+    [footerView addSubview:postageTf];
+    postageTf.userInteractionEnabled = NO;
+    self.postageTf = postageTf;
+    
+    
+    //买家嘱咐
+    TLTextField *tf = [[TLTextField alloc] initWithframe:CGRectMake(0, postageTf.yy + 1, SCREEN_WIDTH, 45) leftTitle:@"买家嘱咐：" titleWidth:100 placeholder:@"对本次交易的说明"];
     [footerView addSubview:tf];
     self.enjoinTf = tf;
+
+    
+    
+    
     
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, tf.yy + 1, SCREEN_WIDTH, 0.5)];

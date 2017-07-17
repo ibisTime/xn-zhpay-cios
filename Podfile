@@ -9,7 +9,7 @@ target 'ZHCustomer' do
   pod 'MJRefresh'
   pod 'MJExtension'
   pod 'Masonry'
-  pod 'MBProgressHUD'
+#  pod 'MBProgressHUD'
   pod 'AFNetworking'
   pod 'SDWebImage'
   pod 'IQKeyboardManager'

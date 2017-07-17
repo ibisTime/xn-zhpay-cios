@@ -131,7 +131,8 @@
         newPayVC.rmbAmount = self.order.amount1; //把人民币传过去
         
 //        newPayVC.postage = postage;
-        newPayVC.amoutAttrAddPostage = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:@([self.order.amount1 longValue] + [postage longLongValue])];
+//        newPayVC.amoutAttrAddPostage = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:@([self.order.amount1 longValue] + [postage longLongValue])];
+        
         newPayVC.amoutAttr = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:self.order.amount1];
         
         newPayVC.paySucces = ^(){

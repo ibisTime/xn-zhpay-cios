@@ -147,35 +147,7 @@
     }];
     
     
-//        TLNetworking *http = [TLNetworking new];
-//        http.showView = self.view;
-//        http.code = @"805190";
-//        http.parameters[@"userId"] = [ZHUser user].userId;
-//        http.parameters[@"realName"] = self.realNameTf.text;
-//        http.parameters[@"idKind"] = @"1";
-//        http.parameters[@"token"] = [ZHUser user].token;
-//        http.parameters[@"idNo"] = self.idNoTf.text;
-//        http.parameters[@"cardNo"] = self.bankCardNoTf.text;
-//        http.parameters[@"bindMobile"] = self.mobileTf.text; //绑定的手机号码
-//
-//        [http postWithSuccess:^(id responseObject) {
-//    
-//            [TLAlert alertWithHUDText:@"实名认证成功"];
-//            [self.navigationController popViewControllerAnimated:YES];
-//            
-//            [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoChange object:nil];
-//            
-//            [[ZHUser user] updateUserInfo];
-//            [ZHUser user].realName = self.realNameTf.text;
-//            [ZHUser user].idNo = self.idNoTf.text;
-//            if (self.authSuccess) {
-//                self.authSuccess();
-//            }
-//            
-//        } failure:^(NSError *error) {
-//         
-//            
-//        }];
+
 
 }
 - (void)setUpUI {

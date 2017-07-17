@@ -12,6 +12,9 @@
  NSString *const kGXB = @"GXJL";
  NSString *const kQBB = @"QBB";
  NSString *const kGWB = @"GWB";
+ NSString *const kDigitalJF = @"";
+
+
  NSString *const kHBYJ  = @"HBYJ";
  NSString *const kHBB  = @"HBB";
 

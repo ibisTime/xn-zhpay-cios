@@ -29,7 +29,8 @@
         //
         self.selectedBtn = [[UIButton alloc] initWithFrame:CGRectZero];
         [self addSubview:self.selectedBtn];
-        [self.selectedBtn addTarget:self action:@selector(selected) forControlEvents:UIControlEventTouchUpInside];
+        self.selectedBtn.userInteractionEnabled = NO;
+        
         [self.selectedBtn setBackgroundImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
         [self.selectedBtn mas_makeConstraints:^(MASConstraintMaker *make) {
            
@@ -82,21 +83,21 @@
     
 }
 
-- (void)selected {
-
-    if (!self.pay) {
-        
-        NSLog(@"支付模型，去哪了？");
-        return;
-    }
-    
-    if (_pay.isSelected) {
-        return;
-    }
-    
-    //此处应该使用KVO, 为了简单暂时使用通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:PAY_TYPE_CHANGE_NOTIFICATION object:nil userInfo:@{@"sender" : self}];
-}
+//- (void)selected {
+//
+//    if (!self.pay) {
+//        
+//        NSLog(@"支付模型，去哪了？");
+//        return;
+//    }
+//    
+//    if (_pay.isSelected) {
+//        return;
+//    }
+//    
+//    //此处应该使用KVO, 为了简单暂时使用通知
+//    [[NSNotificationCenter defaultCenter] postNotificationName:PAY_TYPE_CHANGE_NOTIFICATION object:nil userInfo:@{@"sender" : self}];
+//}
 
 
 - (void)payChange:(NSNotification *)notification {
