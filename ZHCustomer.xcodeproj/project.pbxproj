@@ -169,7 +169,6 @@
 		2EC2ABBE1E0CC964003EF503 /* ZHNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2ABBD1E0CC964003EF503 /* ZHNavigationController.m */; };
 		2EC2ABCC1E0CD083003EF503 /* ZHShakeItOffVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2ABCB1E0CD083003EF503 /* ZHShakeItOffVC.m */; };
 		2EC2ADC61E0CF55A003EF503 /* TLBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC461E0CF55A003EF503 /* TLBaseVC.m */; };
-		2EC2ADD61E0CF55A003EF503 /* MBProgressHUD+add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC6E1E0CF55A003EF503 /* MBProgressHUD+add.m */; };
 		2EC2ADD71E0CF55A003EF503 /* NSObject+convert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC701E0CF55A003EF503 /* NSObject+convert.m */; };
 		2EC2ADD81E0CF55A003EF503 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC721E0CF55A003EF503 /* NSString+Extension.m */; };
 		2EC2ADD91E0CF55A003EF503 /* UIButton+convience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2AC741E0CF55A003EF503 /* UIButton+convience.m */; };
@@ -604,8 +603,6 @@
 		2EC2ABCB1E0CD083003EF503 /* ZHShakeItOffVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShakeItOffVC.m; sourceTree = "<group>"; };
 		2EC2AC451E0CF55A003EF503 /* TLBaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBaseVC.h; sourceTree = "<group>"; };
 		2EC2AC461E0CF55A003EF503 /* TLBaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBaseVC.m; sourceTree = "<group>"; };
-		2EC2AC6D1E0CF55A003EF503 /* MBProgressHUD+add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+add.h"; sourceTree = "<group>"; };
-		2EC2AC6E1E0CF55A003EF503 /* MBProgressHUD+add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+add.m"; sourceTree = "<group>"; };
 		2EC2AC6F1E0CF55A003EF503 /* NSObject+convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+convert.h"; sourceTree = "<group>"; };
 		2EC2AC701E0CF55A003EF503 /* NSObject+convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+convert.m"; sourceTree = "<group>"; };
 		2EC2AC711E0CF55A003EF503 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
@@ -1753,8 +1750,6 @@
 				2EC2ADA71E0CF55A003EF503 /* UIView+Frame.m */,
 				2E6C3E001E2B2127006A7AA2 /* UIViewController+Extension.h */,
 				2E5983C61E667B5800DE8F3C /* UIViewController+Extension.m */,
-				2EC2AC6D1E0CF55A003EF503 /* MBProgressHUD+add.h */,
-				2EC2AC6E1E0CF55A003EF503 /* MBProgressHUD+add.m */,
 				2EC2AC6F1E0CF55A003EF503 /* NSObject+convert.h */,
 				2EC2AC701E0CF55A003EF503 /* NSObject+convert.m */,
 				2EC2AC711E0CF55A003EF503 /* NSString+Extension.h */,
@@ -2596,7 +2591,6 @@
 				2E202FE91EE954C500E38656 /* ZHBank.m in Sources */,
 				2E9086991F1C4C0D002374F4 /* ZHTextDetailCell.m in Sources */,
 				2E6E48131E14F9D900FD2CA7 /* ZHAddressCell.m in Sources */,
-				2EC2ADD61E0CF55A003EF503 /* MBProgressHUD+add.m in Sources */,
 				2EEF8D921EE15A0B00453109 /* ZHDuoBaoTimeCell.m in Sources */,
 				2EC2AE461E0CF55A003EF503 /* TLPageDataHelper.m in Sources */,
 				2EC602761E5EA4DF0066C197 /* TLGroupModel.m in Sources */,
@@ -2855,7 +2849,6 @@
 					"-ObjC",
 					"-l\"AFNetworking\"",
 					"-l\"IQKeyboardManager\"",
-					"-l\"MBProgressHUD\"",
 					"-l\"MJExtension\"",
 					"-l\"MJRefresh\"",
 					"-l\"Masonry\"",
@@ -2933,7 +2926,6 @@
 					"-ObjC",
 					"-l\"AFNetworking\"",
 					"-l\"IQKeyboardManager\"",
-					"-l\"MBProgressHUD\"",
 					"-l\"MJExtension\"",
 					"-l\"MJRefresh\"",
 					"-l\"Masonry\"",

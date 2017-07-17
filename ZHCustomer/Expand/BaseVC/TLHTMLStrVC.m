@@ -91,20 +91,23 @@
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation {
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+//    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [TLProgressHUD dismiss];
     [TLAlert alertWithHUDText:@"加载失败"];
     
 }
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [TLProgressHUD showWithStatus:nil];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [TLProgressHUD dismiss];
+//    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 @end

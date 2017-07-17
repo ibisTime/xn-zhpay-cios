@@ -34,7 +34,7 @@
 #import "UIView+Frame.h"
 #import "UIColor+Extension.h"
 #import "Foundation+Log.m"
-#import "MBProgressHUD+add.h"
+//#import "MBProgressHUD+add.h"
 #import "UIImageView+WebCache.h"
 
 

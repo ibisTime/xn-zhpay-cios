@@ -184,7 +184,9 @@
             getUploadToken.parameters[@"token"] = [ZHUser user].token;
             [getUploadToken postWithSuccess:^(id responseObject) {
                 
-                [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
+//                [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
+                
+                [TLProgressHUD showWithStatus:nil];
                 QNUploadManager *uploadManager = [[QNUploadManager alloc] init];
                 NSString *token = responseObject[@"data"][@"uploadToken"];
                 
@@ -192,7 +194,10 @@
                 NSData *imgData = UIImageJPEGRepresentation(image, 0.4);
                 
                 [uploadManager putData:imgData key:[TLUploadManager imageNameByImage:image] token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                    
+                    [TLProgressHUD dismiss];
+
+//                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
                     
                     //设置头像
                     

@@ -58,7 +58,8 @@
        didFailWithError:(NSError *)error {
     
     [self setUpUI];
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+//    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [TLProgressHUD dismiss];
 
 }
 
@@ -77,7 +78,8 @@
     
     [gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [TLProgressHUD dismiss];
 
         CLPlacemark *placemark = [placemarks lastObject];
         
@@ -128,7 +130,8 @@
     self.title = @"注册";
     self.isBuild = NO;
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [TLProgressHUD showWithStatus:nil];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     //连续定位，时间较短，可能首次经度低
     [self.sysLocationManager startUpdatingLocation];
