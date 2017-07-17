@@ -8,14 +8,11 @@
 
 #import "AppDelegate.h"
 #import "ZHTabBarController.h"
-//#import "AppDelegate+Chat.h"
 #import "AppDelegate+JPush.h"
 
 #import "UMMobClick/MobClick.h"
 #import "WXApi.h"
 #import "IQKeyboardManager.h"
-
-//#import "ChatViewController.h"
 
 #import "TLWXManager.h"
 #import "ZHUserRegistVC.h"
@@ -24,18 +21,8 @@
 #import "AppConfig.h"
 //#import "TLRealmPlayground.h"
 #import <CoreLocation/CoreLocation.h>
-
-//#import "ChatManager.h"
-
-
-//#import "ZHCartManager.h"
 #import "TLAlipayManager.h"
-//#import <AMapFoundationKit/AMapFoundationKit.h>
 
-//#ifdef NSFoundationVersionNumber_iOS_9_x_Max
-//#import <UserNotifications/UserNotifications.h>
-//#endif
-//#import "JPUSHService.h"
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -49,9 +36,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvRelease;
+    [AppConfig config].runEnv = RunEnvDev;
     
-    //--pppp--//
+    //
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager requestWhenInUseAuthorization];
     
@@ -59,13 +46,9 @@
     TLWXManager *wxManager = [TLWXManager manager];
     [wxManager registerApp];
     
-    
     //HUD
     [SVProgressHUD setMinimumDismissTimeInterval:3];
     [SVProgressHUD setMaximumDismissTimeInterval:8];
-//    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
-//    [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
-//    [SVProgressHUD set];
     
     //推送注册
     [self jpushInitWithLaunchOption:launchOptions];
@@ -94,7 +77,6 @@
     manager.shouldResignOnTouchOutside = YES;
     manager.shouldToolbarUsesTextFieldTintColor = YES;
     manager.enableAutoToolbar = YES;
-//    [manager.disabledToolbarClasses addObject:[ChatViewController class]];
     [manager.disabledToolbarClasses addObject:[ZHUserLoginVC class]];
     [manager.disabledToolbarClasses addObject:[ZHUserRegistVC class]];
 
@@ -124,26 +106,20 @@
     
 }
 
+
 #pragma mark- 用户登录操作
 - (void)userLogin {
 
 //    [JPUSHService setAlias:[ZHUser user].userId callbackSelector:nil object:nil];
+     TLLog(@"%@",[ZHUser user].userId);
     
-    TLLog(@"%@",[ZHUser user].userId);
 }
 
 #pragma mark- 退出登录
 - (void)userLoginOut {
     
-    //chat
-//    [[ChatManager defaultManager] chatLoginOut];
-    
-    //重置购物车
-//    [[ZHCartManager manager] reset];
 
     [self userLoginOutCancleLocation];
-
-//    [JPUSHService setAlias:@"" callbackSelector:nil object:nil];
 
     //用户 数据清除放在最后
     [[ZHUser user] loginOut];
@@ -214,8 +190,6 @@ void UncaughtExceptionHandler(NSException *exception){
             http.code = @"805192";
             http.parameters[@"userId"] = [ZHUser user].userId;
             http.parameters[@"bizNo"] = [ZHUser user].tempBizNo;
-//          dict[@"biz_no"];
-            
             [http postWithSuccess:^(id responseObject) {
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"realNameSuccess" object:nil];
@@ -302,7 +276,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 //用户点击 本地通知 吊起App ios10 以下
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification
   completionHandler:(void (^)())completionHandler {
-    
     
     
 }

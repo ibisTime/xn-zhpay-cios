@@ -131,10 +131,6 @@
         
         
         [ZHUser user].tempBizNo = responseObject[@"data"][@"bizNo"];
-//        [ZHUser user].tempRealName = self.realNameTf.text;
-//        [ZHUser user].tempIdNo = self.idNoTf.text;
-        
-        //:8903/std-certi/zhima?bizNo=ZM42342545
         NSString *urlStr = [NSString stringWithFormat:@"http://121.40.165.180:8903/std-certi/zhima?bizNo=%@",responseObject[@"data"][@"bizNo"]];
         
         NSString *alipayUrl = [NSString stringWithFormat:@"alipayqr://platformapi/startapp?saId=10000007&qrcode=%@",urlStr];
@@ -143,17 +139,6 @@
         //此方法到  -- ios10 -- 但是ios10还可以使用
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl]];
 
-        
-        //ios10
-//        if (IOS_VERSION_10) {//ios10
-//            
-//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl] options:@{} completionHandler:nil];
-//            
-//        } else { //ios9
-//        
-//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:alipayUrl]];
-//            
-//        }
        
         
     } failure:^(NSError *error) {

@@ -75,44 +75,13 @@
     //头部信息
     [self setUptableViewHeader];
     
-    //
-//    TLMsgPlayView *msgView = [[TLMsgPlayView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
-//    [self.view addSubview:msgView];
-//    msgView.playMsg = @"消息测消息测试消息测试消息测试消息测试消息测试消息测试试";
     
     //刷新信息
     __weak typeof(self) weakSelf = self;
     [tableV addRefreshAction:^{
         
-//        TLNetworking *http = [TLNetworking new];
-////        http.showView = self.view;
-//        http.code = @"802503";
-//        http.parameters[@"token"] = [ZHUser user].token;
-//        http.parameters[@"userId"] = [ZHUser user].userId;
-//        [http postWithSuccess:^(id responseObject) {
-//            
-//            [weakSelf.mineTableView endRefreshHeader];
-//
-//            self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-//            
-//            //把币种分开
-//            self.currencyDict = [[NSMutableDictionary alloc] initWithCapacity:self.currencyRoom.count];
-//            [self.currencyRoom  enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                
-//                self.currencyDict[obj.currency] = obj;
-//                
-//            }];
-//            
-//            //刷新界面信息
-//            [self refreshWalletInfo];
-//            
-//        } failure:^(NSError *error) {
-//            
-//            [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
-//
-//        }];
-        
-                    [weakSelf.mineTableView endRefreshHeader];
+
+        [weakSelf.mineTableView endRefreshHeader];
         [[ZHUser user] updateUserInfo];
         
     }];
