@@ -23,7 +23,6 @@
 @property (nonatomic,copy) NSString *location;
 
 @property (nonatomic,copy) NSString *desc;
-//@property (nonatomic,copy) NSString *description;
 
 @property (nonatomic,copy) NSString *name;
 

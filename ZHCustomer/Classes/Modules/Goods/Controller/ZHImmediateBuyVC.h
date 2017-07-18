@@ -10,17 +10,9 @@
 #import "ZHGoodsModel.h"
 #import "CDGoodsParameterModel.h"
 
-//#import "ZHCartGoodsModel.h"
-
-typedef NS_ENUM(NSInteger,ZHIMBuyType){
-    
-    ZHIMBuyTypeSingle = 0 //单个商品
-//  ZHIMBuyTypeAll //购物车商品
-};
 
 @interface ZHImmediateBuyVC : TLBaseVC
 
-@property (nonatomic,assign) ZHIMBuyType type;
 
 //普通商品
 @property (nonatomic,strong) NSArray<ZHGoodsModel *> *goodsRoom;
@@ -31,7 +23,5 @@ typedef NS_ENUM(NSInteger,ZHIMBuyType){
 @property (nonatomic,copy) NSAttributedString *priceAttrAddPostage;
 
 @property (nonatomic,copy) void(^placeAnOrderSuccess)();
-
-@property (nonatomic, strong) NSNumber *postage;
 
 @end

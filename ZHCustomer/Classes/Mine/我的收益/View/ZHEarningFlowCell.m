@@ -74,8 +74,8 @@
                            };
     
     
-    self.backMoneyLbl.text = [NSString stringWithFormat:@"返还金额： %@%@",[self detailMoneyWithMoney:_flowModel.toAmount],dict[_flowModel.toCurrency]];
-    self.backTimeLbl.text = [NSString stringWithFormat:@"返还时间：%@",[_flowModel.createDatetime convertToDetailDate]];
+    self.backMoneyLbl.text = [NSString stringWithFormat:@"分红金额： %@%@",[self detailMoneyWithMoney:_flowModel.toAmount],dict[_flowModel.toCurrency]];
+    self.backTimeLbl.text = [NSString stringWithFormat:@"分红时间：%@",[_flowModel.createDatetime convertToDetailDate]];
     
 }
 

@@ -20,6 +20,7 @@
 #import "ZHPwdRelatedVC.h"
 #import "ZHShop.h"
 #import "ZHPayService.h"
+#import "ZHRealNameAuthVC.h"
 //
 @interface ZHPayVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -357,6 +358,17 @@
     
         [http postWithSuccess:^(id responseObject) {
             
+            if ([ZHPayService checkRealNameAuthByResponseObject:responseObject]) {
+                
+                //需要实名
+                [TLAlert alertWithInfo: responseObject[@"errorInfo"] ? : nil];
+                ZHRealNameAuthVC *vc = [[ZHRealNameAuthVC alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+                
+                return;
+                
+            }
+        
             
             if ([payType isEqualToString: kZHWXTypeCode]) {
                 
@@ -435,8 +447,10 @@
    
     }
     
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
+    
 }
 
 

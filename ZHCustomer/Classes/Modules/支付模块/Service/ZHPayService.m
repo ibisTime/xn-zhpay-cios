@@ -18,4 +18,23 @@ NSString *const kZHDefaultPayTypeCode = @"1";
 
 @implementation ZHPayService
 
++ (BOOL)checkRealNameAuthByResponseObject:(id)obj {
+
+    if (![obj isKindOfClass:[NSDictionary class]]) {
+        
+        return NO;
+    }
+
+    NSString *errorBizCode =  obj[@"errorBizCode"];
+    if ( errorBizCode && [errorBizCode isEqualToString:@"M000001"]) {
+        
+        return YES;
+        
+    }
+    
+    return NO;
+    
+}
+
+
 @end

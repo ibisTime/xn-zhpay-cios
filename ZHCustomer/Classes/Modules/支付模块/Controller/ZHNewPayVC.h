@@ -36,18 +36,24 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 //汇赚宝支付只需传该模型
 @property (nonatomic,strong) ZHHZBModel *HZBModel;
 
-//各种总金额-富文本
+
+/**
+ 3.4.0以后为    商品为单一币种，分润（人民币）
+ */
 @property (nonatomic,copy) NSAttributedString *amoutAttr;
 
-//人民币价格，商品为币种组合可能包含人民币。 小目标为单一币种，可能是人民币标价
+
+/**
+ 小目标中有效，其它类型支付，该字段无效
+ */
 @property (nonatomic,strong) NSNumber *rmbAmount;
+
 
 //2.0 一元夺宝所需要的支付模型
 @property (nonatomic,strong) ZHDBModel *dbModel;
 
 //商品支付
 @property (nonatomic, copy) NSArray <NSString *>*goodsCodeList;
-
 
 /**
  商品购买 显示分润还是余额

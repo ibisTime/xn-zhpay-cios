@@ -15,9 +15,6 @@
 #import "ZHCurrencyHelper.h"
 #import "ZHAddressChooseView.h"
 #import "ZHNewPayVC.h"
-#import "ZHCartManager.h"
-
-//#import "IQKeyboardManager.h"
 
 
 @interface ZHImmediateBuyVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -60,37 +57,27 @@
     [super viewDidLoad];
     self.title = @"确认订单";
     
-    //根据有无地址创建UI
-    [self getAddress];
-    
+    //
     if (!self.goodsRoom) {
         
         NSLog(@"请传递购物模型");
         return;
     }
- 
-    if (self.type == ZHIMBuyTypeSingle) { //---单买
-        
-        
-        ZHGoodsModel *goods = self.goodsRoom[0];
-       self.totalPriceLbl.attributedText = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
-                                                                           GWB:goods.currentParameterPriceGWB
-                                                                           RMB:goods.currentParameterPriceRMB
-                                                                         count:goods.currentCount ];
-        
-        self.postageTf.text = @"0元";
-        
-    }
     
-
+    //1.根据有无地址创建UI
+    [self getAddress];
+    
+    
 }
+
+
+
 
 #pragma mark- 立即购买行为
 - (void)buyAction {
     
-
     //
-    if (self.type == ZHIMBuyTypeSingle && self.goodsRoom) { //普通商品购买
+    if ( self.goodsRoom) { //普通商品购买
         
         if (!self.currentAddress) {
             
@@ -136,25 +123,13 @@
             ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
             payVC.goodsCodeList = @[orderCode];
             payVC.isFRBAndGXZ = [self.goodsRoom[0].payCurrency isEqualToString:@"2"];
-            NSNumber *rmb = self.goodsRoom[0].currentParameterPriceRMB;
-            payVC.rmbAmount = @([rmb longLongValue]*self.goodsRoom[0].currentCount); //把人民币传过去
             
             
-            ZHGoodsModel *goods = self.goodsRoom[0];
+//            ZHGoodsModel *goods = self.goodsRoom[0];
 
-            //不加邮费的价格
-            payVC.amoutAttr = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
-                                                                  GWB:goods.currentParameterPriceGWB
-                                                                  RMB:goods.currentParameterPriceRMB
-                                                                count:goods.currentCount];
-//            //加邮费的价格
-//            payVC.amoutAttrAddPostage = [ZHCurrencyHelper calculatePriceWithQBB:goods.currentParameterPriceQBB
-//                                                                            GWB:goods.currentParameterPriceGWB
-//                                                                            RMB:goods.currentParameterPriceRMB
-//                                                                          count:goods.count addPostageRmb:self.postage];
-//            //邮费
-//            payVC.postage = self.postage;
-            
+            //加上邮费的价格
+            payVC.amoutAttr = self.totalPriceLbl.attributedText;
+
             
             payVC.paySucces = ^(){
                     
@@ -194,11 +169,10 @@
 
         //添加
         [self.view addSubview:self.tableV];
+        
         //购买按钮
         [self.view addSubview:self.buyBtn];
-        //
-    
-
+        
         NSArray *adderssRoom = responseObject[@"data"];
         if (adderssRoom.count > 0 ) { //有收获地址
             
@@ -216,6 +190,9 @@
             [self setNOAddressUI];
             
         }
+        
+        //初始化数据
+        [self updatePostageAndTotalMoney];
         
     } failure:^(NSError *error) {
         
@@ -235,23 +212,24 @@
     self.chooseView.addressLbl.text = [NSString stringWithFormat:@"收货地址：%@%@%@%@",address.province,address.city, address.district, address.detailAddress];
 }
 
-#pragma mark- 前往地址
+#pragma mark- 前往选择收货地址，已有地址
 - (void)chooseAddress {
 
     ZHAddressChooseVC *chooseVC = [[ZHAddressChooseVC alloc] init];
-//    chooseVC.addressRoom = self.addressRoom;
     chooseVC.selectedAddrCode = self.currentAddress.code;
-    
     chooseVC.chooseAddress = ^(ZHReceivingAddress *addr){
     
         self.currentAddress = addr;
         [self setHeaderAddress:addr];
+        [self updatePostageAndTotalMoney];
+
     
     };
     [self.navigationController pushViewController:chooseVC animated:YES];
 
     
 }
+
 
 #pragma mark- 原来无地址，现在添加地址
 - (void)addAddress {
@@ -264,11 +242,65 @@
         [self setHeaderAddress:address];
         [self.addressRoom addObject:address];
         
+        [self updatePostageAndTotalMoney];
     };
+    
     [self.navigationController pushViewController:address animated:YES];
 
 }
 
+#pragma mark- 根据地址变更进行邮费变更和总价格变更
+- (void)updatePostageAndTotalMoney {
+    
+    //查询邮费
+    ZHGoodsModel *goods = self.goodsRoom[0];
+
+    __block NSNumber *postage;
+    
+    
+    if (self.currentAddress) {
+        
+        TLNetworking *http = [TLNetworking new];
+        http.showView = self.view;
+        http.code = @"808088";
+        http.parameters[@"startPoint"] = goods.currentParameterModel.province;
+        http.parameters[@"endPoint"] = self.currentAddress.city;
+        
+        [http postWithSuccess:^(id responseObject) {
+            
+            postage = responseObject[@"data"][@"price"];
+            
+            self.postageTf.text = [postage convertToRealMoney];
+            long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
+            
+            NSString *totalPriceStr = [NSString stringWithFormat:@"￥%@", [@(totalPrice) convertToRealMoney]];
+            self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
+            
+        } failure:^(NSError *error) {
+            
+        }];
+
+        
+    } else {
+        
+        postage = @0;
+        //
+        self.postageTf.text = [postage convertToRealMoney];
+        long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
+        
+        NSString *totalPriceStr = [NSString stringWithFormat:@"￥%@", [@(totalPrice) convertToRealMoney]];
+        self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
+        
+    }
+    
+
+
+ 
+    
+
+}
+
+//
 - (UITableView *)tableV{
     
     if (!_tableV) {
@@ -356,35 +388,35 @@
 
 - (UIView *)footerView {
 
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 135)];
     footerView.backgroundColor = [UIColor whiteColor];
     
     //邮费
-    TLTextField *postageTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"邮费：" titleWidth:100 placeholder:@"邮费"];
+    TLTextField *postageTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"邮费(元)：" titleWidth:100 placeholder:@"邮费"];
     [footerView addSubview:postageTf];
     postageTf.userInteractionEnabled = NO;
     self.postageTf = postageTf;
     
     
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, postageTf.yy, SCREEN_WIDTH, 0.5)];
+    line.backgroundColor = [UIColor zh_lineColor];
+    [footerView addSubview:line];
+    
     //买家嘱咐
     TLTextField *tf = [[TLTextField alloc] initWithframe:CGRectMake(0, postageTf.yy + 1, SCREEN_WIDTH, 45) leftTitle:@"买家嘱咐：" titleWidth:100 placeholder:@"对本次交易的说明"];
     [footerView addSubview:tf];
     self.enjoinTf = tf;
-
     
+    //
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, self.enjoinTf.yy, SCREEN_WIDTH, 0.5)];
+    line2.backgroundColor = [UIColor zh_lineColor];
+    [footerView addSubview:line2];
     
-    
-    
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, tf.yy + 1, SCREEN_WIDTH, 0.5)];
-    line.backgroundColor = [UIColor zh_lineColor];
-    [footerView addSubview:line];
-
     //
     [footerView addSubview:self.totalPriceLbl];
     [self.totalPriceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(footerView.mas_right).offset(-15);
-        make.top.equalTo(line.mas_bottom);
+        make.top.equalTo(self.enjoinTf.mas_bottom).offset(1);
         make.bottom.equalTo(footerView.mas_bottom);
         
     }];
@@ -399,6 +431,7 @@
     hintLbl.text = @"应付金额：";
         
     [hintLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
             make.right.equalTo(self.totalPriceLbl.mas_left).offset(-9);
             make.top.equalTo(self.totalPriceLbl.mas_top);
             make.bottom.equalTo(footerView.mas_bottom);

@@ -548,7 +548,6 @@ NSString * const kRefreshDBListNotificationName = @"kRefreshDBListNotificationNa
 #pragma mark- web代理
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation {
     
-//    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [TLProgressHUD showWithStatus:nil];
     [TLAlert alertWithHUDText:@"加载失败"];
     

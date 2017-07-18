@@ -10,6 +10,31 @@
 
 @implementation NSNumber (TLAdd)
 
+
+- (NSString *)convertToRealMoneyWithCount:(NSInteger)count {
+
+    if (!self) {
+        
+        NSLog(@"金额不能为空");
+        return nil;
+    }
+    
+    if (count == 0) {
+        return 0;
+    }
+    
+    long long m = [self longLongValue]*count;
+    double value = m/1000.0;
+    
+    NSString *tempStr =  [NSString stringWithFormat:@"%.3f",value];
+    NSString *subStr = [tempStr substringWithRange:NSMakeRange(0, tempStr.length - 1)];
+    
+    //  return [NSString stringWithFormat:@"%.2f",value];
+    return subStr;
+    
+
+}
+
 - (NSString *)convertToRealMoney {
 
     

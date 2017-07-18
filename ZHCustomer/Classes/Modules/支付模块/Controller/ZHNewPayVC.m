@@ -20,6 +20,7 @@
 #import "ZHGoSetTradePwdView.h"
 #import "ZHPwdRelatedVC.h"
 #import "ZHPayService.h"
+#import "ZHRealNameAuthVC.h"
 
 @interface ZHNewPayVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -45,8 +46,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = @"支付";
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     
     //----//----//
     if (self.navigationController) {
@@ -180,7 +183,6 @@
             self.paySceneManager.isInitiative = NO;
             self.paySceneManager.amount = [self.HZBModel.price convertToSimpleRealMoney];
 
-            
             //2.支付
             ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
             payFuncItem.headerHeight = 30.0;
@@ -194,6 +196,7 @@
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                 return;
             }
+            //
             [self setUpUI];
             
             self.priceLbl.text = self.paySceneManager.amount;
@@ -225,6 +228,7 @@
                 self.priceLbl.text = self.paySceneManager.amount;
                 
             }
+            
             self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
 
             
@@ -234,7 +238,6 @@
         case ZHPayViewCtrlTypeNewGoods: { //普通商品支付
             
             self.paySceneManager.isInitiative = NO;
-            self.paySceneManager.amount = [self.rmbAmount convertToSimpleRealMoney];
 
             //2.支付
             ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
@@ -520,6 +523,17 @@
     
     [http postWithSuccess:^(id responseObject) {
         
+        if ([ZHPayService checkRealNameAuthByResponseObject:responseObject]) {
+            
+            //需要实名
+            [TLAlert alertWithInfo: responseObject[@"errorInfo"] ? : nil];
+            ZHRealNameAuthVC *vc = [[ZHRealNameAuthVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+            return ;
+            
+        }
+        
         if ([payType isEqualToString:kZHAliPayTypeCode]) {
             
             [self aliPayWithInfo:responseObject[@"data"]];
@@ -626,7 +640,7 @@
 
 //
 - (void)setUpUI {
-
+    
     //
     UITableView *payTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) style:UITableViewStyleGrouped];
     [self.view addSubview:payTableView];
@@ -638,12 +652,13 @@
     payTableView.dataSource = self;
     payTableView.delegate = self;
     
+    
     //headerView
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
     payTableView.tableHeaderView = headerView;
-    headerView.backgroundColor = [UIColor orangeColor];
+//    headerView.backgroundColor = [UIColor orangeColor];
     
-    self.priceInfoView = [[ZHPayInfoView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
+    self.priceInfoView = [[ZHPayInfoView alloc] initWithFrame:CGRectMake(0, -25, SCREEN_WIDTH, 50)];
     [headerView addSubview:self.priceInfoView];
     self.priceInfoView.titleLbl.text = @"消费金额";
     headerView.height = self.priceInfoView.yy + 10;

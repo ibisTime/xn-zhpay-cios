@@ -328,8 +328,6 @@
     
     //
     ZHImmediateBuyVC *buyVC = [[ZHImmediateBuyVC alloc] init];
-    buyVC.type = ZHIMBuyTypeSingle;
-    buyVC.postage = @0;
     
     self.goods.currentCount = count;
     self.goods.currentParameterPriceRMB = parameterModel.price1;
@@ -342,6 +340,7 @@
     [self.navigationController pushViewController:buyVC animated:YES];
     
 }
+
 #pragma mark- 购买
 - (void)buy {
     

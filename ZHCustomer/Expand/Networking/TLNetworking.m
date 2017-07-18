@@ -144,6 +144,15 @@
           
       } else {
           
+          if (responseObject[@"errorBizCode"]) {
+              
+              if (success) {
+                  success(responseObject);
+              }
+              
+              return ;
+          }
+          
           if (failure) {
               failure(nil);
           }

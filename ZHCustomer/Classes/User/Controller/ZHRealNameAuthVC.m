@@ -110,6 +110,9 @@
     http.parameters[@"idKind"] = @"1";
     http.parameters[@"idNo"] = self.idNoTf.text;
     http.parameters[@"realName"] = self.realNameTf.text;
+    http.parameters[@"returnUrl"] = @"zhqb://certi.back";
+
+    
     [http postWithSuccess:^(id responseObject) {
         
         if ([responseObject[@"data"][@"isSuccess"] isEqual:@1]) {
