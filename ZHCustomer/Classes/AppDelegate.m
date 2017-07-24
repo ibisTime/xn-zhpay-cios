@@ -35,7 +35,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    
+    //3.6.0 分支从3.5.0分支上拉取，然后测试只能合并到350上，在由350合并到master上
     //设置应用环境
     [AppConfig config].runEnv = RunEnvDev;
     
