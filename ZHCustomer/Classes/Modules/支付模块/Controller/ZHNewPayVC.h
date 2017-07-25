@@ -8,14 +8,12 @@
 
 #import "TLBaseVC.h"
 #import "ZHPaySceneManager.h"
-#import "ZHDBModel.h"
+//#import "ZHDBModel.h"
 
 //正汇系统无人民币概念
 typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
     
-    
-    //无人民币支付，，即无微信和支付宝
-//    ZHPayViewCtrlTypeNewYYDB, //2.0版本的一元夺宝
+
     
     //各种都有
     ZHPayViewCtrlTypeNewGoods //购物车支付 和 单个商品支付

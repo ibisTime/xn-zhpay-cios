@@ -7,7 +7,7 @@
 //
 
 #import "TLBaseModel.h"
-#import "ZHCoupon.h"
+//#import "ZHCoupon.h"
 
 
 @interface ZHShop : TLBaseModel
@@ -53,7 +53,6 @@
 @property (nonatomic,copy) NSString *descriptionShop;//店铺详述
 @property (nonatomic,copy) NSString *owner;//拥有者
 @property (nonatomic,copy) NSString *status;
-@property (nonatomic,strong) NSArray <ZHCoupon *>*storeTickets;//商家折扣券
 @property (nonatomic,copy) NSString *distance;
 //
 

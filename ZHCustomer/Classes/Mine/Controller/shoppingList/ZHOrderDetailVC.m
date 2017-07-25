@@ -11,7 +11,6 @@
 #import "ZHAddressChooseView.h"
 #import "ZHPayVC.h"
 #import "ZHNewPayVC.h"
-#import "ZHCartManager.h"
 
 @interface ZHOrderDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -122,8 +121,8 @@
 #pragma mark- 支付
 - (void)pay {
     
-    [ZHCartManager getPostage:^(NSNumber *postage) {
-        
+//    [ZHCartManager getPostage:^(NSNumber *postage) {
+    
         ZHNewPayVC *newPayVC = [[ZHNewPayVC alloc] init];
         newPayVC.type = ZHPayViewCtrlTypeNewGoods;
         newPayVC.goodsCodeList = @[self.order.code];
@@ -149,9 +148,9 @@
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:newPayVC];
         [self presentViewController:nav animated:YES completion:nil];
         
-    } failure:^{
-        
-    }];
+//    } failure:^{
+//        
+//    }];
     //
  
     

@@ -10,7 +10,7 @@
 #import "ZHSettingGroup.h"
 #import "ZHSettingUpCell.h"
 #import "ZHAccountSecurityVC.h"
-#import "ZHHZBVC.h"
+//#import "ZHHZBVC.h"
 #import "TLMsgPlayView.h"
 //#import "ZHChatVC.h"
 #import "CDUserReleationVC.h"
@@ -23,16 +23,15 @@
 #import "TLUploadManager.h"
 #import "QNUploadManager.h"
 #import "ZHBillVC.h"
-#import "ZHMineDBRecordVC.h"
+//#import "ZHMineDBRecordVC.h"
 #import "TLWXManager.h"
-#import "ZHBriberyMoneyVC.h"
-#import "ZHBriberyMoney.h"
+//#import "ZHBriberyMoneyVC.h"
+//#import "ZHBriberyMoney.h"
 #import "ZHShareView.h"
 #import "AppConfig.h"
 #import "ZHShoppingListVC.h"
 #import "ZHShopOrderVC.h"
-#import "ZHCouponsMgtVC.h"
-#import "ZHHZBVC.h"
+//#import "ZHHZBVC.h"
 #import "ZHNewMineWalletVC.h"
 
 @interface ZHMineViewCtrl ()<UITableViewDataSource,UITableViewDelegate>
@@ -393,15 +392,15 @@
     };
     
     //小目标
-    ZHSettingModel *smallTarget = [[ZHSettingModel alloc] init];
-    smallTarget.imgName = @"小目标记录";
-    smallTarget.text = @"小目标记录";
-    smallTarget.action = ^(){
-        
-        ZHMineDBRecordVC  *dbRecordVC = [[ZHMineDBRecordVC alloc] init];
-        [weakself.navigationController pushViewController:dbRecordVC animated:YES];
-        
-    };
+//    ZHSettingModel *smallTarget = [[ZHSettingModel alloc] init];
+//    smallTarget.imgName = @"小目标记录";
+//    smallTarget.text = @"小目标记录";
+//    smallTarget.action = ^(){
+//        
+//        ZHMineDBRecordVC  *dbRecordVC = [[ZHMineDBRecordVC alloc] init];
+//        [weakself.navigationController pushViewController:dbRecordVC animated:YES];
+//        
+//    };
     
     //尖货清单
     ZHSettingModel *goodsDetail = [[ZHSettingModel alloc] init];

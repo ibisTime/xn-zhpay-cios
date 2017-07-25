@@ -19,14 +19,13 @@
 #import "ZHUserLoginVC.h"
 #import "SVProgressHUD.h"
 #import "AppConfig.h"
-//#import "TLRealmPlayground.h"
 #import <CoreLocation/CoreLocation.h>
 #import "TLAlipayManager.h"
+#import "TLLocationService.h"
 
 
 @interface AppDelegate ()<WXApiDelegate>
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
 
 @end
 
@@ -35,13 +34,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    //3.6.0 分支从3.5.0分支上拉取，然后测试只能合并到350上，在由350合并到master上
     //设置应用环境
     [AppConfig config].runEnv = RunEnvDev;
     
-    //
-    self.locationManager = [[CLLocationManager alloc] init];
-    [self.locationManager requestWhenInUseAuthorization];
+    //请求定位权限
+    [[TLLocationService service].locationManager requestWhenInUseAuthorization];
     
     //微信
     TLWXManager *wxManager = [TLWXManager manager];
@@ -151,11 +148,6 @@ void UncaughtExceptionHandler(NSException *exception){
     
 }
 
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-//    
-//    return [WXApi handleOpenURL:url delegate:[TLWXManager manager]];
-//    
-//}
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
@@ -244,6 +236,7 @@ void UncaughtExceptionHandler(NSException *exception){
 //    [self chatApplicationWillEnterForeground:application];
 
     [application cancelAllLocalNotifications];
+    
 }
 
 #pragma mark- 推送相关

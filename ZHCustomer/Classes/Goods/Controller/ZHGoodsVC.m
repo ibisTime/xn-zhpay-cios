@@ -13,16 +13,15 @@
 //#import "ZHShoppingCartVC.h"
 #import "ZHUserLoginVC.h"
 #import "ZHNavigationController.h"
-#import "ZHSegmentView.h"
+//#import "ZHSegmentView.h"
 #import "ZHGoodsCategoryManager.h"
 #import "ZHGoodsCategoryVC.h"
 
 //#import "ZHCartManager.h"
 
 #import "ZHSearchVC.h"
-#import "ZHDuoBaoVC.h"
 
-@interface ZHGoodsVC ()<ZHSegmentViewDelegate>
+@interface ZHGoodsVC ()
 
 @property (nonatomic,strong) UIScrollView *switchScrollView;
 @property (nonatomic,strong) UIView *typeChangeView;
@@ -100,57 +99,57 @@
 //}
 
 #pragma mark- 剁手合集-小目标-0元试购：--：切换
-- (BOOL)segmentSwitch:(NSInteger)idx {
-
-    if (idx == 0) {
-    
-        //添加剁手合集 控制器
-        static  ZHGoodsCategoryVC *dshjVC;
-
-        if (!dshjVC) {
-           
-            dshjVC = [[ZHGoodsCategoryVC alloc] init];
-            [self addChildViewController:dshjVC];
-            dshjVC.smallCategories = [ZHGoodsCategoryManager manager].dshjCategories;
-            [self.switchScrollView addSubview:dshjVC.view];
-            
-        }
-  
-    
-    
-    } else
-    
-    if (idx == 1) {
-        
-        static  ZHDuoBaoVC *duobaoVC;
-        
-        if (!duobaoVC) {
-            
-            duobaoVC = [[ZHDuoBaoVC alloc] init];
-            [self addChildViewController:duobaoVC];
-            duobaoVC.view.frame = self.switchScrollView.bounds;
-            duobaoVC.view.x = SCREEN_WIDTH;
-            [self.switchScrollView addSubview:duobaoVC.view];
-        }
-        
-    } else
-    
-    
-    if (idx == 2) {
-        
-        [self addChildViewController:self.zeroBuyVC];
-        self.zeroBuyVC.smallCategories = [ZHGoodsCategoryManager manager].lysgCategories;
-        self.zeroBuyVC.view.frame = self.switchScrollView.bounds;
-        self.zeroBuyVC.view.x =SCREEN_WIDTH * 2;
-        [self.switchScrollView addSubview:self.zeroBuyVC.view];
-        
-    }
-    
-    [self.switchScrollView setContentOffset:CGPointMake(idx*SCREEN_WIDTH, 0) animated:NO];
-    
-    return YES;
-
-}
+//- (BOOL)segmentSwitch:(NSInteger)idx {
+//
+//    if (idx == 0) {
+//    
+//        //添加剁手合集 控制器
+//        static  ZHGoodsCategoryVC *dshjVC;
+//
+//        if (!dshjVC) {
+//           
+//            dshjVC = [[ZHGoodsCategoryVC alloc] init];
+//            [self addChildViewController:dshjVC];
+//            dshjVC.smallCategories = [ZHGoodsCategoryManager manager].dshjCategories;
+//            [self.switchScrollView addSubview:dshjVC.view];
+//            
+//        }
+//  
+//    
+//    
+//    } else
+//    
+//    if (idx == 1) {
+//        
+//        static  ZHDuoBaoVC *duobaoVC;
+//        
+//        if (!duobaoVC) {
+//            
+//            duobaoVC = [[ZHDuoBaoVC alloc] init];
+//            [self addChildViewController:duobaoVC];
+//            duobaoVC.view.frame = self.switchScrollView.bounds;
+//            duobaoVC.view.x = SCREEN_WIDTH;
+//            [self.switchScrollView addSubview:duobaoVC.view];
+//        }
+//        
+//    } else
+//    
+//    
+//    if (idx == 2) {
+//        
+//        [self addChildViewController:self.zeroBuyVC];
+//        self.zeroBuyVC.smallCategories = [ZHGoodsCategoryManager manager].lysgCategories;
+//        self.zeroBuyVC.view.frame = self.switchScrollView.bounds;
+//        self.zeroBuyVC.view.x =SCREEN_WIDTH * 2;
+//        [self.switchScrollView addSubview:self.zeroBuyVC.view];
+//        
+//    }
+//    
+//    [self.switchScrollView setContentOffset:CGPointMake(idx*SCREEN_WIDTH, 0) animated:NO];
+//    
+//    return YES;
+//
+//}
 
 - (ZHGoodsCategoryVC *)zeroBuyVC {
 
@@ -184,9 +183,7 @@
 
 - (void)setUpUI {
 
-//    //顶部切换按钮
-    CGFloat h = 45;
-    CGFloat margin = 0.5;
+
     
     static  ZHGoodsCategoryVC *dshjVC;
     
@@ -200,25 +197,6 @@
         self.view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
         
     }
-    
-    //切换按钮
-//    ZHSegmentView *segmentView = [[ZHSegmentView alloc] initWithFrame:CGRectMake(0, margin, SCREEN_WIDTH, h)];
-//    segmentView.delegate = self;
-//    segmentView.tagNames = @[@"剁手合集",@"小目标",@"0元试购"];
-//    [self.view addSubview:segmentView];
-//    self.typeChangeView = segmentView;
-//    self.segmentView = segmentView;
-    
-    
-//    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.typeChangeView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - self.typeChangeView.yy)];
-//    [self.view addSubview:self.switchScrollView];
-//    self.switchScrollView.pagingEnabled = YES;
-//    self.switchScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, self.switchScrollView.height);
-//    self.switchScrollView.scrollEnabled = NO;
-
-    
-    //添加购物车--按钮
-//    [self.view addSubview:self.goShoppingCartBtn];
     
 
 }

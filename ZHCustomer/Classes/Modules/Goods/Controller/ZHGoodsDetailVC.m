@@ -16,7 +16,7 @@
 #import "ZHImmediateBuyVC.h"
 #import "ZHEvaluateListVC.h" //评价列表
 #import "ZHSingleDetailVC.h" //详情列表
-#import "ZHShoppingCartVC.h"
+//#import "ZHShoppingCartVC.h"
 #import "ZHUserLoginVC.h"
 #import "MJRefresh.h"
 #import "ZHShareView.h"

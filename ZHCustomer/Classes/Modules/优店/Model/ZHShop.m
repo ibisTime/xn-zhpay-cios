@@ -47,11 +47,11 @@ NSString *const kShopInfoChange = @"zh_shop_info_change";
 
 }
 
-+ (NSDictionary *)mj_objectClassInArray {
-
-    return @{@"storeTickets":[ZHCoupon class]};
-
-}
+//+ (NSDictionary *)mj_objectClassInArray {
+//
+//    return @{@"storeTickets":[ZHCoupon class]};
+//
+//}
 
 - (NSDictionary *)typeDict {
 
@@ -73,36 +73,36 @@ NSString *const kShopInfoChange = @"zh_shop_info_change";
 
 }
 
-- (NSString *)discountDescription {
-
-    //找到最优
-    if (self.storeTickets.count > 0) {
-        
-
-    self.storeTickets = [self.storeTickets sortedArrayUsingComparator:^NSComparisonResult(ZHCoupon * obj1, ZHCoupon *  obj2) {
-        
-            NSInteger re = [obj1.key2 longLongValue]*1.0/[obj1.key1 longLongValue] -  [obj2.key2 longLongValue]*1.0/[obj2.key1 longLongValue];
-            if (re > 0) {
-                
-                return NSOrderedAscending;
-
-            } else {
-                return NSOrderedDescending;
-            }
-            
-        }];
-        
-        ZHCoupon *coupon = self.storeTickets[0];
-        return [NSString stringWithFormat:@"满 %@ 减 %@",[coupon.key1 convertToSimpleRealMoney],[coupon.key2 convertToSimpleRealMoney]];
-
-        
-    } else {
-    
-       return @"该店铺暂无优惠券";
-        
-    }
-    
-}
+//- (NSString *)discountDescription {
+//
+//    //找到最优
+//    if (self.storeTickets.count > 0) {
+//        
+//
+//    self.storeTickets = [self.storeTickets sortedArrayUsingComparator:^NSComparisonResult(ZHCoupon * obj1, ZHCoupon *  obj2) {
+//        
+//            NSInteger re = [obj1.key2 longLongValue]*1.0/[obj1.key1 longLongValue] -  [obj2.key2 longLongValue]*1.0/[obj2.key1 longLongValue];
+//            if (re > 0) {
+//                
+//                return NSOrderedAscending;
+//
+//            } else {
+//                return NSOrderedDescending;
+//            }
+//            
+//        }];
+//        
+//        ZHCoupon *coupon = self.storeTickets[0];
+//        return [NSString stringWithFormat:@"满 %@ 减 %@",[coupon.key1 convertToSimpleRealMoney],[coupon.key2 convertToSimpleRealMoney]];
+//
+//        
+//    } else {
+//    
+//       return @"该店铺暂无优惠券";
+//        
+//    }
+//    
+//}
 
 - (NSString *)distanceDescription {
 

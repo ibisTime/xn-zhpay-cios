@@ -124,25 +124,28 @@
 //    } else
     
         
-      if(self.type == ZHPayViewCtrlTypeNewYYDB) {
+//      if(self.type == ZHPayViewCtrlTypeNewYYDB) {
+//        
+//        //
+//        if ([self.rmbAmount isEqual:@0]) { //不是人民币价格
+//            
+//            payNames  = @[@"余额"]; //余额(可用100)
+//            imgs = @[@"zh_pay"];
+//            
+//        } else {//人民币价格
+//            
+//            payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+//            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+//            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+//            status = @[@(YES),@(NO),@(NO)];
+//            
+//        }
+//        
+//        
+//    } else
         
-        //
-        if ([self.rmbAmount isEqual:@0]) { //不是人民币价格
-            
-            payNames  = @[@"余额"]; //余额(可用100)
-            imgs = @[@"zh_pay"];
-            
-        } else {//人民币价格
-            
-            payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
-            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-            status = @[@(YES),@(NO),@(NO)];
-            
-        }
         
-        
-    } else if(self.type == ZHPayViewCtrlTypeNewGoods) {
+        if(self.type == ZHPayViewCtrlTypeNewGoods) {
         
         if (self.isFRBAndGXZ) {
             
@@ -207,36 +210,35 @@
 //
 //        } break;
             
-        case ZHPayViewCtrlTypeNewYYDB: { //2.0版本的一元夺宝
-            
-            self.paySceneManager.isInitiative = NO;
-            self.paySceneManager.amount = [self.rmbAmount convertToSimpleRealMoney];
-     
-            
-            //2.支付
-            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-            payFuncItem.headerHeight = 30.0;
-            payFuncItem.footerHeight = 0.1;
-            payFuncItem.rowNum = self.pays.count;
-            self.paySceneManager.groupItems = @[payFuncItem];
-            
-            [self setUpUI];
-            
-            if (self.amoutAttr) {
-                
-                self.priceLbl.attributedText = self.amoutAttr;
-                
-            } else {
-                
-                self.priceLbl.text = self.paySceneManager.amount;
-                
-            }
-            
-            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
-
-            
-            
-        } break;
+//        case ZHPayViewCtrlTypeNewYYDB: { //2.0版本的一元夺宝
+//            
+//            self.paySceneManager.isInitiative = NO;
+//            self.paySceneManager.amount = [self.rmbAmount convertToSimpleRealMoney];
+//     
+//            //2.支付
+//            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
+//            payFuncItem.headerHeight = 30.0;
+//            payFuncItem.footerHeight = 0.1;
+//            payFuncItem.rowNum = self.pays.count;
+//            self.paySceneManager.groupItems = @[payFuncItem];
+//            
+//            [self setUpUI];
+//            
+//            if (self.amoutAttr) {
+//                
+//                self.priceLbl.attributedText = self.amoutAttr;
+//                
+//            } else {
+//                
+//                self.priceLbl.text = self.paySceneManager.amount;
+//                
+//            }
+//            
+//            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
+//
+//            
+//            
+//        } break;
             
         case ZHPayViewCtrlTypeNewGoods: { //普通商品支付
             
@@ -377,19 +379,21 @@
 //                    
 //                }
                 
-                if (self.type == ZHPayViewCtrlTypeNewYYDB) {
-                    
-                    //特殊
-                    if (type == ZHPayTypeOther) {
-                        [self newYydbPay:payType payPwd:pwd];
-                        
-                    } else {
-                        
-                        [self newYydbPay:payType payPwd:pwd];
-                        
-                    }
-                    
-                } else if (self.type == ZHPayViewCtrlTypeNewGoods) {
+//                if (self.type == ZHPayViewCtrlTypeNewYYDB) {
+//                    
+//                    //特殊
+//                    if (type == ZHPayTypeOther) {
+//                        [self newYydbPay:payType payPwd:pwd];
+//                        
+//                    } else {
+//                        
+//                        [self newYydbPay:payType payPwd:pwd];
+//                        
+//                    }
+//                    
+//                } else
+                
+                if (self.type == ZHPayViewCtrlTypeNewGoods) {
                     
                     [self goodsPay:payType payPwd:pwd];
                 }
@@ -412,19 +416,21 @@
 //        }
         
         
-        if(self.type == ZHPayViewCtrlTypeNewYYDB) {
-            
-            //特殊
-            if (type == ZHPayTypeOther) {
-                [self newYydbPay:payType payPwd:nil];
-                
-            } else {
-                
-                [self newYydbPay:payType payPwd:nil];
-                
-            }
-            
-        } else if (self.type == ZHPayViewCtrlTypeNewGoods) {
+//        if(self.type == ZHPayViewCtrlTypeNewYYDB) {
+//            
+//            //特殊
+//            if (type == ZHPayTypeOther) {
+//                [self newYydbPay:payType payPwd:nil];
+//                
+//            } else {
+//                
+//                [self newYydbPay:payType payPwd:nil];
+//                
+//            }
+//            
+//        } else
+        
+        if (self.type == ZHPayViewCtrlTypeNewGoods) {
             
             [self goodsPay:payType payPwd:nil];
         }
@@ -468,50 +474,50 @@
 
 
 #pragma mark- 2.0新一元夺宝支付
-- (void)newYydbPay:(NSString *)payType  payPwd:(NSString *)pwd{
-    
-    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
-    
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        //615020
-        http.code = @"615021";
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"jewelCode"] = self.dbModel.code;
-        http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];
-        http.parameters[@"payType"] = payType;
-        http.parameters[@"tradePwd"] = pwd;
-        http.parameters[@"ip"] = data[@"ip"];
-        //---//
-        [http postWithSuccess:^(id responseObject) {
-            
-            if ([payType isEqualToString: kZHWXTypeCode]) {
-                
-                [self wxPayWithInfo:responseObject[@"data"]];
-                
-            } else if([payType isEqualToString:kZHAliPayTypeCode]){
-            
-                [self aliPayWithInfo:responseObject[@"data"]];
-                
-            } else {
-                
-                [TLAlert alertWithHUDText:@"支付成功"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                if (self.paySucces) {
-                    self.paySucces();
-                }
-            }
-            
-        } failure:^(NSError *error) {
-            
-        }];
-        
-    } abnormality:nil failure:^(NSError *error) {
-        
-        
-    }];
-    
-}
+//- (void)newYydbPay:(NSString *)payType  payPwd:(NSString *)pwd{
+//    
+//    [TLNetworking GET:[TLNetworking ipUrl] parameters:nil success:^(NSString *msg, id data) {
+//    
+//        TLNetworking *http = [TLNetworking new];
+//        http.showView = self.view;
+//        //615020
+//        http.code = @"615021";
+//        http.parameters[@"userId"] = [ZHUser user].userId;
+//        http.parameters[@"jewelCode"] = self.dbModel.code;
+//        http.parameters[@"times"] = [NSString stringWithFormat:@"%ld",self.dbModel.count];
+//        http.parameters[@"payType"] = payType;
+//        http.parameters[@"tradePwd"] = pwd;
+//        http.parameters[@"ip"] = data[@"ip"];
+//        //---//
+//        [http postWithSuccess:^(id responseObject) {
+//            
+//            if ([payType isEqualToString: kZHWXTypeCode]) {
+//                
+//                [self wxPayWithInfo:responseObject[@"data"]];
+//                
+//            } else if([payType isEqualToString:kZHAliPayTypeCode]){
+//            
+//                [self aliPayWithInfo:responseObject[@"data"]];
+//                
+//            } else {
+//                
+//                [TLAlert alertWithHUDText:@"支付成功"];
+//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//                if (self.paySucces) {
+//                    self.paySucces();
+//                }
+//            }
+//            
+//        } failure:^(NSError *error) {
+//            
+//        }];
+//        
+//    } abnormality:nil failure:^(NSError *error) {
+//        
+//        
+//    }];
+//    
+//}
 
 //尖货支付
 - (void)goodsPay:(NSString *)payType payPwd:(NSString *)pwd {

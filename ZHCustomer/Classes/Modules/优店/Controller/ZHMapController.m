@@ -8,25 +8,17 @@
 
 #import "ZHMapController.h"
 
-//#import <MAMapKit/MAMapKit.h>
-//#import <AMapNaviKit/AMapNaviKit.h>
-//#import <AMapLocationKit/AMapLocationKit.h>
 #import <MapKit/MapKit.h>
 
 @interface ZHMapController ()<MKMapViewDelegate>
 
 @property (nonatomic,strong) UIImageView *locationImageView;
-//@property (nonatomic,strong) MAMapView *mapV;
 
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic,assign) BOOL isFirst; //规划定位user成功后 置为NO
 
 @property (nonatomic,assign) BOOL isFailure;
-//
-//@property (nonatomic,strong) AMapNaviDriveManager *driveManager;
-//@property (nonatomic,strong) AMapLocationManager *locationManager;
 
-//@property (nonatomic,strong) MAPolyline *polyLine;
 
 @end
 
@@ -38,10 +30,6 @@
     self.isFirst = YES;
     self.isFailure = NO;
     
-//    MAMapView *mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];
-//    mapView.delegate = self;
-//    [self.view addSubview:mapView];
-//    self.mapV = mapView;
     
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     mapView.delegate = self;
@@ -57,23 +45,13 @@
 
     //设置地图显示区域
     CLLocationCoordinate2D location = self.point;
-    
-//    MACoordinateRegion region = MACoordinateRegionMakeWithDistance(location,1500 ,1500);
-//    MACoordinateRegion adjustedRegion = [mapView regionThatFits:region];
-//    [mapView setRegion:adjustedRegion animated:NO];
+
     
     //
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location, 1500, 1500);
     MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
     [self.mapView setRegion:adjustedRegion animated:YES];
     
-    
-    
-    //添加店铺标记点,会调用代理方法
-//    MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
-//    pointAnnotation.coordinate = self.point;
-//    pointAnnotation.title = self.shopName;
-//    [_mapV addAnnotation:pointAnnotation];
     
     MKPointAnnotation *pointAnnotation = [[MKPointAnnotation alloc] init];
     pointAnnotation.coordinate = self.point;
@@ -93,70 +71,7 @@
 
 
 
-//#pragma mark - locationManagerDelegate
-//- (void)amapLocationManager:(AMapLocationManager *)manager didFailWithError:(NSError *)error
-//{
-//    [TLAlert alertWithHUDText:@"无法获取您的当前位置"];
-//    //定位错误
-//}
-//
-//- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode
-//{
-//    
-//    if (self.isFirst) {
-//        
-//        self.isFirst = NO;
-//    
-////    //
-////    AMapNaviPoint *startPoint = [AMapNaviPoint locationWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
-////    //
-////    AMapNaviPoint *endPoint = [AMapNaviPoint locationWithLatitude:self.point.latitude longitude:self.point.longitude];
-////    
-////    //计算路线
-////    BOOL isSuccess = [self.driveManager calculateDriveRouteWithStartPoints:@[startPoint]
-////                                                                 endPoints:@[endPoint]
-////                                                                 wayPoints:nil
-////                                                           drivingStrategy:AMapNaviDrivingStrategySingleDefault];
-////        
-////    if (isSuccess) {
-////        
-////        
-////    } else {
-////        
-////        [TLAlert alertWithHUDText:@"路线规划失败"];
-////        
-////    }
-//        
-//    }
-//}
 
-#pragma mark - 路线规划 -delegate
-//- (void)driveManagerOnCalculateRouteSuccess:(AMapNaviDriveManager *)driveManager {
-//
-//    AMapNaviRoute *naviRoute = driveManager.naviRoute;
-//    
-//    //进行路线绘制
-//    NSArray <AMapNaviPoint *>*points = naviRoute.routeCoordinates;
-//    
-//    CLLocationCoordinate2D lineCoords[points.count];
-//    
-//    for (NSInteger i = 0; i < points.count; i ++) {
-//        lineCoords[i].longitude = points[i].longitude;
-//        lineCoords[i].latitude = points[i].latitude;
-//        
-//    }
-//
-//    if (self.polyLine) {
-//        [self.mapV removeOverlay:self.polyLine];
-//    }
-//    
-//    MAPolyline *line = [MAPolyline polylineWithCoordinates:lineCoords count:points.count];
-//    self.polyLine = line;
-//    self.mapV.showsUserLocation = YES;
-//    [self.mapV addOverlay:line];
-//    [self.mapV showOverlays:@[line] animated:YES];
-//
-//}
 
 
 - (void)navShop {
@@ -174,43 +89,7 @@
 
 }
 
-//#pragma mark - mapViewDelegate
-//- (void)mapViewWillStartLocatingUser:(MAMapView *)mapView {
-//
-//
-//    NSLog(@"开始定位");
-//
-//
-//}
-//
-//- (void)mapViewDidStopLocatingUser:(MAMapView *)mapView {
-//
-//    NSLog(@"停止定位");
-//
-//}
-//
-//- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {
-//
-//    
-//
-//}
 
-//- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
-//{
-//    if ([overlay isKindOfClass:[MAPolyline class]])
-//    {
-//        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:(MAPolyline *)overlay];
-//        
-//        polylineRenderer.lineWidth    = 5.f;
-//        polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
-//        polylineRenderer.lineJoinType = kMALineJoinRound;
-//        polylineRenderer.lineCapType  = kMALineCapRound;
-//        
-//        return polylineRenderer;
-//    }
-//    
-//    return nil;
-//}
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
     if ([annotation isKindOfClass:[MKPointAnnotation class]])
@@ -223,7 +102,7 @@
         {
             annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndentifier] ;
             
-//            [[MKPointAnnotation alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndentifier];
+
         }
         
         annotationView.canShowCallout= YES;       //设置气泡可以弹出，默认为NO
@@ -236,26 +115,6 @@
     return nil;
 
 }
-
-//- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation
-//{
-//    if ([annotation isKindOfClass:[MAPointAnnotation class]])
-//    {
-//        static NSString *pointReuseIndentifier = @"pointReuseIndentifier";
-//        MAPinAnnotationView*annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndentifier];
-//        if (annotationView == nil)
-//        {
-//            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndentifier];
-//        }
-//        annotationView.canShowCallout= YES;       //设置气泡可以弹出，默认为NO
-//        annotationView.animatesDrop = YES;        //设置标注动画显示，默认为NO
-//        annotationView.draggable = YES;//设置标注可以拖动，默认为NO
-//        annotationView.pinColor = MAPinAnnotationColorRed;
-//
-//        return annotationView;
-//    }
-//    return nil;
-//}
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation {
 
@@ -270,6 +129,7 @@
 //    }
 
 }
+
 
 //定位失败调用该接口
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error {
@@ -293,26 +153,7 @@
 
 }
 
-//- (AMapNaviDriveManager *)driveManager {
-//    
-//    if (!_driveManager) {
-//        _driveManager = [[AMapNaviDriveManager alloc] init];
-//        _driveManager.delegate = self;
-//    }
-//    return _driveManager;
-//}
 
-//- (AMapLocationManager *)locationManager {
-//    
-//    if (!_locationManager) {
-//        
-//        _locationManager = [[AMapLocationManager alloc] init];
-//        _locationManager.delegate = self;
-//        _locationManager.distanceFilter = 5;
-//        
-//    }
-//    return _locationManager;
-//}
 
 
 @end
