@@ -87,9 +87,7 @@
     [self.window makeKeyAndVisible];
     self.window.rootViewController = [[ZHTabBarController alloc] init];
     //获取商品的分类，
-    
-//  NSSetUncaughtExceptionHandler(*UncaughtExceptionHandler);
-    
+        
     //友盟异常捕获
     UMConfigInstance.appKey = @"586b96bf82b6352a6b00044b";
     UMConfigInstance.channelId = @"App Store";

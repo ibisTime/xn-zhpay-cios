@@ -13,8 +13,6 @@
 #import "ZHBriberyMoneyVC.h"
 
 #import <Photos/Photos.h>
-#import "SGAlertView.h"
-#import "SGScanningQRCodeVC.h"
 #import "MJRefresh.h"
 #import "ZHBillVC.h"
 
@@ -68,8 +66,8 @@
     //没有购买的进行购买
     [self buySuccess];
     
-
 }
+
 
 
 - (void)buySuccess {

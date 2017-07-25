@@ -80,8 +80,8 @@
     [bgScrollView addSubview:headerV];
     
     //钱包
-    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"数字积分"];
-    NSArray *typeCode =  @[kGXB,kFRB,kHBB,kHBYJ,kQBB,kDigitalJF];
+    NSArray *typeNames =  @[@"贡献值", @"分润",@"礼品券",@"数字积分",@"钱包币"];
+    NSArray *typeCode =  @[kGXB,kFRB,kGiftB,kHBYJ,kDigitalJF,kQBB];
     
     
     self.walletViews = [[NSMutableArray alloc] initWithCapacity:typeNames.count];

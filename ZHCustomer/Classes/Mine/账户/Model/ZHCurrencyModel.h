@@ -44,13 +44,15 @@
 
 @end
 
-FOUNDATION_EXTERN NSString *const kFRB;
 FOUNDATION_EXTERN NSString *const kGXB;
+FOUNDATION_EXTERN NSString *const kFRB;
 FOUNDATION_EXTERN NSString *const kQBB;
+FOUNDATION_EXTERN NSString *const kDigitalJF;//数字金粉
+FOUNDATION_EXTERN NSString *const kGiftB; //礼品券
+
+
 
 FOUNDATION_EXTERN NSString *const kGWB; //3.5.0暂时去掉
-
-FOUNDATION_EXTERN NSString *const kDigitalJF;
 FOUNDATION_EXTERN NSString *const kHBYJ;
 FOUNDATION_EXTERN NSString *const kHBB;
 FOUNDATION_EXTERN NSString *const kCNY;

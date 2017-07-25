@@ -8,9 +8,7 @@
 
 #import "ZHTabBarController.h"
 #import "ZHNavigationController.h"
-//#import "ZHMineVC.h"
 #import "ZHUserLoginVC.h"
-//#import "ChatManager.h"
 
 @interface ZHTabBarController ()<UITabBarControllerDelegate>
 
@@ -34,8 +32,9 @@
 //        NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"摇一摇01",@"小目标01",@"我的01"];
 //    }
 
-    NSArray *titles = @[@"优店",@"尖货",@"摇一摇",@"我的"];
-    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHShakeItOffVC",@"ZHMineViewCtrl"];
+    NSArray *titles = @[@"优店",@"尖货",@"礼品中心",@"我的"];
+    
+    NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHGiftVC",@"ZHMineViewCtrl"];
     NSArray *imageNames = @[@"优店00",@"尖货00",@"摇一摇00",@"我的00"];
     NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"摇一摇01",@"我的01"];
     

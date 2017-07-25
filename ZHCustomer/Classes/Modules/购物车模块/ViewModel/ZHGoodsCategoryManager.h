@@ -24,10 +24,9 @@
 //- (void)getZeroBuyCategory;
 
 
-@property (nonatomic,strong) NSArray <ZHCategoryModel *>*bigCategories;
+@property (nonatomic, copy) NSArray <ZHCategoryModel *>*bigCategories;
 
-@property (nonatomic,strong) NSArray <ZHCategoryModel *>*dshjCategories;
-@property (nonatomic,strong) NSArray <ZHCategoryModel *>*lysgCategories;
-
+@property (nonatomic, strong) NSMutableArray <ZHCategoryModel *>*dshjCategories;
+@property (nonatomic, copy) NSArray <ZHCategoryModel *>*lysgCategories;
 
 @end

@@ -18,16 +18,14 @@
 #import "ZHBannerModel.h"
 #import "ZHSearchVC.h"
 #import "ZHMsgVC.h"
-#import <MapKit/MapKit.h>
-//#import "ZHShopTypeDisplayView.h"
 #import <CoreLocation/CoreLocation.h>
-//#import "ZHShopTypeModel.h"
 #import "HYCityViewController.h"
 #import "ZHNavigationController.h"
 #import "TLWebVC.h"
 #import "ZHShareView.h"
 #import "CDShopTypeChooseView.h"
 #import "TLMarqueeView.h"
+#import "TLLocationService.h"
 
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
 
@@ -43,24 +41,19 @@
 
 @property (nonatomic, strong) TLMarqueeView *sysMsgView;
 
-//@property (nonatomic,strong) UILabel *announceContentLbl;
-
 @property (nonatomic,strong) TLBannerView *bannerView;
 @property (nonatomic,strong) UIView *announcementsView;
 
-@property (nonatomic,assign) BOOL isLocationSuccess;
+//防止多次定位重复刷新
 @property (nonatomic,assign) BOOL isFirst;
 
-@property (nonatomic,strong) CLLocationManager *sysLocationManager;
 //
 @property (nonatomic,copy) NSString *lon;
 @property (nonatomic,copy) NSString *lat;
 
+@property (nonatomic, strong) NSDate *lastLocationSuccessDate;
 //
 @property (nonatomic,copy) NSString *currentCityName;
-@property (nonatomic,copy) NSString *willDisplayCityName;
-//
-@property (nonatomic,strong) MBProgressHUD *hud;
 
 @property (nonatomic,strong) NSMutableArray <ZHBannerModel *>*bannerRoom;
 @property (nonatomic,strong) NSMutableArray *bannerPics; //图片
@@ -90,14 +83,16 @@
         return;
     }
     
-    if (self.isFirst) {
-        
-        [self.sysLocationManager  startUpdatingLocation];
-        self.isFirst = NO;
-
-    }
+//    if (self.isFirst) {
+//        
+////        [self.sysLocationManager  startUpdatingLocation];
+//        self.isFirst = NO;
+//
+//    }
     
 }
+
+
 
 //存储数据
 - (void)setCurrentCityName:(NSString *)currentCityName {
@@ -111,10 +106,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.isLocationSuccess = NO;
     self.isFirst = YES;
-    //1.思路，定位有结果后，
-    //取请求banner sysMsg 和 店铺类型，成功之后展示UI并且，去刷新tab
 
     //搜索 及 位置信息
     [self setUpSearchView];
@@ -218,140 +210,30 @@
         [[ZHUser user] updateUserInfo];
     }
     
-}
-
-
-
-
-#pragma mark- 获得店铺类型
-- (void)getType {
-
-    TLNetworking *http = [TLNetworking new];
-    http.code = @"808007";
-    http.parameters[@"status"] = @"1";
-    http.parameters[@"type"] = @"2";
-    [http postWithSuccess:^(id responseObject) {
-        
-        //1.获取数据
-        NSArray <ZHShopTypeModel *>* models = [ZHShopTypeModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-        
-        self.shopTypeChooseView.typeModels = models;
-
-        
-    } failure:^(NSError *error) {
-        
-    }];
-
-}
-
-
-- (void)getBanner {
-
-    //广告图
-    __weak typeof(self) weakSelf = self;
-    TLNetworking *http = [TLNetworking new];
-    http.code = @"806052";
-    http.parameters[@"type"] = @"2";
-    [http postWithSuccess:^(id responseObject) {
-        
-        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-        //组装数据
-        weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
-        
-        //取出图片
-        [weakSelf.bannerRoom enumerateObjectsUsingBlock:^(ZHBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
-        }];
-        
-        
-        weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
-        
-    } failure:^(NSError *error) {
-        
-    }];
-
-
-}
-
-- (void)getSysMsg {
-
-    TLNetworking *sysMsgHttp = [TLNetworking new];
-    sysMsgHttp.code = @"804040";
     
-    //    0 未读 1 已读 2未读被删 3 已读被删
-    sysMsgHttp.parameters[@"channelType"] = @"4";;
-    //sysMsgHttp.parameters[@"token"] = [ZHUser user].token;
-    sysMsgHttp.parameters[@"pushType"] = @"41";
-    sysMsgHttp.parameters[@"start"] = @"1";
-    sysMsgHttp.parameters[@"limit"] = @"1";
-    sysMsgHttp.parameters[@"toKind"] = @"1";
-    sysMsgHttp.parameters[@"smsType"] = @"1";
-    sysMsgHttp.parameters[@"status"] = @"1";
-    sysMsgHttp.parameters[@"fromSystemCode"] = @"CD-CZH000001";
-    
-    [sysMsgHttp postWithSuccess:^(id responseObject) {
-        
-        NSArray *msgs = responseObject[@"data"][@"list"];
-        if (msgs.count > 0) {
-            
-            self.sysMsgView.msg = msgs[0][@"smsTitle"];
-            
-            
-        }
-        
-    } failure:^(NSError *error) {
-        
-        
-    }];
-
-
-}
-
-
-#pragma mark - 搜索
-- (void)search {
-
-    ZHSearchVC *searchVC = [[ZHSearchVC alloc] init];
-    searchVC.type = ZHSearchVCTypeShop;
-    searchVC.lon = self.lon;
-    searchVC.lat = self.lat;
-    [self.navigationController pushViewController:searchVC animated:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationSuccess) name:kLocationServiceSuccessNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationFailure) name:kLocationServiceFailureNotification object:nil];
+    [[TLLocationService service] startService];
     
 }
 
 
+- (void)locationSuccess {
 
-- (CLLocationManager *)sysLocationManager {
-
-    if (!_sysLocationManager) {
+    NSLog(@"首页——定位成功");
+    
+    if (self.lastLocationSuccessDate && ([[NSDate date] timeIntervalSinceDate:self.lastLocationSuccessDate] <60*1)) {
         
-        _sysLocationManager = [[CLLocationManager alloc] init];
-        _sysLocationManager.delegate = self;
-        _sysLocationManager.distanceFilter = 500.0;
-//        [_sysLocationManager requestLocation]; //只定为一次
+        return;
     }
-    
-    return _sysLocationManager;
-}
+    self.lastLocationSuccessDate = [NSDate date];
 
-#pragma mark - 系统定位
-- (void)locationManager:(CLLocationManager *)manager
-       didFailWithError:(NSError *)error {
-
-      [self.shopTableView beginRefreshing];
-
-}
-
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    
     //获取当前位置
-    CLLocation *location = manager.location;
+    CLLocation *location = [TLLocationService service].locationManager.location;
     
-//--------------------------------------------//
+    //--------------------------------------------//
     if (self.currentCityName) { //已经有
         
-#warning -打开
         self.pageDataHelper.parameters[@"city"] = self.currentCityName;
         //
         self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
@@ -361,18 +243,10 @@
         self.pageDataHelper.parameters[@"latitude"] = self.lat;
         
         //
-        if (!self.isLocationSuccess) {
-            
-            [self.shopTableView beginRefreshing];
-            self.isLocationSuccess = YES;
-            
-        }
-        
+        [self.shopTableView beginRefreshing];
+
     } else { //第一次进入没有记录
         
-        //        if (!self.hud) {
-        //            self.hud  = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
         // 地址的编码通过经纬度得到具体的地址
         CLGeocoder *gecoder = [[CLGeocoder alloc] init];
         [gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
@@ -381,16 +255,13 @@
             
             //获得城市
             if (placemark.locality) {
-                //            [self.hud hideAnimated:YES];
-                //            self.hud = nil;
                 
                 NSString *cityName = [self getCityNameByPlacemark:placemark];
-             
+                
                 self.cityLbl.text = cityName;
                 self.currentCityName = cityName;
                 
                 //定位成功
-//                self.locationManager.distanceFilter = 10;
                 self.pageDataHelper.parameters[@"city"] = self.currentCityName;
                 self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
                 self.pageDataHelper.parameters[@"longitude"] = self.lon;
@@ -400,15 +271,10 @@
                 
                 [[NSUserDefaults standardUserDefaults] setObject:self.currentCityName forKey:USER_CITY_NAME_KEY];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-                if (!self.isLocationSuccess) {
-                    
-                    [self.shopTableView beginRefreshing];
-                    self.isLocationSuccess = YES;
-                    
-                }
+                [self.shopTableView beginRefreshing];
                 
             }
-
+            
         }];
         
     }
@@ -449,6 +315,109 @@
     }];
 
 }
+
+#pragma mark- 定位失败
+- (void)locationFailure {
+
+    [self.shopTableView beginRefreshing];
+
+}
+
+
+#pragma mark- 获得店铺类型
+- (void)getType {
+
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"808007";
+    http.parameters[@"status"] = @"1";
+    http.parameters[@"type"] = @"2";
+    [http postWithSuccess:^(id responseObject) {
+        
+        //1.获取数据
+        NSArray <ZHShopTypeModel *>* models = [ZHShopTypeModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+        self.shopTypeChooseView.typeModels = models;
+
+        
+    } failure:^(NSError *error) {
+        
+    }];
+
+}
+
+
+- (void)getBanner {
+
+    //广告图
+    __weak typeof(self) weakSelf = self;
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"806052";
+    http.parameters[@"type"] = @"2";
+    [http postWithSuccess:^(id responseObject) {
+        
+        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+        //组装数据
+        weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
+        
+        //取出图片
+        [weakSelf.bannerRoom enumerateObjectsUsingBlock:^(ZHBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
+        }];
+        
+        
+        weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
+        
+    } failure:^(NSError *error) {
+        
+    }];
+
+
+}
+
+
+- (void)getSysMsg {
+
+    TLNetworking *sysMsgHttp = [TLNetworking new];
+    sysMsgHttp.code = @"804040";
+    
+    //0 未读 1 已读 2未读被删 3 已读被删
+    sysMsgHttp.parameters[@"channelType"] = @"4";;
+    //sysMsgHttp.parameters[@"token"] = [ZHUser user].token;
+    sysMsgHttp.parameters[@"pushType"] = @"41";
+    sysMsgHttp.parameters[@"start"] = @"1";
+    sysMsgHttp.parameters[@"limit"] = @"1";
+    sysMsgHttp.parameters[@"toKind"] = @"1";
+    sysMsgHttp.parameters[@"smsType"] = @"1";
+    sysMsgHttp.parameters[@"status"] = @"1";
+    sysMsgHttp.parameters[@"fromSystemCode"] = @"CD-CZH000001";
+    [sysMsgHttp postWithSuccess:^(id responseObject) {
+        
+        NSArray *msgs = responseObject[@"data"][@"list"];
+        if (msgs.count > 0) {
+            
+            self.sysMsgView.msg = msgs[0][@"smsTitle"];
+            
+            
+        }
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+
+}
+
+
+#pragma mark - 搜索
+- (void)search {
+
+    ZHSearchVC *searchVC = [[ZHSearchVC alloc] init];
+    searchVC.type = ZHSearchVCTypeShop;
+    searchVC.lon = self.lon;
+    searchVC.lat = self.lat;
+    [self.navigationController pushViewController:searchVC animated:YES];
+    
+}
+
 
 - (NSString *)getCityNameByPlacemark:(CLPlacemark *)placemark {
 
@@ -513,7 +482,6 @@
     //获取数据成功，在改变城市名称
     NSString *nameCopy = [name stringByAppendingString:@"市"];
     self.pageDataHelper.parameters[@"city"] = nameCopy;
-    self.willDisplayCityName = nameCopy;
     self.currentCityName = nameCopy;
     self.cityLbl.text = nameCopy;
     
@@ -521,6 +489,7 @@
     [self.shopTableView beginRefreshing];
     
 }
+
 
 - (void)changCity {
 
@@ -577,7 +546,6 @@
         make.right.equalTo(arrowImageV.mas_right);
     }];
     
-    
     //2.搜索
     UIView *searchBgView = [[UIView alloc] initWithFrame:CGRectZero];
     [topView addSubview:searchBgView];
@@ -627,7 +595,6 @@
 #pragma mark- dasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-//    return 0;
     return self.shops.count;
 
 }
@@ -646,7 +613,6 @@
 }
 
 
-
 #pragma mark- 头部view
 - (void)setUpTableViewHeader {
 
@@ -659,22 +625,20 @@
     [bgView addSubview:bannerView];
     self.bannerView = bannerView;
     
-
     //地铺分类
     self.shopTypeChooseView = [CDShopTypeChooseView chooseView];
     [bgView addSubview:self.shopTypeChooseView];
     self.shopTypeChooseView.delegate = self;
     self.shopTypeChooseView.x = 0;
     self.shopTypeChooseView.y = bannerView.yy;
-
     //底部--公告
     [bgView addSubview:self.announcementsView];
     self.announcementsView.y = self.shopTypeChooseView.yy;
-    
     //调节高度
     bgView.height = self.announcementsView.yy + 5;
 
 }
+
 
 #pragma mark- 查看公告
 - (void)lookGG {
@@ -717,28 +681,11 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookGG)];
         [self.sysMsgView addGestureRecognizer:tap];
         
-//        
-//        UILabel *announceContentLbl = [UILabel labelWithFrame:CGRectMake(lbl.xx + 5, 0, SCREEN_WIDTH - lbl.xx  - 10 , 20)
-//                                        
-//                                                  textAligment:NSTextAlignmentLeft
-//                                               backgroundColor:[UIColor whiteColor]
-//                                                          font:[UIFont thirdFont]
-//                                                     textColor:[UIColor colorWithHexString:@"#222222"]];
-//        [_announcementsView addSubview:announceContentLbl];
-//        announceContentLbl.text = @"系统公告";
-//        self.announceContentLbl = announceContentLbl;
-//        announceContentLbl.userInteractionEnabled = YES;
-//
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookGG)];
-//        [announceContentLbl addGestureRecognizer:tap];
-        
     }
 
     return _announcementsView;
     
 }
-
-
 
 
 - (UIView *)funcViewWithFrame:(CGRect) frame imageName:(NSString *)imgName funcName:(NSString *)funcName {

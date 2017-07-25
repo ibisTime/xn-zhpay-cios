@@ -287,7 +287,6 @@
     }];
     
     
-    
     // 和 今日收益
     UIView *headerFooterView = [[UIView alloc] init];
     [bgImageView addSubview:headerFooterView];
@@ -353,6 +352,7 @@
     
     //
     [self.profitCountLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
         make.left.right.equalTo(profitHintLbl);
         make.top.equalTo(profitHintLbl.mas_bottom).offset(8);
         
@@ -381,7 +381,6 @@
     }];
     
     //
-    
     self.motivationLbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(14) lineHeight])
                                     textAligment:NSTextAlignmentCenter
                                  backgroundColor:[UIColor clearColor]
@@ -397,6 +396,7 @@
         make.top.equalTo(iconImageView.mas_bottom).offset(20);
         
     }];
+    
 }
 
 

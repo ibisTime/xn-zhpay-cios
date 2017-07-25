@@ -116,79 +116,44 @@
     
     [(UIControl *)btn.nextResponder removeFromSuperview];
     
-    //进行实名认真之后才能提现
-//    TLLog(@"---==%@",[ZHUser user].realName);
-//    TLLog(@"---==%@",[ZHUser user].realName);
-    if (![ZHUser user].realName || ([ZHUser user].realName && [ZHUser user].realName.length == 0)) {
-        
-        [TLAlert alertWithTitle:nil Message:@"您还未进行实名认证\n前往进行实名认证" confirmMsg:@"前往" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
-            
-        } confirm:^(UIAlertAction *action) {
-            
-            ZHRealNameAuthVC *authVC = [[ZHRealNameAuthVC alloc] init];
-            authVC.authSuccess = ^(){ //实名认证成功
-                
-            };
-            [self.navigationController pushViewController:authVC animated:YES];
-            
-        }];
-        
-        return;
-    }
-    
-    
-    ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
-    payVC.type = ZHPayViewCtrlTypeHZB;
-    payVC.HZBModel = self.HZBModel;
-    payVC.amoutAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@",[self.HZBModel.price convertToRealMoney]]
-                                                             attributes:@{
-                                                                          NSForegroundColorAttributeName : [UIColor zh_themeColor]                              }];
-    //传价格
-    payVC.rmbAmount = self.HZBModel.price;
-//    //传余额
-//    [accountArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+
+//    if (![ZHUser user].realName || ([ZHUser user].realName && [ZHUser user].realName.length == 0)) {
 //        
-//        if ([obj[@"currency"] isEqualToString:kFRB]) {
+//        [TLAlert alertWithTitle:nil Message:@"您还未进行实名认证\n前往进行实名认证" confirmMsg:@"前往" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
 //            
-//            payVC.balanceString = [NSString stringWithFormat:@"余额（分润%@）",[obj[@"amount"] convertToRealMoney]];
+//        } confirm:^(UIAlertAction *action) {
 //            
-//        }
+//            ZHRealNameAuthVC *authVC = [[ZHRealNameAuthVC alloc] init];
+//            authVC.authSuccess = ^(){ //实名认证成功
+//                
+//            };
+//            [self.navigationController pushViewController:authVC animated:YES];
+//            
+//        }];
 //        
-//    }];
-    payVC.paySucces = ^(){
-        
-        //        [self.navigationController popViewControllerAnimated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"HZBBuySuccess" object:nil];
-        
-    };
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-    [self presentViewController:nav animated:YES completion:nil];
-    
-    
-    //获取账户信息
-//    TLNetworking *http = [TLNetworking new];
-//    //        http.showView = self.view;
-//    http.code = @"802503";
-//    http.parameters[@"token"] = [ZHUser user].token;
-//    http.parameters[@"userId"] = [ZHUser user].userId;
+//        return;
+//    }
 //    
-//    [http postWithSuccess:^(id responseObject) {
-//        
-//        //只能使用 --- 人民币 或者 ---分润----- 购买
-//        //    ZHPayVC *payVC = [[ZHPayVC alloc] init];
-//        //    payVC.type = ZHPayVCTypeHZB;
-//        
-//        NSArray <NSDictionary *>*accountArr = responseObject[@"data"];
-//        if (accountArr.count <=0 ) {
-//            return ;
-//            
-//        }
+//    
+//    ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
+//    payVC.type = ZHPayViewCtrlTypeHZB;
+////    payVC.HZBModel = self.HZBModel;
+//    payVC.amoutAttr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%@",[self.HZBModel.price convertToRealMoney]]
+//                                                             attributes:@{
+//                                                                          NSForegroundColorAttributeName : [UIColor zh_themeColor]                              }];
+//    //传价格
+//    payVC.rmbAmount = self.HZBModel.price;
 //
-//    } failure:^(NSError *error) {
+//    payVC.paySucces = ^(){
 //        
+//        //        [self.navigationController popViewControllerAnimated:YES];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"HZBBuySuccess" object:nil];
 //        
-//        
-//    }];
+//    };
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+//    [self presentViewController:nav animated:YES completion:nil];
+//    
+
     
 
 }

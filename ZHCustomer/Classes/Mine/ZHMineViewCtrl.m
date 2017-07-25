@@ -260,11 +260,11 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark- 我的汇赚宝
+#pragma mark- 推荐关系
 - (void)lookMineHZB {
     
-    ZHHZBVC *hzbVC = [[ZHHZBVC alloc] init];
-    [self.navigationController pushViewController:hzbVC animated:YES];
+    CDUserReleationVC *vc = [[CDUserReleationVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
@@ -302,11 +302,9 @@
     [headerView addSubview:earningBtn];
     
     //
-    UIButton *hzbBtn = [self twoBtnWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 50) title:@"汇赚宝" imagName:@"汇赚宝"];
+    UIButton *hzbBtn = [self twoBtnWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 50) title:@"推荐关系" imagName:@"汇赚宝"];
     [hzbBtn addTarget:self action:@selector(lookMineHZB) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:hzbBtn];
-    
-
     
 //    //钱包
 //    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"购物币"];
@@ -445,16 +443,16 @@
 //        
 //    };
     
-    ZHSettingModel *releationModel = [[ZHSettingModel alloc] init];
-    releationModel.imgName = @"推荐关系";
-    releationModel.text = @"推荐关系";
-    releationModel.action = ^(){
-        
-        //
-        CDUserReleationVC *releationVC = [[CDUserReleationVC alloc] init];
-        [self.navigationController pushViewController:releationVC animated:YES];
-        
-    };
+//    ZHSettingModel *releationModel = [[ZHSettingModel alloc] init];
+//    releationModel.imgName = @"推荐关系";
+//    releationModel.text = @"推荐关系";
+//    releationModel.action = ^(){
+//        
+//        //
+//        CDUserReleationVC *releationVC = [[CDUserReleationVC alloc] init];
+//        [self.navigationController pushViewController:releationVC animated:YES];
+//        
+//    };
     
     
     
@@ -482,7 +480,7 @@
     
 
     ZHSettingGroup *group01 = [[ZHSettingGroup alloc] init];
-    group01.items = @[mineWallet,goodsDetail,shopDetail,releationModel];
+    group01.items = @[mineWallet,goodsDetail,shopDetail];
     return group01;
 }
 

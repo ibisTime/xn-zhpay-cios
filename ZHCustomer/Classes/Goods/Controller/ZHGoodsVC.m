@@ -26,14 +26,8 @@
 
 @property (nonatomic,strong) UIScrollView *switchScrollView;
 @property (nonatomic,strong) UIView *typeChangeView;
-//@property (nonatomic,strong) UIButton *goShoppingCartBtn;
-//@property (nonatomic,strong) UIView *reloaView;
 
 @property (nonatomic,strong) ZHGoodsCategoryVC *zeroBuyVC;
-//@property (nonatomic, strong) ZHSegmentView *segmentView;
-
-//
-//@property (nonatomic,strong) TLMsgBadgeView *msgBadgeView;
 
 @end
 
@@ -77,8 +71,14 @@
         [self removePlaceholderView];
         [ZHGoodsCategoryManager manager].dshjCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
+        //添加礼品分类
+        ZHCategoryModel *giftCategoryModel =  [[ZHCategoryModel alloc] init];
+        giftCategoryModel.code = @"code";
+        giftCategoryModel.name = @"礼品";
+        [[ZHGoodsCategoryManager manager].dshjCategories insertObject:giftCategoryModel atIndex:0];
+        //
         [self setUpUI];
-
+        //
         
     } failure:^(NSError *error) {
         

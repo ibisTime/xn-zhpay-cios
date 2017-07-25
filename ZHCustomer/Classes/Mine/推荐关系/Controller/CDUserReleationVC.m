@@ -134,7 +134,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return section == 0 ? 1 : 3;
+    return section == 0 ? 1 : 2;
 
 }
 

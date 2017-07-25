@@ -9,20 +9,12 @@ target 'ZHCustomer' do
   pod 'MJRefresh'
   pod 'MJExtension'
   pod 'Masonry'
-#  pod 'MBProgressHUD'
   pod 'AFNetworking'
   pod 'SDWebImage'
   pod 'IQKeyboardManager'
   #七牛云
   pod 'Qiniu'
-#  pod 'Realm','2.1.2'
-
   pod 'Realm'
-  
-  #pod "RTRootNavigationController" //导航栏
-
-  #一组
-  #pod 'AMap2DMap'
   
   #错误分析
   pod 'UMengAnalytics-NO-IDFA'

@@ -116,12 +116,15 @@
     NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
     NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
     
-    if (self.type == ZHPayViewCtrlTypeHZB) {
+//    if (self.type == ZHPayViewCtrlTypeHZB) {
+//        
+//        payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+//        imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+//        
+//    } else
+    
         
-        payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
-        imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-        
-    } else if(self.type == ZHPayViewCtrlTypeNewYYDB) {
+      if(self.type == ZHPayViewCtrlTypeNewYYDB) {
         
         //
         if ([self.rmbAmount isEqual:@0]) { //不是人民币价格
@@ -178,31 +181,31 @@
     self.paySceneManager = [[ZHPaySceneManager alloc] init];
     switch (self.type) {
             
-        case ZHPayViewCtrlTypeHZB: { //购买汇赚宝
-            
-            self.paySceneManager.isInitiative = NO;
-            self.paySceneManager.amount = [self.HZBModel.price convertToSimpleRealMoney];
-
-            //2.支付
-            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-            payFuncItem.headerHeight = 30.0;
-            payFuncItem.footerHeight = 0.1;
-            payFuncItem.rowNum = self.pays.count;
-            self.paySceneManager.groupItems = @[payFuncItem];
-            
-            //
-            if (!self.HZBModel) {
-                [TLAlert alertWithHUDText:@"汇赚宝信息呢？"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                return;
-            }
-            //
-            [self setUpUI];
-            
-            self.priceLbl.text = self.paySceneManager.amount;
-            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
-
-        } break;
+//        case ZHPayViewCtrlTypeHZB: { //购买汇赚宝
+//            
+//            self.paySceneManager.isInitiative = NO;
+//            self.paySceneManager.amount = [self.HZBModel.price convertToSimpleRealMoney];
+//
+//            //2.支付
+//            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
+//            payFuncItem.headerHeight = 30.0;
+//            payFuncItem.footerHeight = 0.1;
+//            payFuncItem.rowNum = self.pays.count;
+//            self.paySceneManager.groupItems = @[payFuncItem];
+//            
+//            //
+//            if (!self.HZBModel) {
+//                [TLAlert alertWithHUDText:@"汇赚宝信息呢？"];
+//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//                return;
+//            }
+//            //
+//            [self setUpUI];
+//            
+//            self.priceLbl.text = self.paySceneManager.amount;
+//            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
+//
+//        } break;
             
         case ZHPayViewCtrlTypeNewYYDB: { //2.0版本的一元夺宝
             
@@ -368,11 +371,13 @@
                 
                 NSString *pwd = alertCtrl.textFields[0].text;
                 
-                if(self.type == ZHPayViewCtrlTypeHZB) {
-                    
-                    [self hzbPay:payType payPwd:pwd];
-                    
-                } if (self.type == ZHPayViewCtrlTypeNewYYDB) {
+//                if(self.type == ZHPayViewCtrlTypeHZB) {
+//                    
+//                    [self hzbPay:payType payPwd:pwd];
+//                    
+//                }
+                
+                if (self.type == ZHPayViewCtrlTypeNewYYDB) {
                     
                     //特殊
                     if (type == ZHPayTypeOther) {
@@ -400,11 +405,14 @@
         
     } else {
     
-        if(self.type == ZHPayViewCtrlTypeHZB) {
-            
-            [self hzbPay:payType payPwd:nil];
-            
-        } if (self.type == ZHPayViewCtrlTypeNewYYDB) {
+//        if(self.type == ZHPayViewCtrlTypeHZB) {
+//            
+//            [self hzbPay:payType payPwd:nil];
+//            
+//        }
+        
+        
+        if(self.type == ZHPayViewCtrlTypeNewYYDB) {
             
             //特殊
             if (type == ZHPayTypeOther) {
@@ -568,41 +576,41 @@
 #pragma mark- 汇赚宝支付
 - (void)hzbPay:(NSString *)payType payPwd:(NSString *)pwd {
     
-
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"615110";
-        http.parameters[@"hzbTemplateCode"] = self.HZBModel.code;
-        http.parameters[@"payType"] = payType;
-        http.parameters[@"token"] = [ZHUser user].token;
-        http.parameters[@"userId"] = [ZHUser user].userId;
-        http.parameters[@"tradePwd"] = pwd;
-    
-        [http postWithSuccess:^(id responseObject) {
-            
-            if ([payType isEqualToString:kZHWXTypeCode]) {
-                
-                [self wxPayWithInfo:responseObject[@"data"]];
-                
-            } else if([payType isEqualToString:kZHAliPayTypeCode]){
-            
-                [self aliPayWithInfo:responseObject[@"data"]];
-            } else {
-                
-                [TLAlert alertWithHUDText:@"购买成功"];
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                    
-                    if (self.paySucces) {
-                        self.paySucces();
-                    }
-                    
-                }];
-                
-            }
-            
-        } failure:^(NSError *error) {
-            
-        }];
+//
+//        TLNetworking *http = [TLNetworking new];
+//        http.showView = self.view;
+//        http.code = @"615110";
+//        http.parameters[@"hzbTemplateCode"] = self.HZBModel.code;
+//        http.parameters[@"payType"] = payType;
+//        http.parameters[@"token"] = [ZHUser user].token;
+//        http.parameters[@"userId"] = [ZHUser user].userId;
+//        http.parameters[@"tradePwd"] = pwd;
+//    
+//        [http postWithSuccess:^(id responseObject) {
+//            
+//            if ([payType isEqualToString:kZHWXTypeCode]) {
+//                
+//                [self wxPayWithInfo:responseObject[@"data"]];
+//                
+//            } else if([payType isEqualToString:kZHAliPayTypeCode]){
+//            
+//                [self aliPayWithInfo:responseObject[@"data"]];
+//            } else {
+//                
+//                [TLAlert alertWithHUDText:@"购买成功"];
+//                [self.navigationController dismissViewControllerAnimated:YES completion:^{
+//                    
+//                    if (self.paySucces) {
+//                        self.paySucces();
+//                    }
+//                    
+//                }];
+//                
+//            }
+//            
+//        } failure:^(NSError *error) {
+//            
+//        }];
     
 }
 
