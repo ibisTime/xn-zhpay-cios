@@ -132,7 +132,6 @@
     CGFloat w = (SCREEN_WIDTH - 3*margin)/4.0;
     CGFloat h = 97;
     
-    __weak typeof(self) weakSelf = self;
     for (NSInteger i = 0; i < models.count; i ++) {
         
         //i 无要求

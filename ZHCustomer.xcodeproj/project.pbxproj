@@ -87,7 +87,6 @@
 		2E6E486C1E1B4D3800FD2CA7 /* ZHMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E48681E1B4D3800FD2CA7 /* ZHMsgCell.m */; };
 		2E90868A1F1C4C0C002374F4 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E90865B1F1C4C0C002374F4 /* city.plist */; };
 		2E90868B1F1C4C0C002374F4 /* HYCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E90865D1F1C4C0C002374F4 /* HYCityViewController.m */; };
-		2E90868C1F1C4C0C002374F4 /* TopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086601F1C4C0C002374F4 /* TopView.m */; };
 		2E90868E1F1C4C0C002374F4 /* ZHMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086641F1C4C0C002374F4 /* ZHMapController.m */; };
 		2E90868F1F1C4C0C002374F4 /* ZHSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086661F1C4C0C002374F4 /* ZHSearchVC.m */; };
 		2E9086901F1C4C0C002374F4 /* ZHShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086681F1C4C0C002374F4 /* ZHShopDetailVC.m */; };
@@ -407,8 +406,6 @@
 		2E90865B1F1C4C0C002374F4 /* city.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = city.plist; sourceTree = "<group>"; };
 		2E90865C1F1C4C0C002374F4 /* HYCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYCityViewController.h; sourceTree = "<group>"; };
 		2E90865D1F1C4C0C002374F4 /* HYCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYCityViewController.m; sourceTree = "<group>"; };
-		2E90865F1F1C4C0C002374F4 /* TopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopView.h; sourceTree = "<group>"; };
-		2E9086601F1C4C0C002374F4 /* TopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopView.m; sourceTree = "<group>"; };
 		2E9086631F1C4C0C002374F4 /* ZHMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMapController.h; sourceTree = "<group>"; };
 		2E9086641F1C4C0C002374F4 /* ZHMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHMapController.m; sourceTree = "<group>"; };
 		2E9086651F1C4C0C002374F4 /* ZHSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHSearchVC.h; sourceTree = "<group>"; };
@@ -1077,8 +1074,6 @@
 		2E90865E1F1C4C0C002374F4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2E90865F1F1C4C0C002374F4 /* TopView.h */,
-				2E9086601F1C4C0C002374F4 /* TopView.m */,
 				2E9086631F1C4C0C002374F4 /* ZHMapController.h */,
 				2E9086641F1C4C0C002374F4 /* ZHMapController.m */,
 				2E9086651F1C4C0C002374F4 /* ZHSearchVC.h */,
@@ -2263,7 +2258,6 @@
 				2E9086D71F1C5115002374F4 /* ZHCurrencyConvertView.m in Sources */,
 				2EEF8E6B1EE5639900453109 /* ZHProgressView.m in Sources */,
 				2E202FEA1EE954C500E38656 /* ZHBankCard.m in Sources */,
-				2E90868C1F1C4C0C002374F4 /* TopView.m in Sources */,
 				2EEF8E6C1EE5639900453109 /* ZHStepView.m in Sources */,
 				2EC2AE441E0CF55A003EF503 /* Foundation+Log.m in Sources */,
 				2E22642A1E4D8AE000C7126E /* NSTimer+tlNoCycle.m in Sources */,

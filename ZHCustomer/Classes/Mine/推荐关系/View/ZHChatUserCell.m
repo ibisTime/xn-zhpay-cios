@@ -72,7 +72,6 @@
     
     //
     
-    NSString *str;
     UIColor *backgroundColor = [UIColor whiteColor];
     
     

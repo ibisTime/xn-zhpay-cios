@@ -13,8 +13,6 @@
 //正汇系统无人民币概念
 typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
     
-
-    
     //各种都有
     ZHPayViewCtrlTypeNewGoods //购物车支付 和 单个商品支付
     

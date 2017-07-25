@@ -170,7 +170,6 @@
     
     BOOL hiddenLeft = NO;
     BOOL hiddenRight = NO;
-    NSString *leftTitle = @"";
     NSString *rightTitle = @"";
     
     

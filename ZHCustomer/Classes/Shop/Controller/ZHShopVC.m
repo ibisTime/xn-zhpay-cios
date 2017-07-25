@@ -279,6 +279,7 @@
         
     }
     
+    
     //地址的编码通过经纬度得到具体的地址
     CLGeocoder *gecoder = [[CLGeocoder alloc] init];
     [gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
@@ -315,6 +316,7 @@
     }];
 
 }
+
 
 #pragma mark- 定位失败
 - (void)locationFailure {
@@ -363,13 +365,11 @@
             [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
         }];
         
-        
         weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
         
     } failure:^(NSError *error) {
         
     }];
-
 
 }
 
@@ -395,15 +395,15 @@
         if (msgs.count > 0) {
             
             self.sysMsgView.msg = msgs[0][@"smsTitle"];
-            
-            
         }
+        
         
     } failure:^(NSError *error) {
         
         
     }];
 
+    
 }
 
 

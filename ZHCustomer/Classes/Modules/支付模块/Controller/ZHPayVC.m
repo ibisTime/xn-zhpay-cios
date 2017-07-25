@@ -82,7 +82,6 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.amountTf.delegate = self;
     
-    [self.amountTf addTarget:self action:@selector(inputChange:) forControlEvents:UIControlEventEditingChanged];
     
     //
     if (self.navigationController) {
@@ -101,24 +100,6 @@
         [self beginLoad];
     
     }
-    
-#pragma mark- 除汇赚宝外  获得余额
-    //首先获得总额
-//    TLNetworking *http2 = [TLNetworking new];
-//    http2.code = @"808801";
-//    http2.parameters[@"userId"] = [ZHUser user].userId;
-//    http2.parameters[@"token"] = [ZHUser user].token;
-//    [http2 postWithSuccess:^(id responseObject) {
-//        
-//      NSNumber *surplusMoney =  responseObject[@"data"];
-//      self.pays[0].payName = [NSString stringWithFormat:@"余额(%@)",[surplusMoney convertToRealMoney]];
-//      [self.payTableView reloadData];
-//        
-//        
-//    } failure:^(NSError *error) {
-//        
-//        
-//    }];
     
     //addNotification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
@@ -175,7 +156,7 @@
     NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
     NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
     self.pays = [NSMutableArray array];
-    
+    //
     NSInteger count = imgs.count;
     
     
@@ -207,7 +188,7 @@
     payFuncItem.footerHeight = 0.1;
     payFuncItem.rowNum = self.pays.count;
     
-    self.paySceneManager.groupItems = @[priceItem,payFuncItem];
+    self.paySceneManager.groupItems = @[payFuncItem];
     
     //界面
     [self setUpUI];
@@ -447,7 +428,6 @@
    
     }
     
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     
@@ -457,6 +437,17 @@
 //
 - (void)setUpUI {
     
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 65)];
+    
+    
+    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle:@"消费金额" titleWidth:90 placeholder:@"请输入消费金额"];
+    [headerView addSubview:self.amountTf];
+    self.amountTf.backgroundColor = [UIColor whiteColor];
+    self.amountTf.keyboardType = UIKeyboardTypeDecimalPad;
+    [self.amountTf addTarget:self action:@selector(inputChange:) forControlEvents:UIControlEventEditingChanged];
+
+    
+    //
     UITableView *payTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) style:UITableViewStyleGrouped];
     [self.view addSubview:payTableView];
     self.payTableView = payTableView;
@@ -465,6 +456,8 @@
     payTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     payTableView.dataSource = self;
     payTableView.delegate = self;
+    
+    payTableView.tableHeaderView = headerView;
     
     //底部支付相关
     UIView *payView = [[UIView alloc] initWithFrame:CGRectMake(0, payTableView.yy, SCREEN_WIDTH, 49)];
@@ -535,21 +528,15 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
         
-        if (section == 1) {
-            return [self payFuncHeaderView];
-        }
-        
+   return [self payFuncHeaderView];
+    
  
-    return nil;
-
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if (indexPath.section == 1) {
-        
        static NSString * payFuncCellId = @"ZHPayFuncCell";
        ZHPayFuncCell  *cell = [tableView dequeueReusableCellWithIdentifier:payFuncCellId];
         if (!cell) {
@@ -558,38 +545,9 @@
         cell.pay = self.pays[indexPath.row];
         
         return cell;
-        
-    }
     
-
-    //支付金额-- 和优惠券
-    ZHPayInfoCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"id2"];
-
-    if (!infoCell) {
-        
-     infoCell = [[ZHPayInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"id2"];
-    }
-    if (indexPath.section == 0) {
-        
-        if (indexPath.row == 0) {
-            
-            infoCell.titleLbl.text = @"消费金额";
-            infoCell.hidenArrow = YES;
-            [infoCell addSubview:self.amountTf];
-            
-        } else {
-            
-            infoCell.titleLbl.text = @"支付密码";
-            infoCell.hidenArrow = YES;
-            
-        }
-  
-
-    }
-    
-    return infoCell;
-
 }
+
 
 - (UIView *)payFuncHeaderView {
     
@@ -614,19 +572,6 @@
 
 
 
-- (TLTextField *)amountTf {
-    
-    if (!_amountTf) {
-        
-        _amountTf = [[TLTextField alloc] initWithFrame:CGRectMake(100, 1, SCREEN_WIDTH - 100, 47)];
-        _amountTf.backgroundColor = [UIColor whiteColor];
-        _amountTf.placeholder = @"请输入消费金额";
-        _amountTf.keyboardType = UIKeyboardTypeDecimalPad;
-        
-    }
-    return _amountTf;
-    
-}
 
 
 

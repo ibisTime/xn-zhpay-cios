@@ -11,7 +11,6 @@
 
 @interface ZHDefaultGoodsVC : TLBaseVC
 
-//@property (nonatomic,copy) NSString *bigCategoryCode;
 //小类1
 @property (nonatomic,copy) NSString *categoryCode;
 

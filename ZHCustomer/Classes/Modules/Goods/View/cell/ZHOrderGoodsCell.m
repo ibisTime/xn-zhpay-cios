@@ -72,7 +72,6 @@
         [self addSubview:self.numLbl];
         
         //评价的按钮
-        CGFloat w = 50;
 //        UIButton *pjBtn = [UIButton zhBtnWithFrame:CGRectMake(SCREEN_WIDTH - 10 - w, self.priceLbl.yy + 5, w, 25) title:@"评价"];
 ////        [self addSubview:pjBtn];
 //        [pjBtn addTarget:self action:@selector(commentAction) forControlEvents:UIControlEventTouchUpInside];

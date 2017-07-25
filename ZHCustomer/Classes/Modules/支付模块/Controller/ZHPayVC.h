@@ -11,6 +11,14 @@
 
 #import "ZHPaySceneManager.h"
 
+typedef NS_ENUM(NSInteger,ZHShopPayType){
+    
+    //各种都有
+    ZHShopPayTypeShop = 0,
+    ZHShopPayTypeGift = 1,
+    
+    
+};
 
 @class ZHShop;
 
