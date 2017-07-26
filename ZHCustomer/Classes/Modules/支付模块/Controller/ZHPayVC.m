@@ -173,6 +173,16 @@
             status = @[@(YES)];
             
         } break;
+            
+        case ZHShopPayTypeBuyGiftB: {
+            
+            payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            status = @[@(YES),@(NO),@(NO)];
+            
+        } break;
+            
 
     }
 
@@ -259,7 +269,7 @@
 
 #pragma mark- 支付
 - (void)pay {
-
+    
      __block ZHPayType type;
     [self.pays enumerateObjectsUsingBlock:^(ZHPayFuncModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.isSelected) {
@@ -277,8 +287,6 @@
         return;
         
     }
-
-    
     
     NSString *payType;
     switch (type) {
@@ -298,16 +306,66 @@
             
             payType = kZHDefaultPayTypeCode;
         }
-        break;
-        
+            break;
+            
             
         case ZHPayTypeGiftB: {
             
             payType = kZHGiftPayTypeCode;
-        
+            
         }
             
     }
+    
+    //
+    if(self.payType == ZHShopPayTypeBuyGiftB) {
+    
+        if (type == ZHPayTypeOther) {
+        
+            UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
+            [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                
+                textField.secureTextEntry = YES;
+                
+            }];
+            
+            [alertCtrl addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]];
+            
+            [alertCtrl addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                if (![alertCtrl.textFields[0].text valid]) {
+                    
+                    [TLAlert alertWithInfo:@"请输入支付密码"];
+                    
+                } else {
+                    
+                    [self buyGiftBPayPwd:alertCtrl.textFields[0].text payType:payType];
+                    
+                }
+                
+                
+            }]];
+            
+            
+            [self presentViewController:alertCtrl animated:YES completion:nil];
+        
+        } else {
+        
+            [self buyGiftBPayPwd:nil payType:payType];
+
+        
+        }
+       
+        
+        return;
+        
+    }
+
+    
+    
+   
     
 
     if (type == ZHPayTypeOther || type == ZHPayTypeGiftB) {
@@ -342,7 +400,7 @@
         [self presentViewController:alertCtrl animated:YES completion:nil];
         
         
-    } else {
+    } else  {
     
         [self shopPay:payType payPwd:nil];
         
@@ -460,6 +518,81 @@
     
 }
 
+- (void)buyGiftBPayPwd:(NSString *)payPwd payType:(NSString *)payType {
+
+    TLNetworking *convertHttp = [TLNetworking new];
+    convertHttp.showView = self.view;
+    convertHttp.code = @"002051";
+    convertHttp.parameters[@"fromCurrency"] = kFRB;
+    convertHttp.parameters[@"toCurrency"] = kGiftB;
+    [convertHttp postWithSuccess:^(id responseObject) {
+        
+        NSNumber *rate =  responseObject[@"rate"];
+        self.priceLbl.text = [NSString stringWithFormat:@"%f",[self.amountTf.text longLongValue]*1.0/[rate integerValue]];
+        
+    } failure:^(NSError *error) {
+      
+        
+    }];
+
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"808250";
+    http.parameters[@"storeCode"] = self.shop.code;
+    http.parameters[@"quantity"] = self.amountTf.text;
+    http.parameters[@"payType"] = [payType convertToSysMoney];
+    http.parameters[@"tradePwd"] = payPwd;
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    http.parameters[@"token"] = [ZHUser user].token;
+
+    [http postWithSuccess:^(id responseObject) {
+        
+        
+        
+        if ([ZHPayService checkRealNameAuthByResponseObject:responseObject]) {
+            
+            //需要实名
+            [TLAlert alertWithInfo: responseObject[@"errorInfo"] ? : nil];
+            ZHRealNameAuthVC *vc = [[ZHRealNameAuthVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+            return;
+            
+        }
+        
+        
+        if ([payType isEqualToString: kZHWXTypeCode]) {
+            
+            [self wxPayWithInfo:responseObject[@"data"]];
+            
+        } else if([payType isEqualToString: kZHAliPayTypeCode]) {
+            
+            [self aliPayWithInfo:responseObject[@"data"]];
+            
+            
+        } else {
+            
+            [TLAlert alertWithHUDText:@"支付成功"];
+            
+            if (self.paySucces) {
+                self.paySucces();
+            }
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            
+            
+            
+        }
+
+        
+    } failure:^(NSError *error) {
+        
+        
+        
+    }];
+
+
+
+}
 
 //
 - (void)setUpUI {
@@ -467,7 +600,7 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 65)];
     
     
-    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle:@"消费金额" titleWidth:90 placeholder:@"请输入消费金额"];
+    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle: self.payType == ZHShopPayTypeBuyGiftB ? @"购买数量" : @"消费金额" titleWidth:90 placeholder:@"请输入消费金额"];
     [headerView addSubview:self.amountTf];
     self.amountTf.backgroundColor = [UIColor whiteColor];
     self.amountTf.keyboardType = UIKeyboardTypeDecimalPad;

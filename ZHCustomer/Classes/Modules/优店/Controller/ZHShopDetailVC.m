@@ -172,6 +172,22 @@
 }
 
 
+#pragma mark- 购买B
+- (void)buyGiftBAction {
+
+    //支付
+    ZHPayVC *payVC = [[ZHPayVC alloc] init];
+    payVC.shop = self.shop;
+    payVC.payType = ZHShopPayTypeBuyGiftB;
+        
+    //
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+    [self presentViewController:nav animated:YES completion:nil];
+
+
+}
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
     if (section == 0) {
@@ -397,7 +413,9 @@
         //
         UIButton *giftBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.yy + 10, 100, 29) title:@"购买礼品券"];
         [headView addSubview:giftBtn];
+        [giftBtn addTarget:self action:@selector(buyGiftBAction) forControlEvents:UIControlEventTouchUpInside];
         giftBtn.xx_size = SCREEN_WIDTH - 15;
+        
     }
     
     

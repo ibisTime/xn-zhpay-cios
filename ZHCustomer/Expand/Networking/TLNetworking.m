@@ -144,7 +144,7 @@
           
       } else {
           
-          if (responseObject[@"errorBizCode"]) {
+          if ([responseObject[@"errorBizCode"] isEqualToString:@"M000001"]) {
               
               if (success) {
                   success(responseObject);

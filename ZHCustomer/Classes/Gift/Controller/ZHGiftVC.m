@@ -48,8 +48,9 @@
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808217";
-    helper.parameters[@"uiLocation"] = @"1";
+//    helper.parameters[@"uiLocation"] = @"1";
     helper.parameters[@"type"] = @"G01";
+    helper.parameters[@"kind"] = @"f3";
     helper.tableView = self.shopTableView;
     [helper modelClass:[ZHShop class]];
     
@@ -116,7 +117,7 @@
     //获取当前位置
     self.lastLocationSuccessDate = [NSDate date];
     CLLocation *location = [TLLocationService service].locationManager.location;
-    //
+    
     self.pageDataHelper.parameters[@"longitude"] = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
     //
     self.pageDataHelper.parameters[@"latitude"] = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];

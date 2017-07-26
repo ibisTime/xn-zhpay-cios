@@ -115,7 +115,7 @@
 - (void)userLoginOut {
     
 
-    [self userLoginOutCancleLocation];
+//    [self userLoginOutCancleLocation];
 
     //用户 数据清除放在最后
     [[ZHUser user] loginOut];
@@ -272,33 +272,27 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
 
-    
-    [self userLoginOutCancleLocation];
-    
 
-}
-
-- (void)userLoginOutCancleLocation {
-
-    
-    if (![ZHUser user].userId) {
-        return;
-    }
-    
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    dict[@"placholder"] = @"placeholder";
-    dict[@"userId"] = [ZHUser user].userId;
-    dict[@"token"] = [ZHUser user].token;
-    
-    [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logOut"] parameters:dict success:^(id responseObject) {
-        
-    }  failure:^(NSError *error) {
-        
-    }];
-
-}
+//- (void)userLoginOutCancleLocation {
+//
+//    
+//    if (![ZHUser user].userId) {
+//        return;
+//    }
+//    
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    dict[@"placholder"] = @"placeholder";
+//    dict[@"userId"] = [ZHUser user].userId;
+//    dict[@"token"] = [ZHUser user].token;
+//    
+//    [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logOut"] parameters:dict success:^(id responseObject) {
+//        
+//    }  failure:^(NSError *error) {
+//        
+//    }];
+//
+//}
 
 
 @end
