@@ -73,7 +73,14 @@
 - (CGFloat)detailHeight;
 
 
-- (void)changShopInfoWithDict:(NSDictionary *)dict;
+/**
+ 是否为礼品商
+ @return yes 是； no 不是
+ */
+- (BOOL)isGiftMerchant;
+
+
+//- (void)changShopInfoWithDict:(NSDictionary *)dict;
 
 
 

@@ -125,8 +125,6 @@
             payVC.isFRBAndGXZ = [self.goodsRoom[0].payCurrency isEqualToString:@"2"];
             
             
-//            ZHGoodsModel *goods = self.goodsRoom[0];
-
             //加上邮费的价格
             payVC.amoutAttr = self.totalPriceLbl.attributedText;
 
@@ -136,7 +134,7 @@
                [self.navigationController popViewControllerAnimated:YES];
                     
             };
-            payVC.type = ZHPayViewCtrlTypeNewGoods;
+            payVC.type = [goods isGift] ? ZHPayViewCtrlTypeBuyGift : ZHPayViewCtrlTypeNewGoods;
                 
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
             [self presentViewController:nav animated:YES completion:nil];
@@ -273,7 +271,8 @@
             self.postageTf.text = [postage convertToRealMoney];
             long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
             
-            NSString *totalPriceStr = [NSString stringWithFormat:@"￥%@", [@(totalPrice) convertToRealMoney]];
+           
+            NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
             self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
             
         } failure:^(NSError *error) {

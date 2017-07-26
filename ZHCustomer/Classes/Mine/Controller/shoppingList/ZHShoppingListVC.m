@@ -20,10 +20,10 @@
 @property (nonatomic,strong) ZHShoppingListCategoryVC *didPayVC;
 @property (nonatomic,strong) ZHShoppingListCategoryVC *willSendVC;
 
-
 @property (nonatomic,strong) NSMutableArray *isAdd;
 
 @end
+
 
 @implementation ZHShoppingListVC
 

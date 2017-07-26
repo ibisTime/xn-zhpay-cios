@@ -14,8 +14,8 @@
 typedef NS_ENUM(NSInteger,ZHShopPayType){
     
     //各种都有
-    ZHShopPayTypeShop = 0,
-    ZHShopPayTypeGift = 1,
+    ZHShopPayTypeDefaultO2O = 0, //通常o2o
+    ZHShopPayTypeGiftO2O = 1, //礼品券
     
     
 };
@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger,ZHShopPayType){
 
 //优店支付所需要的模型
 @property (nonatomic,strong) ZHShop *shop;
+@property (nonatomic, assign) ZHShopPayType payType;
 
 //
 @property (nonatomic,copy) void(^paySucces)();

@@ -40,7 +40,7 @@
         UILabel *priceLbl = [UILabel labelWithFrame:CGRectZero
                                        textAligment:NSTextAlignmentLeft
                                     backgroundColor:[UIColor whiteColor]
-                                               font:FONT(12)
+                                               font:FONT(13)
                                           textColor:[UIColor zh_themeColor]];
         [self addSubview:priceLbl];
         [priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -75,10 +75,12 @@
     //按钮状态
     [self.statusBtn setTitle:[_order getStatusName] forState:UIControlStateNormal];
     
-    NSMutableAttributedString *attr = [ZHCurrencyHelper totalPriceAttr2WithQBB:_order.amount3 GWB:_order.amount2 RMB:_order.amount1 bouns:CGRectMake(0, -2, 13, 13)];
-    [attr addAttribute:NSFontAttributeName value:FONT(13) range:NSMakeRange(0, attr.length)];
+    
+//    NSMutableAttributedString *attr = [ZHCurrencyHelper totalPriceAttr2WithQBB:_order.amount3 GWB:_order.amount2 RMB:_order.amount1 bouns:CGRectMake(0, -2, 13, 13)];
+//    [attr addAttribute:NSFontAttributeName value:FONT(13) range:NSMakeRange(0, attr.length)];
+    
     //价格
-    self.priceLbl.attributedText = attr;
+    self.priceLbl.text = [_order displayOrderPriceStr];
     
 }
 

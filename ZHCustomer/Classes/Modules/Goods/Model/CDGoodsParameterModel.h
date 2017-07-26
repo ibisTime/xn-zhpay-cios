@@ -24,20 +24,20 @@
 @property (nonatomic, strong) NSString *province; //市
 @property (nonatomic, strong) NSString *weight; //重量
 
+@property (nonatomic, assign) BOOL isGift;
+
 - (NSDictionary *)toDictionry;
 
 - (NSString *)getDetailText;
-- (NSString *)getPrice;
+//- (NSString *)getPrice;
+
+
 + (NSString *)randomCode;
 - (NSString *)getCountDesc;
 
-//"price1": "1000",
-//"price2": "1000",
-//"price3": "1000",
-//"kuncun": "10",
-//"province": "浙江省",
-//"weight": "10",
-//"orderNo": "1"
+
+- (NSString *)diplayPriceStr;
+
 
 
 @end

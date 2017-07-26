@@ -11,6 +11,6 @@
 
 @interface ZHShopDetailVC : TLBaseVC
 
-@property (nonatomic,strong) ZHShop *shop;
+@property (nonatomic, copy) NSString *shopCode;
 
 @end

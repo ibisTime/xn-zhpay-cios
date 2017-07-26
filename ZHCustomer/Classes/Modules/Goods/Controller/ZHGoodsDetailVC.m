@@ -11,12 +11,10 @@
 #import "ZHStepView.h"
 
 #import "ZHBuyToolView.h"
-
 #import "ZHTreasureInfoView.h"
 #import "ZHImmediateBuyVC.h"
 #import "ZHEvaluateListVC.h" //评价列表
 #import "ZHSingleDetailVC.h" //详情列表
-//#import "ZHShoppingCartVC.h"
 #import "ZHUserLoginVC.h"
 #import "MJRefresh.h"
 #import "ZHShareView.h"
@@ -28,7 +26,6 @@
 
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 
-//@property (nonatomic,strong) ZHBuyToolView *buyView;
 
 @property (nonatomic,weak) TLBannerView *bannerView;
 @property (nonatomic, strong) UIScrollView *goodsDetailTypeScrollView;
@@ -36,15 +33,12 @@
 @property (nonatomic,strong) UILabel *nameLbl;
 @property (nonatomic,strong) UILabel *advLbl;
 @property (nonatomic,strong) UILabel *priceLbl;
-//@property (nonatomic,strong) UILabel *postageLbl;
 
 
 @property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic, strong) UILabel *shopNameLbl;
 @property (nonatomic, strong) UILabel *shopPhoneLbl;
 @property (nonatomic, strong) UILabel *shopAdvLbl;
-
-
 
 @property (nonatomic,strong) UIView *line1;
 @property (nonatomic,strong) UIView *line2;
@@ -65,8 +59,8 @@
 @property (nonatomic, strong) UIView *evaluateViwe;
 
 //@property (nonatomic, strong) UIView *goodsArgsView;
-
 @property (nonatomic, copy) NSArray <CDGoodsParameterModel *> *parameterModelArr;
+
 
 @end
 
@@ -115,7 +109,6 @@
 
 - (void)addEvent {
 
-
     //
     self.bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     
@@ -126,11 +119,9 @@
     //---//
     self.nameLbl.text = self.goods.name;
     self.advLbl.text = self.goods.slogan;
-    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:self.goods.QBB GWB:self.goods.GWB  RMB:self.goods.RMB];
+    self.priceLbl.text = [self.goods displayPriceStr];
     
-//    self.postageLbl.text = @"邮费:10元";
-    
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[self.goods.store.advPic convertThumbnailImageUrl]] ];
+    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[self.goods.store.advPic convertThumbnailImageUrl]]];
     self.shopPhoneLbl.text = [NSString stringWithFormat:@"联系电话：%@",self.goods.store.bookMobile];
     self.shopAdvLbl.text = self.goods.store.slogan;
     self.shopNameLbl.text = self.goods.store.name;
@@ -331,8 +322,10 @@
     
     self.goods.currentCount = count;
     self.goods.currentParameterPriceRMB = parameterModel.price1;
-    self.goods.currentParameterPriceGWB = parameterModel.price2;
-    self.goods.currentParameterPriceQBB = parameterModel.price3;
+    
+//    self.goods.currentParameterPriceGWB = parameterModel.price2;
+//    self.goods.currentParameterPriceQBB = parameterModel.price3;
+    
     self.goods.currentParameterModel = parameterModel;
 
     
@@ -358,6 +351,12 @@
     
     CDGoodsParameterChooseView *chooseView = [CDGoodsParameterChooseView chooseView];
     chooseView.coverImageUrl = [self.goods.advPic convertImageUrl];
+    
+    [self.parameterModelArr enumerateObjectsUsingBlock:^(CDGoodsParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        obj.isGift = [self.goods isGift];
+        
+    }];
     [chooseView loadArr:self.parameterModelArr];
     chooseView.delegate = self;
     [chooseView show];

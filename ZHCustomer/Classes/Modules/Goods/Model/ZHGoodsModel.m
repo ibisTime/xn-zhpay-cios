@@ -7,6 +7,7 @@
 //
 
 #import "ZHGoodsModel.h"
+#import "ZHGoodsCategoryManager.h"
 
 @interface ZHGoodsModel()
 
@@ -88,12 +89,41 @@
 
 
 
-- (NSString *)totalPrice {
-        
+//- (NSString *)totalPrice {
+//        
+//    
+//    return [ZHCurrencyHelper totalPriceWithQBB:self.currentParameterPriceQBB GWB:self.currentParameterPriceGWB RMB:self.currentParameterPriceRMB];;
+//
+//}
+
+
+- (BOOL)isGift {
+
+    return [self.type isEqualToString:kGoodsTypeGift];
     
-    return [ZHCurrencyHelper totalPriceWithQBB:self.currentParameterPriceQBB GWB:self.currentParameterPriceGWB RMB:self.currentParameterPriceRMB];;
+}
+
+- (NSString *)priceUnit {
+
+    return [self isGift] ? @"礼品券":@"￥" ;
 
 }
+
+
+- (NSString *)displayPriceStrCurrentParameter {
+
+    return [NSString stringWithFormat:@"%@ %@",[self priceUnit],[self.currentParameterPriceRMB convertToRealMoney]];
+
+
+}
+
+
+- (NSString *)displayPriceStr {
+
+   return [NSString stringWithFormat:@"%@ %@",[self priceUnit],[[self RMB] convertToRealMoney]];
+    
+}
+
 
 - (NSString *)coverMoney:(NSNumber *)priceNum {
     
@@ -115,7 +145,6 @@
 
 
 //
-
 - (NSNumber *)RMB {
     
     if (self.productSpecsList.count > 0) {

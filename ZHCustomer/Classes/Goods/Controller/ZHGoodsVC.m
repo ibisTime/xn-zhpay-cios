@@ -9,15 +9,9 @@
 #import "ZHGoodsVC.h"
 #import "ZHGoodsCell.h"
 #import "ZHDefaultGoodsVC.h"
-#import "TLMsgBadgeView.h"
-//#import "ZHShoppingCartVC.h"
-#import "ZHUserLoginVC.h"
-#import "ZHNavigationController.h"
-//#import "ZHSegmentView.h"
+
 #import "ZHGoodsCategoryManager.h"
 #import "ZHGoodsCategoryVC.h"
-
-//#import "ZHCartManager.h"
 
 #import "ZHSearchVC.h"
 
@@ -71,11 +65,6 @@
         [ZHGoodsCategoryManager manager].dshjCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
         //添加礼品分类
-        ZHCategoryModel *giftCategoryModel =  [[ZHCategoryModel alloc] init];
-        giftCategoryModel.code = @"code";
-        giftCategoryModel.name = @"礼品";
-        [[ZHGoodsCategoryManager manager].dshjCategories insertObject:giftCategoryModel atIndex:0];
-        //
         [self setUpUI];
         //
         

@@ -82,7 +82,6 @@
 
     
     
-    
 //    || [self.order.status isEqualToString:@"4"] //已经收货
     if ([self.order.status isEqualToString:@"3"] || [self.order.status isEqualToString:@"4"]) {// 已发货
         
@@ -121,19 +120,14 @@
 #pragma mark- 支付
 - (void)pay {
     
-//    [ZHCartManager getPostage:^(NSNumber *postage) {
     
-        ZHNewPayVC *newPayVC = [[ZHNewPayVC alloc] init];
-        newPayVC.type = ZHPayViewCtrlTypeNewGoods;
-        newPayVC.goodsCodeList = @[self.order.code];
-        
-        newPayVC.rmbAmount = self.order.amount1; //把人民币传过去
-        
-//        newPayVC.postage = postage;
-//        newPayVC.amoutAttrAddPostage = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:@([self.order.amount1 longValue] + [postage longLongValue])];
-        
-        newPayVC.amoutAttr = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:self.order.amount1];
-        
+    ZHNewPayVC *newPayVC = [[ZHNewPayVC alloc] init];
+    newPayVC.type = [self.order.product isGift] ? ZHPayViewCtrlTypeBuyGift :ZHPayViewCtrlTypeNewGoods;  ;
+    newPayVC.goodsCodeList = @[self.order.code];
+    NSString *str =  [@([self.order.amount1 longLongValue] + [self.order.yunfei longLongValue]) convertToRealMoney];
+    newPayVC.amoutAttr = [[NSAttributedString alloc] initWithString:str];
+    
+        //
         newPayVC.paySucces = ^(){
             
             [self.navigationController popViewControllerAnimated:YES];
@@ -147,47 +141,7 @@
         
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:newPayVC];
         [self presentViewController:nav animated:YES completion:nil];
-        
-//    } failure:^{
-//        
-//    }];
-    //
- 
     
-
-    
-    
-//    TLNetworking *http = [TLNetworking new];
-//    http.showView = self.view;
-//    http.code = @"808052";
-//    http.parameters[@"code"] = self.order.code;
-//    http.parameters[@"token"] = [ZHUser user].token;
-//    [http postWithSuccess:^(id responseObject) {
-        //商品购买
-        
-//        ZHPayVC *payVC = [[ZHPayVC alloc] init];
-////        payVC.orderCode = self.order.code;
-//        payVC.orderAmount = self.order.amount1; //把人民币传过去
-//    payVC.amoutAttr = [ZHCurrencyHelper totalPriceAttr2WithQBB:self.order.amount3 GWB:self.order.amount2 RMB:self.order.amount1];
-//    
-//        payVC.paySucces = ^(){
-//            
-//            [TLAlert alertWithHUDText:@"支付成功"];
-//            [self.navigationController popViewControllerAnimated:YES];
-//            
-//            if (self.paySuccess) {
-//                self.paySuccess();
-//            }
-//            
-//        };
-////        payVC.type = ZHPayVCTypeGoods;
-//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
-//        [self presentViewController:nav animated:YES completion:nil];
-//        
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
 }
 
 

@@ -139,29 +139,46 @@
 
 - (void)beginLoad {
 
-    //--//
-    NSArray *imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-    NSArray *payNames;
-    
-    if ([self.shop.payCurrency isEqualToString:@"1"]) {
-        
-        payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+    self.pays = [NSMutableArray array];
 
-    } else {
+    //--//
+    NSArray *imgs;
+    NSArray *payNames;
+    NSArray *payType;
+    NSArray <NSNumber *>*status;
     
-        payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+    switch (self.payType) {
+        case ZHShopPayTypeDefaultO2O: {
+        
+            if ([self.shop.payCurrency isEqualToString:@"1"]) {
+                
+                payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+                
+            } else {
+                
+                payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+                
+            }
+            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            status = @[@(YES),@(NO),@(NO)];
+            
+        } break;
+            
+        case ZHShopPayTypeGiftO2O: {
+            
+            payNames = @[@"礼品券余额"];
+            imgs = @[@"zh_pay"];
+            payType = @[@(ZHPayTypeGiftB)];
+            status = @[@(YES)];
+            
+        } break;
 
     }
-    
-    NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-    NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
-    self.pays = [NSMutableArray array];
-    //
-    NSInteger count = imgs.count;
-    
+
     
     //全部转换为支付模型
-    for (NSInteger i = 0; i < count; i ++) {
+    for (NSInteger i = 0; i < imgs.count; i ++) {
         
         ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
         zhPay.payImgName = imgs[i];
@@ -281,11 +298,19 @@
             
             payType = kZHDefaultPayTypeCode;
         }
-            break;
+        break;
+        
+            
+        case ZHPayTypeGiftB: {
+            
+            payType = kZHGiftPayTypeCode;
+        
+        }
+            
     }
     
 
-    if (type == ZHPayTypeOther) {
+    if (type == ZHPayTypeOther || type == ZHPayTypeGiftB) {
         
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
         [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
@@ -307,6 +332,7 @@
             } else {
             
                 [self shopPay:payType payPwd:alertCtrl.textFields[0].text];
+                
             }
            
   
@@ -319,8 +345,9 @@
     } else {
     
         [self shopPay:payType payPwd:nil];
-
+        
     }
+    
 
 }
 

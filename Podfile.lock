@@ -32,16 +32,16 @@ PODS:
   - UMengAnalytics-NO-IDFA (4.2.5)
 
 DEPENDENCIES:
-  - AFNetworking
-  - IQKeyboardManager
-  - Masonry
-  - MJExtension
-  - MJRefresh
-  - Qiniu
-  - Realm
-  - SDWebImage
-  - SVProgressHUD
-  - UMengAnalytics-NO-IDFA
+  - AFNetworking (= 3.1.0)
+  - IQKeyboardManager (= 4.0.10)
+  - Masonry (= 1.0.2)
+  - MJExtension (= 3.0.13)
+  - MJRefresh (= 3.1.12)
+  - Qiniu (= 7.1.5)
+  - Realm (= 2.8.0)
+  - SDWebImage (= 4.0.0)
+  - SVProgressHUD (= 2.1.2)
+  - UMengAnalytics-NO-IDFA (= 4.2.5)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -56,6 +56,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
 
-PODFILE CHECKSUM: d1426bd5831e01294361bc84ea0d0f2308a91fcf
+PODFILE CHECKSUM: 258acff64a3a21836e88ad119bd36e7dc4808e03
 
 COCOAPODS: 1.2.1

@@ -85,8 +85,9 @@
     self.nameLbl.text = goods.name;
     self.adLbl.text = goods.slogan;
 
-//    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_goods.qbb GWB:_goods.gwb RMB:_goods.rmb];
-    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:[_goods QBB] GWB:[_goods GWB] RMB:[_goods RMB]];
+    self.priceLbl.text = [_goods displayPriceStr];
+
+   
 
 }
 

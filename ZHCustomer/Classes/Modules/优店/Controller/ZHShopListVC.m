@@ -108,7 +108,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ZHShopDetailVC *detailVC = [[ZHShopDetailVC alloc] init];
-    detailVC.shop = self.shops[indexPath.row];
+    
+    ZHShop *shop = self.shops[indexPath.row];
+    detailVC.shopCode = shop.code;
     [self.navigationController pushViewController:detailVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     

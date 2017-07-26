@@ -24,10 +24,27 @@
 
 }
 
-- (NSString *)getPrice {
+- (NSString *)diplayPriceStr {
 
-    return [ZHCurrencyHelper totalPriceWithQBB:self.price3 GWB:self.price2 RMB:self.price1];
+
+    
+    if (self.isGift) {
+        
+        return [NSString stringWithFormat:@"礼品券 %@",[[self price1] convertToRealMoney]];
+        
+    } else {
+        
+        return [NSString stringWithFormat:@"￥%@",[[self price1] convertToRealMoney]];
+    }
+    
+
 }
+
+
+//- (NSString *)getPrice {
+//
+//    return [ZHCurrencyHelper totalPriceWithQBB:self.price3 GWB:self.price2 RMB:self.price1];
+//}
 
 - (NSString *)getDetailText {
 

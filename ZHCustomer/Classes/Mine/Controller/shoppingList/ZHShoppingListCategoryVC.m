@@ -31,10 +31,8 @@
         self.isFirst = NO;
         
     }
-
-
+    
 }
-
 
 
 - (void)viewDidLoad {
@@ -131,8 +129,8 @@
         
     }];
 
-
 }
+
 
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

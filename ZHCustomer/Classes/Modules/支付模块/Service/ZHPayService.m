@@ -16,6 +16,9 @@ NSString *const kZHAliPayTypeCode = @"3";
 NSString *const kZHWXTypeCode = @"2";
 NSString *const kZHDefaultPayTypeCode = @"1";
 
+NSString *const kZHGiftPayTypeCode = @"20";
+
+
 @implementation ZHPayService
 
 + (BOOL)checkRealNameAuthByResponseObject:(id)obj {

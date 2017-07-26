@@ -8,6 +8,8 @@
 
 #import "ZHGoodsCategoryManager.h"
 
+NSString *const kGoodsTypeGift = @"FL201700000000000101";
+
 @implementation ZHGoodsCategoryManager
 
 + (instancetype)manager {

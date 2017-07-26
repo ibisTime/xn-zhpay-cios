@@ -16,7 +16,8 @@
 @property (nonatomic,copy) NSString *advPic; //封面图片
 @property (nonatomic, strong) NSNumber *boughtCount;
 @property (nonatomic,copy) NSString *slogan;
-@property (nonatomic,copy) NSString *category;
+//@property (nonatomic,copy) NSString *category; 大类
+
 @property (nonatomic,copy) NSString *code;
 @property (nonatomic,copy) NSString *companyCode;
 @property (nonatomic,copy) NSString *costPrice;
@@ -44,46 +45,47 @@
 @property (nonatomic, copy) NSArray <CDGoodsParameterModel*> *productSpecsList;
 
 
-//@property (nonatomic, strong) CDGoodsParameterModel *selectedParameter;
-
-//price 1 人民币 price2 购物币，price 3 钱包币
-
-///**
-// 人民币
-// */
-//@property (nonatomic,strong) NSNumber *price1; //人民币
-//
-///**
-// 购物
-// */
-//@property (nonatomic,strong) NSNumber *price2; //购物币
-//
-//
-///**
-// 钱宝币
-// */
-//@property (nonatomic,strong) NSNumber *price3; //钱包币
 
 
 //购买选择数量后，设置的数量
 @property (nonatomic, assign) NSInteger currentCount;
 @property (nonatomic, strong) NSNumber *currentParameterPriceRMB;
-@property (nonatomic, strong) NSNumber *currentParameterPriceQBB;
-@property (nonatomic, strong) NSNumber *currentParameterPriceGWB;
+//@property (nonatomic, strong) NSNumber *currentParameterPriceQBB;
+//@property (nonatomic, strong) NSNumber *currentParameterPriceGWB;
 @property (nonatomic, strong) CDGoodsParameterModel *currentParameterModel;
 
 
 /**
  合并后的价格
  */
-@property (nonatomic,copy,readonly) NSString *totalPrice;
+//@property (nonatomic,copy,readonly) NSString *totalPrice;
 
 
+
+/**
+ ￥ 或者 礼品券
+ */
+- (NSString *)priceUnit;
+
+/**
+ 展示价格
+ */
+- (NSString *)displayPriceStr;
+
+/**
+ 商品
+ */
+- (NSString *)displayPriceStrCurrentParameter;
 
 //图片高度存储,计算得到
 @property (nonatomic,strong) NSArray <NSNumber *>* imgHeights;
 - (CGFloat)detailHeight;
 
+
+/**
+ 是否为礼品 yes 是
+ */
+- (BOOL)isGift;
 
 
 @end

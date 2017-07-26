@@ -30,3 +30,5 @@
 @property (nonatomic, copy) NSArray <ZHCategoryModel *>*lysgCategories;
 
 @end
+
+FOUNDATION_EXTERN NSString *const kGoodsTypeGift; //礼品的类别Code

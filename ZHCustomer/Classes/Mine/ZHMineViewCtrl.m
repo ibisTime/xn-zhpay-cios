@@ -141,34 +141,6 @@
 }
 
 
-
-//- (void)refreshWalletInfo {
-//
-//    [self.walletViews enumerateObjectsUsingBlock:^(ZHWalletView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        
-//        NSNumber *amount = self.currencyDict[obj.code].amount;
-//        obj.moneyLbl.text = [amount convertToRealMoney];
-//        
-//    }];
-//
-//}
-
-#pragma mark- 前往钱包
-//- (void)goWalletDetailWithCode:(NSString *)code {
-//
-//    
-//    ZHBillVC *vc = [[ZHBillVC alloc] init];
-//    vc.currencyModel = self.currencyDict[code];
-//    
-//    if (!vc.currencyModel) {
-//        [TLAlert alertWithHUDText:@"请刷新重新获取账户信息"];
-//        return;
-//    }
-////    vc.accountNumber = self.currencyDict[code].accountNumber; //账单编号
-//    [self.navigationController pushViewController:vc animated:YES];
-//    
-//}
-
 #pragma mark- 修改头像
 - (void)choosePhoto {
     
@@ -305,38 +277,6 @@
     [hzbBtn addTarget:self action:@selector(lookMineHZB) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:hzbBtn];
     
-//    //钱包
-//    NSArray *typeNames =  @[@"贡献值", @"分润",@"红包",@"红包业绩",@"钱包币",@"购物币"];
-//    NSArray *typeCode =  @[kGXB,kFRB,kHBB,kHBYJ,kQBB,kGWB];
-//
-//
-//    self.walletViews = [[NSMutableArray alloc] initWithCapacity:typeNames.count];
-//    
-//    CGFloat y = earningBtn.yy;
-//    CGFloat w = (SCREEN_WIDTH - 1)/2.0;
-//    CGFloat h = 60;
-//    CGFloat x = w + 1;
-//    UIView *lastView;
-//    
-//    for (NSInteger i = 0; i < typeNames.count; i ++) {
-//        
-//        CGRect frame = CGRectMake((i%2)*x, (h + 1)*(i/2) + y + 10, w, h);
-//        ZHWalletView *walletView = [[ZHWalletView alloc] initWithFrame:frame];walletView.backgroundColor = [UIColor whiteColor];
-//        [headerView addSubview:walletView];
-//        
-//        walletView.typeLbl.text = typeNames[i];
-//        walletView.code = typeCode[i];
-//        walletView.action = ^(NSString *code){
-//            [weakself goWalletDetailWithCode:code];
-//            
-//        };
-//        [self.walletViews addObject:walletView];
-//        lastView = walletView;
-//        
-//        walletView.moneyLbl.text = @"0.00";
-//
-//        
-//    }
     
     self.mineTableView.tableHeaderView.height = hzbBtn.yy + 10;
 
@@ -391,17 +331,6 @@
         
     };
     
-    //小目标
-//    ZHSettingModel *smallTarget = [[ZHSettingModel alloc] init];
-//    smallTarget.imgName = @"小目标记录";
-//    smallTarget.text = @"小目标记录";
-//    smallTarget.action = ^(){
-//        
-//        ZHMineDBRecordVC  *dbRecordVC = [[ZHMineDBRecordVC alloc] init];
-//        [weakself.navigationController pushViewController:dbRecordVC animated:YES];
-//        
-//    };
-    
     //尖货清单
     ZHSettingModel *goodsDetail = [[ZHSettingModel alloc] init];
     goodsDetail.imgName = @"购物清单";
@@ -410,8 +339,6 @@
         //
         ZHShoppingListVC  *vc = [ZHShoppingListVC new];
         [weakself.navigationController pushViewController:vc animated:YES];
-        
-      
         
     };
     
@@ -429,53 +356,6 @@
         //
         
     };
-    
-    //我的折扣券
-//    ZHSettingModel *coupons = [[ZHSettingModel alloc] init];
-//    coupons.imgName = @"我的折扣券";
-//    coupons.text = @"我的折扣券";
-//    coupons.action = ^(){
-//        //
-//        
-//        ZHCouponsMgtVC  *vc = [ZHCouponsMgtVC new];
-//        [weakself.navigationController pushViewController:vc animated:YES];
-//        
-//    };
-    
-//    ZHSettingModel *releationModel = [[ZHSettingModel alloc] init];
-//    releationModel.imgName = @"推荐关系";
-//    releationModel.text = @"推荐关系";
-//    releationModel.action = ^(){
-//        
-//        //
-//        CDUserReleationVC *releationVC = [[CDUserReleationVC alloc] init];
-//        [self.navigationController pushViewController:releationVC animated:YES];
-//        
-//    };
-    
-    
-    
-//    ZHSettingModel *item01 = [[ZHSettingModel alloc] init];
-//    item01.imgName = @"我的－汇赚宝";
-//    item01.text = @"汇赚宝";
-//    item01.action = ^(){
-//        //
-//        ZHHZBVC *vc = [ZHHZBVC new];
-//    
-//        [weakself.navigationController pushViewController:vc animated:YES];
-//        
-//    };
-//    
-//    ZHSettingModel *item02 = [[ZHSettingModel alloc] init];
-//    item02.imgName = @"我的－发一发";
-//    item02.text = @"发一发";
-//    item02.action = ^(){
-//        
-//        ZHBriberyMoneyVC *vc = [[ZHBriberyMoneyVC alloc] init];
-//        vc.displayType = ZHBriberyMoneyVCTypeSecondUI;
-//        [self.navigationController pushViewController:vc animated:YES];
-//      
-//    };
     
 
     ZHSettingGroup *group01 = [[ZHSettingGroup alloc] init];

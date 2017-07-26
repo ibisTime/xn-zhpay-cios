@@ -38,6 +38,33 @@
 
 }
 
+
+- (NSString *)displayOrderPriceStr {
+
+    if (![self.yunfei isEqual:@0]) {
+        
+        return   [NSString stringWithFormat:@"%@ %@ + 邮费：%@",[self.product priceUnit],[self.amount1 convertToRealMoney],[self.yunfei convertToRealMoney]];
+
+        
+    } else {
+    
+        return   [NSString stringWithFormat:@"%@ %@",[self.product priceUnit],[self.amount1 convertToRealMoney]];
+
+    }
+    
+    
+
+}
+
+
+- (NSString *)displayUnitPriceStr {
+
+    
+        return [NSString stringWithFormat:@"%@ %@",[self.product priceUnit],[self.price1 convertToRealMoney]];
+        
+
+}
+
 - (NSString *)deliveryDatetime {
 
     return _deliveryDatetime ? : @"--";

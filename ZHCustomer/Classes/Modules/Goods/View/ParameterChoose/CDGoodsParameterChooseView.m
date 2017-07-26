@@ -259,7 +259,7 @@
             [v selected];
             self.lastParamView = v;
             self.countLbl.text = [obj getCountDesc];
-            self.priceLbl.text = [obj getPrice];
+            self.priceLbl.text = [obj diplayPriceStr];
             
             [v mas_makeConstraints:^(MASConstraintMaker *make) {
                 
@@ -374,7 +374,7 @@
     [btn selected];
     [self.lastParamView unSelected];
     
-    self.priceLbl.text = [btn.parameterModel getPrice];
+    self.priceLbl.text = [btn.parameterModel diplayPriceStr];
     self.countLbl.text = [btn.parameterModel getCountDesc];
     self.lastParamView = btn;
     

@@ -121,7 +121,7 @@
     [self.coverImageV sd_setImageWithURL:[NSURL URLWithString:[urlStr convertThumbnailImageUrl]] placeholderImage:[UIImage imageNamed:@"goods_placeholder"]];
     //
     self.nameLbl.text = _goods.name;
-    self.priceLbl.text = _goods.totalPrice;
+    self.priceLbl.text = [_goods displayPriceStrCurrentParameter];
     self.parameterLbl.text = _goods.currentParameterModel.name;
     //
     self.numLbl.text = [NSString stringWithFormat:@"X%ld",_goods.currentCount];
@@ -140,7 +140,7 @@
     self.nameLbl.text = _order.product.name;
     self.parameterLbl.text = _order.productSpecsName;
     //
-    self.priceLbl.text = [ZHCurrencyHelper totalPriceWithQBB:_order.price3 GWB:_order.price2 RMB:_order.price1];
+    self.priceLbl.text = [_order displayUnitPriceStr];
     
     //
     self.numLbl.text = [NSString stringWithFormat:@"X%@",_order.quantity];

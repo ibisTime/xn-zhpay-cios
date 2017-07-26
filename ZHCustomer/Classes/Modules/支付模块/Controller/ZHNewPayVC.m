@@ -110,137 +110,55 @@
 
 - (void)beginLoad {
 
+    self.pays = [NSMutableArray array];
+
     //--//
     NSArray *imgs ;
     NSArray *payNames;
-    NSArray *payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-    NSArray <NSNumber *>*status = @[@(YES),@(NO),@(NO)];
+    NSArray *payType;
+    NSArray <NSNumber *>*status;
     
-//    if (self.type == ZHPayViewCtrlTypeHZB) {
-//        
-//        payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
-//        imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-//        
-//    } else
     
-        
-//      if(self.type == ZHPayViewCtrlTypeNewYYDB) {
-//        
-//        //
-//        if ([self.rmbAmount isEqual:@0]) { //不是人民币价格
-//            
-//            payNames  = @[@"余额"]; //余额(可用100)
-//            imgs = @[@"zh_pay"];
-//            
-//        } else {//人民币价格
-//            
-//            payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
-//            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-//            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-//            status = @[@(YES),@(NO),@(NO)];
-//            
-//        }
-//        
-//        
-//    } else
-        
-        
-        if(self.type == ZHPayViewCtrlTypeNewGoods) {
-        
-        if (self.isFRBAndGXZ) {
-            
-            payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+    
+    
+    
 
-        } else {
-            
-            payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
 
-        }
-        imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-        
-    }
-    
-    
-    self.pays = [NSMutableArray array];
-    
-    //隐藏掉支付宝
-    NSInteger count = payNames.count;
-    
-    
-    //只创建可以支付的支付方式，， 一元夺宝只有 余额支付 就显示余额
-    for (NSInteger i = 0; i < count; i ++) {
-        
-        ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
-        zhPay.payImgName = imgs[i];
-        zhPay.payName = payNames[i];
-        zhPay.isSelected = [status[i] boolValue];
-        zhPay.payType = [payType[i] integerValue];
-        [self.pays addObject:zhPay];
-        
-    }
-    
-    
     //
     self.paySceneManager = [[ZHPaySceneManager alloc] init];
     switch (self.type) {
             
-//        case ZHPayViewCtrlTypeHZB: { //购买汇赚宝
-//            
-//            self.paySceneManager.isInitiative = NO;
-//            self.paySceneManager.amount = [self.HZBModel.price convertToSimpleRealMoney];
-//
-//            //2.支付
-//            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-//            payFuncItem.headerHeight = 30.0;
-//            payFuncItem.footerHeight = 0.1;
-//            payFuncItem.rowNum = self.pays.count;
-//            self.paySceneManager.groupItems = @[payFuncItem];
-//            
-//            //
-//            if (!self.HZBModel) {
-//                [TLAlert alertWithHUDText:@"汇赚宝信息呢？"];
-//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//                return;
-//            }
-//            //
-//            [self setUpUI];
-//            
-//            self.priceLbl.text = self.paySceneManager.amount;
-//            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
-//
-//        } break;
-            
-//        case ZHPayViewCtrlTypeNewYYDB: { //2.0版本的一元夺宝
-//            
-//            self.paySceneManager.isInitiative = NO;
-//            self.paySceneManager.amount = [self.rmbAmount convertToSimpleRealMoney];
-//     
-//            //2.支付
-//            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
-//            payFuncItem.headerHeight = 30.0;
-//            payFuncItem.footerHeight = 0.1;
-//            payFuncItem.rowNum = self.pays.count;
-//            self.paySceneManager.groupItems = @[payFuncItem];
-//            
-//            [self setUpUI];
-//            
-//            if (self.amoutAttr) {
-//                
-//                self.priceLbl.attributedText = self.amoutAttr;
-//                
-//            } else {
-//                
-//                self.priceLbl.text = self.paySceneManager.amount;
-//                
-//            }
-//            
-//            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
-//
-//            
-//            
-//        } break;
-            
         case ZHPayViewCtrlTypeNewGoods: { //普通商品支付
+            
+            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            status = @[@(YES),@(NO),@(NO)];
+            
+            if (self.isFRBAndGXZ) {
+                
+                payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+                
+            } else {
+                
+                payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+                
+            }
+            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+            
+            //隐藏掉支付宝
+            NSInteger count = payNames.count;
+            
+            //只创建可以支付的支付方式，， 一元夺宝只有 余额支付 就显示余额
+            for (NSInteger i = 0; i < count; i ++) {
+                
+                ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
+                zhPay.payImgName = imgs[i];
+                zhPay.payName = payNames[i];
+                zhPay.isSelected = [status[i] boolValue];
+                zhPay.payType = [payType[i] integerValue];
+                [self.pays addObject:zhPay];
+                
+            }
+            
             
             self.paySceneManager.isInitiative = NO;
 
@@ -256,6 +174,44 @@
             self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
 
  
+        } break;
+            
+        case ZHPayViewCtrlTypeBuyGift: {
+            
+            payType = @[@(ZHPayTypeGiftB)];
+            payNames  = @[@"礼品券"]; //余额(可用100)
+            imgs = @[@"zh_pay"];
+            status = @[@(YES)];
+
+            //隐藏掉支付宝
+            NSInteger count = payNames.count;
+            
+            //只创建可以支付的支付方式，， 一元夺宝只有 余额支付 就显示余额
+            for (NSInteger i = 0; i < count; i ++) {
+                
+                ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
+                zhPay.payImgName = imgs[i];
+                zhPay.payName = payNames[i];
+                zhPay.isSelected = [status[i] boolValue];
+                zhPay.payType = [payType[i] integerValue];
+                [self.pays addObject:zhPay];
+                
+            }
+            
+            self.paySceneManager.isInitiative = NO;
+            
+            //2.支付
+            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
+            payFuncItem.headerHeight = 30.0;
+            payFuncItem.footerHeight = 0.1;
+            payFuncItem.rowNum = self.pays.count;
+            self.paySceneManager.groupItems = @[payFuncItem];
+            [self setUpUI];
+            
+            self.priceLbl.attributedText = self.amoutAttr;
+            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
+            
+        
         } break;
             
         default: [TLAlert alertWithHUDText:@"您还没有选择支付场景"];
@@ -283,7 +239,6 @@
                 
                 
             }
-            
             
         });
         
@@ -326,31 +281,37 @@
         
     }];
 
-    NSString *payType;
+    NSString *payTypeCode;
     switch (type) {
         case ZHPayTypeAlipay: {
             
-            payType = kZHAliPayTypeCode;
+            payTypeCode = kZHAliPayTypeCode;
             
         }
             break;
         case ZHPayTypeWeChat: {
             
-            payType = kZHWXTypeCode;
+            payTypeCode = kZHWXTypeCode;
+        }
+            break;
+            
+        case ZHPayTypeGiftB: {
+            
+            payTypeCode = kZHGiftPayTypeCode;
         }
             break;
             
         case ZHPayTypeOther: {
             
             
-            payType = kZHDefaultPayTypeCode;
+            payTypeCode = kZHDefaultPayTypeCode;
         }
-            break;
+        break;
     }
     
     
     //判断余额还是其它
-    if (type == ZHPayTypeOther) {
+    if (type != ZHPayTypeWeChat && type != ZHPayTypeWeChat) {
         
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
         [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
@@ -372,33 +333,8 @@
             } else {
                 
                 NSString *pwd = alertCtrl.textFields[0].text;
+                [self goodsPay:payTypeCode payPwd:pwd];
                 
-//                if(self.type == ZHPayViewCtrlTypeHZB) {
-//                    
-//                    [self hzbPay:payType payPwd:pwd];
-//                    
-//                }
-                
-//                if (self.type == ZHPayViewCtrlTypeNewYYDB) {
-//                    
-//                    //特殊
-//                    if (type == ZHPayTypeOther) {
-//                        [self newYydbPay:payType payPwd:pwd];
-//                        
-//                    } else {
-//                        
-//                        [self newYydbPay:payType payPwd:pwd];
-//                        
-//                    }
-//                    
-//                } else
-                
-                if (self.type == ZHPayViewCtrlTypeNewGoods) {
-                    
-                    [self goodsPay:payType payPwd:pwd];
-                }
-                
-
             }
             
             
@@ -407,36 +343,16 @@
         
         [self presentViewController:alertCtrl animated:YES completion:nil];
         
+        
     } else {
-    
-//        if(self.type == ZHPayViewCtrlTypeHZB) {
-//            
-//            [self hzbPay:payType payPwd:nil];
-//            
-//        }
-        
-        
-//        if(self.type == ZHPayViewCtrlTypeNewYYDB) {
-//            
-//            //特殊
-//            if (type == ZHPayTypeOther) {
-//                [self newYydbPay:payType payPwd:nil];
-//                
-//            } else {
-//                
-//                [self newYydbPay:payType payPwd:nil];
-//                
-//            }
-//            
-//        } else
-        
+            
         if (self.type == ZHPayViewCtrlTypeNewGoods) {
             
-            [self goodsPay:payType payPwd:nil];
+            [self goodsPay:payTypeCode payPwd:nil];
         }
 
-
     }
+    
 
 }
 

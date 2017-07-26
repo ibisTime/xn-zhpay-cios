@@ -14,7 +14,8 @@
 typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
     
     //各种都有
-    ZHPayViewCtrlTypeNewGoods //购物车支付 和 单个商品支付
+    ZHPayViewCtrlTypeNewGoods = 0,//购物车支付 和 单个商品支付
+    ZHPayViewCtrlTypeBuyGift
     
 };
 
@@ -29,19 +30,9 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 
 
 /**
- 3.4.0以后为    商品为单一币种，分润（人民币）
+ 3.4.0以后为 商品为单一币种，分润（人民币）
  */
 @property (nonatomic,copy) NSAttributedString *amoutAttr;
-
-
-/**
- 小目标中有效，其它类型支付，该字段无效
- */
-@property (nonatomic,strong) NSNumber *rmbAmount;
-
-
-////2.0 一元夺宝所需要的支付模型
-//@property (nonatomic,strong) ZHDBModel *dbModel;
 
 //商品支付
 @property (nonatomic, copy) NSArray <NSString *>*goodsCodeList;

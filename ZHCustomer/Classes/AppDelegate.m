@@ -167,7 +167,7 @@ void UncaughtExceptionHandler(NSException *exception){
         
                 dict = [NSJSONSerialization JSONObjectWithData:[bizNoStr.stringByRemovingPercentEncoding dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
                
-           }
+             }
             
         }];
         
@@ -190,18 +190,10 @@ void UncaughtExceptionHandler(NSException *exception){
                 
             }];
             
-        } else {
-            
-//            if (dict[@"failed_reason"]) {
-//                
-//                [TLAlert alertWithHUDText:dict[@"failed_reason"]];
-//
-//            }
-            
         }
 
-        
         return YES;
+        
     }
     
     if ([url.host isEqualToString:@"safepay"]) {

@@ -24,6 +24,8 @@
 @property (nonatomic,strong) UILabel *shopNameLbl;
 @property (nonatomic, strong) UILabel *advLbl;
 
+@property (nonatomic,strong) ZHShop *shop;
+
 @end
 
 
@@ -34,6 +36,31 @@
     [super viewDidLoad];
     
     
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+    //查询优惠券
+    [self tl_placeholderOperation];
+    
+}
+
+- (void)tl_placeholderOperation {
+
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"808218";
+    http.parameters[@"code"] = self.shopCode;
+    [http postWithSuccess:^(id responseObject) {
+        
+        self.shop = [ZHShop tl_objectWithDictionary:responseObject[@"data"]];
+        [self setUpUI];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+
+}
+
+- (void)setUpUI {
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
     ///////
     
@@ -50,12 +77,11 @@
     [coverImgView sd_setImageWithURL:[NSURL URLWithString:[self.shop.advPic convertImageUrl]] placeholderImage:nil];
     
     self.title = self.shop.name;
-    
-    
-    //查询优惠券
-    
-    
+
+
+
 }
+
 
 #pragma mark - tableview---delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -129,6 +155,17 @@
     //支付
     ZHPayVC *payVC = [[ZHPayVC alloc] init];
     payVC.shop = self.shop;
+    if ([self.shop isGiftMerchant]) {
+        
+        payVC.payType = ZHShopPayTypeGiftO2O;
+        
+    } else {
+        
+        payVC.payType = ZHShopPayTypeDefaultO2O;
+
+    }
+    
+    //
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
     [self presentViewController:nav animated:YES completion:nil];
    
@@ -139,8 +176,7 @@
 
     if (section == 0) {
         
-    
-        return 100;
+        return [self.shop isGiftMerchant] ? 100 : 45;
         
     } else {
         
@@ -208,15 +244,7 @@
         
         return 3;
         
-    }
-    
-//    else if(section == 1 ) {
-//    
-//        return self.shop.storeTickets.count;
-//    
-//    }
-    
-    else  {
+    } else {
     
         return 1 + self.shop.detailPics.count;
 
@@ -341,22 +369,7 @@
     return headView;
 }
 
-//- (UIView *)discountHeaderView {
-//
-//   UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 42)];
-//    headView.backgroundColor = [UIColor whiteColor];
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 15, 15)];
-//    [headView addSubview:imageView];
-//    imageView.image = [UIImage imageNamed:@"抵"];
-//    
-//    UILabel *lbl = [UILabel labelWithFrame:CGRectMake(imageView.xx + 5, 0, SCREEN_WIDTH - 35, 15) textAligment:NSTextAlignmentLeft backgroundColor:[UIColor clearColor] font:[UIFont secondFont] textColor:[UIColor zh_textColor2]];
-//    lbl.text = @"抵扣券";
-//    lbl.centerY = 21;
-//    [headView addSubview:lbl];
-//    
-//    return headView;
-//
-//}
+
 
 - (UIView *)addressHeaderView {
 
@@ -373,17 +386,19 @@
     [headView addSubview:self.shopNameLbl];
     self.shopNameLbl.text = self.shop.name;
 
-    
     UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 65, 29) title:@"买单"];
     [headView addSubview:btn];
     btn.xx_size = SCREEN_WIDTH - 15;
     [btn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
-//    btn.centerY = headView.height/2.0;
+ 
     
-    //
-    UIButton *giftBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.yy + 10, 100, 29) title:@"购买礼品券"];
-    [headView addSubview:giftBtn];
-    giftBtn.xx_size = SCREEN_WIDTH - 15;
+    if ([self.shop isGiftMerchant]) {
+        
+        //
+        UIButton *giftBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.yy + 10, 100, 29) title:@"购买礼品券"];
+        [headView addSubview:giftBtn];
+        giftBtn.xx_size = SCREEN_WIDTH - 15;
+    }
     
     
     return headView;

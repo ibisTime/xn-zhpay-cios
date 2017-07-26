@@ -23,6 +23,8 @@
 
 //物品数组 <ZHOrderDetailModel *>
 //@property (nonatomic,copy) NSArray <ZHOrderDetailModel *> *productOrderList;
+@property (nonatomic, strong) NSNumber *yunfei;
+
 
 @property (nonatomic, strong) ZHGoodsModel *product;
 
@@ -38,20 +40,31 @@
 @property (nonatomic, strong) NSNumber *quantity;
 
 
+
 //规格价格，和规格名称
 @property (nonatomic, copy) NSString *productSpecsName;
 @property (nonatomic, strong) NSNumber *price1;
-@property (nonatomic, strong) NSNumber *price2;
-@property (nonatomic, strong) NSNumber *price3;
+//@property (nonatomic, strong) NSNumber *price2;
+//@property (nonatomic, strong) NSNumber *price3;
 
 @property (nonatomic, strong) NSNumber *amount1;
-@property (nonatomic, strong) NSNumber *amount2;
-@property (nonatomic, strong) NSNumber *amount3;
+//@property (nonatomic, strong) NSNumber *amount2;
+//@property (nonatomic, strong) NSNumber *amount3;
 
 - (NSString *)getStatusName;
 
-//下单数量
-//买家嘱托
+
+/**
+ 包裹运费的订单总价
+ */
+- (NSString *)displayOrderPriceStr;
+
+/**
+ 订单商品中的单价
+ */
+- (NSString *)displayUnitPriceStr;
+
+
 @end
 
 //---------------//

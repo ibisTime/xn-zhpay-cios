@@ -23,4 +23,7 @@
 FOUNDATION_EXTERN NSString *const kZHAliPayTypeCode;
 FOUNDATION_EXTERN NSString *const kZHWXTypeCode;
 FOUNDATION_EXTERN NSString *const kZHDefaultPayTypeCode;
+FOUNDATION_EXTERN NSString *const kZHGiftPayTypeCode;
+
+
 
