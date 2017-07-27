@@ -60,6 +60,7 @@
     return _locationAttrStr;
 
 }
+
 - (void)data {
 
 //  [self.coverImageView sd_setImageWithURL:[NSURL new] placeholderImage:nil];
@@ -81,17 +82,19 @@
     [self.coverImageView sd_setImageWithURL:[[NSURL alloc] initWithString:coverUrl] placeholderImage:nil];
     self.nameLbl.text = _shop.name;
 
-    
-    if ([_shop.level isEqualToString:@"2"]) {
-        
-//       self.discountLbl.text = @"公益商家";
-        self.discountLbl.text = @"普通商家";
+    self.discountLbl.text = [_shop isGiftMerchant] ? @"礼品商" : @"普通商家";
 
-        
-    } else {
-
-        self.discountLbl.text = @"普通商家";
-    }
+//    
+//    if ([_shop.level isEqualToString:@"2"]) {
+//        
+////       self.discountLbl.text = @"公益商家";
+//        self.discountLbl.text = @"普通商家";
+//
+//        
+//    } else {
+//
+//        self.discountLbl.text = @"普通商家";
+//    }
     
     self.advLbl.text = _shop.slogan;
     

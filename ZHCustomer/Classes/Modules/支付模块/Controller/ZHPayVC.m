@@ -37,6 +37,7 @@
 
 @property (nonatomic,strong) UITableView *payTableView;
 
+@property (nonatomic, strong) NSNumber *changeRate;
 @end
 
 
@@ -68,6 +69,19 @@
         
         self.priceLbl.text = @"0";
         return ;
+    }
+    
+    
+    if (self.shopPayType == ZHShopPayTypeBuyGiftB) {
+        
+        if (! self.changeRate) {
+            
+            return;
+      
+        }
+        
+       self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]/[self.changeRate longValue]];
+   
     }
     
     
@@ -103,6 +117,26 @@
     
     //addNotification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+    
+    if (self.shopPayType == ZHShopPayTypeBuyGiftB) {
+        
+        TLNetworking *convertHttp = [TLNetworking new];
+        convertHttp.code = @"002051";
+        convertHttp.parameters[@"fromCurrency"] = kFRB;
+        convertHttp.parameters[@"toCurrency"] = kGiftB;
+        [convertHttp postWithSuccess:^(id responseObject) {
+            
+           
+            self.changeRate =  responseObject[@"data"][@"rate"];
+            
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
+
+    }
     
 }
 
@@ -147,7 +181,7 @@
     NSArray *payType;
     NSArray <NSNumber *>*status;
     
-    switch (self.payType) {
+    switch (self.shopPayType) {
         case ZHShopPayTypeDefaultO2O: {
         
             if ([self.shop.payCurrency isEqualToString:@"1"]) {
@@ -283,7 +317,7 @@
     
     if (![self.amountTf.text valid]) {
         
-        [TLAlert alertWithHUDText:@"请输入消费金额"];
+        [TLAlert alertWithInfo:@"请输入消费金额"];
         return;
         
     }
@@ -318,7 +352,7 @@
     }
     
     //
-    if(self.payType == ZHShopPayTypeBuyGiftB) {
+    if(self.shopPayType == ZHShopPayTypeBuyGiftB) {
     
         if (type == ZHPayTypeOther) {
         
@@ -360,14 +394,12 @@
        
         
         return;
-        
     }
 
     
     
    
     
-
     if (type == ZHPayTypeOther || type == ZHPayTypeGiftB) {
         
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
@@ -405,9 +437,9 @@
         [self shopPay:payType payPwd:nil];
         
     }
-    
 
 }
+
 
 #pragma mark- 优店支付, 余额支付需要支付密码
 - (void)shopPay:(NSString *)payType payPwd:(nullable NSString *)pwd {
@@ -465,6 +497,7 @@
 
 }
 
+
 - (void)aliPayWithInfo:(NSDictionary *)info {
 
     //支付宝回调
@@ -520,27 +553,14 @@
 
 - (void)buyGiftBPayPwd:(NSString *)payPwd payType:(NSString *)payType {
 
-    TLNetworking *convertHttp = [TLNetworking new];
-    convertHttp.showView = self.view;
-    convertHttp.code = @"002051";
-    convertHttp.parameters[@"fromCurrency"] = kFRB;
-    convertHttp.parameters[@"toCurrency"] = kGiftB;
-    [convertHttp postWithSuccess:^(id responseObject) {
-        
-        NSNumber *rate =  responseObject[@"rate"];
-        self.priceLbl.text = [NSString stringWithFormat:@"%f",[self.amountTf.text longLongValue]*1.0/[rate integerValue]];
-        
-    } failure:^(NSError *error) {
-      
-        
-    }];
+
 
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     http.code = @"808250";
     http.parameters[@"storeCode"] = self.shop.code;
-    http.parameters[@"quantity"] = self.amountTf.text;
-    http.parameters[@"payType"] = [payType convertToSysMoney];
+    http.parameters[@"quantity"] = [self.amountTf.text convertToSysMoney];
+    http.parameters[@"payType"] = payType;
     http.parameters[@"tradePwd"] = payPwd;
     http.parameters[@"userId"] = [ZHUser user].userId;
     http.parameters[@"token"] = [ZHUser user].token;
@@ -600,7 +620,7 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 65)];
     
     
-    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle: self.payType == ZHShopPayTypeBuyGiftB ? @"购买数量" : @"消费金额" titleWidth:90 placeholder:@"请输入消费金额"];
+    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle: self.shopPayType == ZHShopPayTypeBuyGiftB ? @"购买数量" : @"消费金额" titleWidth:90 placeholder:@"请输入消费金额"];
     [headerView addSubview:self.amountTf];
     self.amountTf.backgroundColor = [UIColor whiteColor];
     self.amountTf.keyboardType = UIKeyboardTypeDecimalPad;

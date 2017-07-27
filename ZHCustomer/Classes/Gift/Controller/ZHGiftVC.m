@@ -43,7 +43,7 @@
     [self.view addSubview:tableView];
     tableView.rowHeight = [ZHShopCell rowHeight];
     self.shopTableView = tableView;
-    
+    tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无礼品商"];
     
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];

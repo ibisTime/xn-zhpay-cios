@@ -290,6 +290,11 @@
         };
         
         
+    } else if ([self.currencyModel.currency isEqualToString:kDigitalJF] || [self.currencyModel.currency isEqualToString:kGiftB]) {
+    
+        hiddenRight = YES;
+
+    
     }
     
 //    currencyConvertView.leftBtn.hidden = hiddenLeft;

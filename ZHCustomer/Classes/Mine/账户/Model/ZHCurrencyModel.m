@@ -33,7 +33,8 @@
                            kGWB : @"购物币",
                            kHBYJ : @"红包业绩",
                            kHBB : @"红包币",
-                           kGiftB : @"礼品券"
+                           kGiftB : @"礼品券",
+                           kDigitalJF : @"数字积分"
                            };
     
     return dict[self.currency];

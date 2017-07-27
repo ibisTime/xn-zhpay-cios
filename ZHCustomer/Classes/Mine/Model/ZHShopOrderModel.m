@@ -7,6 +7,7 @@
 //
 
 #import "ZHShopOrderModel.h"
+#import "ZHPayService.h"
 
 @implementation ZHShopOrderModel
 
@@ -22,5 +23,34 @@
     return dict[self.status];
     
 }
+
+- (NSAttributedString *)displayPayStr {
+
+    
+    NSString *str = [NSString stringWithFormat:@"%@%@",[self priceUnit], [self.price convertToRealMoney]];
+    
+    NSMutableAttributedString *attrPr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"消费：%@",str]];
+    [attrPr addAttribute:NSForegroundColorAttributeName value:[UIColor textColor] range:NSMakeRange(0, 3)];
+    
+    return attrPr;
+
+    
+
+    
+
+}
+
+- (NSString *)priceUnit {
+
+    return [self isGiftShop] ? @"礼品券" : @"￥";
+
+}
+
+- (BOOL)isGiftShop {
+
+    return [self.payType isEqualToString: kZHGiftPayTypeCode];
+    
+}
+
 
 @end

@@ -157,11 +157,11 @@
     payVC.shop = self.shop;
     if ([self.shop isGiftMerchant]) {
         
-        payVC.payType = ZHShopPayTypeGiftO2O;
+        payVC.shopPayType = ZHShopPayTypeGiftO2O;
         
     } else {
         
-        payVC.payType = ZHShopPayTypeDefaultO2O;
+        payVC.shopPayType = ZHShopPayTypeDefaultO2O;
 
     }
     
@@ -178,7 +178,7 @@
     //支付
     ZHPayVC *payVC = [[ZHPayVC alloc] init];
     payVC.shop = self.shop;
-    payVC.payType = ZHShopPayTypeBuyGiftB;
+    payVC.shopPayType = ZHShopPayTypeBuyGiftB;
         
     //
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
@@ -402,20 +402,36 @@
     [headView addSubview:self.shopNameLbl];
     self.shopNameLbl.text = self.shop.name;
 
-    UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 65, 29) title:@"买单"];
+    UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 100, 29) title:@"买单"];
     [headView addSubview:btn];
-    btn.xx_size = SCREEN_WIDTH - 15;
     [btn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
- 
     
+    //
+    UIButton *giftBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.yy + 10, 100, 29) title:@"购买礼品券"];
+    [headView addSubview:giftBtn];
+    [giftBtn addTarget:self action:@selector(buyGiftBAction) forControlEvents:UIControlEventTouchUpInside];
+    giftBtn.xx_size = SCREEN_WIDTH - 15;
+    giftBtn.hidden = YES;
+    
+    //
     if ([self.shop isGiftMerchant]) {
         
-        //
-        UIButton *giftBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.yy + 10, 100, 29) title:@"购买礼品券"];
-        [headView addSubview:giftBtn];
-        [giftBtn addTarget:self action:@selector(buyGiftBAction) forControlEvents:UIControlEventTouchUpInside];
-        giftBtn.xx_size = SCREEN_WIDTH - 15;
+        btn.frame = CGRectMake(0, 55, 100, 29);
+        btn.xx_size = SCREEN_WIDTH - 15;
         
+        giftBtn.hidden = NO;
+        giftBtn.frame = CGRectMake(15, btn.y, 100, 29);
+
+
+        
+    } else {
+    
+        giftBtn.hidden = YES;
+        btn.frame = CGRectMake(0, 10, 65, 29);
+        btn.xx_size = SCREEN_WIDTH - 15;
+
+
+    
     }
     
     

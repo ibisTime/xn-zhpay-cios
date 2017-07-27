@@ -262,7 +262,7 @@
         http.showView = self.view;
         http.code = @"808088";
         http.parameters[@"startPoint"] = goods.currentParameterModel.province;
-        http.parameters[@"endPoint"] = self.currentAddress.city;
+        http.parameters[@"endPoint"] = self.currentAddress.province;
         
         [http postWithSuccess:^(id responseObject) {
             
