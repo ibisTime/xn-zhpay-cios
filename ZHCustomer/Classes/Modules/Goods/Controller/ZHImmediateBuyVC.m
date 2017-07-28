@@ -67,11 +67,21 @@
     //1.根据有无地址创建UI
     [self getAddress];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAddressInfo:) name:kEditCurrentChooseAddressSuccess object:nil];
     
 }
 
 
+//
+//
+- (void)changeAddressInfo:(NSNotification *)notification {
 
+    ZHReceivingAddress *addr =  notification.userInfo[@"key"];
+    self.currentAddress = addr;
+    [self setHeaderAddress:addr];
+    [self updatePostageAndTotalMoney];
+    
+}
 
 #pragma mark- 立即购买行为
 - (void)buyAction {

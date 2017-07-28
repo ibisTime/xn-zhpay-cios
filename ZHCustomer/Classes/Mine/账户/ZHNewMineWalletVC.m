@@ -85,7 +85,7 @@
     
     
     self.walletViews = [[NSMutableArray alloc] initWithCapacity:typeNames.count];
-    
+    //
     CGFloat y = headerV.yy + 10;
     CGFloat w = (SCREEN_WIDTH - 1)/2.0;
     CGFloat h = 60;

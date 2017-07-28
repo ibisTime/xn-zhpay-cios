@@ -127,7 +127,9 @@
     }
     
     
-  TLLog(@"%@",self.code);
+//  TLLog(@"%@",self.code);
+//  TLLog(@"%@",self.parameters);
+  //
   return [self.manager POST:self.url parameters:self.parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
       if(self.showView){

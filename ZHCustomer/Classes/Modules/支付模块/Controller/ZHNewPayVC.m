@@ -311,7 +311,7 @@
     
     
     //判断余额还是其它
-    if (type != ZHPayTypeWeChat && type != ZHPayTypeWeChat) {
+    if (type != ZHPayTypeWeChat && type != ZHPayTypeAlipay) {
         
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
         [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
@@ -474,7 +474,7 @@
             
         } else {
         
-            [TLAlert alertWithHUDText:@"购买成功"];
+            [TLAlert alertWithSucces:@"购买成功"];
             //
             [self.navigationController dismissViewControllerAnimated:YES completion:^{
                 
@@ -496,8 +496,8 @@
 
 
 #pragma mark- 汇赚宝支付
-- (void)hzbPay:(NSString *)payType payPwd:(NSString *)pwd {
-    
+//- (void)hzbPay:(NSString *)payType payPwd:(NSString *)pwd {
+
 //
 //        TLNetworking *http = [TLNetworking new];
 //        http.showView = self.view;
@@ -534,7 +534,7 @@
 //            
 //        }];
     
-}
+//}
 
 
 #pragma mark - tableView代理

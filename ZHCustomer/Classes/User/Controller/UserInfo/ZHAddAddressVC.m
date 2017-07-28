@@ -172,42 +172,53 @@
     [http postWithSuccess:^(id responseObject) {
         
         
-        if (!self.address) {
-            [TLAlert alertWithHUDText:@"添加成功"];
+        if (!self.address && self.addAddress) {
+            [TLAlert alertWithSucces:@"添加成功"];
 
+            if (self.addAddress) {
+                
+                ZHReceivingAddress *address = [ZHReceivingAddress new];
+                address.addressee = self.nameTf.text;
+                address.mobile = self.mobileTf.text;
+                address.province = self.proviceTf.text;
+                
+                address.city  = self.cityTf.text;
+                address.district = self.areaTf.text;
+                address.detailAddress = self.detailAddressTf.text;
+                address.isSelected = YES;
+                self.addAddress(address);
+                
+            }
+            
         } else {
         
-            [TLAlert alertWithHUDText:@"修改成功"];
+            [TLAlert alertWithSucces:@"修改成功"];
             if (self.editSuccess) {
-                self.editSuccess();
+                
+                ZHReceivingAddress *address = [ZHReceivingAddress new];
+                address.code = self.address.code;
+                address.addressee = self.nameTf.text;
+                address.mobile = self.mobileTf.text;
+                address.province = self.proviceTf.text;
+                address.city  = self.cityTf.text;
+                address.district = self.areaTf.text;
+                address.detailAddress = self.detailAddressTf.text;
+                address.isSelected = YES;
+                self.editSuccess(address);
+                
             }
 
         
         }
-        [self.navigationController popViewControllerAnimated:YES];
-
-        if (self.addAddress) {
-            
-            ZHReceivingAddress *address = [ZHReceivingAddress new];
-            address.addressee = self.nameTf.text;
-            address.mobile = self.mobileTf.text;
-            address.province = self.proviceTf.text;
-            
-            address.city  = self.cityTf.text;
-            address.district = self.areaTf.text;
-            address.detailAddress = self.detailAddressTf.text;
-            address.isSelected = YES;
-            self.addAddress(address);
-        }
         
+        [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(NSError *error) {
         
     }];
-
     
-
 }
+
 
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 //

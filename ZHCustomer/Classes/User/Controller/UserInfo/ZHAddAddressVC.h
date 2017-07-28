@@ -11,11 +11,11 @@
 
 @interface ZHAddAddressVC : TLBaseVC
 
-//地址新怎
-@property (nonatomic,strong)  void(^addAddress)(ZHReceivingAddress *address);
+//地址新增
+@property (nonatomic,strong) void(^addAddress)(ZHReceivingAddress *address);
 
-//地址便捷
-@property (nonatomic,strong)  void(^editSuccess)();
+//地址编辑
+@property (nonatomic,strong) void(^editSuccess)(ZHReceivingAddress *address);
 @property (nonatomic,strong) ZHReceivingAddress *address;
 
 

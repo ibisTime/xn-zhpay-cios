@@ -10,6 +10,8 @@
 #import "ZHAddressCell.h"
 #import "ZHAddAddressVC.h"
 
+NSString *const kEditCurrentChooseAddressSuccess = @"kEditCurrentChooseAddressSuccess";
+
 @interface ZHAddressChooseVC ()<UITableViewDelegate,UITableViewDataSource>
 
 
@@ -75,6 +77,13 @@
                             
                             obj.isSelected = YES;
                         }
+                        
+                    }];
+                } else {
+                
+                    [self.addressRoom enumerateObjectsUsingBlock:^(ZHReceivingAddress * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        
+                            obj.isSelected = NO;
                         
                     }];
                 }
@@ -151,26 +160,26 @@
 
     ZHReceivingAddress *selectedAddr = self.addressRoom[indexPath.section];
     
-    if (selectedAddr.isSelected == YES) {
-        
-        
-    } else {
+//    if (selectedAddr.isSelected == YES) {
+//        
+//        
+//    } else {
     
-        [self.addressRoom enumerateObjectsUsingBlock:^(ZHReceivingAddress *addr, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.addressRoom enumerateObjectsUsingBlock:^(ZHReceivingAddress *addr, NSUInteger idx, BOOL * _Nonnull stop) {
             
             if (![addr isEqual:selectedAddr]) {
                 addr.isSelected = NO;
             }
             
-        }];
-        selectedAddr.isSelected = YES;
-        if (self.chooseAddress) {
+     }];
+     selectedAddr.isSelected = YES;
+     if (self.chooseAddress) {
             
-            self.chooseAddress(selectedAddr);
+         self.chooseAddress(selectedAddr);
             
-        }
+      }
     
-    }
+//    }
  
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -222,11 +231,20 @@
             ZHAddAddressVC *editAddVC = [[ZHAddAddressVC alloc] init];
             editAddVC.address = weakSelf.addressRoom[idx];
             
-            editAddVC.editSuccess = ^(){
+            editAddVC.editSuccess = ^(ZHReceivingAddress *address){
             
+                if ([address.code isEqualToString:self.selectedAddrCode]) {
+                    //通知界面切换
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kEditCurrentChooseAddressSuccess object:nil userInfo:@{@"key" : address }];
+
+                }
                 [weakSelf.addressTableView beginRefreshing];
+                
             };
+            
             [weakSelf.navigationController pushViewController:editAddVC animated:YES];
+            
         };
     }
     cell.address = self.addressRoom[indexPath.section];

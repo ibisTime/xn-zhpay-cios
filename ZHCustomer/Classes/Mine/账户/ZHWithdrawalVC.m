@@ -367,7 +367,7 @@
 
 
     http.parameters[@"applyUser"] = [ZHUser user].userId;
-    http.parameters[@"applyNote"] = @"用户端取现";
+    http.parameters[@"applyNote"] = @"iOS用户端取现";
     http.parameters[@"tradePwd"] = self.tradePwdTf.text;
 
     [self.banks enumerateObjectsUsingBlock:^(ZHBankCard * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

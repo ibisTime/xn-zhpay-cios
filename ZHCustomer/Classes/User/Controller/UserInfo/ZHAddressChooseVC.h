@@ -20,3 +20,6 @@
 
 
 @end
+
+
+FOUNDATION_EXTERN NSString *const kEditCurrentChooseAddressSuccess;

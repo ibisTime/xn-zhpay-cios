@@ -134,7 +134,7 @@
 //定位失败调用该接口
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error {
 
-    NSLog(@"定位失败");
+   //NSLog(@"定位失败");
    [TLAlert alertWithHUDText:@"定位失败"];
     
 }

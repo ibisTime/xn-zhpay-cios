@@ -551,8 +551,9 @@
     
 }
 
-- (void)buyGiftBPayPwd:(NSString *)payPwd payType:(NSString *)payType {
 
+#pragma mark- 买礼品券最后流程
+- (void)buyGiftBPayPwd:(NSString *)payPwd payType:(NSString *)payType {
 
 
     TLNetworking *http = [TLNetworking new];
@@ -566,7 +567,6 @@
     http.parameters[@"token"] = [ZHUser user].token;
 
     [http postWithSuccess:^(id responseObject) {
-        
         
         
         if ([ZHPayService checkRealNameAuthByResponseObject:responseObject]) {
@@ -619,8 +619,10 @@
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 65)];
     
+    BOOL isGift = self.shopPayType == ZHShopPayTypeBuyGiftB;
     
-    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle: self.shopPayType == ZHShopPayTypeBuyGiftB ? @"购买数量" : @"消费金额" titleWidth:90 placeholder:@"请输入消费金额"];
+    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle: isGift ? @"购买数量" : @"消费金额" titleWidth:90 placeholder: isGift ? @"请输入礼品券数量" : @"请输入消费金额" ];
+    
     [headerView addSubview:self.amountTf];
     self.amountTf.backgroundColor = [UIColor whiteColor];
     self.amountTf.keyboardType = UIKeyboardTypeDecimalPad;
