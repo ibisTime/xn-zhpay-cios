@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSInteger,ShopInfoType) {
 
     ShopInfoTypeLocation = 0,
-    ShopInfoTypeCall
+    ShopInfoTypeCall,
+    ShopInfoTypeGoods
 
 };
 

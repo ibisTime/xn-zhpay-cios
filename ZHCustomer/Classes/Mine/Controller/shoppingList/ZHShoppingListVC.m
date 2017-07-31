@@ -10,6 +10,7 @@
 #import "ZHSegmentView.h"
 #import "ZHShop.h"
 #import "ZHShoppingListCategoryVC.h"
+#import "ZHPayService.h"
 
 @interface ZHShoppingListVC ()<ZHSegmentViewDelegate,UIScrollViewDelegate>
 
@@ -27,10 +28,34 @@
 
 @implementation ZHShoppingListVC
 
+- (void)tl_placeholderOperation {
+
+    [TLProgressHUD showWithStatus:nil];
+    [ZHPayService getFRBToGiftB:^(NSNumber *rate) {
+        
+        [self removePlaceholderView];
+      
+        
+        [TLProgressHUD dismiss];
+
+    } failure:^{
+        
+        [self addPlaceholderView];
+        [TLProgressHUD dismiss];
+        
+    }];
+    
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"购物清单";
     
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+    
+//    [self tl_placeholderOperation];
+    //
     ZHSegmentView *segmentView =  [[ZHSegmentView alloc] initWithFrame:CGRectMake(0, 0.5, SCREEN_WIDTH, 45)];
     [self.view addSubview:segmentView];
     segmentView.delegate = self;
@@ -48,7 +73,9 @@
     //
     [self addChildViewController:self.allVC];
     
+ 
 }
+
 - (ZHShoppingListCategoryVC *)willSendVC {
 
     if (!_willSendVC) {

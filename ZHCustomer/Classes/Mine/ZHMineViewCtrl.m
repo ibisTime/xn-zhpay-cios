@@ -45,8 +45,6 @@
 
 @property (nonatomic,strong) TLImagePicker *imagePicker;
 
-//@property (nonatomic,strong) NSMutableArray <ZHCurrencyModel *>*currencyRoom; //币种
-//@property (nonatomic,strong) NSMutableDictionary <NSString *,ZHCurrencyModel *>*currencyDict;
 @property (nonatomic,assign) BOOL isFist;
 
 
@@ -352,7 +350,6 @@
         //
         ZHShopOrderVC  *vc = [ZHShopOrderVC new];
         [weakself.navigationController pushViewController:vc animated:YES];
-  
         //
         
     };

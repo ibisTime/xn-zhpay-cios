@@ -8,6 +8,7 @@
 
 #import "ZHOrderModel.h"
 #import "ZHOrderDetailModel.h"
+#import "ZHPayService.h"
 
 @implementation ZHOrderModel
 
@@ -43,9 +44,19 @@
 
     if (![self.yunfei isEqual:@0]) {
         
-        return   [NSString stringWithFormat:@"%@ %@ + 邮费：%@",[self.product priceUnit],[self.amount1 convertToRealMoney],[self.yunfei convertToRealMoney]];
-
+//        if ([self.product isGift]) {
+//            
+//          //
+//          return  [NSString stringWithFormat:@"%@ %@ + 邮费：%@",[self.product priceUnit],[self.amount1 convertToRealMoney],[@([[self yunfei] longLongValue]/[[ZHPayService service].frbToGiftBRate floatValue]) convertToRealMoney]];
+//            
+//        } else {
         
+             return  [NSString stringWithFormat:@"%@ %@ + 邮费 %@",[self.product priceUnit],[self.amount1 convertToRealMoney],[self.yunfei convertToRealMoney]];
+        
+//    }
+ 
+
+    
     } else {
     
         return   [NSString stringWithFormat:@"%@ %@",[self.product priceUnit],[self.amount1 convertToRealMoney]];

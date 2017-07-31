@@ -10,6 +10,7 @@
 		2E01F6A41EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E01F6A31EC9A7BC0078ABF8 /* ZHGoSetTradePwdView.m */; };
 		2E01F6AF1ECAB76B0078ABF8 /* introduce.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E01F6AE1ECAB76B0078ABF8 /* introduce.txt */; };
 		2E01F6F81ECAE94F0078ABF8 /* TLProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E01F6F71ECAE94F0078ABF8 /* TLProgressHUD.m */; };
+		2E08258A1F2ECFED00141645 /* ZHShopGoodsListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0825891F2ECFED00141645 /* ZHShopGoodsListVC.m */; };
 		2E1762A11E23286300CAE489 /* FCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E17629E1E23286300CAE489 /* FCUUID.m */; };
 		2E1762A21E23286300CAE489 /* UIDevice+FCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1762A01E23286300CAE489 /* UIDevice+FCUUID.m */; };
 		2E1762A41E2328AE00CAE489 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E1762A31E2328AE00CAE489 /* Security.framework */; };
@@ -273,6 +274,8 @@
 		2E01F6AE1ECAB76B0078ABF8 /* introduce.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = introduce.txt; sourceTree = "<group>"; };
 		2E01F6F61ECAE94F0078ABF8 /* TLProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLProgressHUD.h; sourceTree = "<group>"; };
 		2E01F6F71ECAE94F0078ABF8 /* TLProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLProgressHUD.m; sourceTree = "<group>"; };
+		2E0825881F2ECFED00141645 /* ZHShopGoodsListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShopGoodsListVC.h; sourceTree = "<group>"; };
+		2E0825891F2ECFED00141645 /* ZHShopGoodsListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShopGoodsListVC.m; sourceTree = "<group>"; };
 		2E17629D1E23286300CAE489 /* FCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCUUID.h; sourceTree = "<group>"; };
 		2E17629E1E23286300CAE489 /* FCUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCUUID.m; sourceTree = "<group>"; };
 		2E17629F1E23286300CAE489 /* UIDevice+FCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+FCUUID.h"; sourceTree = "<group>"; };
@@ -1871,6 +1874,8 @@
 				2EEF8E291EE5639800453109 /* ZHImmediateBuyVC.m */,
 				2EEF8E2A1EE5639800453109 /* ZHSingleDetailVC.h */,
 				2EEF8E2B1EE5639800453109 /* ZHSingleDetailVC.m */,
+				2E0825881F2ECFED00141645 /* ZHShopGoodsListVC.h */,
+				2E0825891F2ECFED00141645 /* ZHShopGoodsListVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2333,6 +2338,7 @@
 				2EC2AE451E0CF55A003EF503 /* TLNetworking.m in Sources */,
 				2E6E482B1E165ECB00FD2CA7 /* ZHShoppingListCategoryVC.m in Sources */,
 				2E1762C01E24893B00CAE489 /* TLWebVC.m in Sources */,
+				2E08258A1F2ECFED00141645 /* ZHShopGoodsListVC.m in Sources */,
 				2E6E47F31E13C64900FD2CA7 /* ZHChangeMobileVC.m in Sources */,
 				2E90868B1F1C4C0C002374F4 /* HYCityViewController.m in Sources */,
 				2EEF8E801EE659D100453109 /* CDSingleParamView.m in Sources */,

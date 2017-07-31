@@ -9,6 +9,7 @@
 #import "ZHGoodsDetailVC.h"
 #import "TLBannerView.h"
 #import "ZHStepView.h"
+#import "ZHShopDetailVC.h"
 
 #import "ZHBuyToolView.h"
 #import "ZHTreasureInfoView.h"
@@ -367,62 +368,13 @@
 }
 
 
-//#pragma mark- 加入购物车
-//- (void)addToShopCar {
-//
-//    if (![ZHUser user].isLogin) {
-//        
-//        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-//        [self presentViewController:nav animated:YES completion:nil];
-//        loginVC.loginSuccess = ^(){
-//            [self buy];
-//        };
-//        return;
-//    }
-//    
-//    TLNetworking *http = [TLNetworking new];
-//    http.showView = self.view;
-//    http.code = @"808040";
-//    http.parameters[@"userId"] = [ZHUser user].userId;
-//    http.parameters[@"token"] = [ZHUser user].token;
-//
-//    http.parameters[@"productCode"] = self.goods.code;
-//    http.parameters[@"quantity"] = [NSString stringWithFormat:@"%ld",self.stepView.count];
-//    [http postWithSuccess:^(id responseObject) {
-//        
-//        [TLAlert alertWithHUDText:@"添加到购物车成功"];
-//        
-////        [ZHCartManager manager].count = [ZHCartManager manager].count + self.stepView.count;
-//        
-//    } failure:^(NSError *error) {
-//        
-//        
-//    }];
-//    
-//
-//}
+- (void)goShop {
 
-//#pragma mark- 购物车
-//- (void)openShopCar {
-//
-//    if (![ZHUser user].isLogin) {
-//        
-//        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
-//        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-//        [self presentViewController:nav animated:YES completion:nil];
-//        loginVC.loginSuccess = ^(){
-//            [self buy];
-//        };
-//        return;
-//    }
-//    
-//    ZHShoppingCartVC *vc = [[ZHShoppingCartVC alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
-//
-//}
+    ZHShopDetailVC *shopDetailVC = [[ZHShopDetailVC alloc] init];
+    shopDetailVC.shopCode = self.goods.store.code;
+    [self.navigationController pushViewController:shopDetailVC animated:YES];
 
-
+}
 
 - (UIView *)detailView {
     
@@ -465,23 +417,6 @@
     
 }
 
-//- (UIView *)goodsArgsView {
-//
-//    if (!_goodsArgsView) {
-//        
-//        ZHGoodsParameterVC *vc = [ZHGoodsParameterVC new];
-//        vc.view.frame = CGRectOffset(self.bgScrollView.frame, SCREEN_WIDTH*2, 0);;
-//        vc.productCode = self.goods.code;
-//        [self addChildViewController:vc];
-//        [self.view addSubview:vc.view];
-//        
-//        _goodsArgsView = vc.view;
-//        
-//    }
-//    
-//    return _goodsArgsView;
-//
-//}
 
 - (void)setUpUI {
 
@@ -618,8 +553,12 @@
         
     }];
    
+    //店铺背景
+    UIButton *goShopDetailBtn = [[UIButton alloc] init];
+    [contentView addSubview:goShopDetailBtn];
+    [goShopDetailBtn addTarget:self action:@selector(goShop) forControlEvents:UIControlEventTouchUpInside];
     
-   //店铺封面
+    //店铺封面
     self.coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 80, 65)];
     self.coverImageView.layer.borderWidth = 0.5;
     self.coverImageView.layer.borderColor = [UIColor colorWithHexString:@"#dedede"].CGColor;
@@ -629,13 +568,7 @@
     self.coverImageView.backgroundColor = [UIColor whiteColor];
     [contentView addSubview:self.coverImageView];
     
-    [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(contentView.mas_left).offset(15);
-        make.top.equalTo(priceBottomLine.mas_top).offset(15);
-        make.width.mas_equalTo(80);
-        make.height.mas_equalTo(65);
 
-    }];
     
     //
     self.shopNameLbl = [UILabel labelWithFrame:CGRectZero
@@ -645,11 +578,7 @@
                                  textColor:[UIColor zh_textColor]];
     self.nameLbl.height = [[UIFont secondFont] lineHeight];
     [contentView addSubview:self.shopNameLbl];
-    [self.shopNameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.coverImageView.mas_right).offset(10);
-        make.right.equalTo(contentView.mas_right).offset(-15);
-        make.top.equalTo(self.coverImageView.mas_top);
-    }];
+ 
     
     //
     self.shopPhoneLbl = [UILabel labelWithFrame:CGRectZero
@@ -659,11 +588,7 @@
                                       textColor:[UIColor zh_textColor2]];
     //    self.advLbl.height = [FONT(11) lineHeight];
     [contentView addSubview:self.shopPhoneLbl];
-    [self.shopPhoneLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.shopNameLbl.mas_left);
-        make.top.equalTo(self.shopNameLbl.mas_bottom).offset(7);
-        make.right.equalTo(contentView.mas_right).offset(-15);
-    }];
+
     
     //
     self.shopAdvLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.nameLbl.yy + 3, self.nameLbl.width, ceilf([FONT(11) lineHeight]*2))
@@ -673,6 +598,34 @@
                                 textColor:[UIColor zh_textColor2]];
     //    self.advLbl.height = [FONT(11) lineHeight];
     [contentView addSubview:self.shopAdvLbl];
+    
+    [goShopDetailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.top.bottom.equalTo(self.coverImageView);
+        make.right.equalTo(self.shopNameLbl.mas_right);
+        
+    }];
+    
+    [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(contentView.mas_left).offset(15);
+        make.top.equalTo(priceBottomLine.mas_top).offset(15);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(65);
+        
+    }];
+    
+    [self.shopNameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.coverImageView.mas_right).offset(10);
+        make.right.equalTo(contentView.mas_right).offset(-15);
+        make.top.equalTo(self.coverImageView.mas_top);
+    }];
+    
+    [self.shopPhoneLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.shopNameLbl.mas_left);
+        make.top.equalTo(self.shopNameLbl.mas_bottom).offset(7);
+        make.right.equalTo(contentView.mas_right).offset(-15);
+    }];
+    
     [self.shopAdvLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.shopNameLbl.mas_left);
         make.top.equalTo(self.shopPhoneLbl.mas_bottom).offset(7);

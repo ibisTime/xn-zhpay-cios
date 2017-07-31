@@ -17,14 +17,14 @@
 #import "ZHCurrencyModel.h"
 #import "ZHShareView.h"
 #import "AppConfig.h"
+#import "ZHShopGoodsListVC.h"
 
 
 @interface ZHShopDetailVC ()<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic,strong) UILabel *shopNameLbl;
+@property (nonatomic, strong) UILabel *shopNameLbl;
 @property (nonatomic, strong) UILabel *advLbl;
-
-@property (nonatomic,strong) ZHShop *shop;
+@property (nonatomic, strong) ZHShop *shop;
 
 @end
 
@@ -50,10 +50,13 @@
     http.parameters[@"code"] = self.shopCode;
     [http postWithSuccess:^(id responseObject) {
         
+        [self removePlaceholderView];
         self.shop = [ZHShop tl_objectWithDictionary:responseObject[@"data"]];
         [self setUpUI];
         
     } failure:^(NSError *error) {
+        
+        [self addPlaceholderView];
         
     }];
 
@@ -79,7 +82,6 @@
     self.title = self.shop.name;
 
 
-
 }
 
 
@@ -93,11 +95,18 @@
             
         } else if (indexPath.row == 1) {//地图
             
+            ZHShopGoodsListVC *vc = [[ZHShopGoodsListVC alloc] init];
+            vc.shopMasterUserId = self.shop.owner;
+            [self.navigationController  pushViewController:vc animated:YES];
+        
+            
+        } else if(indexPath.row == 2){
+        
             ZHMapController *mapCtrl = [[ZHMapController alloc] init];
             mapCtrl.shopName = self.shop.name;
             mapCtrl.point = CLLocationCoordinate2DMake([self.shop.latitude floatValue], [self.shop.longitude floatValue]);
             [self.navigationController pushViewController:mapCtrl animated:YES];
-            
+        
         } else {//电话
         
             [TLAlert alertWithTitle:@"提示" Message:@"确定要拨打该电话" confirmMsg:@"确定" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
@@ -258,7 +267,7 @@
     
     if (section == 0) {
         
-        return 3;
+        return 4;
         
     } else {
     
@@ -323,9 +332,14 @@
         
         if (indexPath.row == 1) {
             
+            cell.info = @"店铺商品";
+            cell.infoType = ShopInfoTypeGoods;
+            
+        } else if(indexPath.row == 2) {
+        
             cell.info = self.shop.address;
             cell.infoType = ShopInfoTypeLocation;
-            
+        
         } else {
             cell.info = self.shop.bookMobile;
             cell.infoType = ShopInfoTypeCall;

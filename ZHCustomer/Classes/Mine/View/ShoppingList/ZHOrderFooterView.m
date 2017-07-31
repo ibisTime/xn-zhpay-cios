@@ -76,9 +76,6 @@
     [self.statusBtn setTitle:[_order getStatusName] forState:UIControlStateNormal];
     
     
-//    NSMutableAttributedString *attr = [ZHCurrencyHelper totalPriceAttr2WithQBB:_order.amount3 GWB:_order.amount2 RMB:_order.amount1 bouns:CGRectMake(0, -2, 13, 13)];
-//    [attr addAttribute:NSFontAttributeName value:FONT(13) range:NSMakeRange(0, attr.length)];
-    
     //价格
     self.priceLbl.text = [_order displayOrderPriceStr];
     

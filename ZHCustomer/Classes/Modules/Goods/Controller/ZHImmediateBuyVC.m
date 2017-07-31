@@ -15,6 +15,7 @@
 #import "ZHCurrencyHelper.h"
 #import "ZHAddressChooseView.h"
 #import "ZHNewPayVC.h"
+#import "ZHCurrencyModel.h"
 
 
 @interface ZHImmediateBuyVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -32,6 +33,7 @@
 @property (nonatomic,strong) ZHReceivingAddress *currentAddress;
 @property (nonatomic,strong) ZHAddressChooseView *chooseView;
 
+@property (nonatomic, strong) NSNumber *changeRate;
 @end
 
 @implementation ZHImmediateBuyVC
@@ -265,29 +267,83 @@
 
     __block NSNumber *postage;
     
-    
     if (self.currentAddress) {
         
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = @"808088";
-        http.parameters[@"startPoint"] = goods.currentParameterModel.province;
-        http.parameters[@"endPoint"] = self.currentAddress.province;
-        
-        [http postWithSuccess:^(id responseObject) {
-            
-            postage = responseObject[@"data"][@"price"];
-            
-            self.postageTf.text = [postage convertToRealMoney];
-            long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
-            
+        if (self.goodsRoom[0].isGift) {
            
-            NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
-            self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
+            TLNetworking *convertHttp = [TLNetworking new];
+            convertHttp.code = @"002051";
+            convertHttp.parameters[@"fromCurrency"] = kFRB;
+            convertHttp.parameters[@"toCurrency"] = kGiftB;
+            [convertHttp postWithSuccess:^(id responseObject) {
+                
+                self.changeRate =  responseObject[@"data"][@"rate"];
+                TLNetworking *http = [TLNetworking new];
+                http.showView = self.view;
+                http.code = @"808088";
+                http.parameters[@"startPoint"] = goods.currentParameterModel.province;
+                http.parameters[@"endPoint"] = self.currentAddress.province;
+                
+                [http postWithSuccess:^(id responseObject) {
+                    
+                    postage = responseObject[@"data"][@"price"];
+//                CGFloat youFei =  ([postage longLongValue]*1.0/1000)/[self.changeRate floatValue];
+                    
+                    long long newPostage = [postage longLongValue]/[self.changeRate floatValue];
+                    
+                    self.postageTf.text = [@(newPostage) convertToRealMoney];
+                    
+                    
+                    //
+                    long long totalPrice = [postage longLongValue]/[self.changeRate floatValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
+                    
+                    //
+                    NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
+                    
+                    //
+                    self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
+                    //
+                    
+                } failure:^(NSError *error) {
+                    
+                }];
+
+                
+            } failure:^(NSError *error) {
+                
+                
+            }];
             
-        } failure:^(NSError *error) {
             
-        }];
+        } else {
+        
+            TLNetworking *http = [TLNetworking new];
+            http.showView = self.view;
+            http.code = @"808088";
+            http.parameters[@"startPoint"] = goods.currentParameterModel.province;
+            http.parameters[@"endPoint"] = self.currentAddress.province;
+            
+            [http postWithSuccess:^(id responseObject) {
+                
+                postage = responseObject[@"data"][@"price"];
+                
+                self.postageTf.text = [postage convertToRealMoney];
+                long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
+                
+                
+                NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
+                self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
+                
+            } failure:^(NSError *error) {
+                
+            }];
+        
+        }
+        
+        
+  
+        
+   
 
         
     } else {
@@ -401,7 +457,7 @@
     footerView.backgroundColor = [UIColor whiteColor];
     
     //邮费
-    TLTextField *postageTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"邮费(元)：" titleWidth:100 placeholder:@"邮费"];
+    TLTextField *postageTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"邮费：" titleWidth:100 placeholder:@"邮费"];
     [footerView addSubview:postageTf];
     postageTf.userInteractionEnabled = NO;
     self.postageTf = postageTf;

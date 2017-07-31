@@ -80,8 +80,9 @@
       
         }
         
-       self.priceLbl.text = [NSString stringWithFormat:@"%.2f", [textField.text floatValue]/[self.changeRate longValue]];
-   
+       long long value = [textField.text floatValue]*1000/[self.changeRate floatValue];
+       self.priceLbl.text = [@(value) convertToRealMoney];
+       return;
     }
     
     
@@ -125,11 +126,12 @@
         convertHttp.code = @"002051";
         convertHttp.parameters[@"fromCurrency"] = kFRB;
         convertHttp.parameters[@"toCurrency"] = kGiftB;
+        
+//      convertHttp.parameters[@"fromCurrency"] =  kGiftB;
+//      convertHttp.parameters[@"toCurrency"] = kFRB;
         [convertHttp postWithSuccess:^(id responseObject) {
             
-           
             self.changeRate =  responseObject[@"data"][@"rate"];
-            
             
         } failure:^(NSError *error) {
             
@@ -154,8 +156,8 @@
         
     } completion:NULL];
     
-    
 }
+
 
 - (void)tl_placeholderOperation {
 
@@ -210,7 +212,7 @@
             
         case ZHShopPayTypeBuyGiftB: {
             
-            payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+            payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO)];
@@ -580,7 +582,7 @@
             
         }
         
-        
+        //
         if ([payType isEqualToString: kZHWXTypeCode]) {
             
             [self wxPayWithInfo:responseObject[@"data"]];

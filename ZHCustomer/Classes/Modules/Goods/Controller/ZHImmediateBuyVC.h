@@ -19,8 +19,8 @@
 
 
 //购物车专用
-@property (nonatomic,copy) NSAttributedString *priceAttr;
-@property (nonatomic,copy) NSAttributedString *priceAttrAddPostage;
+//@property (nonatomic,copy) NSAttributedString *priceAttr;
+//@property (nonatomic,copy) NSAttributedString *priceAttrAddPostage;
 
 @property (nonatomic,copy) void(^placeAnOrderSuccess)();
 

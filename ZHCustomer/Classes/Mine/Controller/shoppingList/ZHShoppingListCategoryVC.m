@@ -114,8 +114,7 @@
     
 }
 
-- (void)qx
-{
+- (void)qx {
 
     //取消订单
     TLNetworking *http = [TLNetworking new];
