@@ -26,6 +26,7 @@
 #import "CDShopTypeChooseView.h"
 #import "TLMarqueeView.h"
 #import "TLLocationService.h"
+#import "AppConfig.h"
 
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
 
@@ -168,7 +169,7 @@
         
         //广告图
         [weakSelf getBanner];
-
+        
         //获取店铺类型
         [weakSelf getType];
 
@@ -220,7 +221,7 @@
 
 - (void)locationSuccess {
 
-    NSLog(@"首页——定位成功");
+    TLLog(@"首页——定位成功");
     
     if (self.lastLocationSuccessDate && ([[NSDate date] timeIntervalSinceDate:self.lastLocationSuccessDate] <60*1)) {
         
@@ -238,13 +239,12 @@
         //
         self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
         self.pageDataHelper.parameters[@"longitude"] = self.lon;
-        
+        //
         self.lat = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];
         self.pageDataHelper.parameters[@"latitude"] = self.lat;
-        
         //
         [self.shopTableView beginRefreshing];
-
+        
     } else { //第一次进入没有记录
         
         // 地址的编码通过经纬度得到具体的地址
@@ -265,7 +265,6 @@
                 self.pageDataHelper.parameters[@"city"] = self.currentCityName;
                 self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
                 self.pageDataHelper.parameters[@"longitude"] = self.lon;
-                
                 self.lat = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];
                 self.pageDataHelper.parameters[@"latitude"] = self.lat;
                 

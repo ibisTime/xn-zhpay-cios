@@ -55,7 +55,7 @@
     [super viewDidLoad];
     
     //
-//  self.title = @"商品列表";
+    self.title = @"商品列表";
     
     //
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectZero delegate:self dataSource:self];

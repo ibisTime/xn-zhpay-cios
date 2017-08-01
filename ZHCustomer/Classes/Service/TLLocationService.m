@@ -35,7 +35,6 @@ NSString * const kLocationServiceSuccessNotification = @"kLocationServiceSuccess
     
     return service;
     
-
 }
 
 - (void)startService {
@@ -62,13 +61,17 @@ NSString * const kLocationServiceSuccessNotification = @"kLocationServiceSuccess
     return _sysLocationManager;
 }
 
-//- (void)checkLocation {
-//
-//    if (self.isSuccess && self) {
-//        
-//    }
-//
-//}
+
+- (void)qqwwwee {
+
+    CLGeocoder *gecoder = [[CLGeocoder alloc] init];
+    [gecoder reverseGeocodeLocation:self.locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        CLPlacemark *placemark = [placemarks lastObject];
+        
+    }];
+
+}
 
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -92,13 +95,7 @@ NSString * const kLocationServiceSuccessNotification = @"kLocationServiceSuccess
         [[NSNotificationCenter defaultCenter] postNotificationName:kLocationServiceSuccessNotification object:nil];
         return;
     }
-    
-//    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:self.lastPostSuccessDate];
-//    if ( timeInterval < 60*2) {
-//        
-//        return;
-//    }
-    
+
     //
     self.lastPostSuccessDate = [NSDate date];
     [[NSNotificationCenter defaultCenter] postNotificationName:kLocationServiceSuccessNotification object:nil];

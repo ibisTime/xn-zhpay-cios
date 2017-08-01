@@ -126,7 +126,6 @@
         convertHttp.code = @"002051";
         convertHttp.parameters[@"fromCurrency"] = kFRB;
         convertHttp.parameters[@"toCurrency"] = kGiftB;
-        
 //      convertHttp.parameters[@"fromCurrency"] =  kGiftB;
 //      convertHttp.parameters[@"toCurrency"] = kFRB;
         [convertHttp postWithSuccess:^(id responseObject) {

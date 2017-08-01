@@ -270,7 +270,7 @@
     if (self.currentAddress) {
         
         if (self.goodsRoom[0].isGift) {
-           
+            
             TLNetworking *convertHttp = [TLNetworking new];
             convertHttp.code = @"002051";
             convertHttp.parameters[@"fromCurrency"] = kFRB;
@@ -289,13 +289,12 @@
                     postage = responseObject[@"data"][@"price"];
 //                CGFloat youFei =  ([postage longLongValue]*1.0/1000)/[self.changeRate floatValue];
                     
-                    long long newPostage = [postage longLongValue]/[self.changeRate floatValue];
+                    long long newPostage = [postage longLongValue]*[self.changeRate floatValue];
                     
                     self.postageTf.text = [@(newPostage) convertToRealMoney];
                     
-                    
                     //
-                    long long totalPrice = [postage longLongValue]/[self.changeRate floatValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
+                    long long totalPrice = newPostage + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
                     
                     //
                     NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
@@ -398,7 +397,7 @@
         _totalPriceLbl = [UILabel labelWithFrame:CGRectZero
                                     textAligment:NSTextAlignmentRight
                                  backgroundColor:[UIColor whiteColor]
-                                            font:FONT(18)
+                                            font:FONT(16)
                                        textColor:[UIColor zh_themeColor]];
     }
     
@@ -500,6 +499,7 @@
             make.right.equalTo(self.totalPriceLbl.mas_left).offset(-9);
             make.top.equalTo(self.totalPriceLbl.mas_top);
             make.bottom.equalTo(footerView.mas_bottom);
+        
     }];
 
     return footerView;

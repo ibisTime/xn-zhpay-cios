@@ -33,9 +33,31 @@
 
 }
 
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    if (![TLAuthHelper isEnableLocation]) {
+        
+        [TLAlert alertWithTitle:@"" Message:@"为了更好的为您服务,请在设置中打开定位服务" confirmMsg:@"设置" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
+            
+        } confirm:^(UIAlertAction *action) {
+            
+            [TLAuthHelper openSetting];
+            
+        }];
+        
+        return;
+    }
+    //
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"礼品中心";
+    
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)
                                                     delegate:self
@@ -48,7 +70,7 @@
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808217";
-//    helper.parameters[@"uiLocation"] = @"1";
+//  helper.parameters[@"uiLocation"] = @"1";
     helper.parameters[@"type"] = @"G01";
     helper.parameters[@"kind"] = @"f3";
     helper.tableView = self.shopTableView;
@@ -62,11 +84,13 @@
         //店铺数据
         [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
+            [weakSelf removePlaceholderView];
             weakSelf.shops = objs;
             [weakSelf.shopTableView reloadData_tl];
             
         } failure:^(NSError *error) {
             
+            [weakSelf addPlaceholderView];
             
         }];
         
@@ -96,7 +120,13 @@
     [TLUpdateAppService updateAppWithVC:self];
     
     [[TLLocationService service] startService];
-//    [[TLLocationService service] checkLocation];
+//  [[TLLocationService service] checkLocation];
+
+}
+
+- (void)tl_placeholderOperation {
+
+    [self.shopTableView beginRefreshing];
 
 }
 
@@ -153,6 +183,7 @@
     
 }
 
+//--//
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *zhShopCellId = @"zhShopCellId";
@@ -165,9 +196,6 @@
     cell.shop = self.shops[indexPath.row];
     return cell;
 }
-
-
-
 
 
 @end
