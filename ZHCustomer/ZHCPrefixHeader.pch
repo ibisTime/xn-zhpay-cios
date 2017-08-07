@@ -17,24 +17,22 @@
 #import "UIColor+theme.h"
 #import "ZHCurrencyHelper.h"
 
-
-
-#define GOODS_PLACEHOLDER_IMG @"mall_placeholder"
+//#define GOODS_PLACEHOLDER_IMG @"mall_placeholder"
 
 #define DEBUG_XN
 #ifdef DEBUG_XN // 处于开发阶段
 
 //#define TLLog(...) NSLog(__VA_ARGS__)
-#define IS_PRODUCATION YES
+//#define IS_PRODUCATION YES
 
 #else // 处于发布阶段
 
 //#define TLLog(...)
 //#define IS_PRODUCATION NO
 
-
 #endif
-#import  "ZHCMacro.h"
+
+//#import  "ZHCMacro.h"
 
 
 // Include any system framework and library headers here that should be included in all compilation units.

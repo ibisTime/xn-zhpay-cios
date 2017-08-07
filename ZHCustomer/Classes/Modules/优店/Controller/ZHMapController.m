@@ -30,7 +30,6 @@
     self.isFirst = YES;
     self.isFailure = NO;
     
-    
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     mapView.delegate = self;
     [self.view addSubview:mapView];
@@ -59,7 +58,6 @@
     [self.mapView addAnnotation:pointAnnotation];
     
     
-
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         [self.mapView selectAnnotation:pointAnnotation animated:YES];

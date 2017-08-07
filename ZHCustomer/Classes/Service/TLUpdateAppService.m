@@ -7,6 +7,7 @@
 //
 
 #import "TLUpdateAppService.h"
+#import "ZHCMacro.h"
 
 @implementation TLUpdateAppService
 
@@ -69,7 +70,6 @@
         }
         
     } abnormality:nil failure:nil];
-    
     
     
     

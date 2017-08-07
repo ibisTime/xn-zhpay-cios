@@ -11,12 +11,6 @@
 
 @interface ZHMsg : TLBaseModel
 
-//@property (nonatomic,strong) NSNumber *id;
-//@property (nonatomic,copy) NSString *smsCode;
-//@property (nonatomic,copy) NSString *userId;
-//@property (nonatomic,copy) NSString *status;
-//@property (nonatomic,copy) NSString *readDatetime;
-//@property (nonatomic,strong) ZHMsgContent *b2cSms;
 
 @property (nonatomic, copy) NSString *channelType;
 @property (nonatomic, copy) NSString *createDatetime;

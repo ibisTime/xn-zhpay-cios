@@ -32,7 +32,7 @@
 //        NSArray *selectedImageNames = @[@"优店01",@"尖货01",@"摇一摇01",@"小目标01",@"我的01"];
 //    }
 
-    NSArray *titles = @[@"优店",@"尖货",@"礼品中心",@"我的"];
+    NSArray *titles = @[@"优店",@"尖货",@"购物中心",@"我的"];
     
     NSArray *VCNames = @[@"ZHShopVC",@"ZHGoodsVC",@"ZHGiftVC",@"ZHMineViewCtrl"];
     NSArray *imageNames = @[@"优店00",@"尖货00",@"摇一摇00",@"我的00"];

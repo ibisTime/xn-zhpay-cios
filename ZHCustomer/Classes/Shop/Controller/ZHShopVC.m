@@ -27,6 +27,7 @@
 #import "TLMarqueeView.h"
 #import "TLLocationService.h"
 #import "AppConfig.h"
+#import "ZHMsg.h"
 
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
 
@@ -46,7 +47,7 @@
 @property (nonatomic,strong) UIView *announcementsView;
 
 //防止多次定位重复刷新
-@property (nonatomic,assign) BOOL isFirst;
+@property (nonatomic,assign) BOOL isFirstDiplayMsg;
 
 //
 @property (nonatomic,copy) NSString *lon;
@@ -107,7 +108,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.isFirst = YES;
+    self.isFirstDiplayMsg = YES;
 
     //搜索 及 位置信息
     [self setUpSearchView];
@@ -146,7 +147,7 @@
     };
     
 #pragma mark- 系统公告
-    [self getSysMsg];
+//    [self getSysMsg];
     
 #pragma mark- 获取店铺类型
     [self getType];
@@ -390,10 +391,37 @@
     sysMsgHttp.parameters[@"fromSystemCode"] = @"CD-CZH000001";
     [sysMsgHttp postWithSuccess:^(id responseObject) {
         
-        NSArray *msgs = responseObject[@"data"][@"list"];
+    
+        NSArray <ZHMsg *>*msgs = [ZHMsg tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+        
+        //
         if (msgs.count > 0) {
             
-            self.sysMsgView.msg = msgs[0][@"smsTitle"];
+            self.sysMsgView.msg = msgs[0].smsTitle;
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                if (self.isFirstDiplayMsg) {
+                    
+                    self.isFirstDiplayMsg = NO;
+                    
+                    NSString *content = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastDisplayMsgTag"];
+                    if (content && [content isEqualToString:msgs[0].smsContent]) {
+                        
+                        //同一个消息只弹出一次即可
+                        return ;
+                    }
+                    
+                    [TLAlert alertWithTitile:self.sysMsgView.msg message:msgs[0].smsContent confirmAction:^{
+                        
+                       [[NSUserDefaults standardUserDefaults] setObject:msgs[0].smsContent forKey:@"lastDisplayMsgTag"];
+                        
+                    }];
+                    
+                }
+                
+            });
+         
         }
         
         

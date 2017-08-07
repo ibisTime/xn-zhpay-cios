@@ -9,11 +9,9 @@
 #import "AppDelegate.h"
 #import "ZHTabBarController.h"
 #import "AppDelegate+JPush.h"
-
 #import "UMMobClick/MobClick.h"
 #import "WXApi.h"
 #import "IQKeyboardManager.h"
-
 #import "TLWXManager.h"
 #import "ZHUserRegistVC.h"
 #import "ZHUserLoginVC.h"
@@ -35,7 +33,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvRelease;
+    [AppConfig config].runEnv = RunEnvDev;
     
     //请求定位权限
     [[TLLocationService service].locationManager requestWhenInUseAuthorization];
@@ -114,9 +112,8 @@
 #pragma mark- 退出登录
 - (void)userLoginOut {
     
-
 //    [self userLoginOutCancleLocation];
-
+    
     //用户 数据清除放在最后
     [[ZHUser user] loginOut];
 
@@ -124,7 +121,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         UITabBarController *tbc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        tbc.selectedIndex = 2;
+        tbc.selectedIndex = 0;
         
     });
 

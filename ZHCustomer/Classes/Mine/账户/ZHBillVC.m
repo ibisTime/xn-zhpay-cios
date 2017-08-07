@@ -16,6 +16,7 @@
 #import "ZHHBConvertFRVC.h"
 #import "ZHFRBToOtherPeopleVC.h"
 #import "CDBillHistoryVC.h"
+#import  "ZHCMacro.h"
 
 
 @interface ZHBillVC ()<UITableViewDelegate, UITableViewDataSource>

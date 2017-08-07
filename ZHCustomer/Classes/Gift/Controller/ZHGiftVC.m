@@ -55,7 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"礼品中心";
+    self.title = @"购物中心";
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
@@ -70,7 +70,6 @@
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808217";
-//  helper.parameters[@"uiLocation"] = @"1";
     helper.parameters[@"type"] = @"G01";
     helper.parameters[@"kind"] = @"f3";
     helper.tableView = self.shopTableView;
@@ -119,6 +118,7 @@
     
     [TLUpdateAppService updateAppWithVC:self];
     
+    [TLProgressHUD showWithStatus:nil];
     [[TLLocationService service] startService];
 //  [[TLLocationService service] checkLocation];
 
@@ -132,6 +132,7 @@
 
 - (void)locationFailure {
 
+    [TLProgressHUD dismiss];
     [self.shopTableView beginRefreshing];
 
 }
@@ -139,6 +140,8 @@
 
 - (void)locationSuccess {
 
+    
+    [TLProgressHUD dismiss];
     if (self.lastLocationSuccessDate && ([[NSDate date] timeIntervalSinceDate:self.lastLocationSuccessDate] <60*3)) {
         
         return;
@@ -183,7 +186,7 @@
     
 }
 
-//--//
+//
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *zhShopCellId = @"zhShopCellId";
