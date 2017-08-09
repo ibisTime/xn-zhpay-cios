@@ -11,6 +11,8 @@
 #import "ZHBankCardCell.h"
 #import "TLPageDataHelper.h"
 #import "ZHBankCard.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
 
 @interface ZHBankCardListVC()<UITableViewDelegate,UITableViewDataSource>
 

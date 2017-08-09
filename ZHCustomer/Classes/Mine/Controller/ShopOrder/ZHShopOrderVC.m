@@ -10,6 +10,9 @@
 #import "ZHShopOrderCell.h"
 #import "ZHShopOrderDetailVC.h"
 #import "ZHShopOrderModel.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+
 
 @interface ZHShopOrderVC ()<UITableViewDelegate,UITableViewDataSource>
 

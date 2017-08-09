@@ -8,6 +8,8 @@
 
 #import "ZHWalletCell.h"
 #import "ZHBillVC.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
 
 @interface ZHWalletCell()
 

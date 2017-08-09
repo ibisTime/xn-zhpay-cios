@@ -7,6 +7,7 @@
 //
 
 #import "ZHMsg.h"
+#import "TLHeader.h"
 
 @implementation ZHMsg
 

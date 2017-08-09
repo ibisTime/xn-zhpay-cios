@@ -12,6 +12,11 @@
 
 //转换金额
 - (NSString *)convertToRealMoney;
+
+
+/**
+ 正常转换
+*/
 - (NSString *)convertToRealMoneyRuleBySystem;
 
 

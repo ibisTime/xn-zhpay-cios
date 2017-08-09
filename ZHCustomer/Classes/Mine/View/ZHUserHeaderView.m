@@ -7,6 +7,7 @@
 //
 
 #import "ZHUserHeaderView.h"
+#import "TLHeader.h"
 
 @implementation ZHUserHeaderView
 

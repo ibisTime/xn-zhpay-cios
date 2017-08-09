@@ -7,6 +7,8 @@
 //
 
 #import "ZHBankCardCell.h"
+#import "TLHeader.h"
+
 
 @interface ZHBankCardCell()
 

@@ -7,6 +7,9 @@
 //
 
 #import "ZHOrderFooterView.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+#import "ZHUser.h"
 
 @interface ZHOrderFooterView()
 

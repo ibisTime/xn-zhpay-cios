@@ -7,8 +7,7 @@
 //
 
 #import "TLBaseModel.h"
-//#import "ZHCoupon.h"
-
+#import <UIKit/UIKit.h>
 
 @interface ZHShop : TLBaseModel
 
@@ -66,8 +65,6 @@
 
 
 - (NSString *)distanceDescription;
-//位置信息
-//- (NSString *)distance;
 
 //
 - (CGFloat)detailHeight;
@@ -80,14 +77,16 @@
 - (BOOL)isGiftMerchant;
 
 
-//- (void)changShopInfoWithDict:(NSDictionary *)dict;
 
+/**
+ 获取店铺类型名称 普通 或者礼品商
+ */
+- (NSString *)getShopTypeName;
 
 
 
 - (NSString *)getCoverImgUrl;
 - (NSString *)getStatusName;
-- (NSString *)getTypeName;
 
 
 + (void)getShopInfoWithToken:(NSString *)token userId:(NSString *)userId  showInfoView:(UIView *)view success:(void(^)(NSDictionary *shopDict))success failure:(void(^)(NSError *error))failure;

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TLBaseModel.h"
 
 @interface ZHBillModel : TLBaseModel
 

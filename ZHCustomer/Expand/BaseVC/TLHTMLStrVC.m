@@ -8,6 +8,8 @@
 
 #import "TLHTMLStrVC.h"
 #import <WebKit/WebKit.h>
+#import "TLHeader.h"
+
 
 @interface TLHTMLStrVC ()<WKNavigationDelegate>
 

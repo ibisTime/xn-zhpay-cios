@@ -8,6 +8,9 @@
 
 #import "ZHPayInfoCell.h"
 #import "Masonry.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+
 
 @interface ZHPayInfoCell()
 

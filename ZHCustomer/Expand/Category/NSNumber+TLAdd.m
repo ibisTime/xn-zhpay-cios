@@ -46,8 +46,8 @@
     long long m = [self longLongValue];
     double value = m/1000.0;
     
-    NSString *tempStr = [NSString stringWithFormat:@"%.3f",value];
-    NSString *subStr = [tempStr substringWithRange:NSMakeRange(0, tempStr.length - 1)];
+//    NSString *tempStr = [NSString stringWithFormat:@"%.3f",value];
+//    NSString *subStr = [tempStr substringWithRange:NSMakeRange(0, tempStr.length - 1)];
     
     //  return [NSString stringWithFormat:@"%.2f",value];
     return [NSString stringWithFormat:@"%.2f",value];

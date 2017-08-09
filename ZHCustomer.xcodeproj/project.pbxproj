@@ -126,13 +126,6 @@
 		2E9086F31F1C5B40002374F4 /* NBRealNameService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086F21F1C5B40002374F4 /* NBRealNameService.m */; };
 		2E9086F61F1C68C7002374F4 /* ZHPayInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086F51F1C68C7002374F4 /* ZHPayInfoView.m */; };
 		2E9086FA1F1C9474002374F4 /* ZHPayService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086F91F1C9474002374F4 /* ZHPayService.m */; };
-		2E917B2C1E953396003ED4A8 /* ZHMineEarningsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B1D1E953396003ED4A8 /* ZHMineEarningsVC.m */; };
-		2E917B2D1E953396003ED4A8 /* ZHProfitDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B1F1E953396003ED4A8 /* ZHProfitDetailVC.m */; };
-		2E917B2E1E953396003ED4A8 /* ZHSingleProfitFlowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B211E953396003ED4A8 /* ZHSingleProfitFlowVC.m */; };
-		2E917B2F1E953396003ED4A8 /* ZHEarningFlowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B241E953396003ED4A8 /* ZHEarningFlowModel.m */; };
-		2E917B301E953396003ED4A8 /* ZHEarningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B261E953396003ED4A8 /* ZHEarningModel.m */; };
-		2E917B311E953396003ED4A8 /* ZHEarningFlowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B291E953396003ED4A8 /* ZHEarningFlowCell.m */; };
-		2E917B321E953396003ED4A8 /* ZHProfitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E917B2B1E953396003ED4A8 /* ZHProfitCell.m */; };
 		2E993FAE1EEA93D7005A53FE /* Address.json in Resources */ = {isa = PBXBuildFile; fileRef = 2E993FAD1EEA93D7005A53FE /* Address.json */; };
 		2E993FB41EEBA108005A53FE /* CDShopPaySuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E993FB31EEBA108005A53FE /* CDShopPaySuccessVC.m */; };
 		2E9A77891E5441C9009D8FAA /* TLRealmPlayground.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A77881E5441C9009D8FAA /* TLRealmPlayground.m */; };
@@ -211,6 +204,16 @@
 		2EDC53CD1E1E210A00CACE31 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2EDC53C81E1E210A00CACE31 /* README.txt */; };
 		2EDC53CF1E1E26F000CACE31 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDC53CE1E1E26F000CACE31 /* CFNetwork.framework */; };
 		2EDC53D51E1E389E00CACE31 /* NSNumber+TLAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDC53D41E1E389E00CACE31 /* NSNumber+TLAdd.m */; };
+		2EEA7C301F3AAA8B00ADF543 /* CDFenHongQuanVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C1D1F3AAA8B00ADF543 /* CDFenHongQuanVC.m */; };
+		2EEA7C311F3AAA8B00ADF543 /* CDHistorySingleProfitVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C1F1F3AAA8B00ADF543 /* CDHistorySingleProfitVC.m */; };
+		2EEA7C321F3AAA8B00ADF543 /* ZHSingleProfitFlowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C211F3AAA8B00ADF543 /* ZHSingleProfitFlowVC.m */; };
+		2EEA7C331F3AAA8B00ADF543 /* CDProfitAndCountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C241F3AAA8B00ADF543 /* CDProfitAndCountModel.m */; };
+		2EEA7C341F3AAA8B00ADF543 /* ZHEarningFlowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C261F3AAA8B00ADF543 /* ZHEarningFlowModel.m */; };
+		2EEA7C351F3AAA8B00ADF543 /* ZHEarningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C281F3AAA8B00ADF543 /* ZHEarningModel.m */; };
+		2EEA7C361F3AAA8B00ADF543 /* CDFHQTopBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C2B1F3AAA8B00ADF543 /* CDFHQTopBottomView.m */; };
+		2EEA7C371F3AAA8B00ADF543 /* CDProfitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C2D1F3AAA8B00ADF543 /* CDProfitCell.m */; };
+		2EEA7C381F3AAA8B00ADF543 /* ZHEarningFlowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C2F1F3AAA8B00ADF543 /* ZHEarningFlowCell.m */; };
+		2EEA7C3B1F3AABB600ADF543 /* CDChooseTimeIntervalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C3A1F3AABB600ADF543 /* CDChooseTimeIntervalView.m */; };
 		2EEF8D941EE15A0B00453109 /* ZHNewPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D751EE15A0B00453109 /* ZHNewPayVC.m */; };
 		2EEF8D951EE15A0B00453109 /* ZHPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D771EE15A0B00453109 /* ZHPayVC.m */; };
 		2EEF8D961EE15A0B00453109 /* ZHPayFuncModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D7A1EE15A0B00453109 /* ZHPayFuncModel.m */; };
@@ -249,8 +252,6 @@
 		2EF9DC081E1CC98B005E2943 /* ZHShopOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DC071E1CC98B005E2943 /* ZHShopOrderCell.m */; };
 		2EF9DC0B1E1CD612005E2943 /* ZHShopOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DC0A1E1CD612005E2943 /* ZHShopOrderModel.m */; };
 		2EF9DC0E1E1CD67D005E2943 /* TLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9DC0D1E1CD67D005E2943 /* TLBaseModel.m */; };
-		2EFAF0AF1EF137E60096A312 /* CDHistorySingleProfitVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFAF0AE1EF137E60096A312 /* CDHistorySingleProfitVC.m */; };
-		2EFAF0B21EF137FB0096A312 /* CDChooseTimeIntervalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFAF0B11EF137FB0096A312 /* CDChooseTimeIntervalView.m */; };
 		5DFF6B3B9C2D679C9FCAA24B /* libPods-ZHCustomer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED0B1BD5C113B918AF7D0D40 /* libPods-ZHCustomer.a */; };
 /* End PBXBuildFile section */
 
@@ -486,20 +487,6 @@
 		2E9086F81F1C9474002374F4 /* ZHPayService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayService.h; sourceTree = "<group>"; };
 		2E9086F91F1C9474002374F4 /* ZHPayService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHPayService.m; sourceTree = "<group>"; };
 		2E917AE51E9231DA003ED4A8 /* ZHStatusHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZHStatusHeader.h; sourceTree = "<group>"; };
-		2E917B1C1E953396003ED4A8 /* ZHMineEarningsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMineEarningsVC.h; sourceTree = "<group>"; };
-		2E917B1D1E953396003ED4A8 /* ZHMineEarningsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHMineEarningsVC.m; sourceTree = "<group>"; };
-		2E917B1E1E953396003ED4A8 /* ZHProfitDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHProfitDetailVC.h; sourceTree = "<group>"; };
-		2E917B1F1E953396003ED4A8 /* ZHProfitDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHProfitDetailVC.m; sourceTree = "<group>"; };
-		2E917B201E953396003ED4A8 /* ZHSingleProfitFlowVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHSingleProfitFlowVC.h; sourceTree = "<group>"; };
-		2E917B211E953396003ED4A8 /* ZHSingleProfitFlowVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHSingleProfitFlowVC.m; sourceTree = "<group>"; };
-		2E917B231E953396003ED4A8 /* ZHEarningFlowModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEarningFlowModel.h; sourceTree = "<group>"; };
-		2E917B241E953396003ED4A8 /* ZHEarningFlowModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEarningFlowModel.m; sourceTree = "<group>"; };
-		2E917B251E953396003ED4A8 /* ZHEarningModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEarningModel.h; sourceTree = "<group>"; };
-		2E917B261E953396003ED4A8 /* ZHEarningModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEarningModel.m; sourceTree = "<group>"; };
-		2E917B281E953396003ED4A8 /* ZHEarningFlowCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEarningFlowCell.h; sourceTree = "<group>"; };
-		2E917B291E953396003ED4A8 /* ZHEarningFlowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEarningFlowCell.m; sourceTree = "<group>"; };
-		2E917B2A1E953396003ED4A8 /* ZHProfitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHProfitCell.h; sourceTree = "<group>"; };
-		2E917B2B1E953396003ED4A8 /* ZHProfitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHProfitCell.m; sourceTree = "<group>"; };
 		2E993FAD1EEA93D7005A53FE /* Address.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Address.json; sourceTree = "<group>"; };
 		2E993FB21EEBA108005A53FE /* CDShopPaySuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDShopPaySuccessVC.h; sourceTree = "<group>"; };
 		2E993FB31EEBA108005A53FE /* CDShopPaySuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDShopPaySuccessVC.m; sourceTree = "<group>"; };
@@ -641,6 +628,26 @@
 		2EDC53CE1E1E26F000CACE31 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2EDC53D31E1E389E00CACE31 /* NSNumber+TLAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+TLAdd.h"; sourceTree = "<group>"; };
 		2EDC53D41E1E389E00CACE31 /* NSNumber+TLAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+TLAdd.m"; sourceTree = "<group>"; };
+		2EEA7C1C1F3AAA8B00ADF543 /* CDFenHongQuanVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFenHongQuanVC.h; sourceTree = "<group>"; };
+		2EEA7C1D1F3AAA8B00ADF543 /* CDFenHongQuanVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFenHongQuanVC.m; sourceTree = "<group>"; };
+		2EEA7C1E1F3AAA8B00ADF543 /* CDHistorySingleProfitVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDHistorySingleProfitVC.h; sourceTree = "<group>"; };
+		2EEA7C1F1F3AAA8B00ADF543 /* CDHistorySingleProfitVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDHistorySingleProfitVC.m; sourceTree = "<group>"; };
+		2EEA7C201F3AAA8B00ADF543 /* ZHSingleProfitFlowVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHSingleProfitFlowVC.h; sourceTree = "<group>"; };
+		2EEA7C211F3AAA8B00ADF543 /* ZHSingleProfitFlowVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHSingleProfitFlowVC.m; sourceTree = "<group>"; };
+		2EEA7C231F3AAA8B00ADF543 /* CDProfitAndCountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProfitAndCountModel.h; sourceTree = "<group>"; };
+		2EEA7C241F3AAA8B00ADF543 /* CDProfitAndCountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProfitAndCountModel.m; sourceTree = "<group>"; };
+		2EEA7C251F3AAA8B00ADF543 /* ZHEarningFlowModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEarningFlowModel.h; sourceTree = "<group>"; };
+		2EEA7C261F3AAA8B00ADF543 /* ZHEarningFlowModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEarningFlowModel.m; sourceTree = "<group>"; };
+		2EEA7C271F3AAA8B00ADF543 /* ZHEarningModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEarningModel.h; sourceTree = "<group>"; };
+		2EEA7C281F3AAA8B00ADF543 /* ZHEarningModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEarningModel.m; sourceTree = "<group>"; };
+		2EEA7C2A1F3AAA8B00ADF543 /* CDFHQTopBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFHQTopBottomView.h; sourceTree = "<group>"; };
+		2EEA7C2B1F3AAA8B00ADF543 /* CDFHQTopBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFHQTopBottomView.m; sourceTree = "<group>"; };
+		2EEA7C2C1F3AAA8B00ADF543 /* CDProfitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProfitCell.h; sourceTree = "<group>"; };
+		2EEA7C2D1F3AAA8B00ADF543 /* CDProfitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProfitCell.m; sourceTree = "<group>"; };
+		2EEA7C2E1F3AAA8B00ADF543 /* ZHEarningFlowCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEarningFlowCell.h; sourceTree = "<group>"; };
+		2EEA7C2F1F3AAA8B00ADF543 /* ZHEarningFlowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEarningFlowCell.m; sourceTree = "<group>"; };
+		2EEA7C391F3AABB600ADF543 /* CDChooseTimeIntervalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDChooseTimeIntervalView.h; sourceTree = "<group>"; };
+		2EEA7C3A1F3AABB600ADF543 /* CDChooseTimeIntervalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDChooseTimeIntervalView.m; sourceTree = "<group>"; };
 		2EEF8D741EE15A0B00453109 /* ZHNewPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHNewPayVC.h; sourceTree = "<group>"; };
 		2EEF8D751EE15A0B00453109 /* ZHNewPayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHNewPayVC.m; sourceTree = "<group>"; };
 		2EEF8D761EE15A0B00453109 /* ZHPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayVC.h; sourceTree = "<group>"; };
@@ -717,10 +724,6 @@
 		2EF9DC0A1E1CD612005E2943 /* ZHShopOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShopOrderModel.m; sourceTree = "<group>"; };
 		2EF9DC0C1E1CD67D005E2943 /* TLBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBaseModel.h; sourceTree = "<group>"; };
 		2EF9DC0D1E1CD67D005E2943 /* TLBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBaseModel.m; sourceTree = "<group>"; };
-		2EFAF0AD1EF137E60096A312 /* CDHistorySingleProfitVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDHistorySingleProfitVC.h; sourceTree = "<group>"; };
-		2EFAF0AE1EF137E60096A312 /* CDHistorySingleProfitVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDHistorySingleProfitVC.m; sourceTree = "<group>"; };
-		2EFAF0B01EF137FB0096A312 /* CDChooseTimeIntervalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDChooseTimeIntervalView.h; sourceTree = "<group>"; };
-		2EFAF0B11EF137FB0096A312 /* CDChooseTimeIntervalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDChooseTimeIntervalView.m; sourceTree = "<group>"; };
 		955D3B45169753D5CBA42134 /* Pods-ZHCustomer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZHCustomer.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZHCustomer/Pods-ZHCustomer.release.xcconfig"; sourceTree = "<group>"; };
 		ED0B1BD5C113B918AF7D0D40 /* libPods-ZHCustomer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZHCustomer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1271,55 +1274,6 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		2E917B1A1E953396003ED4A8 /* 我的收益 */ = {
-			isa = PBXGroup;
-			children = (
-				2E917B1B1E953396003ED4A8 /* Controller */,
-				2E917B221E953396003ED4A8 /* Model */,
-				2E917B271E953396003ED4A8 /* View */,
-			);
-			path = "我的收益";
-			sourceTree = "<group>";
-		};
-		2E917B1B1E953396003ED4A8 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				2E917B1C1E953396003ED4A8 /* ZHMineEarningsVC.h */,
-				2E917B1D1E953396003ED4A8 /* ZHMineEarningsVC.m */,
-				2E917B1E1E953396003ED4A8 /* ZHProfitDetailVC.h */,
-				2E917B1F1E953396003ED4A8 /* ZHProfitDetailVC.m */,
-				2E917B201E953396003ED4A8 /* ZHSingleProfitFlowVC.h */,
-				2E917B211E953396003ED4A8 /* ZHSingleProfitFlowVC.m */,
-				2EFAF0AD1EF137E60096A312 /* CDHistorySingleProfitVC.h */,
-				2EFAF0AE1EF137E60096A312 /* CDHistorySingleProfitVC.m */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		2E917B221E953396003ED4A8 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				2E917B231E953396003ED4A8 /* ZHEarningFlowModel.h */,
-				2E917B241E953396003ED4A8 /* ZHEarningFlowModel.m */,
-				2E917B251E953396003ED4A8 /* ZHEarningModel.h */,
-				2E917B261E953396003ED4A8 /* ZHEarningModel.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		2E917B271E953396003ED4A8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				2EFAF0B01EF137FB0096A312 /* CDChooseTimeIntervalView.h */,
-				2EFAF0B11EF137FB0096A312 /* CDChooseTimeIntervalView.m */,
-				2E917B281E953396003ED4A8 /* ZHEarningFlowCell.h */,
-				2E917B291E953396003ED4A8 /* ZHEarningFlowCell.m */,
-				2E917B2A1E953396003ED4A8 /* ZHProfitCell.h */,
-				2E917B2B1E953396003ED4A8 /* ZHProfitCell.m */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		2E9A77831E544078009D8FAA /* RealmTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -1419,7 +1373,7 @@
 				2E9086E01F1C52A5002374F4 /* 推荐关系 */,
 				2E9086B31F1C5060002374F4 /* 账户 */,
 				2E202FD91EE954C500E38656 /* bankCard */,
-				2E917B1A1E953396003ED4A8 /* 我的收益 */,
+				2EEA7C1A1F3AAA8B00ADF543 /* 分红权 */,
 				2E6E485D1E1B4D3800FD2CA7 /* MsgMgt */,
 				2EC2ABB01E0CC8BF003EF503 /* Controller */,
 				2EC2ABB11E0CC8BF003EF503 /* Model */,
@@ -1787,6 +1741,57 @@
 				2EDC53CB1E1E210A00CACE31 /* WXApiObject.h */,
 			);
 			path = OpenSDK1.7.5;
+			sourceTree = "<group>";
+		};
+		2EEA7C1A1F3AAA8B00ADF543 /* 分红权 */ = {
+			isa = PBXGroup;
+			children = (
+				2EEA7C1B1F3AAA8B00ADF543 /* Controller */,
+				2EEA7C221F3AAA8B00ADF543 /* Model */,
+				2EEA7C291F3AAA8B00ADF543 /* View */,
+			);
+			path = "分红权";
+			sourceTree = "<group>";
+		};
+		2EEA7C1B1F3AAA8B00ADF543 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2EEA7C1C1F3AAA8B00ADF543 /* CDFenHongQuanVC.h */,
+				2EEA7C1D1F3AAA8B00ADF543 /* CDFenHongQuanVC.m */,
+				2EEA7C1E1F3AAA8B00ADF543 /* CDHistorySingleProfitVC.h */,
+				2EEA7C1F1F3AAA8B00ADF543 /* CDHistorySingleProfitVC.m */,
+				2EEA7C201F3AAA8B00ADF543 /* ZHSingleProfitFlowVC.h */,
+				2EEA7C211F3AAA8B00ADF543 /* ZHSingleProfitFlowVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2EEA7C221F3AAA8B00ADF543 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2EEA7C231F3AAA8B00ADF543 /* CDProfitAndCountModel.h */,
+				2EEA7C241F3AAA8B00ADF543 /* CDProfitAndCountModel.m */,
+				2EEA7C251F3AAA8B00ADF543 /* ZHEarningFlowModel.h */,
+				2EEA7C261F3AAA8B00ADF543 /* ZHEarningFlowModel.m */,
+				2EEA7C271F3AAA8B00ADF543 /* ZHEarningModel.h */,
+				2EEA7C281F3AAA8B00ADF543 /* ZHEarningModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2EEA7C291F3AAA8B00ADF543 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2EEA7C391F3AABB600ADF543 /* CDChooseTimeIntervalView.h */,
+				2EEA7C3A1F3AABB600ADF543 /* CDChooseTimeIntervalView.m */,
+				2EEA7C2A1F3AAA8B00ADF543 /* CDFHQTopBottomView.h */,
+				2EEA7C2B1F3AAA8B00ADF543 /* CDFHQTopBottomView.m */,
+				2EEA7C2C1F3AAA8B00ADF543 /* CDProfitCell.h */,
+				2EEA7C2D1F3AAA8B00ADF543 /* CDProfitCell.m */,
+				2EEA7C2E1F3AAA8B00ADF543 /* ZHEarningFlowCell.h */,
+				2EEA7C2F1F3AAA8B00ADF543 /* ZHEarningFlowCell.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		2EEF8D4E1EE15A0B00453109 /* Modules */ = {
@@ -2180,29 +2185,29 @@
 				2E5945511E28687E00331BAF /* SGScanningQRCodeVC.m in Sources */,
 				2E9086EC1F1C5399002374F4 /* ZHChatUserCell.m in Sources */,
 				2E90868F1F1C4C0C002374F4 /* ZHSearchVC.m in Sources */,
-				2E917B2C1E953396003ED4A8 /* ZHMineEarningsVC.m in Sources */,
 				2EEF8D981EE15A0B00453109 /* ZHPaySceneUIItem.m in Sources */,
 				2E9086951F1C4C0D002374F4 /* CDShopTypeChooseView.m in Sources */,
 				2EEF8E5E1EE5639900453109 /* ZHGoodsKeyValue.m in Sources */,
 				2E6E47DA1E13A2DD00FD2CA7 /* ZHSettingGroup.m in Sources */,
 				2EEF8E5A1EE5639900453109 /* ZHImmediateBuyVC.m in Sources */,
-				2E917B2E1E953396003ED4A8 /* ZHSingleProfitFlowVC.m in Sources */,
 				2E9086D61F1C5115002374F4 /* ZHBillCell.m in Sources */,
 				2EEF8D961EE15A0B00453109 /* ZHPayFuncModel.m in Sources */,
 				2E9086A21F1C4C59002374F4 /* ZHShopVC.m in Sources */,
 				2EC2AE531E0CF55A003EF503 /* TLTextView.m in Sources */,
+				2EEA7C311F3AAA8B00ADF543 /* CDHistorySingleProfitVC.m in Sources */,
 				2EEF8D971EE15A0B00453109 /* ZHPaySceneManager.m in Sources */,
 				2EC2ADDB1E0CF55A003EF503 /* UIFont+UI.m in Sources */,
 				2EC2AE511E0CF55A003EF503 /* TLTableView.m in Sources */,
+				2EEA7C321F3AAA8B00ADF543 /* ZHSingleProfitFlowVC.m in Sources */,
 				2EC2AE521E0CF55A003EF503 /* TLTextField.m in Sources */,
 				2E90869D1F1C4C0D002374F4 /* ZHShopTypeView.m in Sources */,
+				2EEA7C3B1F3AABB600ADF543 /* CDChooseTimeIntervalView.m in Sources */,
 				2E90869E1F1C4C0D002374F4 /* ZHShopManager.m in Sources */,
-				2E917B2D1E953396003ED4A8 /* ZHProfitDetailVC.m in Sources */,
+				2EEA7C341F3AAA8B00ADF543 /* ZHEarningFlowModel.m in Sources */,
 				2E9086F61F1C68C7002374F4 /* ZHPayInfoView.m in Sources */,
 				2EC2AE4F1E0CF55A003EF503 /* TLPickerTextField.m in Sources */,
 				2EEF8E661EE5639900453109 /* ZHParameterCell.m in Sources */,
 				2EC2AE711E0CF5B3003EF503 /* ZHCaptchaView.m in Sources */,
-				2E917B301E953396003ED4A8 /* ZHEarningModel.m in Sources */,
 				2E202FEB1EE954C500E38656 /* ZHBankCardCell.m in Sources */,
 				2EC2AE481E0CF55A003EF503 /* UIView+Frame.m in Sources */,
 				2E6E48381E17AB3100FD2CA7 /* ZHOrderDetailVC.m in Sources */,
@@ -2216,7 +2221,6 @@
 				2E6C3E031E2C60AB006A7AA2 /* TLImagePicker.m in Sources */,
 				2E6E47F41E13C64900FD2CA7 /* ZHPwdRelatedVC.m in Sources */,
 				2EC2AE4E1E0CF55A003EF503 /* TLMsgBadgeView.m in Sources */,
-				2E917B311E953396003ED4A8 /* ZHEarningFlowCell.m in Sources */,
 				2EC2ADD71E0CF55A003EF503 /* NSObject+convert.m in Sources */,
 				2EF9DC021E1CC877005E2943 /* ZHShopOrderVC.m in Sources */,
 				2EC6027F1E5EE2E40066C197 /* ZHNumberCell.m in Sources */,
@@ -2226,7 +2230,6 @@
 				2E9086E81F1C52A5002374F4 /* CDUserReleationListVC.m in Sources */,
 				2EC2AE6E1E0CF5B3003EF503 /* ZHUser.m in Sources */,
 				2E1762A21E23286300CAE489 /* UIDevice+FCUUID.m in Sources */,
-				2E917B321E953396003ED4A8 /* ZHProfitCell.m in Sources */,
 				2EB8F7F81EE685C2006B65F6 /* CDGoodsParameterModel.m in Sources */,
 				2E9086961F1C4C0D002374F4 /* ZHDiscountInfoCell.m in Sources */,
 				2E1762A11E23286300CAE489 /* FCUUID.m in Sources */,
@@ -2237,7 +2240,6 @@
 				2EC2AE471E0CF55A003EF503 /* TLUploadManager.m in Sources */,
 				2EEF8E641EE5639900453109 /* ZHGoodsCell.m in Sources */,
 				2E5983C71E667B5800DE8F3C /* UIViewController+Extension.m in Sources */,
-				2EFAF0B21EF137FB0096A312 /* CDChooseTimeIntervalView.m in Sources */,
 				2EC2AE501E0CF55A003EF503 /* TLPlaceholderView.m in Sources */,
 				2E6E48071E14E72300FD2CA7 /* Province.m in Sources */,
 				2E6E47E31E13AF8500FD2CA7 /* ZHUserAvatar.m in Sources */,
@@ -2245,6 +2247,7 @@
 				2E1762B11E236DCF00CAE489 /* TLWXManager.m in Sources */,
 				2EEF8E611EE5639900453109 /* ZHAddressChooseView.m in Sources */,
 				2EC2ABBB1E0CC946003EF503 /* ZHTabBarController.m in Sources */,
+				2EEA7C301F3AAA8B00ADF543 /* CDFenHongQuanVC.m in Sources */,
 				2E6E486A1E1B4D3800FD2CA7 /* ZHMsg.m in Sources */,
 				2E202FE91EE954C500E38656 /* ZHBank.m in Sources */,
 				2E9086991F1C4C0D002374F4 /* ZHTextDetailCell.m in Sources */,
@@ -2266,6 +2269,7 @@
 				2EEF8E6C1EE5639900453109 /* ZHStepView.m in Sources */,
 				2EC2AE441E0CF55A003EF503 /* Foundation+Log.m in Sources */,
 				2E22642A1E4D8AE000C7126E /* NSTimer+tlNoCycle.m in Sources */,
+				2EEA7C381F3AAA8B00ADF543 /* ZHEarningFlowCell.m in Sources */,
 				2EC2AE4C1E0CF55A003EF503 /* TLCaptchaView.m in Sources */,
 				2E9086C11F1C5060002374F4 /* ZHBillVC.m in Sources */,
 				2E9086EF1F1C53A2002374F4 /* ZHReferralModel.m in Sources */,
@@ -2277,13 +2281,13 @@
 				2EC2AE551E0CF55A003EF503 /* TLAlert.m in Sources */,
 				2EF8240E1EFBA4CC0017EDC1 /* TLMarqueeView.m in Sources */,
 				2E90869B1F1C4C0D002374F4 /* TLMsgPlayView.m in Sources */,
+				2EEA7C371F3AAA8B00ADF543 /* CDProfitCell.m in Sources */,
 				2E9086D81F1C5115002374F4 /* ZHWalletCell.m in Sources */,
 				2E9086C41F1C5060002374F4 /* ZHNewMineWalletVC.m in Sources */,
 				2E6E48281E164DE300FD2CA7 /* ZHSegmentView.m in Sources */,
 				2EEF8D941EE15A0B00453109 /* ZHNewPayVC.m in Sources */,
 				2E9086941F1C4C0D002374F4 /* ZHShopTypeModel.m in Sources */,
 				2EC602791E5EA4EC0066C197 /* TLCellModel.m in Sources */,
-				2EFAF0AF1EF137E60096A312 /* CDHistorySingleProfitVC.m in Sources */,
 				2EA521921E64069C0080965C /* ZHUserProtocalVC.m in Sources */,
 				2EDC53D51E1E389E00CACE31 /* NSNumber+TLAdd.m in Sources */,
 				2E9A778F1E54494B009D8FAA /* TLDog.m in Sources */,
@@ -2298,12 +2302,12 @@
 				2EF9DC0E1E1CD67D005E2943 /* TLBaseModel.m in Sources */,
 				2E993FB41EEBA108005A53FE /* CDShopPaySuccessVC.m in Sources */,
 				2E6E484B1E1B33F600FD2CA7 /* ZHChangeNickNameVC.m in Sources */,
-				2E917B2F1E953396003ED4A8 /* ZHEarningFlowModel.m in Sources */,
 				2E9086C31F1C5060002374F4 /* ZHHBConvertFRVC.m in Sources */,
 				2EEF8E7E1EE659D100453109 /* CDGoodsParameterChooseView.m in Sources */,
 				2EEF8E5D1EE5639900453109 /* ZHEvaluateModel.m in Sources */,
 				2EC2AE6C1E0CF5B3003EF503 /* ZHUserLoginVC.m in Sources */,
 				2E202FE81EE954C500E38656 /* ZHBankCardListVC.m in Sources */,
+				2EEA7C331F3AAA8B00ADF543 /* CDProfitAndCountModel.m in Sources */,
 				2E2267531E50A91000C7126E /* TLAlipayManager.m in Sources */,
 				2EA5218F1E63D68B0080965C /* TLHTMLStrVC.m in Sources */,
 				2EEF8E5F1EE5639900453109 /* ZHGoodsModel.m in Sources */,
@@ -2312,6 +2316,7 @@
 				2EC2ABBE1E0CC964003EF503 /* ZHNavigationController.m in Sources */,
 				2EC2ADD81E0CF55A003EF503 /* NSString+Extension.m in Sources */,
 				2E6E47861E10B49800FD2CA7 /* NSAttributedString+add.m in Sources */,
+				2EEA7C351F3AAA8B00ADF543 /* ZHEarningModel.m in Sources */,
 				2EEF8E6A1EE5639900453109 /* ZHEvaluateView.m in Sources */,
 				2E6E47F71E14A1B700FD2CA7 /* ZHRealNameAuthVC.m in Sources */,
 				2EEF8E631EE5639900453109 /* ZHEvaluateCell.m in Sources */,
@@ -2347,6 +2352,7 @@
 				2EC2AE701E0CF5B3003EF503 /* ZHAccountTf.m in Sources */,
 				2E6E48061E14E72300FD2CA7 /* City.m in Sources */,
 				2E9A77891E5441C9009D8FAA /* TLRealmPlayground.m in Sources */,
+				2EEA7C361F3AAA8B00ADF543 /* CDFHQTopBottomView.m in Sources */,
 				2EF9DC0B1E1CD612005E2943 /* ZHShopOrderModel.m in Sources */,
 				2EDC2CB61F2726FA0027A3FE /* TLUpdateAppService.m in Sources */,
 				2E6E48311E16631700FD2CA7 /* ZHOrderModel.m in Sources */,

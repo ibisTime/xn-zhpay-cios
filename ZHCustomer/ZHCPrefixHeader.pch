@@ -10,12 +10,13 @@
 #ifndef ZHCPrefixHeader_pch
 #define ZHCPrefixHeader_pch
 
-#import "TLBaseVC.h"
-#import "ZHUser.h"
+//#import "TLHeader.h"
+#import <UIKit/UIKit.h>
 
-#import "TLHeader.h"
-#import "UIColor+theme.h"
-#import "ZHCurrencyHelper.h"
+//#import "TLBaseVC.h"
+//#import "ZHUser.h"
+//
+//#import "ZHCurrencyHelper.h"
 
 //#define GOODS_PLACEHOLDER_IMG @"mall_placeholder"
 

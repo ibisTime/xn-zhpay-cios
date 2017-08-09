@@ -19,6 +19,11 @@ PODS:
   - Masonry (1.0.2)
   - MJExtension (3.0.13)
   - MJRefresh (3.1.12)
+  - PodCool (4.0.0):
+    - AFNetworking (= 3.1)
+    - PodCool/OtherPodCool (= 4.0.0)
+  - PodCool/OtherPodCool (4.0.0):
+    - AFNetworking (= 3.1)
   - Qiniu (7.1.5):
     - AFNetworking (~> 3)
     - HappyDNS (~> 0.3)
@@ -37,6 +42,7 @@ DEPENDENCIES:
   - Masonry (= 1.0.2)
   - MJExtension (= 3.0.13)
   - MJRefresh (= 3.1.12)
+  - PodCool
   - Qiniu (= 7.1.5)
   - Realm (= 2.8.0)
   - SDWebImage (= 4.0.0)
@@ -50,12 +56,13 @@ SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  PodCool: 188c949e1d38fceeddf55ec278b6a491246182ad
   Qiniu: 77a3dba411556a383d72d17e842345a9d4c83252
   Realm: 929243ad2b618b3232e70658bedc61110e7563f1
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
 
-PODFILE CHECKSUM: 74bb098f69f1e5bc8cbd0ff94e98f6e73a1fce2b
+PODFILE CHECKSUM: 4eae4e6f7dce27f21b6e707bab6abf1c7e30424b
 
 COCOAPODS: 1.2.1

@@ -7,6 +7,7 @@
 //
 
 #import "CDGoodsParameterModel.h"
+#import "TLHeader.h"
 
 @implementation CDGoodsParameterModel
 

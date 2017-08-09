@@ -7,7 +7,7 @@
 //
 
 #import "ZHMapController.h"
-
+#import "TLHeader.h"
 #import <MapKit/MapKit.h>
 
 @interface ZHMapController ()<MKMapViewDelegate>
@@ -40,8 +40,8 @@
  
     
     //
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"前往店铺" style:UIBarButtonItemStylePlain target:self action:@selector(navShop)];
-
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"导航" style:UIBarButtonItemStylePlain target:self action:@selector(navShop)];
+    
     //设置地图显示区域
     CLLocationCoordinate2D location = self.point;
 

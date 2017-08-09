@@ -7,6 +7,9 @@
 //
 
 #import "ZHShopTypeDisplayView.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+
 
 #define MARGIN 1
 

@@ -9,6 +9,7 @@
 #import "ZHSingleDetailVC.h"
 #import "ZHTextDetailCell.h"
 #import "ZHImageCell.h"
+#import "TLHeader.h"
 
 @interface ZHSingleDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 

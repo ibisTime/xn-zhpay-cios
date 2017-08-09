@@ -7,6 +7,7 @@
 //
 
 #import "TLTimeButton.h"
+#import "TLHeader.h"
 
 @implementation TLTimeButton
 {

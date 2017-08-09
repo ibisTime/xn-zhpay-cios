@@ -8,6 +8,8 @@
 
 #import "BPPhotoBrowser.h"
 #import "UIImageView+WebCache.h"
+#import "TLHeader.h"
+
 
 @interface BPPhotoBrowser ()<UIScrollViewDelegate>
 

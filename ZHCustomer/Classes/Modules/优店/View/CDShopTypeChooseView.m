@@ -10,7 +10,9 @@
 #import "ZHShopTypeView.h"
 #import "ZHShopTypeModel.h"
 #import "UIButton+WebCache.h"
-
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 
 @interface CDShopTypeChooseView()<UIScrollViewDelegate>

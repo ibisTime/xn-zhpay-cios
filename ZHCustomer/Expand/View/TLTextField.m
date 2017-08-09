@@ -7,6 +7,11 @@
 //
 
 #import "TLTextField.h"
+//#import "UIHeader.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
+
 
 @implementation TLTextField
 
@@ -27,8 +32,11 @@
         leftLbl.textColor = [UIColor colorWithHexString:@"#484848"];
         [leftBgView addSubview:leftLbl];
         self.leftView = leftBgView;
-
+        self.leftLbl = leftLbl;
         
+        
+        //--//
+        self.isSecurity = NO;
         self.frame = frame;
         self.backgroundColor = [UIColor whiteColor];
         self.leftViewMode = UITextFieldViewModeAlways;
@@ -37,12 +45,23 @@
         self.placeholder = placeholder;
         //    [tf addAction];
         self.font = [UIFont systemFontOfSize:15];
-        
+        self.textColor = [UIColor textColor];
 
     }
     return self;
     
 }
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.isSecurity = NO;
+
+    }
+    return self;
+}
+
 
 - (instancetype)initWithFrame:(CGRect)frame {
 
@@ -58,22 +77,54 @@
 
 }
 
+//- (CGRect)editingRectForBounds:(CGRect)bounds {
+//
+//    if (!self.isAdjustContentText) {
+//        
+//        return bounds;
+//    }
+//    return CGRectInset(bounds, 10, 0);
+//
+//}
+//
+////
+//- (CGRect)textRectForBounds:(CGRect)bounds {
+//
+//    if (!self.isAdjustContentText) {
+//        
+//        return bounds;
+//    }
+//    
+//    return CGRectInset(bounds, 10, 0);
+//
+//
+//}
+//- (CGRect)placeholderRectForBounds:(CGRect)bounds {
+//    
+//    if (!self.isAdjustPlaceholder) {
+//        
+//        return bounds;
+//    }
+//    return CGRectInset(bounds, 10, 0);
+//
+//}
+
 #pragma mark --处理复制粘贴事件
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
-{
-    if(self.isSecurity){
-        
-        return NO;
-        
-    } else{
-        return [super canPerformAction:action withSender:sender];
-    }
-    //    if (action == @selector(paste:))//禁止粘贴
-    //        return NO;
-    //    if (action == @selector(select:))// 禁止选择
-    //        return NO;
-    //    if (action == @selector(selectAll:))// 禁止全选
-    //        return NO;
-}
+//- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+//{
+//    if(self.isSecurity){
+//        
+//        return NO;
+//        
+//    } else{
+//        return [super canPerformAction:action withSender:sender];
+//    }
+//    //    if (action == @selector(paste:))//禁止粘贴
+//    //        return NO;
+//    //    if (action == @selector(select:))// 禁止选择
+//    //        return NO;
+//    //    if (action == @selector(selectAll:))// 禁止全选
+//    //        return NO;
+//}
 
 @end

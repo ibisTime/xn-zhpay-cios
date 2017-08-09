@@ -10,29 +10,23 @@
 #import "ZHSettingGroup.h"
 #import "ZHSettingUpCell.h"
 #import "ZHAccountSecurityVC.h"
-//#import "ZHHZBVC.h"
 #import "TLMsgPlayView.h"
-//#import "ZHChatVC.h"
 #import "CDUserReleationVC.h"
-//#import "ZHWalletView.h"
-//#import "ZHCurrencyModel.h"
-
-#import "ZHMineEarningsVC.h"
 #import "ZHUserHeaderView.h"
 #import "TLImagePicker.h"
 #import "TLUploadManager.h"
 #import "QNUploadManager.h"
 #import "ZHBillVC.h"
-//#import "ZHMineDBRecordVC.h"
 #import "TLWXManager.h"
-//#import "ZHBriberyMoneyVC.h"
-//#import "ZHBriberyMoney.h"
 #import "ZHShareView.h"
 #import "AppConfig.h"
 #import "ZHShoppingListVC.h"
 #import "ZHShopOrderVC.h"
-//#import "ZHHZBVC.h"
+#import "TLHeader.h"
 #import "ZHNewMineWalletVC.h"
+#import "CDFenHongQuanVC.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface ZHMineViewCtrl ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -225,8 +219,12 @@
 #pragma mark- 查看收益
 - (void)lookMineEarnings {
 
-    ZHMineEarningsVC *vc = [ZHMineEarningsVC new];
+
+    CDFenHongQuanVC *vc = [CDFenHongQuanVC new];
     [self.navigationController pushViewController:vc animated:YES];
+    
+//    ZHMineEarningsVC *vc = [ZHMineEarningsVC new];
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark- 推荐关系

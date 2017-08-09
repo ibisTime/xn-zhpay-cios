@@ -7,6 +7,10 @@
 //
 
 #import "ZHAddressCell.h"
+#import "TLHeader.h"
+#import <UIKit/UIKit.h>
+#import "UIColor+theme.h"
+
 
 #define ADDRESS_CHANGE_NOTIFICATION @"ADDRESS_CHANGE_NOTIFICATION"
 

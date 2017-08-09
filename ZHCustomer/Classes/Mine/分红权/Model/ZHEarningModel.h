@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSNumber *backAmount; //已返利金额
 
 @property (nonatomic, strong) NSNumber *profitAmount; //收益金额
+
 @property (nonatomic, copy) NSString *profitCurrency; //收益币种
 
 

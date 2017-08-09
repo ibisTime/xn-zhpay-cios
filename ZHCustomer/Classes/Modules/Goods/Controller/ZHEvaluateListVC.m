@@ -10,6 +10,7 @@
 #import "ZHEvaluateCell.h"
 #import "ZHEvaluateView.h"
 #import "ZHEvaluateModel.h"
+#import "UIColor+theme.h"
 
 @interface ZHEvaluateListVC ()<UITableViewDelegate,UITableViewDataSource>
 

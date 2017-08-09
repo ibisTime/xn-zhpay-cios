@@ -8,6 +8,8 @@
 
 #import "TLWXManager.h"
 #import "AppConfig.h"
+#import "TLHeader.h"
+
 
 @implementation TLWXManager
 

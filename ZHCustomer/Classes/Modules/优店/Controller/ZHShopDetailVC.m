@@ -18,6 +18,10 @@
 #import "ZHShareView.h"
 #import "AppConfig.h"
 #import "ZHShopGoodsListVC.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+#import "ZHUser.h"
+
 
 
 @interface ZHShopDetailVC ()<UITableViewDelegate, UITableViewDataSource>
@@ -134,7 +138,7 @@
         
         if (isSuccess) {
             
-            [TLAlert alertWithHUDText:@"分享成功"];
+            [TLAlert alertWithSucces:@"分享成功"];
             
         }
         

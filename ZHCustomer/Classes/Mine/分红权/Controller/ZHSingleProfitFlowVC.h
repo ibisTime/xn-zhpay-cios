@@ -12,4 +12,5 @@
 @interface ZHSingleProfitFlowVC : TLBaseVC
 
 @property (nonatomic, strong) ZHEarningModel *earnModel;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "ZHGoodsCategoryManager.h"
+#import "TLHeader.h"
 
 NSString *const kGoodsTypeGift = @"FL201700000000000101";
 

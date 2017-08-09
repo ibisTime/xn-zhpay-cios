@@ -7,6 +7,7 @@
 //
 
 #import "UIColor+theme.h"
+#import "UIColor+Extension.h"
 
 @implementation UIColor (theme)
 
@@ -62,5 +63,11 @@
 
     return [self zh_backgroundColor];
 }
+
++ (UIColor *)shopThemeColor {
+
+    return [UIColor colorWithHexString:@"#f05567"];
+}
+
 
 @end

@@ -10,6 +10,8 @@
 #import "ZHMsgCell.h"
 #import "TLPageDataHelper.h"
 #import "ZHMsg.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
 
 @interface ZHMsgVC ()<UITableViewDelegate, UITableViewDataSource>
 

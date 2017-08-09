@@ -8,6 +8,7 @@
 
 #import "TLUpdateAppService.h"
 #import "ZHCMacro.h"
+#import "TLHeader.h"
 
 @implementation TLUpdateAppService
 

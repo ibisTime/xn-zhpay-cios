@@ -7,6 +7,8 @@
 //
 
 #import "ZHCurrencyConvertView.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
 
 @implementation ZHCurrencyConvertView
 

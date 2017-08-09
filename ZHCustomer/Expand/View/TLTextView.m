@@ -7,6 +7,8 @@
 //
 
 #import "TLTextView.h"
+#import "TLHeader.h"
+
 
 @interface TLTextView()<UITextViewDelegate>
 

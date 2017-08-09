@@ -9,6 +9,7 @@
 #import "TLBannerView.h"
 #import "TLBannerCell.h"
 #import "NSTimer+tlNoCycle.h"
+#import "TLHeader.h"
 
 #define SCROLL_TIME_INTERVAL 3.0
 

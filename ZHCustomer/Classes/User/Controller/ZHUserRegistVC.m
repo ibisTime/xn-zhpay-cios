@@ -8,8 +8,8 @@
 
 #import "ZHUserRegistVC.h"
 #import "ZHCaptchaView.h"
-//#import "ChatManager.h"
-//#import <AMapLocationKit/AMapLocationKit.h>
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 #import "AddressPickerView.h"
 #import "SGScanningQRCodeVC.h"
 #import <Photos/Photos.h>

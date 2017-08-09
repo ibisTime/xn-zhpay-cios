@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
+//#import "ZHUser.h"
+//#import "UIColor+theme.h"
+#import <UIKit/UIKit.h>
 @interface ZHPaySceneUIItem : NSObject
 
 @property (nonatomic,assign) CGFloat headerHeight;

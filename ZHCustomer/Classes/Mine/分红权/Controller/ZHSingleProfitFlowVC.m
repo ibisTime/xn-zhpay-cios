@@ -10,13 +10,17 @@
 #import "ZHEarningModel.h"
 #import "TLPageDataHelper.h"
 #import "ZHEarningFlowCell.h"
+#import "CDProfitCell.h"
 #import "CDHistorySingleProfitVC.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
 
 
 @interface ZHSingleProfitFlowVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) TLTableView *flowTableView;
 @property (nonatomic, strong) NSMutableArray<ZHEarningFlowModel *> *flowModels;
+
 @property (nonatomic, assign) BOOL isFirst;
 
 @end
@@ -24,7 +28,7 @@
 @implementation ZHSingleProfitFlowVC
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
     
     if (self.isFirst) {
@@ -33,21 +37,20 @@
         [self.flowTableView beginRefreshing];
 
     }
-    
 }
 
 - (void)lookHistory {
-    
-    CDHistorySingleProfitVC *vc = [[CDHistorySingleProfitVC alloc] init];
+
+    CDHistorySingleProfitVC *vc = [CDHistorySingleProfitVC new];
     vc.earnModel = self.earnModel;
     [self.navigationController pushViewController:vc animated:YES];
-    
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.isFirst = YES;
+    
     if (!self.earnModel) {
         
         NSLog(@"模型传进来");
@@ -55,20 +58,18 @@
     }
     self.title = @"分红权收益详情";
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史查询" style:0 target:self action:@selector(lookHistory)];
-
+    //
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史详情" style:0 target:self action:@selector(lookHistory)];
     
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectZero delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) delegate:self dataSource:self];
     [self.view addSubview:tableView];
-    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsZero);
-    }];
+//    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.mas_equalTo(UIEdgeInsetsZero);
+//    }];
     
-    tableView.estimatedRowHeight = 50;
     self.flowTableView = tableView;
-    
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录"];
-
+    
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808425";
@@ -120,14 +121,46 @@
 //    
 //}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
+   return  indexPath.section != 0 ? 40 :  [CDProfitCell rowHeight];
+
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+    return 2;
+
+}
+
+
+//
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        return 1;
+    }
     
     return self.flowModels.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0) {
+        
+        CDProfitCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CDProfitCell"];
+        if (!cell) {
+            
+            cell = [[CDProfitCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CDProfitCell"];
+            
+        }
+        cell.isSimpleUI = YES;
+        cell.earningModel = self.earnModel;
+        return cell;
+        
+    }
+    
     
     ZHEarningFlowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZHEarningFlowCellID"];
     

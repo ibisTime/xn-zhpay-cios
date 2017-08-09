@@ -8,6 +8,7 @@
 
 #import "ZHPayService.h"
 #import "ZHCurrencyModel.h"
+#import "TLHeader.h"
 
 //#define PAY_TYPE_DEFAULT_PAY_CODE @"1"
 //#define PAY_TYPE_WX_PAY_CODE @"2"

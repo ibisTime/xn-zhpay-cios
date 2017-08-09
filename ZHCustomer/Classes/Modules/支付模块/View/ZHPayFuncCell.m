@@ -7,6 +7,8 @@
 //
 
 #import "ZHPayFuncCell.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
 
 #define PAY_TYPE_CHANGE_NOTIFICATION @"PAY_TYPE_CHANGE_NOTIFICATION"
 @implementation ZHPayFuncCell

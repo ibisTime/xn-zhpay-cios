@@ -7,6 +7,9 @@
 //
 
 #import "ZHAboutUsVC.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface ZHAboutUsVC ()
 

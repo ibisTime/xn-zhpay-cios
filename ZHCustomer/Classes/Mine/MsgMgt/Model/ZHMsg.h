@@ -8,6 +8,7 @@
 
 #import "TLBaseModel.h"
 #import "ZHMsgContent.h"
+#import <UIKit/UIKit.h>
 
 @interface ZHMsg : TLBaseModel
 

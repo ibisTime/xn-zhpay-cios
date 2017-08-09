@@ -11,6 +11,8 @@
 #import "ZHCurrencyModel.h"
 #import "ZHBillVC.h"
 #import "MJRefresh.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
 
 @interface ZHNewMineWalletVC ()
 
@@ -80,8 +82,8 @@
     [bgScrollView addSubview:headerV];
     
     //钱包
-    NSArray *typeNames =  @[@"贡献值", @"分润",@"礼品券",@"数字积分",@"钱包币"];
-    NSArray *typeCode =  @[kGXB,kFRB,kGiftB,kDigitalJF,kQBB];
+    NSArray *typeNames =  @[@"贡献值", @"分润",@"礼品券",@"数字积分",@"钱包币",@"联盟币"];
+    NSArray *typeCode =  @[kGXB,kFRB,kGiftB,kDigitalJF,kQBB,kLMB];
     
     
     self.walletViews = [[NSMutableArray alloc] initWithCapacity:typeNames.count];

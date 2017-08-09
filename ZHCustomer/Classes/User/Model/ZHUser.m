@@ -9,6 +9,7 @@
 #import "ZHUser.h"
 #import "ZHUserExt.h"
 #import "UICKeyChainStore.h"
+#import "TLHeader.h"
 
 #define USER_ID_KEY @"user_id_key_zh"
 #define TOKEN_ID_KEY @"token_id_key_zh"

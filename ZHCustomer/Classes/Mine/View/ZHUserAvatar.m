@@ -7,6 +7,9 @@
 //
 
 #import "ZHUserAvatar.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @implementation ZHUserAvatar
 

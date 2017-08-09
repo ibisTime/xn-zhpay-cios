@@ -7,6 +7,7 @@
 //
 
 #import "TLMsgPlayView.h"
+#import "TLHeader.h"
 
 
 @interface TLMsgPlayView()
@@ -75,7 +76,7 @@
     //计算延迟时间
     
     //2个lbl之间的间距
-    CGFloat lblsMargin = self.width/1.5;
+//    CGFloat lblsMargin = self.width/1.5;
     
     self.playLbl1.frame = CGRectMake(self.width, 0, size.width, self.height);
     self.playLbl2.frame = CGRectMake(self.width, 0, size.width, self.height);

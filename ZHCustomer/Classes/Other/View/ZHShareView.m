@@ -9,6 +9,8 @@
 #import "ZHShareView.h"
 #import "SGQRCodeTool.h"
 #import "TLWXManager.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
 
 @interface ZHShareView ()
 

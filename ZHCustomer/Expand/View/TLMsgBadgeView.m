@@ -7,6 +7,7 @@
 //
 
 #import "TLMsgBadgeView.h"
+#import "UIColor+theme.h"
 
 @implementation TLMsgBadgeView
 {

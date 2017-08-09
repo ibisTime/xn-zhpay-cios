@@ -8,6 +8,9 @@
 
 #import "ZHGoodsCell.h"
 #import "ZHCurrencyHelper.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface ZHGoodsCell()
 

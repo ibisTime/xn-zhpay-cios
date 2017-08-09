@@ -10,7 +10,7 @@
 #import "TLBannerView.h"
 #import "ZHStepView.h"
 #import "ZHShopDetailVC.h"
-
+#import "TLHeader.h"
 #import "ZHBuyToolView.h"
 #import "ZHTreasureInfoView.h"
 #import "ZHImmediateBuyVC.h"
@@ -22,6 +22,8 @@
 #import "AppConfig.h"
 #import "CDGoodsParameterChooseView.h"
 #import "CDGoodsParameterModel.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface ZHGoodsDetailVC ()<GoodsParameterChooseDelegate,UIScrollViewDelegate>
 
@@ -89,6 +91,7 @@
         
         [self setUpUI];
         [self addEvent];
+        [self initData];
         
     } failure:^(NSError *error) {
         
@@ -108,11 +111,8 @@
   
 }
 
-- (void)addEvent {
+- (void)initData {
 
-    //
-    self.bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
-    
     //拍普通商品，价格在上面
     self.bannerView.imgUrls = @[[self.goods.advPic convertImageUrl]];
     
@@ -123,14 +123,19 @@
     self.priceLbl.text = [self.goods displayPriceStr];
     
     [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[self.goods.store.advPic convertThumbnailImageUrl]]];
-    self.shopPhoneLbl.text = [NSString stringWithFormat:@"联系电话：%@",self.goods.store.bookMobile];
+    self.shopPhoneLbl.text = [self.goods.store getShopTypeName];
+    
     self.shopAdvLbl.text = self.goods.store.slogan;
     self.shopNameLbl.text = self.goods.store.name;
     
-    //扩大
-//    self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.stepView.yy + 10);
+}
+
+- (void)addEvent {
+
+    //
+    self.bgScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(treasureSuccess) name:@"dbBuySuccess" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(treasureSuccess) name:@"dbBuySuccess" object:nil];
     
 }
 
@@ -197,8 +202,6 @@
 
 #pragma mark- 商品详情切换的scrollView
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
-//    return;
   
     if (self.switchByTap) {
       
@@ -226,13 +229,6 @@
         case 1:  [self.goodsDetailTypeScrollView addSubview:self.detailView];
             
             break;
-            
-            //参数
-//        case 2:
-//            
-//            [self.goodsDetailTypeScrollView addSubview:self.goodsArgsView];
-//            
-//            break;
             
             //评价
         case 2 :
@@ -293,23 +289,11 @@
     [self.bgScrollView.mj_header beginRefreshing];
 }
 
-//- (void)cartCountChange {
-//
-//    if (self.detailType == ZHGoodsDetailTypeDefault && self.buyView) {
-//        
-//        self.buyView.countView.msgCount = [ZHCartManager manager].count;
-//        
-//    }
-//    //----//
-//}
-
 
 #pragma mark- 一元夺宝刷新
 - (void)refresh {
 
-
-      [self.bgScrollView.mj_header endRefreshing];
-
+   [self.bgScrollView.mj_header endRefreshing];
 
 }
 
@@ -361,9 +345,6 @@
     [chooseView loadArr:self.parameterModelArr];
     chooseView.delegate = self;
     [chooseView show];
-    
- 
-
     
 }
 
@@ -459,12 +440,10 @@
     [self.view addSubview:buyBtn];
     
     
-    
     //轮播图
     TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*0.8)];
     [contentView addSubview:bannerView];
     self.bannerView = bannerView;
-    
     
     //
     UIView *line0 = [[UIView alloc] init];
@@ -510,11 +489,7 @@
         make.width.mas_equalTo(@(SCREEN_WIDTH - 30));
     }];
     
-    //数量选择
-    
-
     //价格
-//    CGRectMake(self.nameLbl.x, self.advLbl.yy + 11, self.nameLbl.width, 10)
     self.priceLbl = [UILabel labelWithFrame:CGRectZero
                                textAligment:NSTextAlignmentLeft
                             backgroundColor:[UIColor whiteColor]
@@ -528,17 +503,6 @@
     }];
     
     
-    //
-//    self.postageLbl = [UILabel labelWithFrame:CGRectZero
-//                               textAligment:NSTextAlignmentLeft
-//                            backgroundColor:[UIColor whiteColor]
-//                                       font:FONT(14)
-//                                  textColor:[UIColor zh_textColor]];
-//    [self.bgScrollView addSubview:self.postageLbl];
-//    [self.postageLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.priceLbl.mas_bottom).offset(11);
-//        make.left.equalTo(self.bgScrollView.mas_left).offset(15);
-//    }];
     
     //
     UIView *priceBottomLine = [[UIView alloc] init];
@@ -553,7 +517,7 @@
         
     }];
    
-    //店铺背景
+    //底部店铺背景
     UIButton *goShopDetailBtn = [[UIButton alloc] init];
     [contentView addSubview:goShopDetailBtn];
     [goShopDetailBtn addTarget:self action:@selector(goShop) forControlEvents:UIControlEventTouchUpInside];
@@ -569,7 +533,6 @@
     [contentView addSubview:self.coverImageView];
     
 
-    
     //
     self.shopNameLbl = [UILabel labelWithFrame:CGRectZero
                               textAligment:NSTextAlignmentLeft
@@ -586,7 +549,6 @@
                                 backgroundColor:[UIColor whiteColor]
                                            font:FONT(13)
                                       textColor:[UIColor zh_textColor2]];
-    //    self.advLbl.height = [FONT(11) lineHeight];
     [contentView addSubview:self.shopPhoneLbl];
 
     
@@ -596,13 +558,12 @@
                           backgroundColor:[UIColor whiteColor]
                                      font:FONT(13)
                                 textColor:[UIColor zh_textColor2]];
-    //    self.advLbl.height = [FONT(11) lineHeight];
     [contentView addSubview:self.shopAdvLbl];
     
     [goShopDetailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.top.bottom.equalTo(self.coverImageView);
-        make.right.equalTo(self.shopNameLbl.mas_right);
+        make.top.bottom.equalTo(self.coverImageView);
+        make.left.right.equalTo(contentView);
         
     }];
     
@@ -611,6 +572,7 @@
         make.top.equalTo(priceBottomLine.mas_top).offset(15);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(65);
+        make.bottom.equalTo(contentView.mas_bottom);
         
     }];
     
@@ -620,25 +582,24 @@
         make.top.equalTo(self.coverImageView.mas_top);
     }];
     
-    [self.shopPhoneLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.shopNameLbl.mas_left);
-        make.top.equalTo(self.shopNameLbl.mas_bottom).offset(7);
-        make.right.equalTo(contentView.mas_right).offset(-15);
-    }];
     
     [self.shopAdvLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.shopNameLbl.mas_bottom).offset(7);
         make.left.equalTo(self.shopNameLbl.mas_left);
-        make.top.equalTo(self.shopPhoneLbl.mas_bottom).offset(7);
         make.right.equalTo(contentView.mas_right).offset(-15);
-        make.bottom.equalTo(contentView.mas_bottom).offset(-10);
     }];
-    //
     
-
-
+    [self.shopPhoneLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.shopAdvLbl.mas_bottom).offset(7);
+        make.left.equalTo(self.shopNameLbl.mas_left);
+        make.right.equalTo(contentView.mas_right).offset(-15);
+        
+    }];
     
- 
 }
+
 
 #pragma mark- 顶部切换UI
 - (UIView *)switchView {
@@ -677,6 +638,7 @@
         
         [_switchView addSubview:bgView];
     }
+    
     return _switchView;
     
 }

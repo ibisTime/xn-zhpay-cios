@@ -28,7 +28,7 @@
 #import "TLCaptchaView.h"
 #import "TLPlaceholderView.h"
 #import "TLPageDataHelper.h"
-
+#import "TLBaseVC.h"
 
 #import "TLNetworking.h"
 #import "UIView+Frame.h"

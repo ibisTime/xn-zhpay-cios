@@ -7,6 +7,8 @@
 //
 
 #import "ZHTreasureInfoView.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
 
 
 @interface ZHTreasureInfoView()

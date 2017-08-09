@@ -20,6 +20,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TLAlipayManager.h"
 #import "TLLocationService.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 
 @interface AppDelegate ()<WXApiDelegate>

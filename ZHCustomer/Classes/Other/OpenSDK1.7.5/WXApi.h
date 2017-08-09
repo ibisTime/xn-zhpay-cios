@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WXApiObject.h"
+#import <UIKit/UIKit.h>
 
 
 #pragma mark - WXApiDelegate

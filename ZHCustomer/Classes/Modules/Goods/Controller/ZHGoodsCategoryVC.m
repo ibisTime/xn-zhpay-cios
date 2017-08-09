@@ -7,7 +7,7 @@
 //
 
 #import "ZHGoodsCategoryVC.h"
-//#import "ZHGoodsCategoryManager.h"
+#import "UIColor+theme.h"
 #import "ZHDefaultGoodsVC.h"
 
 @interface ZHGoodsCategoryVC ()<UIScrollViewDelegate>

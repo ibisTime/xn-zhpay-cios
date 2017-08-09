@@ -7,6 +7,9 @@
 //
 
 #import "ZHBuyerCell.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface ZHBuyerCell()
 

@@ -7,6 +7,8 @@
 //
 
 #import "ZHChangeNickNameVC.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
 
 @interface ZHChangeNickNameVC ()
 

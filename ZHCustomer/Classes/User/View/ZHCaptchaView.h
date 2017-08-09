@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ZHAccountTf.h"
+#import "TLHeader.h"
+
 @interface ZHCaptchaView : UIView
 
 @property (nonatomic,strong) ZHAccountTf *captchaTf;

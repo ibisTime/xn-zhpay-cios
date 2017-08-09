@@ -7,8 +7,7 @@
 //
 
 #import "TLUploadManager.h"
-//#import "QiniuSDK.h"
-
+#import <UIKit/UIKit.h>
 
 @interface TLUploadManager()
 

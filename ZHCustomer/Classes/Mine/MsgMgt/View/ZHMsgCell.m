@@ -7,6 +7,9 @@
 //
 
 #import "ZHMsgCell.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+
 
 @interface ZHMsgCell()
 

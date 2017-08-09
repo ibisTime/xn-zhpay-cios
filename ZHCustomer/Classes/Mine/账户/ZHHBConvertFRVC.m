@@ -8,6 +8,8 @@
 
 #import "ZHHBConvertFRVC.h"
 #import "ZHCurrencyModel.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
 
 @interface ZHHBConvertFRVC ()
 

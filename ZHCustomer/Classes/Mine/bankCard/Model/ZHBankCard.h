@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TLBaseModel.h"
+
 
 @interface ZHBankCard : TLBaseModel
 

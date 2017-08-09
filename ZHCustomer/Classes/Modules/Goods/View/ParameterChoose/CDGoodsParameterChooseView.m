@@ -10,6 +10,9 @@
 #import "CDSingleParamView.h"
 #import "CDGoodsParameterModel.h"
 #import "ZHStepView.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+
 
 #define NORMAL_COLOR [[UIColor blackColor] colorWithAlphaComponent:0.65]
 
@@ -25,6 +28,7 @@
 @property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic, strong) UILabel *countLbl;
 @property (nonatomic, strong) UILabel *priceLbl;
+@property (nonatomic, strong) UILabel *paraNameLbl;
 
 @property (nonatomic, copy) NSArray <CDGoodsParameterModel *>*paramerModels;
 
@@ -95,10 +99,7 @@
 - (void)loadArr:(NSArray <CDGoodsParameterModel *>*)strArr {
 
     self.paramerModels = strArr;
-    //1.计算cell
 
-    //
-    self.priceLbl.text = [NSString stringWithFormat:@"价格%@",@"222"];
     
     //
     if (!(self.paramerModels && self.paramerModels.count)) {
@@ -138,6 +139,15 @@
         self.coverImageView.layer.borderColor = [UIColor lineColor].CGColor;
         self.coverImageView.layer.borderWidth = 1.5;
 
+        //规格名称
+        self.paraNameLbl = [UILabel labelWithFrame:CGRectZero
+                                   textAligment:NSTextAlignmentLeft
+                                backgroundColor:[UIColor whiteColor]
+                                           font:FONT(14)
+                                      textColor:[UIColor textColor]];
+        [self.validBgView addSubview:self.paraNameLbl];
+        self.paraNameLbl.numberOfLines = 1;
+        
         
         //数量
         self.countLbl = [UILabel labelWithFrame:CGRectZero
@@ -156,12 +166,28 @@
         [self.validBgView addSubview:self.priceLbl];
         self.priceLbl.numberOfLines = 0;
         
+        //取消按钮
+        UIButton *btn = [[UIButton alloc] init];
+        [self.validBgView addSubview:btn];
+        //        btn.backgroundColor = [UIColor orangeColor];
+        [btn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+        [btn setImage:[UIImage imageNamed:@"parameter_cancle"] forState:UIControlStateNormal];
+        
+        
+        
+        [self.paraNameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.equalTo(self.validBgView.mas_top).offset(10);
+            make.left.equalTo(self.coverImageView.mas_right).offset(15);
+            make.right.lessThanOrEqualTo(btn.mas_left);
+        }];
         
         [self.countLbl mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.coverImageView.mas_right).offset(15);
-            make.top.equalTo(self.validBgView.mas_top).offset(20);
+            make.top.equalTo(self.paraNameLbl.mas_bottom).offset(10);
             
         }];
+        
         
         [self.priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
             
@@ -171,12 +197,7 @@
             
         }];
         
-        //取消按钮
-        UIButton *btn = [[UIButton alloc] init];
-        [self.validBgView addSubview:btn];
-//        btn.backgroundColor = [UIColor orangeColor];
-        [btn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-        [btn setImage:[UIImage imageNamed:@"parameter_cancle"] forState:UIControlStateNormal];
+
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.validBgView.mas_right).offset(0);
             make.top.equalTo(self.validBgView.mas_top).offset(0);
@@ -260,6 +281,7 @@
             self.lastParamView = v;
             self.countLbl.text = [obj getCountDesc];
             self.priceLbl.text = [obj diplayPriceStr];
+            self.paraNameLbl.text = obj.name;
             
             [v mas_makeConstraints:^(MASConstraintMaker *make) {
                 
@@ -374,6 +396,7 @@
     [btn selected];
     [self.lastParamView unSelected];
     
+    self.paraNameLbl.text = btn.parameterModel.name;
     self.priceLbl.text = [btn.parameterModel diplayPriceStr];
     self.countLbl.text = [btn.parameterModel getCountDesc];
     self.lastParamView = btn;

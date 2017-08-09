@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TLCellModel.h"
+#import <UIKit/UIKit.h>
 
 @interface TLGroupModel : NSObject
 

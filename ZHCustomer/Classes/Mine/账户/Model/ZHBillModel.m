@@ -7,6 +7,7 @@
 //
 
 #import "ZHBillModel.h"
+#import "TLHeader.h"
 
 @implementation ZHBillModel
 

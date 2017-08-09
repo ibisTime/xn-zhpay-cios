@@ -7,6 +7,7 @@
 //
 
 #import "TLPlaceholderView.h"
+#import "TLHeader.h"
 
 @implementation TLPlaceholderView
 

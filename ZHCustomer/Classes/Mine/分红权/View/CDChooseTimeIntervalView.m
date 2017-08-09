@@ -8,6 +8,10 @@
 
 #import "CDChooseTimeIntervalView.h"
 #import "TLDatePicker.h"
+//#import "UIHeader.h"
+#import "TLTextField.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface CDChooseTimeIntervalView()
 
@@ -43,7 +47,7 @@
     //判断结束日期不能大于起始日期
     if ([date1 timeIntervalSince1970] > [date2 timeIntervalSince1970]) {
         
-        [TLAlert alertWithInfo:@"开始时间应该早于结束时间"];
+        [TLAlert alertWithInfo:@"开始日期不能晚于结束日期"];
         return NO;
         
     }
@@ -72,7 +76,8 @@
                                   textAligment:NSTextAlignmentLeft
                                backgroundColor:[UIColor clearColor]
                                           font:FONT(13)
-                                     textColor:[UIColor themeColor]];
+                                     textColor: [UIColor colorWithHexString:@"#ec573f"] ];
+
         [self addSubview:lbl];
         lbl.text = @"支持7天内账单查询";
         
@@ -81,7 +86,7 @@
         
         self.endTimeTf.y = self.beginTimeTf.yy + 1;
         [self addSubview:self.endTimeTf];
-        self.height = self.endTimeTf.yy + 1;
+        self.height = self.endTimeTf.yy;
         
         self.datePicker = [[TLDatePicker alloc] init];
         
@@ -127,6 +132,7 @@
         formatter.dateFormat = @"yyyy-MM-dd";
         self.beginTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.minimumDate];
         self.endTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.maximumDate];
+        
     }
     return self;
 }
@@ -153,8 +159,8 @@
     
     if (!_beginTimeTf) {
         
-        _beginTimeTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH,45) leftTitle:@"开始时间" titleWidth:100 placeholder:@"请点击选择开始时间"];
-//        _beginTimeTf.leftLbl.textColor = [UIColor textColor];
+        _beginTimeTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH,45) leftTitle:@"起始时间" titleWidth:100 placeholder:@"请点击选择起始时间"];
+        _beginTimeTf.leftLbl.textColor = [UIColor textColor];
         
         UIButton *btn = [[UIButton alloc] initWithFrame:_beginTimeTf.bounds];
         [_beginTimeTf addSubview:btn];
@@ -169,7 +175,7 @@
     if (!_endTimeTf) {
         
         _endTimeTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, self.beginTimeTf.height) leftTitle:@"结束时间" titleWidth:100 placeholder:@"请点击选择结束时间"];
-//        _endTimeTf.leftLbl.textColor = [UIColor textColor];
+        _endTimeTf.leftLbl.textColor = [UIColor textColor];
         
         UIButton *btn = [[UIButton alloc] initWithFrame:_endTimeTf.bounds];
         [_endTimeTf addSubview:btn];

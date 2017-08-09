@@ -10,6 +10,8 @@
 #import "ZHShopCell.h"
 #import "TLPageDataHelper.h"
 #import "ZHShopDetailVC.h"
+#import "TLHeader.h"
+
 
 @interface ZHShopListVC ()<UITableViewDelegate, UITableViewDataSource>
 

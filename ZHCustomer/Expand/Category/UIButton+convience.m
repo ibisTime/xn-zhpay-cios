@@ -7,6 +7,9 @@
 //
 
 #import "UIButton+convience.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+
 
 @implementation UIButton (convience)
 - (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state{

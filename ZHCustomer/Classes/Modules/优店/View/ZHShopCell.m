@@ -7,6 +7,8 @@
 //
 
 #import "ZHShopCell.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
 
 @interface ZHShopCell()
 

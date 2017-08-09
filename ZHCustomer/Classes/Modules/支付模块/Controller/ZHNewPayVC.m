@@ -21,6 +21,10 @@
 #import "ZHPwdRelatedVC.h"
 #import "ZHPayService.h"
 #import "ZHRealNameAuthVC.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+#import "ZHUser.h"
+
 
 @interface ZHNewPayVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 

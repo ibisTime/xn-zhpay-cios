@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "ZHCurrencyHelper.h"
+#import <UIKit/UIKit.h>
 @interface ZHCurrencyHelper : NSObject
 
 + (NSMutableAttributedString *)totalPriceAttr2WithQBB:(NSNumber *)qbb GWB:(NSNumber *)gwb RMB:(NSNumber *)rmb bouns:(CGRect)bouns;

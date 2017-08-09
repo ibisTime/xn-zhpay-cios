@@ -8,6 +8,11 @@
 
 #import "ZHFRBToOtherPeopleVC.h"
 #import "ZHPwdRelatedVC.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "ZHCurrencyHelper.h"
+#import "UIColor+theme.h"
+
 
 @interface ZHFRBToOtherPeopleVC()
 

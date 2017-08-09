@@ -10,6 +10,7 @@
 #import "ZHGoodsModel.h"
 #import "ZHGoodsCell.h"
 #import "ZHGoodsDetailVC.h"
+#import "UIColor+theme.h"
 
 @interface ZHDefaultGoodsVC ()<UITableViewDelegate,UITableViewDataSource>
 

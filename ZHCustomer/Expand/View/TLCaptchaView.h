@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TLHeader.h"
 
 @interface TLCaptchaView : UIView
 

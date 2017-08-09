@@ -14,7 +14,7 @@
  NSString *const kGWB = @"GWB";
  NSString *const kDigitalJF = @"SZJF";
  NSString *const kGiftB = @"LPQ";
-
+ NSString *const kLMB = @"LMB";
 
 
  NSString *const kHBYJ  = @"HBYJ";

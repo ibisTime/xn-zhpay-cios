@@ -9,10 +9,11 @@
 #import "TLNetworking.h"
 #import "TLProgressHUD.h"
 #import "AppConfig.h"
-
-//121.43.101.148:5703/cd-qlqq-front
+#import "TLHeader.h"
+#import "ZHUser.h"
 
 @implementation TLNetworking
+
 
 
 + (AFHTTPSessionManager *)HTTPSessionManager

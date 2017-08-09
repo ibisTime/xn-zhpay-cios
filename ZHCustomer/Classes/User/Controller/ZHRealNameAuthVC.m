@@ -7,6 +7,9 @@
 //
 
 #import "ZHRealNameAuthVC.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+#import "ZHUser.h"
 
 #define IOS_VERSION_10 (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_9_x_Max)?(YES):(NO)  
 

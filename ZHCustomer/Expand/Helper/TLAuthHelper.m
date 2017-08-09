@@ -8,6 +8,7 @@
 
 #import "TLAuthHelper.h"
 #import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
 
 @implementation TLAuthHelper
 

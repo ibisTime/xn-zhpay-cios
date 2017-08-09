@@ -17,6 +17,9 @@
 #import "ZHFRBToOtherPeopleVC.h"
 #import "CDBillHistoryVC.h"
 #import  "ZHCMacro.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+#import "ZHUser.h"
 
 
 @interface ZHBillVC ()<UITableViewDelegate, UITableViewDataSource>

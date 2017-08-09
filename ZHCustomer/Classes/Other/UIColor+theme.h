@@ -22,4 +22,5 @@
 + (UIColor *)lineColor;
 + (UIColor *)backgroundColor;
 
++ (UIColor *)shopThemeColor;
 @end

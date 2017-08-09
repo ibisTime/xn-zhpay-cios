@@ -8,6 +8,7 @@
 
 #import "ZHGoodsModel.h"
 #import "ZHGoodsCategoryManager.h"
+#import "TLHeader.h"
 
 @interface ZHGoodsModel()
 

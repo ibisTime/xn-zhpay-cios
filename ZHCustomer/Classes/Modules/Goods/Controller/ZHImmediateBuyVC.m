@@ -16,6 +16,9 @@
 #import "ZHAddressChooseView.h"
 #import "ZHNewPayVC.h"
 #import "ZHCurrencyModel.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 
 @interface ZHImmediateBuyVC ()<UITableViewDelegate,UITableViewDataSource>

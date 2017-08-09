@@ -7,6 +7,7 @@
 //
 
 #import "ZHReceivingAddress.h"
+#import "TLHeader.h"
 
 @implementation ZHReceivingAddress
 

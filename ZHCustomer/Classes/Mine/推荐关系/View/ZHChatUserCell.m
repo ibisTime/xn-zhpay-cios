@@ -7,9 +7,9 @@
 //
 
 #import "ZHChatUserCell.h"
-//#import "EMConversation.h"
-//#import <HyphenateLite/EMConversation.h>
-//#import <HyphenateLite/EMMessage.h>
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 #import "TLMsgBadgeView.h"
 

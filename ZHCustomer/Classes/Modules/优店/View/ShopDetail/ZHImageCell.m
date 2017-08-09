@@ -8,6 +8,8 @@
 
 #import "ZHImageCell.h"
 #import "BPPhotoBrowser.h"
+#import "TLHeader.h"
+
 
 @interface ZHImageCell()
 

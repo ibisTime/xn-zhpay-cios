@@ -7,6 +7,7 @@
 //
 
 #import "TLPageDataHelper.h"
+#import "TLHeader.h"
 
 @interface TLPageDataHelper()
 

@@ -11,6 +11,9 @@
 #import "ZHGoodsDetailVC.h"
 #import "ZHGoodsVC.h"
 #import "ZHGoodsCell.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
+
 
 @interface ZHShopGoodsListVC ()
 

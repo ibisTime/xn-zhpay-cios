@@ -7,6 +7,8 @@
 //
 
 #import "ZHTextDetailCell.h"
+#import "TLHeader.h"
+#import "UIColor+theme.h"
 
 @implementation ZHTextDetailCell
 

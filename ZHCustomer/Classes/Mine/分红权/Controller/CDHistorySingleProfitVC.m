@@ -12,8 +12,9 @@
 #import "ZHEarningModel.h"
 #import "TLPageDataHelper.h"
 #import "ZHEarningFlowCell.h"
-//#import "CDProfitCell.h"
-
+#import "CDProfitCell.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface CDHistorySingleProfitVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -30,13 +31,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-//    [self.flowTableView beginRefreshing];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-
-    [super viewDidAppear:animated];
-    [self beginSearch];
+    [self.flowTableView beginRefreshing];
 }
 
 - (void)viewDidLoad {
@@ -59,8 +54,6 @@
     
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, self.chooseView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - self.chooseView.yy) delegate:self dataSource:self];
     [self.view addSubview:tableView];
-    tableView.estimatedRowHeight = 50;
-
 //    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.edges.mas_equalTo(UIEdgeInsetsZero);
 //    }];
@@ -68,7 +61,12 @@
     self.flowTableView = tableView;
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录"];
     
-  
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [self beginSearch];
+        
+    });
+    
     
     
 }
@@ -136,12 +134,15 @@
 //    [self.navigationController pushViewController:singleProfitVC animated:YES];
 //
 //}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    return   40 ;
-//    
-//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return   40 ;
+    
+}
+
+
+
 
 //
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

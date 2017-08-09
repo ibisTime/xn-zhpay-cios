@@ -7,6 +7,9 @@
 //
 
 #import "NBRealNameService.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @implementation NBRealNameService
 

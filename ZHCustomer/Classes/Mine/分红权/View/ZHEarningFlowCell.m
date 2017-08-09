@@ -8,6 +8,10 @@
 
 #import "ZHEarningFlowCell.h"
 #import "ZHCurrencyModel.h"
+#import "UIColor+theme.h"
+#import "TLHeader.h"
+
+
 
 @interface ZHEarningFlowCell()
 
@@ -23,29 +27,29 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
         
-        self.backMoneyLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentLeft backgroundColor:[UIColor whiteColor] font:FONT(14) textColor:[UIColor zh_textColor]];
+        self.backMoneyLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentLeft backgroundColor:[UIColor whiteColor] font:FONT(14) textColor:[UIColor textColor]];
         [self.contentView addSubview:self.backMoneyLbl];
         
         //
-        self.backTimeLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentLeft backgroundColor:[UIColor whiteColor] font:FONT(14) textColor:[UIColor zh_textColor]];
+        self.backTimeLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentLeft backgroundColor:[UIColor whiteColor] font:FONT(14) textColor:[UIColor textColor2]];
         [self.contentView addSubview:self.backTimeLbl];
         
         
         [self.backMoneyLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView.mas_left).offset(15);
-            make.top.equalTo(self.contentView.mas_top).offset(10);
+            make.left.equalTo(self.contentView.mas_left).offset(10);
+            make.centerY.equalTo(self.contentView.mas_centerY);
             
         }];
         
         [self.backTimeLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView.mas_left).offset(15);
-            make.top.equalTo(self.backMoneyLbl.mas_bottom).offset(10);
-            make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
+            make.right.equalTo(self.contentView.mas_right).offset(-10);
+            make.top.equalTo(self.backMoneyLbl.mas_top);
+            make.centerY.equalTo(self.contentView.mas_centerY);
         }];
         
         
         UIView *line = [[UIView alloc] init];
-        line.backgroundColor = [UIColor zh_lineColor];
+        line.backgroundColor = [UIColor lineColor];
         [self addSubview:line];
         [line mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.mas_left);
@@ -74,8 +78,8 @@
                            };
     
     
-    self.backMoneyLbl.text = [NSString stringWithFormat:@"分红金额： %@%@",[self detailMoneyWithMoney:_flowModel.toAmount],dict[_flowModel.toCurrency]];
-    self.backTimeLbl.text = [NSString stringWithFormat:@"分红时间：%@",[_flowModel.createDatetime convertToDetailDate]];
+    self.backMoneyLbl.text = [NSString stringWithFormat:@"分红金额%@%@",[_flowModel.toAmount convertToRealMoney],dict[_flowModel.toCurrency]];
+    self.backTimeLbl.text = [NSString stringWithFormat:@"分红时间:%@",[_flowModel.createDatetime convertToDetailDate]];
     
 }
 

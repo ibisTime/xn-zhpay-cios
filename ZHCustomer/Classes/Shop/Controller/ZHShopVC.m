@@ -28,6 +28,10 @@
 #import "TLLocationService.h"
 #import "AppConfig.h"
 #import "ZHMsg.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
+
 
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
 
@@ -151,7 +155,7 @@
     
 #pragma mark- 获取店铺类型
     [self getType];
-
+     
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808217";

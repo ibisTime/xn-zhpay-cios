@@ -7,6 +7,9 @@
 //
 
 #import "ZHShop.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 #define ZH_SHOP_INFO_KEY @"ZH_SHOP_INFO_KEY"
 
@@ -163,12 +166,12 @@ NSString *const kShopInfoChange = @"zh_shop_info_change";
     return dict[self.status];
 }
 
-- (NSString *)getTypeName{
-    
-    
-    return self.typeDict[self.type];
+- (NSString *)getShopTypeName {
+
+    return [self isGiftMerchant] ? @"礼品商" : @"普通商家";
 
 }
+
 
 
 

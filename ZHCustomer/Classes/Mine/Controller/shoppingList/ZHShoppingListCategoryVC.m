@@ -11,6 +11,9 @@
 #import "ZHOrderGoodsCell.h"
 #import "ZHOrderFooterView.h"
 #import "ZHOrderDetailVC.h"
+#import "TLHeader.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface ZHShoppingListCategoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -27,8 +30,13 @@
     [super viewDidAppear:animated];
     if (self.isFirst) {
 
-        [self.shoppingListTableV beginRefreshing];
-        self.isFirst = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [self.shoppingListTableV beginRefreshing];
+            self.isFirst = NO;
+            
+        });
+   
         
     }
     

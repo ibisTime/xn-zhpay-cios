@@ -9,6 +9,8 @@
 #import "ZHTabBarController.h"
 #import "ZHNavigationController.h"
 #import "ZHUserLoginVC.h"
+#import "ZHUser.h"
+#import "UIColor+theme.h"
 
 @interface ZHTabBarController ()<UITabBarControllerDelegate>
 

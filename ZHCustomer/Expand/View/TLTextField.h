@@ -18,5 +18,10 @@
 //禁止复制粘贴等功能
 @property (nonatomic,assign) BOOL isSecurity;
 
+@property (nonatomic, strong) UILabel *leftLbl;
+
+@property (nonatomic, assign) BOOL isAdjustPlaceholder;
+@property (nonatomic, assign) BOOL isAdjustContentText;
+
 
 @end

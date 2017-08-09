@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, NBRealNameAuthenticationType) {
 };
 @interface NBRealNameService : NSObject
 
-+ (instancetype)service;
+//+ (instancetype)service;
 
 /**
  实名认证方式
