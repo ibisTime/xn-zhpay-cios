@@ -88,7 +88,7 @@
 //        return;
 //    }
     
-    self.title = @"今日账单";
+    self.title = @"消费记录";
     TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
                                                        delegate:self
                                                      dataSource:self];

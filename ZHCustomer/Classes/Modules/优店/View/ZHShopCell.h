@@ -13,5 +13,7 @@
 
 + (CGFloat)rowHeight;
 @property (nonatomic,strong) ZHShop *shop;
+@property (nonatomic, assign) BOOL isShowLocation;
+
 
 @end

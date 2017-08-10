@@ -51,6 +51,9 @@
         return;
     }
     
+
+    
+    
     //
     self.releationTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
                                                      delegate:self
@@ -99,6 +102,10 @@
         }];
         
     }];
+    
+    
+
+
     
 }
 

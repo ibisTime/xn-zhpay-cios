@@ -224,7 +224,7 @@
         
         NSNumber *costAmount =  responseObject[@"data"][@"costAmount"];
         CGFloat needMoney =  500 - [costAmount longLongValue]/1000.0;
-        self.hintLbl.text = [NSString stringWithFormat:@"友情提示：营业额还差%.2f元，就可再获得一个分红权",needMoney];
+        self.hintLbl.text = [NSString stringWithFormat:@"友情提示：消费还差%.2f元，就可再获得一个分红权",needMoney];
 
         //
         successCount ++;

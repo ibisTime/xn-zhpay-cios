@@ -55,7 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"购物中心";
+    self.title = @"正汇商城";
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
@@ -142,10 +142,11 @@
 
     
     [TLProgressHUD dismiss];
-    if (self.lastLocationSuccessDate && ([[NSDate date] timeIntervalSinceDate:self.lastLocationSuccessDate] <60*3)) {
+    if (self.lastLocationSuccessDate && ([[NSDate date] timeIntervalSinceDate:self.lastLocationSuccessDate] <60*5)) {
         
         return;
     }
+    
     
     //获取当前位置
     self.lastLocationSuccessDate = [NSDate date];

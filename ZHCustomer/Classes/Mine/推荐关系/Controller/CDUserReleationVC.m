@@ -12,6 +12,7 @@
 #import "TLHeader.h"
 #import "ZHUser.h"
 #import "UIColor+theme.h"
+#import "RecommendMerchantVC.h"
 
 @interface CDUserReleationVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) NSNumber *below_1_count;
 @property (nonatomic, strong) NSNumber *below_2_count;
 @property (nonatomic, strong) NSNumber *below_3_count;
+@property (nonatomic, strong) NSNumber *recomMerchantCount;
 
 @end
 
@@ -53,6 +55,14 @@
 - (void)tl_placeholderOperation {
 
     
+    dispatch_group_t group = dispatch_group_create();
+    
+    
+    NSInteger reqCount = 0;
+    __block NSInteger successCount = 0;
+    
+    reqCount ++;
+    dispatch_group_enter(group);
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     http.code = @"805800";
@@ -60,18 +70,54 @@
     http.parameters[@"userId"] = [ZHUser user].userId;
     [http postWithSuccess:^(id responseObject) {
         
-        [self removePlaceholderView];
+        successCount ++;
+        dispatch_group_leave(group);
         self.below_1_count =  responseObject[@"data"][@"oneRefCount"];
         self.below_2_count =  responseObject[@"data"][@"twoRefCount"];
         self.below_3_count =  responseObject[@"data"][@"threeRefCount"];
         
-        [self setUpUI];
     } failure:^(NSError *error) {
         
-        [self addPlaceholderView];
+        dispatch_group_leave(group);
+
 
     }];
 
+
+    reqCount ++;
+    dispatch_group_enter(group);
+    TLNetworking *getMerchantCountHttp = [TLNetworking new];
+    getMerchantCountHttp.code = @"808220";
+    getMerchantCountHttp.showView = self.view;
+    getMerchantCountHttp.parameters[@"userReferee"] = [ZHUser user].userId;
+    [getMerchantCountHttp postWithSuccess:^(id responseObject) {
+        
+        successCount ++;
+        dispatch_group_leave(group);
+        self.recomMerchantCount = responseObject[@"data"][@"totalCount"];
+        
+    } failure:^(NSError *error) {
+        
+        dispatch_group_leave(group);
+
+        
+    }];
+    
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+       
+        if (reqCount == successCount) {
+            [self removePlaceholderView];
+
+            [self setUpUI];
+            
+        } else {
+        
+            [self addPlaceholderView];
+
+        }
+        
+    });
 
 }
 
@@ -83,27 +129,33 @@
     }
     
 
-    CDUserReleationListVC *vc = [[CDUserReleationListVC alloc] init];
-    
-    [self.navigationController pushViewController:vc animated:YES];
+  
     //
-    vc.level = [NSString stringWithFormat:@"%ld",indexPath.row + 1];
     switch (indexPath.row) {
         case 0: {
         
+            CDUserReleationListVC *vc = [[CDUserReleationListVC alloc] init];
+            vc.level = [NSString stringWithFormat:@"%ld",indexPath.row + 1];
             vc.title = @"下一级";
+            [self.navigationController pushViewController:vc animated:YES];
             
         } break;
             
         case 1: {
             
+            CDUserReleationListVC *vc = [[CDUserReleationListVC alloc] init];
+            vc.level = [NSString stringWithFormat:@"%ld",indexPath.row + 1];
             vc.title = @"下二级";
-
+            [self.navigationController pushViewController:vc animated:YES];
+            
         } break;
             
         case 2: {
+          
+            RecommendMerchantVC *vc = [RecommendMerchantVC new];
+            [self.navigationController pushViewController:vc animated:YES];
             
-            vc.title = @"下三级";
+            
 
         } break;
 
@@ -137,7 +189,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return section == 0 ? 1 : 2;
+    return section == 0 ? 1 : 3;
 
 }
 
@@ -205,7 +257,8 @@
             
         case 2: {
             
- levelStr =  [NSString stringWithFormat:@"%@(%@)",@"下三级",self.below_3_count];
+        levelStr =  [NSString stringWithFormat:@"%@(%@)",@"推荐商家",self.recomMerchantCount];
+            
         } break;
             
     }

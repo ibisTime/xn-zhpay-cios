@@ -42,11 +42,20 @@
 
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
+        self.isShowLocation = YES;
         [self setUpUI];
         
     }
 //    [self data];
     return self;
+}
+
+- (void)setIsShowLocation:(BOOL)isShowLocation {
+
+    _isShowLocation = isShowLocation;
+    
+    self.distanceLbl.hidden = !isShowLocation;
+    
 }
 
 - (NSAttributedString *)locationAttrStr {

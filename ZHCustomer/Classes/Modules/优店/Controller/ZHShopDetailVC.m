@@ -205,7 +205,9 @@
 
     if (section == 0) {
         
-        return [self.shop isGiftMerchant] ? 100 : 45;
+//        return [self.shop isGiftMerchant] ? 100 : 45;
+        
+        return 45;
         
     } else {
         
@@ -412,7 +414,7 @@
     headView.contentMode = UIViewContentModeScaleAspectFill;
  
     
-    self.shopNameLbl = [UILabel labelWithFrame:CGRectMake(15, 0, SCREEN_WIDTH - 15 -80, 55)
+    self.shopNameLbl = [UILabel labelWithFrame:CGRectZero
                                   textAligment:NSTextAlignmentLeft
                                backgroundColor:[UIColor clearColor]
                                           font:FONT(14)
@@ -420,37 +422,61 @@
     [headView addSubview:self.shopNameLbl];
     self.shopNameLbl.text = self.shop.name;
 
-    UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 100, 29) title:@"买单"];
+    UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 80, 29) title:@"支付"];
     [headView addSubview:btn];
     [btn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
     
     //
-    UIButton *giftBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.yy + 10, 100, 29) title:@"购买礼品券"];
-    [headView addSubview:giftBtn];
-    [giftBtn addTarget:self action:@selector(buyGiftBAction) forControlEvents:UIControlEventTouchUpInside];
-    giftBtn.xx_size = SCREEN_WIDTH - 15;
-    giftBtn.hidden = YES;
+    UIButton *buyBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.y, btn.width
+                                ,btn.height) title:@"购买"];
+    
+    [headView addSubview:buyBtn];
+    
+    [buyBtn addTarget:self action:@selector(buyGiftBAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(29);
+        make.right.mas_equalTo(headView.mas_right).offset(-15);
+        make.top.equalTo(headView.mas_top).offset(10);
+        
+    }];
+    
+    [buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.width.height.top.equalTo(btn);
+        make.right.equalTo(btn.mas_left).offset(-10);
+        
+        
+    }];
+    
+    [self.shopNameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.equalTo(headView.mas_left).offset(15);
+        make.centerY.equalTo(buyBtn.mas_centerY);
+        make.right.lessThanOrEqualTo(buyBtn.mas_left);
+        
+    }];
+    
     
     //
-    if ([self.shop isGiftMerchant]) {
-        
-        btn.frame = CGRectMake(0, 55, 100, 29);
-        btn.xx_size = SCREEN_WIDTH - 15;
-        
-        giftBtn.hidden = NO;
-        giftBtn.frame = CGRectMake(15, btn.y, 100, 29);
-
-
-        
-    } else {
-    
-        giftBtn.hidden = YES;
-        btn.frame = CGRectMake(0, 10, 65, 29);
-        btn.xx_size = SCREEN_WIDTH - 15;
-
-
-    
-    }
+//    if ([self.shop isGiftMerchant]) {
+//        
+//        btn.frame = CGRectMake(0, 55, 100, 29);
+//        btn.xx_size = SCREEN_WIDTH - 15;
+//        
+//        giftBtn.hidden = NO;
+//        giftBtn.frame = CGRectMake(15, btn.y, 100, 29);
+//
+//
+//    } else {
+//    
+//        giftBtn.hidden = YES;
+//        btn.frame = CGRectMake(0, 10, 65, 29);
+//        btn.xx_size = SCREEN_WIDTH - 15;
+//
+//    }
     
     
     return headView;

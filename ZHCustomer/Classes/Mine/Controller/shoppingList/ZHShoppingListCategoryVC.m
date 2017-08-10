@@ -73,8 +73,10 @@
         
         helper.parameters[@"status"] = @"2";
      
-    } else {//全部
+    } else if(self.status == ZHOrderStatusDidFinish) {//全部
     
+        helper.parameters[@"status"] = @"4";
+
     
     }
     

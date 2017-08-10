@@ -54,7 +54,7 @@ NSString * const kLocationServiceSuccessNotification = @"kLocationServiceSuccess
         
         _sysLocationManager = [[CLLocationManager alloc] init];
         _sysLocationManager.delegate = self;
-        _sysLocationManager.distanceFilter = 500.0;
+        _sysLocationManager.distanceFilter = 1000.0;
         //        [_sysLocationManager requestLocation]; //只定为一次
     }
     

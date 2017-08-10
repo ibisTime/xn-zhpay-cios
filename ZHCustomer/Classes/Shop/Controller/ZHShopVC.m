@@ -32,7 +32,6 @@
 #import "ZHUser.h"
 #import "UIColor+theme.h"
 
-
 #define USER_CITY_NAME_KEY @"USER_CITY_NAME_KEY"
 
 @interface ZHShopVC ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate,HYCityViewDelegate,CDShopTypeChoosDelegate>
@@ -50,7 +49,7 @@
 @property (nonatomic,strong) TLBannerView *bannerView;
 @property (nonatomic,strong) UIView *announcementsView;
 
-//防止多次定位重复刷新
+//进入应用消息只弹出一次
 @property (nonatomic,assign) BOOL isFirstDiplayMsg;
 
 //
@@ -69,7 +68,9 @@
 @end
 
 
+
 @implementation ZHShopVC
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -89,15 +90,8 @@
         return;
     }
     
-//    if (self.isFirst) {
-//        
-////        [self.sysLocationManager  startUpdatingLocation];
-//        self.isFirst = NO;
-//
-//    }
     
 }
-
 
 
 //存储数据
@@ -125,7 +119,7 @@
         self.currentCityName = cityName;
         
     }
-
+    
     //
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0,64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
     [self.view addSubview:tableView];
@@ -151,7 +145,7 @@
     };
     
 #pragma mark- 系统公告
-//    [self getSysMsg];
+//  [self getSysMsg];
     
 #pragma mark- 获取店铺类型
     [self getType];
@@ -159,8 +153,6 @@
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808217";
-//    helper.parameters[@"status"] = kShopOpenStatus;
-    
     helper.parameters[@"uiLocation"] = @"1";
     helper.tableView = self.shopTableView;
     [helper modelClass:[ZHShop class]];
@@ -225,13 +217,12 @@
 
 
 - (void)locationSuccess {
-
-    TLLog(@"首页——定位成功");
     
     if (self.lastLocationSuccessDate && ([[NSDate date] timeIntervalSinceDate:self.lastLocationSuccessDate] <60*1)) {
         
         return;
     }
+    
     self.lastLocationSuccessDate = [NSDate date];
 
     //获取当前位置
@@ -345,9 +336,12 @@
 
         
     } failure:^(NSError *error) {
+      
+        
         
     }];
 
+    
 }
 
 
@@ -372,6 +366,7 @@
         weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
         
     } failure:^(NSError *error) {
+        
         
     }];
 
