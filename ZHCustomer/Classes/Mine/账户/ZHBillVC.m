@@ -260,19 +260,6 @@
 
         self.rightAciton = ^(){
         
-//            ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
-//            vc.success = ^(){
-//                
-//                [weakSelf.billTV beginRefreshing];
-//
-//            };
-//            vc.title = @"转分润";
-//            vc.type = ZHCurrencyConvertHBYJToFR;
-//            
-//            vc.amount = weakself.currencyModel.amount;
-//            [weakself.navigationController pushViewController:vc animated:YES];
-        
-//            [weakSelf leftAction];
             //只可能 红包业绩转贡献
             ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
             vc.success = ^(){
@@ -298,17 +285,14 @@
     
         hiddenRight = YES;
 
+    } else if ([self.currencyModel.currency isEqualToString:kLMB]) {
     
+        hiddenRight = YES;
+
     }
     
-//    currencyConvertView.leftBtn.hidden = hiddenLeft;
     currencyConvertView.rightBtn.hidden = hiddenRight;
-//    [currencyConvertView.leftBtn setTitle:leftTitle forState:UIControlStateNormal];
-    
-    
     [currencyConvertView.rightBtn setTitle:rightTitle forState:UIControlStateNormal];
-
-
     
     if ([self.currencyModel.currency isEqualToString:kHBB] || [self.currencyModel.currency isEqualToString:kHBYJ]) {
         
@@ -324,7 +308,9 @@
             
             
         }];
+        
     }
+    
     
 }
 

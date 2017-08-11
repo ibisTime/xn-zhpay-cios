@@ -65,7 +65,7 @@
             make.right.equalTo(priceLbl.mas_left).offset(-7);
             make.centerY.equalTo(self.mas_centerY);
         }];
-        hintLbl.text = @"全额：";
+        hintLbl.text = @"总价：";
         
     }
     return self;

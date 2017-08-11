@@ -17,14 +17,9 @@
 
 @property (nonatomic,strong) UIImageView *coverImageView;
 @property (nonatomic,strong) UILabel *nameLbl;
-
-//discountLbl
 @property (nonatomic,strong) UILabel *statusLbl;
-//@property (nonatomic,strong) UILabel *couponsLbl;//使用折扣券
 
-@property (nonatomic,strong) UILabel *priceLbl; //价格
-//@property (nonatomic,strong) UILabel *discountPriceLbl; //优惠后的价格
-
+@property (nonatomic, strong) UILabel *priceLbl; //价格
 
 @end
 
@@ -46,7 +41,7 @@
 
     _shopOrderModel = shopOrderModel;
     self.orderLbl.text = [NSString stringWithFormat:@"订单编号: %@",_shopOrderModel.code];
-    self.timeLbl.text = [_shopOrderModel.createDatetime convertDate];
+    self.timeLbl.text = [_shopOrderModel.createDatetime convertToDetailDate];
     
     
     [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[_shopOrderModel.store.advPic convertThumbnailImageUrl]]];
@@ -100,7 +95,7 @@
     [self addSubview:self.coverImageView];
     
     //
-    self.nameLbl = [UILabel labelWithFrame:CGRectMake(self.coverImageView.xx + 14, self.coverImageView.y + 5, SCREEN_WIDTH - self.coverImageView.xx - 28, 20)
+    self.nameLbl = [UILabel labelWithFrame:CGRectMake(self.coverImageView.xx + 14, self.coverImageView.y , SCREEN_WIDTH - self.coverImageView.xx - 28, 20)
                               textAligment:NSTextAlignmentLeft
                            backgroundColor:[UIColor clearColor]
                                       font:[UIFont secondFont]
@@ -118,9 +113,13 @@
     [self addSubview:self.priceLbl];
     [self.priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.nameLbl.mas_left  );
-        make.top.equalTo(self.nameLbl.mas_bottom).offset(15);
+        make.top.equalTo(self.nameLbl.mas_bottom).offset(10);
     }];
     
+    [self.timeLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.priceLbl.mas_left);
+        make.top.equalTo(self.priceLbl.mas_bottom).offset(10);
+    }];
 
     
 

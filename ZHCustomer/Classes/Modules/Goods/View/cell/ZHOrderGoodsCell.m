@@ -45,16 +45,12 @@
         [self addSubview:self.nameLbl];
         self.nameLbl.height = [[UIFont secondFont] lineHeight];
         
-        //规格
-
-        
-        
         //价格
         self.priceLbl = [UILabel labelWithFrame:CGRectMake(self.nameLbl.x, self.nameLbl.yy + 5, self.nameLbl.width, [FONT(13) lineHeight])
                                    textAligment:NSTextAlignmentLeft
                                 backgroundColor:[UIColor clearColor]
                                            font:FONT(13)
-                                      textColor:[UIColor zh_themeColor]];
+                                      textColor:[UIColor textColor]];
         [self addSubview:self.priceLbl];
         
         //规格
@@ -62,7 +58,7 @@
                                        textAligment:NSTextAlignmentLeft
                                     backgroundColor:[UIColor clearColor]
                                                font:FONT(13)
-                                          textColor:[UIColor zh_themeColor]];
+                                          textColor:[UIColor textColor]];
         [self addSubview:self.parameterLbl];
         
         //广告语
@@ -70,14 +66,30 @@
                                 textAligment:NSTextAlignmentLeft
                              backgroundColor:[UIColor clearColor]
                                         font:FONT(11)
-                                   textColor:[UIColor zh_textColor2]];
+                                   textColor:[UIColor textColor]];
         [self addSubview:self.numLbl];
         
-        //评价的按钮
-//        UIButton *pjBtn = [UIButton zhBtnWithFrame:CGRectMake(SCREEN_WIDTH - 10 - w, self.priceLbl.yy + 5, w, 25) title:@"评价"];
-////        [self addSubview:pjBtn];
-//        [pjBtn addTarget:self action:@selector(commentAction) forControlEvents:UIControlEventTouchUpInside];
- 
+        
+        //
+        [self.nameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.coverImageV.mas_right).offset(10);
+            make.top.equalTo(self.coverImageV.mas_top);
+        }];
+        
+        [self.parameterLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLbl.mas_left);
+            make.top.equalTo(self.nameLbl.mas_bottom).offset(10);
+        }];
+        
+        [self.priceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.contentView.mas_right).offset(-10);
+            make.top.equalTo(self.nameLbl.mas_top);
+        }];
+        
+        [self.numLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.priceLbl.mas_right);
+            make.top.equalTo(self.priceLbl.mas_bottom).offset(10);
+        }];
         
         //
         UIView *line = [[UIView alloc] init];

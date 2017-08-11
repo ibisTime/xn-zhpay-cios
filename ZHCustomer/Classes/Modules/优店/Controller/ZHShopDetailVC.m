@@ -35,10 +35,8 @@
 
 @implementation ZHShopDetailVC
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     //查询优惠券
@@ -71,7 +69,9 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"分享"] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
     ///////
     
-    UITableView *shopDetailTV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStyleGrouped];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    UITableView *shopDetailTV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60) style:UITableViewStyleGrouped];
     shopDetailTV.delegate = self;
     shopDetailTV.dataSource = self;
     shopDetailTV.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -84,6 +84,43 @@
     [coverImgView sd_setImageWithURL:[NSURL URLWithString:[self.shop.advPic convertImageUrl]] placeholderImage:nil];
     
     self.title = self.shop.name;
+    
+    //底部按钮
+    UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 80, 29) title:@"支付"];
+    [self.view addSubview:btn];
+    [btn setBackgroundColor:[UIColor colorWithRed:251/255.0 green:173/255.0 blue:42/255.0 alpha:1] forState:UIControlStateNormal];
+    
+    [btn addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
+    
+    //
+    UIButton *buyBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.y, btn.width
+                                                           ,btn.height) title:@"购买"];
+    
+    [self.view addSubview:buyBtn];
+    
+    
+    [buyBtn addTarget:self action:@selector(buyAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    //左边购买
+    [buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.height.mas_equalTo(40);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-10);
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.width.equalTo(btn.mas_width);
+        
+    }];
+    
+    //右边支付
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        make.height.mas_equalTo(40);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-10);
+        make.width.equalTo(buyBtn.mas_width);
+        make.left.equalTo(buyBtn.mas_right).offset(15);
+        make.right.equalTo(self.view.mas_right).offset(-15);
+        
+    }];
 
 
 }
@@ -155,7 +192,7 @@
 
 
 #pragma mark - 买单
-- (void)buy {
+- (void)pay {
     
     if (![ZHUser user].isLogin) {
         
@@ -186,17 +223,30 @@
 
 
 #pragma mark- 购买B
-- (void)buyGiftBAction {
+- (void)buyAction {
 
-    //支付
+    if (self.shop.isGiftMerchant) {
+       
+        //支付
+        ZHPayVC *payVC = [[ZHPayVC alloc] init];
+        payVC.shop = self.shop;
+        payVC.shopPayType = ZHShopPayTypeBuyGiftB;
+        
+        //
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
+        [self presentViewController:nav animated:YES completion:nil];
+        return;
+        
+    }
+    
+    //购买联盟券
     ZHPayVC *payVC = [[ZHPayVC alloc] init];
     payVC.shop = self.shop;
-    payVC.shopPayType = ZHShopPayTypeBuyGiftB;
-        
+    payVC.shopPayType = ZHShopPayTypeBuyLMB;
+    
     //
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
     [self presentViewController:nav animated:YES completion:nil];
-
 
 }
 
@@ -421,62 +471,44 @@
                                      textColor:[UIColor zh_textColor]];
     [headView addSubview:self.shopNameLbl];
     self.shopNameLbl.text = self.shop.name;
-
-    UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 80, 29) title:@"支付"];
-    [headView addSubview:btn];
-    [btn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
-    
-    //
-    UIButton *buyBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.y, btn.width
-                                ,btn.height) title:@"购买"];
-    
-    [headView addSubview:buyBtn];
-    
-    [buyBtn addTarget:self action:@selector(buyGiftBAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.mas_equalTo(60);
-        make.height.mas_equalTo(29);
-        make.right.mas_equalTo(headView.mas_right).offset(-15);
-        make.top.equalTo(headView.mas_top).offset(10);
-        
-    }];
-    
-    [buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.height.top.equalTo(btn);
-        make.right.equalTo(btn.mas_left).offset(-10);
-        
-        
-    }];
+//
+//    UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 80, 29) title:@"支付"];
+//    [headView addSubview:btn];
+//    [btn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    //
+//    UIButton *buyBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.y, btn.width
+//                                ,btn.height) title:@"购买"];
+//    
+//    [headView addSubview:buyBtn];
+//    
+//    [buyBtn addTarget:self action:@selector(buyGiftBAction) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.width.mas_equalTo(60);
+//        make.height.mas_equalTo(29);
+//        make.right.mas_equalTo(headView.mas_right).offset(-15);
+//        make.top.equalTo(headView.mas_top).offset(10);
+//        
+//    }];
+//    
+//    [buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.width.height.top.equalTo(btn);
+//        make.right.equalTo(btn.mas_left).offset(-10);
+//        
+//        
+//    }];
     
     [self.shopNameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(headView.mas_left).offset(15);
-        make.centerY.equalTo(buyBtn.mas_centerY);
-        make.right.lessThanOrEqualTo(buyBtn.mas_left);
+        make.top.equalTo(headView.mas_centerY);
+//        make.centerY.equalTo(buyBtn.mas_centerY);
+//        make.right.lessThanOrEqualTo(buyBtn.mas_left);
         
     }];
-    
-    
-    //
-//    if ([self.shop isGiftMerchant]) {
-//        
-//        btn.frame = CGRectMake(0, 55, 100, 29);
-//        btn.xx_size = SCREEN_WIDTH - 15;
-//        
-//        giftBtn.hidden = NO;
-//        giftBtn.frame = CGRectMake(15, btn.y, 100, 29);
-//
-//
-//    } else {
-//    
-//        giftBtn.hidden = YES;
-//        btn.frame = CGRectMake(0, 10, 65, 29);
-//        btn.xx_size = SCREEN_WIDTH - 15;
-//
-//    }
     
     
     return headView;

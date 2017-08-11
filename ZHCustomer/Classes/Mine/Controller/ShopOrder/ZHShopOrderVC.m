@@ -55,9 +55,6 @@
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"808245";
-    
-//    helper.isDeliverCompanyCode = NO;
-    
     helper.parameters[@"userId"] = [ZHUser user].userId;
     helper.parameters[@"token"] = [ZHUser user].token;
     helper.parameters[@"status"] = @"1";
@@ -103,15 +100,15 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    ZHShopOrderDetailVC *vc = [[ZHShopOrderDetailVC alloc] init];
-    vc.shopOrder = self.shopOrders[indexPath.section];
-    [self.navigationController pushViewController:vc                            animated:YES];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    ZHShopOrderDetailVC *vc = [[ZHShopOrderDetailVC alloc] init];
+//    vc.shopOrder = self.shopOrders[indexPath.section];
+//    [self.navigationController pushViewController:vc                            animated:YES];
+//    
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
@@ -146,6 +143,7 @@
     if (!cell) {
         
         cell = [[ZHShopOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhShopOrderCellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
     }
     

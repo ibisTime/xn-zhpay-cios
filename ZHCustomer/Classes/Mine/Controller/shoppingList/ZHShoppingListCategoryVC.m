@@ -262,7 +262,7 @@
         make.top.equalTo(headerV.mas_top).offset(10);
         make.bottom.equalTo(headerV.mas_bottom);
     }];
-    lbl1.text = num;
+    lbl1.text = [NSString stringWithFormat:@"订单编号：%@",num];
     
     //
     UILabel *lbl2 = [UILabel labelWithFrame:CGRectZero

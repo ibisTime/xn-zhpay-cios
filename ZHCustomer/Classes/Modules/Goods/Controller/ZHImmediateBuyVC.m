@@ -26,11 +26,13 @@
 @property (nonatomic,strong) UILabel * totalPriceLbl;
 
 @property (nonatomic,strong) UITableView *tableV;
-@property (nonatomic,strong) UIImageView *arrowIV;
+
+//@property (nonatomic,strong) UIImageView *arrowIV;
+//@property (nonatomic, strong) TLTextField *postageTf;
+
 @property (nonatomic,strong) UIButton *buyBtn;
 
 @property (nonatomic,strong) TLTextField *enjoinTf;
-@property (nonatomic, strong) TLTextField *postageTf;
 
 @property (nonatomic,strong) NSMutableArray <ZHReceivingAddress *>*addressRoom;
 @property (nonatomic,strong) ZHReceivingAddress *currentAddress;
@@ -60,24 +62,23 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.title = @"确认订单";
+    self.title = @"订单确认";
     
-    //
     if (!self.goodsRoom) {
         
         NSLog(@"请传递购物模型");
         return;
     }
     
+    
     //1.根据有无地址创建UI
     [self getAddress];
-    
+        
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAddressInfo:) name:kEditCurrentChooseAddressSuccess object:nil];
+
     
 }
 
-
-//
 //
 - (void)changeAddressInfo:(NSNotification *)notification {
 
@@ -91,7 +92,6 @@
 #pragma mark- 立即购买行为
 - (void)buyAction {
     
-    //
     if ( self.goodsRoom) { //普通商品购买
         
         if (!self.currentAddress) {
@@ -143,7 +143,6 @@
             //加上邮费的价格
             payVC.amoutAttr = self.totalPriceLbl.attributedText;
 
-            
             payVC.paySucces = ^(){
                     
                [self.navigationController popViewControllerAnimated:YES];
@@ -162,10 +161,7 @@
         return;
     }
     
-
 }
-
-
 
 - (void)getAddress {
 
@@ -175,16 +171,37 @@
     http.code = @"805165";
     http.parameters[@"userId"] = [ZHUser user].userId;
     http.parameters[@"token"] = [ZHUser user].token;
-    //    http.parameters[@"isDefault"] = @"0"; //是否为默认收货地址
+    //http.parameters[@"isDefault"] = @"0"; //是否为默认收货地址
     [http postWithSuccess:^(id responseObject) {
         
-        self.buyBtn.y = self.tableV.yy;
-
-        //添加
+        self.tableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
         [self.view addSubview:self.tableV];
+        self.tableV.tableHeaderView = self.headeBGView;
+        self.tableV.tableFooterView = [self footerView];
         
-        //购买按钮
+        
+//
+        self.buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 120, self.tableV.yy, 120, 49) title:@"确认购买" backgroundColor:[UIColor zh_themeColor]];
         [self.view addSubview:self.buyBtn];
+        [self.buyBtn addTarget:self action:@selector(buyAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        //
+        UILabel *hintLbl = [UILabel labelWithFrame:CGRectMake(0, self.buyBtn.y, 90, self.buyBtn.height)
+                                        textAligment:NSTextAlignmentRight
+                                     backgroundColor:[UIColor whiteColor]
+                                                font:FONT(16)
+                                           textColor:[UIColor textColor]];
+        [self.view addSubview:hintLbl];
+        hintLbl.text = @"实际支付：";
+        
+        
+        self.totalPriceLbl = [UILabel labelWithFrame:CGRectMake(hintLbl.xx, self.buyBtn.y, SCREEN_WIDTH - 120 - hintLbl.xx, self.buyBtn.height)
+                                    textAligment:NSTextAlignmentLeft
+                                 backgroundColor:[UIColor whiteColor]
+                                            font:FONT(16)
+                                       textColor:[UIColor zh_themeColor]];
+        [self.view addSubview:self.totalPriceLbl];
+        
         
         NSArray *adderssRoom = responseObject[@"data"];
         if (adderssRoom.count > 0 ) { //有收获地址
@@ -193,7 +210,6 @@
             //给一个默认地址
             self.currentAddress = self.addressRoom[0];
             self.currentAddress.isSelected = YES;
-            
             [self setHeaderAddress:self.currentAddress];
 
             
@@ -204,7 +220,7 @@
             
         }
         
-        //初始化数据
+//        初始化数据
         [self updatePostageAndTotalMoney];
         
     } failure:^(NSError *error) {
@@ -215,11 +231,9 @@
 }
 
 
-
 - (void)setHeaderAddress:(ZHReceivingAddress *)address {
 
     [self setHaveAddressUI];
-
     self.chooseView.nameLbl.text = [NSString stringWithFormat:@"收货人：%@",address.addressee];
     self.chooseView.mobileLbl.text = [NSString stringWithFormat:@"%@",address.mobile];
     self.chooseView.addressLbl.text = [NSString stringWithFormat:@"收货地址：%@%@%@%@",address.province,address.city, address.district, address.detailAddress];
@@ -280,7 +294,7 @@
             convertHttp.parameters[@"toCurrency"] = kGiftB;
             [convertHttp postWithSuccess:^(id responseObject) {
                 
-                self.changeRate =  responseObject[@"data"][@"rate"];
+                self.changeRate = responseObject[@"data"][@"rate"];
                 TLNetworking *http = [TLNetworking new];
                 http.showView = self.view;
                 http.code = @"808088";
@@ -290,11 +304,9 @@
                 [http postWithSuccess:^(id responseObject) {
                     
                     postage = responseObject[@"data"][@"price"];
-//                CGFloat youFei =  ([postage longLongValue]*1.0/1000)/[self.changeRate floatValue];
-                    
                     long long newPostage = [postage longLongValue]*[self.changeRate floatValue];
                     
-                    self.postageTf.text = [@(newPostage) convertToRealMoney];
+//                    self.postageTf.text = [@(newPostage) convertToRealMoney];
                     
                     //
                     long long totalPrice = newPostage + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
@@ -303,8 +315,11 @@
                     NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
                     
                     //
-                    self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
-                    //
+                    self.totalPriceLbl.text = [NSString stringWithFormat:@"%@ + 邮费%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney],[@(newPostage) convertToRealMoney]];
+                    
+                    
+//                    [[NSAttributedString alloc] initWithString:totalPriceStr];
+                    
                     
                 } failure:^(NSError *error) {
                     
@@ -318,94 +333,42 @@
             
             
         } else {
-        
+            
+            //普通商家邮费无需转换
             TLNetworking *http = [TLNetworking new];
             http.showView = self.view;
             http.code = @"808088";
             http.parameters[@"startPoint"] = goods.currentParameterModel.province;
             http.parameters[@"endPoint"] = self.currentAddress.province;
-            
             [http postWithSuccess:^(id responseObject) {
-                
+            
                 postage = responseObject[@"data"][@"price"];
                 
-                self.postageTf.text = [postage convertToRealMoney];
                 long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
                 
-                
                 NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
-                self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
+                self.totalPriceLbl.text = [NSString stringWithFormat:@"%@ + 邮费%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney],[postage convertToRealMoney]];
                 
             } failure:^(NSError *error) {
+                
                 
             }];
         
         }
-        
-        
-  
-        
-   
-
-        
-    } else {
-        
-        postage = @0;
-        //
-        self.postageTf.text = [postage convertToRealMoney];
-        long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
-        
-        NSString *totalPriceStr = [NSString stringWithFormat:@"￥%@", [@(totalPrice) convertToRealMoney]];
-        self.totalPriceLbl.attributedText = [[NSAttributedString alloc] initWithString:totalPriceStr];
-        
-    }
-    
-
-
  
-    
-
-}
-
-//
-- (UITableView *)tableV{
-    
-    if (!_tableV) {
-        
-        //无收货地址
-        TLTableView *tableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
-        tableView.tableHeaderView = self.headeBGView;
-        tableView.tableFooterView = [self footerView];
-        _tableV = tableView;
-    }
-    return _tableV;
-    
-}
-
-- (UIButton *)buyBtn {
-    
-    if (!_buyBtn) {
-        
-        _buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 49) title:@"确认订单" backgroundColor:[UIColor zh_themeColor]];
-        [_buyBtn addTarget:self action:@selector(buyAction) forControlEvents:UIControlEventTouchUpInside];
-        
-    }
-    return _buyBtn;
-    
-}
-
-- (UILabel *)totalPriceLbl {
-    
-    if (!_totalPriceLbl) {
-        _totalPriceLbl = [UILabel labelWithFrame:CGRectZero
-                                    textAligment:NSTextAlignmentRight
-                                 backgroundColor:[UIColor whiteColor]
-                                            font:FONT(16)
-                                       textColor:[UIColor zh_themeColor]];
+        return;
     }
     
-    return _totalPriceLbl;
+    
+    //无地址
+    postage = @0;
+    long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
+    NSString *totalPriceStr = [NSString stringWithFormat:@"￥%@", [@(totalPrice) convertToRealMoney]];
+    self.totalPriceLbl.text = [NSString stringWithFormat:@"%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney]];
+
 }
+
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
@@ -455,56 +418,19 @@
 
 - (UIView *)footerView {
 
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 135)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 70)];
     footerView.backgroundColor = [UIColor whiteColor];
-    
-    //邮费
-    TLTextField *postageTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"邮费：" titleWidth:100 placeholder:@"邮费"];
-    [footerView addSubview:postageTf];
-    postageTf.userInteractionEnabled = NO;
-    self.postageTf = postageTf;
-    
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, postageTf.yy, SCREEN_WIDTH, 0.5)];
-    line.backgroundColor = [UIColor zh_lineColor];
-    [footerView addSubview:line];
+
     
     //买家嘱咐
-    TLTextField *tf = [[TLTextField alloc] initWithframe:CGRectMake(0, postageTf.yy + 1, SCREEN_WIDTH, 45) leftTitle:@"买家嘱咐：" titleWidth:100 placeholder:@"对本次交易的说明"];
-    [footerView addSubview:tf];
-    self.enjoinTf = tf;
+    self.enjoinTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"买家嘱咐：" titleWidth:100 placeholder:@"对本次交易的说明"];
+    [footerView addSubview:self.enjoinTf];
     
     //
-    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, self.enjoinTf.yy, SCREEN_WIDTH, 0.5)];
-    line2.backgroundColor = [UIColor zh_lineColor];
-    [footerView addSubview:line2];
+//    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, self.enjoinTf.yy, SCREEN_WIDTH, 0.5)];
+//    line2.backgroundColor = [UIColor zh_lineColor];
+//    [footerView addSubview:line2];
     
-    //
-    [footerView addSubview:self.totalPriceLbl];
-    [self.totalPriceLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(footerView.mas_right).offset(-15);
-        make.top.equalTo(self.enjoinTf.mas_bottom).offset(1);
-        make.bottom.equalTo(footerView.mas_bottom);
-        
-    }];
-    
-    
-    UILabel *hintLbl = [[UILabel alloc] initWithFrame:CGRectZero
-                                             textAligment:NSTextAlignmentRight
-                                          backgroundColor:[UIColor whiteColor]
-                                                     font:FONT(14)
-                                                textColor:[UIColor zh_textColor]];
-    [footerView addSubview:hintLbl];
-    hintLbl.text = @"应付金额：";
-        
-    [hintLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-            make.right.equalTo(self.totalPriceLbl.mas_left).offset(-9);
-            make.top.equalTo(self.totalPriceLbl.mas_top);
-            make.bottom.equalTo(footerView.mas_bottom);
-        
-    }];
-
     return footerView;
     
 }

@@ -16,7 +16,9 @@ typedef NS_ENUM(NSInteger,ZHShopPayType){
     //各种都有
     ZHShopPayTypeDefaultO2O = 0, //通常o2o
     ZHShopPayTypeGiftO2O = 1, //礼品券o22
-    ZHShopPayTypeBuyGiftB //购买礼品券
+    ZHShopPayTypeBuyGiftB = 2, //购买礼品券
+    ZHShopPayTypeBuyLMB = 3 //购买联盟币
+
     
 };
 

@@ -200,14 +200,14 @@
     
     
     ZHShareView *shareView = [[ZHShareView alloc] init];
-    shareView.title = @"注册";
+    shareView.title = @"共享消费平台";
     shareView.wxShare = ^(BOOL isSuccess, int code){
     
         if (isSuccess) {
             [TLAlert alertWithHUDText:@"分享成功"];
         }
     };
-//    shareView.content = @"小目标，发一发，摇一摇，聊一聊各种红包玩法";
+    shareView.content = @"利润共享，数据共享，股权共享";
     shareView.shareUrl = [NSString stringWithFormat:@"%@/user/register.html?userReferee=%@",[AppConfig config].shareBaseUrl,[[ZHUser user] mobile]];
     shareView.qrContentStr = [ZHUser user].mobile;
     [shareView show];

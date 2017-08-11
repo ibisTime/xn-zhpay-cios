@@ -141,6 +141,21 @@
             
         }];
 
+    } else if (self.shopPayType == ZHShopPayTypeBuyLMB) {
+    
+        TLNetworking *convertHttp = [TLNetworking new];
+        convertHttp.code = @"002051";
+        convertHttp.parameters[@"fromCurrency"] = kFRB;
+        convertHttp.parameters[@"toCurrency"] = kLMB;
+        [convertHttp postWithSuccess:^(id responseObject) {
+            
+            self.changeRate =  responseObject[@"data"][@"rate"];
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
+    
     }
     
 }
@@ -222,7 +237,16 @@
             
         } break;
             
-
+        case ZHShopPayTypeBuyLMB: {
+            
+            payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            status = @[@(YES),@(NO),@(NO)];
+            
+        } break;
+            
+            
     }
 
     
@@ -356,7 +380,7 @@
             
     }
     
-    //
+    //买B
     if(self.shopPayType == ZHShopPayTypeBuyGiftB) {
     
         if (type == ZHPayTypeOther) {
@@ -400,6 +424,52 @@
         
         return;
     }
+    
+    
+    if(self.shopPayType == ZHShopPayTypeBuyLMB) {
+        
+        if (type == ZHPayTypeOther) {
+            
+            UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
+            [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                
+                textField.secureTextEntry = YES;
+                
+            }];
+            
+            [alertCtrl addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]];
+            
+            [alertCtrl addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                if (![alertCtrl.textFields[0].text valid]) {
+                    
+                    [TLAlert alertWithInfo:@"请输入支付密码"];
+                    
+                } else {
+                    
+                    [self buyLMBPayPwd:alertCtrl.textFields[0].text payType:payType];
+                    
+                }
+                
+                
+            }]];
+            
+            
+            [self presentViewController:alertCtrl animated:YES completion:nil];
+            
+        } else {
+            
+            [self buyGiftBPayPwd:nil payType:payType];
+            
+            
+        }
+        
+        
+        return;
+    }
+
 
     
     
@@ -443,6 +513,7 @@
         
     }
 
+    
 }
 
 
@@ -554,6 +625,67 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     
+}
+
+
+#pragma mark- 买联盟券最后流程
+- (void)buyLMBPayPwd:(NSString *)payPwd payType:(NSString *)payType {
+
+
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"808251";
+    http.parameters[@"storeCode"] = self.shop.code;
+    http.parameters[@"quantity"] = [self.amountTf.text convertToSysMoney];
+    http.parameters[@"payType"] = payType;
+    http.parameters[@"tradePwd"] = payPwd;
+    http.parameters[@"userId"] = [ZHUser user].userId;
+    http.parameters[@"token"] = [ZHUser user].token;
+    
+    [http postWithSuccess:^(id responseObject) {
+        
+        
+        if ([ZHPayService checkRealNameAuthByResponseObject:responseObject]) {
+            
+            //需要实名
+            [TLAlert alertWithInfo: responseObject[@"errorInfo"] ? : nil];
+            ZHRealNameAuthVC *vc = [[ZHRealNameAuthVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+            return;
+            
+        }
+        
+        //
+        if ([payType isEqualToString: kZHWXTypeCode]) {
+            
+            [self wxPayWithInfo:responseObject[@"data"]];
+            
+        } else if([payType isEqualToString: kZHAliPayTypeCode]) {
+            
+            [self aliPayWithInfo:responseObject[@"data"]];
+            
+            
+        } else {
+            
+            [TLAlert alertWithHUDText:@"支付成功"];
+            
+            if (self.paySucces) {
+                self.paySucces();
+            }
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            
+            
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        
+        
+        
+    }];
+
 }
 
 
