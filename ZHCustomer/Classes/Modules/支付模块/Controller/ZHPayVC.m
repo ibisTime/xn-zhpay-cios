@@ -206,16 +206,16 @@
         
             if ([self.shop.payCurrency isEqualToString:@"1"]) {
                 
-                payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"分润",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
                 
             } else {
                 
-                payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"余额",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
                 
             }
-            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-            status = @[@(YES),@(NO),@(NO)];
+            imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+            payType = @[@(ZHPayTypeOther),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            status = @[@(YES),@(NO),@(NO),@(NO)];
             
         } break;
             
@@ -369,7 +369,7 @@
             
             payType = kZHDefaultPayTypeCode;
         }
-            break;
+        break;
             
             
         case ZHPayTypeGiftB: {
@@ -377,6 +377,15 @@
             payType = kZHGiftPayTypeCode;
             
         }
+        break;
+            
+        case ZHPayTypeLMB : {
+        
+            payType = kZHLMBPayTypeCode;
+
+        }
+            break;
+
             
     }
     
@@ -471,12 +480,14 @@
     }
 
 
-    
-    
-   
-    
-    if (type == ZHPayTypeOther || type == ZHPayTypeGiftB) {
+    //消费
+    if (type == ZHPayTypeAlipay || type == ZHPayTypeWeChat ) {
         
+        [self shopPay:payType payPwd:nil];
+        
+        
+    } else  {
+    
         UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
         [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
             
@@ -495,21 +506,18 @@
                 [TLAlert alertWithInfo:@"请输入支付密码"];
                 
             } else {
-            
+                
                 [self shopPay:payType payPwd:alertCtrl.textFields[0].text];
                 
             }
-           
-  
+            
+            
         }]];
-
+        
         
         [self presentViewController:alertCtrl animated:YES completion:nil];
+
         
-        
-    } else  {
-    
-        [self shopPay:payType payPwd:nil];
         
     }
 

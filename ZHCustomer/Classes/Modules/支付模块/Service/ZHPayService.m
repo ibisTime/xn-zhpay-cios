@@ -19,6 +19,9 @@ NSString *const kZHWXTypeCode = @"2";
 NSString *const kZHDefaultPayTypeCode = @"1";
 
 NSString *const kZHGiftPayTypeCode = @"20";
+NSString *const kZHLMBPayTypeCode = @"21";
+
+
 
 
 @implementation ZHPayService

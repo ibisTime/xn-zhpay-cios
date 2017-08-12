@@ -134,19 +134,19 @@
             
         case ZHPayViewCtrlTypeNewGoods: { //普通商品支付
             
-            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-            status = @[@(YES),@(NO),@(NO)];
+            payType = @[@(ZHPayTypeOther),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            status = @[@(YES),@(NO),@(NO),@(NO)];
             
             if (self.isFRBAndGXZ) {
                 
-                payNames  = @[@"余额",@"微信支付",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"余额",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
                 
             } else {
                 
-                payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"分润",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
                 
             }
-            imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+            imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
             
             //隐藏掉支付宝
             NSInteger count = payNames.count;
@@ -180,6 +180,7 @@
  
         } break;
             
+        //礼品购买
         case ZHPayViewCtrlTypeBuyGift: {
             
             payType = @[@(ZHPayTypeGiftB)];
@@ -304,6 +305,11 @@
             payTypeCode = kZHGiftPayTypeCode;
         }
             break;
+            
+        case ZHPayTypeLMB: {
+        
+            payTypeCode = kZHLMBPayTypeCode;
+        }
             
         case ZHPayTypeOther: {
             
