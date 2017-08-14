@@ -20,4 +20,8 @@
 
 @property (nonatomic,copy) NSArray <ZHPaySceneUIItem *>*groupItems;
 
+@property (nonatomic, copy) NSString *placeholderStr;
+@property (nonatomic, copy) NSString *leftTitleStr;
+
+
 @end

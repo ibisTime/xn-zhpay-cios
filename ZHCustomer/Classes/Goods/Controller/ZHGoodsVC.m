@@ -64,9 +64,7 @@
         [self removePlaceholderView];
         [ZHGoodsCategoryManager manager].dshjCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         
-        //添加礼品分类
         [self setUpUI];
-        //
         
     } failure:^(NSError *error) {
         

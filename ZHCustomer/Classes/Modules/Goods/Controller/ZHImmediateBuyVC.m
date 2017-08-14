@@ -176,10 +176,7 @@
         
         self.tableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
         [self.view addSubview:self.tableV];
-        self.tableV.tableHeaderView = self.headeBGView;
         self.tableV.tableFooterView = [self footerView];
-        
-        
 //
         self.buyBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 120, self.tableV.yy, 120, 49) title:@"确认购买" backgroundColor:[UIColor zh_themeColor]];
         [self.view addSubview:self.buyBtn];
@@ -204,7 +201,8 @@
         
         
         NSArray *adderssRoom = responseObject[@"data"];
-        if (adderssRoom.count > 0 ) { //有收获地址
+        if (adderssRoom.count > 0 ) {
+            //有收获地址
             
             self.addressRoom = [ZHReceivingAddress tl_objectArrayWithDictionaryArray:adderssRoom];
             //给一个默认地址
@@ -220,7 +218,7 @@
             
         }
         
-//        初始化数据
+//      初始化数据
         [self updatePostageAndTotalMoney];
         
     } failure:^(NSError *error) {
@@ -363,7 +361,7 @@
     //无地址
     postage = @0;
     long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
-    NSString *totalPriceStr = [NSString stringWithFormat:@"￥%@", [@(totalPrice) convertToRealMoney]];
+//    NSString *totalPriceStr = [NSString stringWithFormat:@"￥%@", [@(totalPrice) convertToRealMoney]];
     self.totalPriceLbl.text = [NSString stringWithFormat:@"%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney]];
 
 }
@@ -372,13 +370,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    
-    
-
-    
-        return 1;
-
-
+    return 1;
 
 }
 
@@ -419,17 +411,20 @@
 - (UIView *)footerView {
 
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 70)];
-    footerView.backgroundColor = [UIColor whiteColor];
+    footerView.backgroundColor = [UIColor backgroundColor];
+    
+    [footerView addSubview:self.headeBGView];
 
     
     //买家嘱咐
-    self.enjoinTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 45) leftTitle:@"买家嘱咐：" titleWidth:100 placeholder:@"对本次交易的说明"];
+    self.enjoinTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.headeBGView.yy + 10, SCREEN_WIDTH, 45) leftTitle:@"买家嘱咐：" titleWidth:100 placeholder:@"对本次交易的说明"];
     [footerView addSubview:self.enjoinTf];
     
-    //
 //    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, self.enjoinTf.yy, SCREEN_WIDTH, 0.5)];
 //    line2.backgroundColor = [UIColor zh_lineColor];
 //    [footerView addSubview:line2];
+    
+    footerView.height = self.enjoinTf.yy + 30;
     
     return footerView;
     
@@ -462,16 +457,12 @@
 #pragma mark- 设置没有收货地址的UI
 - (void)setNOAddressUI {
     
-//  [self.headeBGView.subviews performSelector:@selector(removeFromSuperview)];
-    
     UIView *addressView = self.headeBGView;
-    [self.view addSubview:addressView];
-//    addressView.backgroundColor = [UIColor whiteColor];
+//    [self.view addSubview:addressView];
     
     UIImageView *noAddressImageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 9, 35, 35)];
     [addressView addSubview:noAddressImageV];
     
-    //-==-//
     noAddressImageV.centerX = SCREEN_WIDTH/2.0;
     noAddressImageV.image = [UIImage imageNamed:@"添加收获地址"];
     

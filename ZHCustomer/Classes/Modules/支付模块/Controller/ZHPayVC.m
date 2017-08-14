@@ -194,6 +194,7 @@
 - (void)beginLoad {
 
     self.pays = [NSMutableArray array];
+    self.paySceneManager = [[ZHPaySceneManager alloc] init];
 
     //--//
     NSArray *imgs;
@@ -217,6 +218,11 @@
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO),@(NO)];
             
+            self.paySceneManager.leftTitleStr = @"消费金额";
+            self.paySceneManager.placeholderStr = @"请输入消费金额";
+
+            //    isGift ? @"请输入礼品券数量" : @"请输入消费金额"
+            //    isGift ? @"购买数量" : @"消费金额"
         } break;
             
         case ZHShopPayTypeGiftO2O: {
@@ -225,6 +231,11 @@
             imgs = @[@"zh_pay"];
             payType = @[@(ZHPayTypeGiftB)];
             status = @[@(YES)];
+            self.paySceneManager.leftTitleStr = @"消费金额";
+            self.paySceneManager.placeholderStr = @"请输入礼品券数量";
+            
+            //    isGift ? @"请输入礼品券数量" : @"请输入消费金额"
+            //    isGift ? @"购买数量" : @"消费金额"
             
         } break;
             
@@ -234,6 +245,11 @@
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO)];
+            self.paySceneManager.leftTitleStr = @"购买数量";
+            self.paySceneManager.placeholderStr = @"请输入礼品券数量";
+            
+            //    isGift ? @"请输入礼品券数量" : @"请输入消费金额"
+            //    isGift ? @"购买数量" : @"消费金额"
             
         } break;
             
@@ -243,6 +259,8 @@
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO)];
+            self.paySceneManager.leftTitleStr = @"购买数量";
+            self.paySceneManager.placeholderStr = @"请输入联盟券数量";
             
         } break;
             
@@ -263,7 +281,6 @@
     }
     
     //--//
-    self.paySceneManager = [[ZHPaySceneManager alloc] init];
     self.paySceneManager.isInitiative = YES;
     
     //1.第一组
@@ -766,7 +783,9 @@
     
     BOOL isGift = self.shopPayType == ZHShopPayTypeBuyGiftB;
     
-    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle: isGift ? @"购买数量" : @"消费金额" titleWidth:90 placeholder: isGift ? @"请输入礼品券数量" : @"请输入消费金额" ];
+    self.amountTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle:self.paySceneManager.leftTitleStr   titleWidth:90 placeholder:self.paySceneManager.placeholderStr ];
+    
+
     
     [headerView addSubview:self.amountTf];
     self.amountTf.backgroundColor = [UIColor whiteColor];
