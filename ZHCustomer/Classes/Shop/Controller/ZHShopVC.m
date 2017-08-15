@@ -508,7 +508,7 @@
 
     //获取数据成功，在改变城市名称
     NSString *nameCopy = [name stringByAppendingString:@"市"];
-    self.pageDataHelper.parameters[@"city"] = nameCopy;
+    self.pageDataHelper.parameters[@"city"] = name;
     self.currentCityName = nameCopy;
     self.cityLbl.text = nameCopy;
     

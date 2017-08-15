@@ -97,7 +97,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"支付";
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.amountTf.delegate = self;
     
@@ -205,6 +204,7 @@
     switch (self.shopPayType) {
         case ZHShopPayTypeDefaultO2O: {
         
+            self.title = @"支付";
             if ([self.shop.payCurrency isEqualToString:@"1"]) {
                 
                 payNames  = @[@"分润",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
@@ -227,6 +227,7 @@
             
         case ZHShopPayTypeGiftO2O: {
             
+            self.title = @"支付";
             payNames = @[@"礼品券余额"];
             imgs = @[@"zh_pay"];
             payType = @[@(ZHPayTypeGiftB)];
@@ -241,6 +242,7 @@
             
         case ZHShopPayTypeBuyGiftB: {
             
+            self.title = @"购买礼品券";
             payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
@@ -255,6 +257,7 @@
             
         case ZHShopPayTypeBuyLMB: {
             
+            self.title = @"购买联盟券";
             payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
@@ -487,8 +490,7 @@
             
         } else {
             
-            [self buyGiftBPayPwd:nil payType:payType];
-            
+            [self buyLMBPayPwd:nil payType:payType];
             
         }
         
@@ -496,12 +498,11 @@
         return;
     }
 
-
+    
     //消费
     if (type == ZHPayTypeAlipay || type == ZHPayTypeWeChat ) {
         
         [self shopPay:payType payPwd:nil];
-        
         
     } else  {
     

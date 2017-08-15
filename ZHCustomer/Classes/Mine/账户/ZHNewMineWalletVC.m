@@ -82,7 +82,7 @@
     [bgScrollView addSubview:headerV];
     
     //钱包
-    NSArray *typeNames =  @[@"贡献值", @"分润",@"礼品券",@"数字积分",@"钱包币",@"联盟币"];
+    NSArray *typeNames =  @[@"贡献值", @"分润",@"礼品券",@"数字积分",@"钱包币",@"联盟券"];
     NSArray *typeCode =  @[kGXB,kFRB,kGiftB,kDigitalJF,kQBB,kLMB];
     
     

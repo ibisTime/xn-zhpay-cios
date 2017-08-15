@@ -304,12 +304,13 @@
             
             payTypeCode = kZHGiftPayTypeCode;
         }
-            break;
+        break;
             
         case ZHPayTypeLMB: {
         
             payTypeCode = kZHLMBPayTypeCode;
         }
+        break;
             
         case ZHPayTypeOther: {
             

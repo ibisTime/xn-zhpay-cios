@@ -313,17 +313,12 @@
                     NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
                     
                     //
-                    self.totalPriceLbl.text = [NSString stringWithFormat:@"%@ + 邮费%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney],[@(newPostage) convertToRealMoney]];
-                    
-                    
-//                    [[NSAttributedString alloc] initWithString:totalPriceStr];
-                    
-                    
+                    self.totalPriceLbl.text = [NSString stringWithFormat:@"￥%@ + 邮费%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney],[@(newPostage) convertToRealMoney]];
+ 
                 } failure:^(NSError *error) {
                     
                 }];
 
-                
             } failure:^(NSError *error) {
                 
                 

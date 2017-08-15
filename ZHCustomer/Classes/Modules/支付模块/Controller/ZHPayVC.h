@@ -5,6 +5,7 @@
 //  Created by  tianlei on 2016/12/25.
 //  Copyright © 2016年  tianlei. All rights reserved.
 //  只负责优店支付
+//  带有输入框的支付界面
 
 #import "TLBaseVC.h"
 #import "ZHShopVC.h"
@@ -12,14 +13,11 @@
 #import "ZHPaySceneManager.h"
 
 typedef NS_ENUM(NSInteger,ZHShopPayType){
-    
     //各种都有
     ZHShopPayTypeDefaultO2O = 0, //通常o2o
     ZHShopPayTypeGiftO2O = 1, //礼品券o22
     ZHShopPayTypeBuyGiftB = 2, //购买礼品券
     ZHShopPayTypeBuyLMB = 3 //购买联盟币
-
-    
 };
 
 
@@ -30,7 +28,6 @@ typedef NS_ENUM(NSInteger,ZHShopPayType){
 //优店支付所需要的模型
 @property (nonatomic,strong) ZHShop *shop;
 @property (nonatomic, assign) ZHShopPayType shopPayType;
-
 //
 @property (nonatomic,copy) void(^paySucces)();
 

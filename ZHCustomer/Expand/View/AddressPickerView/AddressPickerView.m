@@ -180,7 +180,6 @@ static CGFloat const TITLEBUTTONWIDTH = 75.0;
         NSMutableArray *cityNames = [[NSMutableArray alloc] init];
         NSMutableArray <City *>*cityModels = [[NSMutableArray alloc] init];
      
-        
         //遍历城市
         NSArray <NSDictionary *>*citys = provienceDict[@"city"];
         if ([citys isKindOfClass:[NSDictionary class]]) {
@@ -191,6 +190,13 @@ static CGFloat const TITLEBUTTONWIDTH = 75.0;
             
             City *city = [[City alloc] init];
             city.cityName = obj[@"-name"];
+            if ([city.cityName hasSuffix:@"自治州"]) {
+                NSLog(@"%@",city.cityName);
+            } if ([city.cityName hasSuffix:@"盟"]) {
+                NSLog(@"%@",city.cityName);
+            } if ([city.cityName hasSuffix:@"地区"]) {
+                NSLog(@"%@",city.cityName);
+            }
             
             NSMutableArray <NSString *>*areaStrs = [[NSMutableArray alloc] init];
             
@@ -198,7 +204,6 @@ static CGFloat const TITLEBUTTONWIDTH = 75.0;
             NSArray *areas =  obj[@"district"];
             if ([areas isKindOfClass:[NSDictionary class]]) {
                 
-                NSLog(@"区域-%@",areas);
                 
             } else {
             
@@ -212,7 +217,6 @@ static CGFloat const TITLEBUTTONWIDTH = 75.0;
            
             
             city.areas = areaStrs;
-            
             
             //
             [cityModels addObject:city];

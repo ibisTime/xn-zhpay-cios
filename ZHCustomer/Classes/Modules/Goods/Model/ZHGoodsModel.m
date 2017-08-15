@@ -106,6 +106,7 @@
 
 - (NSString *)priceUnit {
 
+    
     return [self isGift] ? @"礼品券":@"￥" ;
 
 }

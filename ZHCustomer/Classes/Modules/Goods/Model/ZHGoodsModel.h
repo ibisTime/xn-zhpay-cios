@@ -37,6 +37,7 @@
 @property (nonatomic, strong) ZHShop *store;
 
 @property (nonatomic, copy) NSString *payCurrency;
+@property (nonatomic, copy) NSString *payType;
 
 
 

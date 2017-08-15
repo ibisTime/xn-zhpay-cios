@@ -76,9 +76,8 @@
     [UIView animateWithDuration:0.3 animations:^{
         
         self.validBgView.y = SCREEN_HEIGHT + 30;;
-        self.backgroundColor = NORMAL_COLOR;
+        self.backgroundColor = [UIColor clearColor];
 
-        
     } completion:^(BOOL finished) {
         
         [self removeFromSuperview];

@@ -45,7 +45,17 @@
 
 - (NSString *)priceUnit {
 
-    return [self isGiftShop] ? @"礼品券" : @"￥";
+    if ([self.payType isEqualToString:kZHGiftPayTypeCode]) {
+        
+        return @"礼品券";
+    } else if([self.payType isEqualToString:kZHLMBPayTypeCode]) {
+    
+        return @"联盟券";
+        
+    } else {
+    
+        return @"￥";
+    }
 
 }
 
