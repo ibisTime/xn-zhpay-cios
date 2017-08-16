@@ -38,6 +38,8 @@
 @property (nonatomic,copy) NSString *logisticsCompany; //快递公司
 
 @property (nonatomic, strong) NSNumber *quantity;
+@property (nonatomic, copy) NSString *payType;
+
 
 
 

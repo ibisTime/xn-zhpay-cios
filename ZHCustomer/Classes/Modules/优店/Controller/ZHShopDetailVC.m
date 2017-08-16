@@ -82,7 +82,6 @@
     coverImgView.clipsToBounds = YES;
     coverImgView.contentMode = UIViewContentModeScaleAspectFill;
     [coverImgView sd_setImageWithURL:[NSURL URLWithString:[self.shop.advPic convertImageUrl]] placeholderImage:nil];
-    
     self.title = self.shop.name;
     
     //底部按钮
@@ -94,7 +93,7 @@
     
     //
     UIButton *buyBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.y, btn.width
-                                                           ,btn.height) title:@"购买"];
+                                                           ,btn.height) title:[self.shop isGiftMerchant] ? @"购买礼品券" : @"购买联盟券"];
     
     [self.view addSubview:buyBtn];
     
@@ -194,6 +193,11 @@
 #pragma mark - 买单
 - (void)pay {
     
+    if (!self.shop.isOpen) {
+        [TLAlert alertWithMsg:@"店铺未营业"];
+        return;
+    }
+    
     if (![ZHUser user].isLogin) {
         
         ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
@@ -224,6 +228,11 @@
 
 #pragma mark- 购买B
 - (void)buyAction {
+    
+    if (!self.shop.isOpen) {
+        [TLAlert alertWithMsg:@"店铺未营业"];
+        return;
+    }
 
     if (self.shop.isGiftMerchant) {
        
@@ -393,7 +402,7 @@
             
         } else if(indexPath.row == 2) {
         
-            cell.info = self.shop.address;
+            cell.info = [self.shop detailAddress];
             cell.infoType = ShopInfoTypeLocation;
         
         } else {

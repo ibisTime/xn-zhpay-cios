@@ -231,7 +231,8 @@
     //--------------------------------------------//
     if (self.currentCityName) { //已经有
         
-        self.pageDataHelper.parameters[@"city"] = self.currentCityName;
+        self.pageDataHelper.parameters[@"city"] = self.currentCityName;;
+//
         //
         self.lon = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
         self.pageDataHelper.parameters[@"longitude"] = self.lon;
@@ -403,13 +404,13 @@
                 if (self.isFirstDiplayMsg) {
                     
                     self.isFirstDiplayMsg = NO;
-                    
+                
                     NSString *content = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastDisplayMsgTag"];
-                    if (content && [content isEqualToString:msgs[0].smsContent]) {
-                        
-                        //同一个消息只弹出一次即可
-                        return ;
-                    }
+//                    if (content && [content isEqualToString:msgs[0].smsContent]) {
+//                        
+//                        //同一个消息只弹出一次即可
+//                        return ;
+//                    }
                     
                     [TLAlert alertWithTitile:self.sysMsgView.msg message:msgs[0].smsContent confirmAction:^{
                         
@@ -498,8 +499,9 @@
     listVC.lat = self.lat;
     listVC.cityName = self.currentCityName;
     listVC.type = model.code;
+    listVC.shopTypeName = model.name;
     [self.navigationController pushViewController:listVC animated:YES];
-
+    
 }
 
 
@@ -507,7 +509,7 @@
 - (void)sendCityName:(NSString *)name {
 
     //获取数据成功，在改变城市名称
-    NSString *nameCopy = [name stringByAppendingString:@"市"];
+    NSString *nameCopy = name;
     self.pageDataHelper.parameters[@"city"] = name;
     self.currentCityName = nameCopy;
     self.cityLbl.text = nameCopy;

@@ -24,7 +24,9 @@
 @property (nonatomic,strong) UILabel *orderCodeLbl;
 @property (nonatomic,strong) UILabel *orderTimeLbl;
 @property (nonatomic,strong) UILabel *orderStatusLbl;
-@property (nonatomic, strong) UILabel *parameterLbl;
+//@property (nonatomic, strong) UILabel *parameterLbl;
+@property (nonatomic, strong) UILabel *postageLbl;
+
 @property (nonatomic,strong) ZHAddressChooseView *addressView;
 
 @property (nonatomic,strong) UILabel *expressNameLbl;
@@ -60,8 +62,9 @@
     self.orderTimeLbl.text = [NSString stringWithFormat:@"下单时间：%@",[self.order.applyDatetime convertToDetailDate]];
     self.orderStatusLbl.text = [NSString stringWithFormat:@"订单状态：%@",[self.order getStatusName]];
     
-    self.parameterLbl.lineBreakMode = NSLineBreakByCharWrapping;
-    self.parameterLbl.text = [NSString stringWithFormat:@"产品规格：%@",self.order.productSpecsName];
+    self.postageLbl.text = [NSString stringWithFormat:@"订单运费：%@",[self.order.yunfei convertToRealMoney]];
+//    self.parameterLbl.lineBreakMode = NSLineBreakByCharWrapping;
+//    self.parameterLbl.text = [NSString stringWithFormat:@"产品规格：%@",self.order.productSpecsName];
    
     self.addressView.nameLbl.text = [@"收货人：" add:self.order.receiver];
     self.addressView.mobileLbl.text = self.order.reMobile;
@@ -112,7 +115,9 @@
         [self.view addSubview:cancleBtn];
         [cancleBtn addTarget:self action:@selector(cancle) forControlEvents:UIControlEventTouchUpInside];
         
-        UIButton *shBtn = [[UIButton alloc] initWithFrame:CGRectMake(cancleBtn .xx + 1, tableV.yy, SCREEN_WIDTH/2.0 -  1, 49) title:@"支付" backgroundColor:[UIColor zh_themeColor]];
+        UIButton *shBtn = [[UIButton alloc] initWithFrame:CGRectMake(cancleBtn .xx + 1, tableV.yy, SCREEN_WIDTH/2.0 -  1, 49)
+                                                    title:@"去支付"
+                                          backgroundColor:[UIColor zh_themeColor]];
         [self.view addSubview:shBtn];
         [shBtn addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
     
@@ -126,13 +131,17 @@
     
     
     ZHNewPayVC *newPayVC = [[ZHNewPayVC alloc] init];
-    newPayVC.type = [self.order.product isGift] ? ZHPayViewCtrlTypeBuyGift :ZHPayViewCtrlTypeNewGoods;  ;
+    newPayVC.type = [self.order.product isGift] ? ZHPayViewCtrlTypeBuyGift :ZHPayViewCtrlTypeNewGoods;
     newPayVC.goodsCodeList = @[self.order.code];
-    NSString *str =  [@([self.order.amount1 longLongValue] + [self.order.yunfei longLongValue]) convertToRealMoney];
-    newPayVC.amoutAttr = [[NSAttributedString alloc] initWithString:str];
+    
+    NSNumber *totalPrice = @([self.order.amount1 longLongValue] + [self.order.yunfei longLongValue]);
+    NSString *str =  [totalPrice convertToRealMoney];
+    newPayVC.amoutAttr = str;
+    newPayVC.totalPrice = totalPrice;
+    
     
         //
-        newPayVC.paySucces = ^(){
+    newPayVC.paySucces = ^(){
             
             [self.navigationController popViewControllerAnimated:YES];
             
@@ -140,7 +149,7 @@
                 self.paySuccess();
             }
             
-        };
+     };
         //
         
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:newPayVC];
@@ -152,7 +161,7 @@
 #pragma mark- 取消订单
 - (void)cancle { //取消订单
     
-    [TLAlert alertWithTitle:@"" Message:@"确定取消订单？" confirmMsg:@"取消" CancleMsg:@"不取消" cancle:^(UIAlertAction *action) {
+    [TLAlert alertWithTitle:@"" Message:@"确定取消订单？" confirmMsg:@"确定取消" CancleMsg:@"不取消" cancle:^(UIAlertAction *action) {
         
         
     } confirm:^(UIAlertAction *action) {
@@ -360,17 +369,26 @@
     [headerView addSubview:self.orderStatusLbl];
     
     //
-    self.parameterLbl = [UILabel labelWithFrame:CGRectMake(LEFT_MARGIN, self.orderStatusLbl.yy + 5, SCREEN_WIDTH - 30,self.orderCodeLbl.height)
-                                     textAligment:NSTextAlignmentLeft
-                                  backgroundColor:[UIColor whiteColor]
-                                             font:FONT(13)
-                                        textColor:[UIColor zh_textColor]];
-    [headerView addSubview:self.parameterLbl];
-    self.parameterLbl.numberOfLines = 0;
+//    self.parameterLbl = [UILabel labelWithFrame:CGRectMake(LEFT_MARGIN, self.orderStatusLbl.yy + 5, SCREEN_WIDTH - 30,self.orderCodeLbl.height)
+//                                     textAligment:NSTextAlignmentLeft
+//                                  backgroundColor:[UIColor whiteColor]
+//                                             font:FONT(13)
+//                                        textColor:[UIColor zh_textColor]];
+//    [headerView addSubview:self.parameterLbl];
+//    self.parameterLbl.numberOfLines = 0;
+    
+    //
+    self.postageLbl = [UILabel labelWithFrame:CGRectMake(LEFT_MARGIN, self.orderStatusLbl.yy + 5, SCREEN_WIDTH - 30,self.orderCodeLbl.height)
+                                 textAligment:NSTextAlignmentLeft
+                              backgroundColor:[UIColor whiteColor]
+                                         font:FONT(13)
+                                    textColor:[UIColor zh_textColor]];
+    [headerView addSubview:self.postageLbl];
+    self.postageLbl.numberOfLines = 0;
     
     
     //
-    UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, self.parameterLbl.yy + 16, SCREEN_WIDTH, 10)];
+    UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, self.postageLbl.yy + 16, SCREEN_WIDTH, 10)];
     [headerView addSubview:lineV];
     lineV.backgroundColor = [UIColor zh_backgroundColor];
     
@@ -380,7 +398,7 @@
     [headerView addSubview:self.addressView];
     
     //添加约束
-    [self.parameterLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.postageLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.orderStatusLbl.mas_bottom).offset(5);
         make.left.equalTo(headerView.mas_left).offset(LEFT_MARGIN);
@@ -390,7 +408,7 @@
     
     [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.parameterLbl.mas_bottom).offset(16);
+        make.top.equalTo(self.postageLbl.mas_bottom).offset(16);
         make.left.right.equalTo(headerView);
         make.height.mas_equalTo(10);
         

@@ -77,6 +77,20 @@ NSString *const kShopInfoChange = @"zh_shop_info_change";
 }
 
 
+- (BOOL)isOpen {
+
+    return [self.status isEqualToString:@"2"];
+
+}
+
+- (NSString *)detailAddress {
+
+    return [NSString stringWithFormat:@"%@%@%@%@",self.province,self.city,self.area,self.address];
+
+}
+
+
+
 - (BOOL)isGiftMerchant {
 
     return [self.type isEqualToString:@"G01"];

@@ -48,7 +48,7 @@
     tableV.dataSource = self;
     tableV.backgroundColor = [UIColor zh_backgroundColor];
     
-    self.names = @[@"昵称",@"手机号",@"实名认证",@"修改登录密码",@"支付密码",@"银行卡",@"系统公告",@"收货地址",@"关于我们"];
+    self.names = @[@"昵称",@"手机号",@"实名认证",@"修改登录密码",@"修改支付密码",@"银行卡",@"系统公告",@"收货地址",@"关于我们"];
     
     self.nameLbl.text = [ZHUser user].nickname;
     self.mobileLbl.text = [ZHUser user].mobile;

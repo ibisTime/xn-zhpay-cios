@@ -39,6 +39,9 @@
 @property (nonatomic,strong) ZHAddressChooseView *chooseView;
 
 @property (nonatomic, strong) NSNumber *changeRate;
+@property (nonatomic, copy) NSString *totalPriceStr;
+@property (nonatomic, strong) NSNumber *totalPrice;
+
 @end
 
 @implementation ZHImmediateBuyVC
@@ -69,7 +72,6 @@
         NSLog(@"请传递购物模型");
         return;
     }
-    
     
     //1.根据有无地址创建UI
     [self getAddress];
@@ -138,10 +140,11 @@
             ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
             payVC.goodsCodeList = @[orderCode];
             payVC.isFRBAndGXZ = [self.goodsRoom[0].payCurrency isEqualToString:@"2"];
-            
+        
             
             //加上邮费的价格
-            payVC.amoutAttr = self.totalPriceLbl.attributedText;
+            payVC.amoutAttr = self.totalPriceStr;
+            payVC.totalPrice = self.totalPrice;
 
             payVC.paySucces = ^(){
                     
@@ -153,7 +156,6 @@
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
             [self presentViewController:nav animated:YES completion:nil];
             
-          
         } failure:^(NSError *error) {
             
         }];
@@ -198,6 +200,7 @@
                                             font:FONT(16)
                                        textColor:[UIColor zh_themeColor]];
         [self.view addSubview:self.totalPriceLbl];
+        self.totalPriceLbl.numberOfLines = 0;
         
         
         NSArray *adderssRoom = responseObject[@"data"];
@@ -304,16 +307,16 @@
                     postage = responseObject[@"data"][@"price"];
                     long long newPostage = [postage longLongValue]*[self.changeRate floatValue];
                     
-//                    self.postageTf.text = [@(newPostage) convertToRealMoney];
-                    
+//                  self.postageTf.text = [@(newPostage) convertToRealMoney];
                     //
                     long long totalPrice = newPostage + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
                     
+                    self.totalPrice = @(totalPrice);
                     //
-                    NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
+                    self.totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
                     
                     //
-                    self.totalPriceLbl.text = [NSString stringWithFormat:@"￥%@ + 邮费%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney],[@(newPostage) convertToRealMoney]];
+                    self.totalPriceLbl.text = [NSString stringWithFormat:@"%@%@ + 邮费%@",self.goodsRoom[0].priceUnit, [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney],[@(newPostage) convertToRealMoney]];
  
                 } failure:^(NSError *error) {
                     
@@ -338,9 +341,9 @@
                 postage = responseObject[@"data"][@"price"];
                 
                 long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
-                
-                NSString *totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
-                self.totalPriceLbl.text = [NSString stringWithFormat:@"%@ + 邮费%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney],[postage convertToRealMoney]];
+                self.totalPrice = @(totalPrice);
+                self.totalPriceStr = [NSString stringWithFormat:@"%@ %@",[goods priceUnit], [@(totalPrice) convertToRealMoney]];
+                self.totalPriceLbl.text = [NSString stringWithFormat:@"%@%@ + 邮费%@",self.goodsRoom[0].priceUnit ,[@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney],[postage convertToRealMoney]];
                 
             } failure:^(NSError *error) {
                 
@@ -406,10 +409,14 @@
 - (UIView *)footerView {
 
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 70)];
-    footerView.backgroundColor = [UIColor backgroundColor];
+    footerView.backgroundColor = [UIColor whiteColor];
     
     [footerView addSubview:self.headeBGView];
 
+    //
+    UIView *placeholderVeiw = [[UIView alloc] initWithFrame:CGRectMake(0, self.headeBGView.yy, footerView.width, 10)];
+    placeholderVeiw.backgroundColor = [UIColor backgroundColor];
+    [footerView addSubview:placeholderVeiw];
     
     //买家嘱咐
     self.enjoinTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.headeBGView.yy + 10, SCREEN_WIDTH, 45) leftTitle:@"买家嘱咐：" titleWidth:100 placeholder:@"对本次交易的说明"];

@@ -84,7 +84,7 @@
                                    MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
     
 //    [self initNav];
-
+    
 }
 
 
@@ -140,7 +140,7 @@
 //单击地图
 - (void)mapView:(MKMapView *)mapView didSingleTappedAtCoordinate:(CLLocationCoordinate2D)coordinate {
 
-    NSLog(@"%f--%f",coordinate.longitude,coordinate.latitude);
+//    NSLog(@"%f--%f",coordinate.longitude,coordinate.latitude);
     
     if (mapView.userLocation.location) {
         

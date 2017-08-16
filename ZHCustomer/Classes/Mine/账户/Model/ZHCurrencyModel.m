@@ -34,7 +34,8 @@
                            kHBYJ : @"红包业绩",
                            kHBB : @"红包币",
                            kGiftB : @"礼品券",
-                           kDigitalJF : @"数字积分"
+                           kDigitalJF : @"数字积分",
+                           kLMB : @"联盟券"
                            };
     
     return dict[self.currency];

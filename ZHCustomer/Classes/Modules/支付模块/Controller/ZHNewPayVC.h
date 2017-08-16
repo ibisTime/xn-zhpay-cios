@@ -33,7 +33,8 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 /**
  3.4.0以后为 商品为单一币种，分润（人民币）
  */
-@property (nonatomic,copy) NSAttributedString *amoutAttr;
+@property (nonatomic, copy) NSString *amoutAttr;
+@property (nonatomic, strong) NSNumber *totalPrice;
 
 //商品支付
 @property (nonatomic, copy) NSArray <NSString *>*goodsCodeList;

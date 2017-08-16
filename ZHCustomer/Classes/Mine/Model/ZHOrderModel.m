@@ -43,21 +43,28 @@
 
 - (NSString *)displayOrderPriceStr {
 
+    
+//    NSString *priceUnit = nil;
+//    
+//    if (self.payType == kZHLMBPayTypeCode) {
+//        
+//        priceUnit = @"联盟券";
+//        
+//    } else if (self.payType == kZHGiftPayTypeCode) {
+//    
+//        priceUnit = @"礼品券";
+//
+//    } else {
+//    
+//        priceUnit = @"￥";
+//
+//    }
+    
     if (![self.yunfei isEqual:@0]) {
         
-//        if ([self.product isGift]) {
-//            
-//          //
-//          return  [NSString stringWithFormat:@"%@ %@ + 邮费：%@",[self.product priceUnit],[self.amount1 convertToRealMoney],[@([[self yunfei] longLongValue]/[[ZHPayService service].frbToGiftBRate floatValue]) convertToRealMoney]];
-//            
-//        } else {
         
-             return  [NSString stringWithFormat:@"%@ %@ + 邮费 %@",[self.product priceUnit],[self.amount1 convertToRealMoney],[self.yunfei convertToRealMoney]];
+      return  [NSString stringWithFormat:@"%@ %@ + 邮费 %@",[self.product priceUnit],[self.amount1 convertToRealMoney],[self.yunfei convertToRealMoney]];
         
-//    }
- 
-
-    
     } else {
     
         return   [NSString stringWithFormat:@"%@ %@",[self.product priceUnit],[self.amount1 convertToRealMoney]];
@@ -71,8 +78,19 @@
 
 - (NSString *)displayUnitPriceStr {
 
+    NSString *priceUnit;
+
+    if (self.product.isGift) {
+        
+        priceUnit = @"礼品券";
+
+    } else {
     
-        return [NSString stringWithFormat:@"%@ %@",[self.product priceUnit],[self.price1 convertToRealMoney]];
+        priceUnit = @"￥";
+    }
+    
+    
+    return [NSString stringWithFormat:@"%@ %@",priceUnit,[self.price1 convertToRealMoney]];
         
 
 }

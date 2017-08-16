@@ -94,15 +94,13 @@
 //        return;
 //    }
     
-    self.title = @"消费记录";
+//    self.title = @"消费记录";
     TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
                                                        delegate:self
                                                      dataSource:self];
     [self.view addSubview:billTableView];
 
     billTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    billTableView.rowHeight = 110;
-//    billTableView.rowHeight = UITableViewAutomaticDimension;
     billTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录" topMargin:100];
     self.billTV = billTableView;
     

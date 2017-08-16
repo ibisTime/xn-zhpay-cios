@@ -280,7 +280,6 @@
     lbl2.text = [date convertDate];
     
     //
-    
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, headerV.height - 0.7, SCREEN_WIDTH, 0.7)];
     line.backgroundColor = [UIColor zh_lineColor];
     [headerV addSubview:line];

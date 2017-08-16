@@ -41,8 +41,9 @@
 
     _shopOrderModel = shopOrderModel;
     self.orderLbl.text = [NSString stringWithFormat:@"订单编号: %@",_shopOrderModel.code];
-    self.timeLbl.text = [_shopOrderModel.createDatetime convertToDetailDate];
+//    self.orderLbl.backgroundColor = [UIColor orangeColor];
     
+    self.timeLbl.text = [_shopOrderModel.createDatetime convertToDetailDate];
     
     [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:[_shopOrderModel.store.advPic convertThumbnailImageUrl]]];
     
@@ -57,14 +58,14 @@
 
 + (CGFloat)rowHeight {
 
-    return 134;
+    return 120;
     
 }
 
 
 - (void)setUpUI {
 
-    self.orderLbl = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_MARGIN, 0, SCREEN_WIDTH - 30 - 150, 39)
+    self.orderLbl = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_MARGIN, 0, SCREEN_WIDTH - 30, 25)
                                       textAligment:NSTextAlignmentLeft
                                    backgroundColor:[UIColor whiteColor]
                                               font:FONT(11)

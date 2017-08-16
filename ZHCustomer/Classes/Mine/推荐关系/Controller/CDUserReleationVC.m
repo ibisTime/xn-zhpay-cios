@@ -257,7 +257,7 @@
             
         case 2: {
             
-        levelStr =  [NSString stringWithFormat:@"%@(%@)",@"推荐商家",self.recomMerchantCount];
+        levelStr = [NSString stringWithFormat:@"%@(%@)",@"推荐商家",self.recomMerchantCount];
             
         } break;
             

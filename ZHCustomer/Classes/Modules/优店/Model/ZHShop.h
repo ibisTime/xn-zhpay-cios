@@ -53,7 +53,13 @@
 @property (nonatomic,copy) NSString *owner;//拥有者
 @property (nonatomic,copy) NSString *status;
 @property (nonatomic,copy) NSString *distance;
-//
+
+
+
+/**
+ 店铺是否开业
+ */
+- (BOOL)isOpen;
 
 /**
  1 = 分润    ；2 = 余额 = 分润 + 贡献值
@@ -77,6 +83,7 @@
 - (BOOL)isGiftMerchant;
 
 
+- (NSString *)detailAddress;
 
 /**
  获取店铺类型名称 普通 或者礼品商

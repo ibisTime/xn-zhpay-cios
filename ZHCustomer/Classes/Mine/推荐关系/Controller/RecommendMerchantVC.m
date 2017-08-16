@@ -135,9 +135,14 @@
         cell = [[ZHShopCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:zhShopCellId];
         
     }
+    
+    //
     cell.isShowLocation = NO;
+    cell.isShowShopStatus = YES;
     cell.shop = self.shops[indexPath.row];
+    //
     return cell;
+    
 }
 
 @end

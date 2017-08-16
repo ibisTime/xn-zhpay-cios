@@ -212,7 +212,7 @@
     
     ZHBillVC *vc = [[ZHBillVC alloc] init];
     vc.currencyModel = self.currencyDict[code];
-    
+    vc.title = [NSString stringWithFormat:@"%@流水",vc.currencyModel.getTypeName];
     if (!vc.currencyModel) {
         [TLAlert alertWithHUDText:@"请刷新重新获取账户信息"];
         return;

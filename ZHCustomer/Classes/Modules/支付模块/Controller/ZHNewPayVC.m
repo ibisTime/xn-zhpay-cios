@@ -33,6 +33,7 @@
 
 @property (nonatomic,strong) UITableView *payTableView;
 @property (nonatomic, strong) ZHPayInfoView *priceInfoView;
+@property (nonatomic, strong) NSNumber *changeRate;
 
 //底部价格
 @property (nonatomic, strong) UIView *payView;
@@ -77,6 +78,18 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
     
+    TLNetworking *convertHttp = [TLNetworking new];
+    convertHttp.code = @"002051";
+    convertHttp.parameters[@"fromCurrency"] = kFRB;
+    convertHttp.parameters[@"toCurrency"] = kLMB;
+    [convertHttp postWithSuccess:^(id responseObject) {
+        
+        self.changeRate =  responseObject[@"data"][@"rate"];
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
     
 }
 
@@ -139,11 +152,11 @@
             
             if (self.isFRBAndGXZ) {
                 
-                payNames  = @[@"余额",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"余额",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
                 
             } else {
                 
-                payNames  = @[@"分润",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"分润",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
                 
             }
             imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
@@ -174,8 +187,8 @@
             self.paySceneManager.groupItems = @[payFuncItem];
             [self setUpUI];
             
-            self.priceLbl.attributedText = self.amoutAttr;
-            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
+            self.priceLbl.text = [self.totalPrice convertToRealMoney];
+            self.priceInfoView.contentLbl.text = [self.totalPrice convertToRealMoney];
 
  
         } break;
@@ -213,8 +226,8 @@
             self.paySceneManager.groupItems = @[payFuncItem];
             [self setUpUI];
             
-            self.priceLbl.attributedText = self.amoutAttr;
-            self.priceInfoView.contentLbl.attributedText = self.amoutAttr;
+            self.priceLbl.text = [self.totalPrice convertToRealMoney];
+            self.priceInfoView.contentLbl.text = [self.totalPrice convertToRealMoney];
             
         
         } break;
@@ -558,19 +571,38 @@
         return;
     }
     
+    //解决重复点击
+    if (self.pays[indexPath.row].isSelected) {
+        return;
+    }
+    
     //支持点击整个cell,选择支付方式
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell isKindOfClass:[ZHPayFuncCell class]]) {
         
+        ZHPayFuncCell *convertCell = (ZHPayFuncCell *)cell;
+        if (convertCell.pay.payType == ZHPayTypeLMB) {
+            
+            if (! self.changeRate) {
+                
+                return;
+                
+            }
+            
+            long long value = [self.totalPrice longLongValue]*[self.changeRate floatValue];
+            self.priceLbl.text = [@(value) convertToRealMoney];
+            
+        } else {
         
-        //解决重复点击
-        if (self.pays[indexPath.row].isSelected) {
-            return;
+            long long value = [self.totalPrice longLongValue];
+            self.priceLbl.text = [@(value) convertToRealMoney];
+        
         }
+        
+    
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"PAY_TYPE_CHANGE_NOTIFICATION" object:nil userInfo:@{@"sender" : cell}];
         
-
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

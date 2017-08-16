@@ -14,4 +14,6 @@
 @property (nonatomic, copy) NSString *lon;
 @property (nonatomic, copy) NSString *lat;
 @property (nonatomic, copy) NSString *cityName;
+@property (nonatomic, copy) NSString *shopTypeName;
+
 @end

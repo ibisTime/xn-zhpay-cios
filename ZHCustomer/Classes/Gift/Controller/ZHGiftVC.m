@@ -55,7 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"正汇商城";
+    self.title = @"购物中心";
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
@@ -120,7 +120,6 @@
     
     [TLProgressHUD showWithStatus:nil];
     [[TLLocationService service] startService];
-//  [[TLLocationService service] checkLocation];
 
 }
 

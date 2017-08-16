@@ -43,12 +43,28 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
         self.isShowLocation = YES;
+        self.isShowShopStatus = NO;
         [self setUpUI];
         
     }
 //    [self data];
     return self;
 }
+
+//- (void)setIsShowShopStatus:(BOOL)isShowShopStatus {
+//
+//    _isShowShopStatus = isShowShopStatus;
+//    
+//    if (!self.shop) {
+//        return;
+//    }
+//    
+//    if (self.shop.status isEqualToString:@"3") {
+//        <#statements#>
+//    }
+//    self.nameLbl.text = [NSString stringWithFormat:@"%@",self.shop.name,];
+//    
+//}
 
 - (void)setIsShowLocation:(BOOL)isShowLocation {
 
@@ -91,21 +107,30 @@
     NSString *coverUrl = [_shop.advPic convertThumbnailImageUrl];
     
     [self.coverImageView sd_setImageWithURL:[[NSURL alloc] initWithString:coverUrl] placeholderImage:nil];
-    self.nameLbl.text = _shop.name;
+    
+    NSString *shopNameStr = nil;
+    if (self.isShowShopStatus) {
+        
+        if ([_shop isOpen]) {
+            
+            shopNameStr = [NSString stringWithFormat:@"%@(营业中)",self.shop.name];
+            
+        } else {
+        
+            shopNameStr = _shop.name;
+
+        }
+        
+    } else {
+    
+    
+        shopNameStr = _shop.name;
+
+    }
+   
+    self.nameLbl.text = shopNameStr;
 
     self.discountLbl.text = [_shop isGiftMerchant] ? @"礼品商" : @"普通商家";
-
-//    
-//    if ([_shop.level isEqualToString:@"2"]) {
-//        
-////       self.discountLbl.text = @"公益商家";
-//        self.discountLbl.text = @"普通商家";
-//
-//        
-//    } else {
-//
-//        self.discountLbl.text = @"普通商家";
-//    }
     
     self.advLbl.text = _shop.slogan;
     

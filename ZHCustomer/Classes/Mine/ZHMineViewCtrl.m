@@ -354,7 +354,7 @@
     
 
     ZHSettingGroup *group01 = [[ZHSettingGroup alloc] init];
-    group01.items = @[mineWallet,goodsDetail,shopDetail];
+    group01.items = @[mineWallet,shopDetail,goodsDetail];
     return group01;
 }
 

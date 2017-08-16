@@ -44,7 +44,13 @@
 
     if (self.isFirst) {
         self.isFirst = NO;
-        [self.shopTableView beginRefreshing];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [self.shopTableView beginRefreshing];
+
+        });
+        
 
     }
 }
@@ -53,6 +59,8 @@
     
     [super viewDidLoad];
     self.isFirst  = YES;
+    
+    self.title = self.shopTypeName;
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) delegate:self dataSource:self];
     [self.view addSubview:tableView];
     tableView.rowHeight = [ZHShopCell rowHeight];

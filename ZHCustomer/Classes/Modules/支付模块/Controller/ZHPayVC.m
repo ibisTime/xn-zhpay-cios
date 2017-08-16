@@ -76,17 +76,43 @@
     }
     
     
-    if (self.shopPayType == ZHShopPayTypeBuyGiftB) {
+    if (self.shopPayType == ZHShopPayTypeBuyGiftB || self.shopPayType == ZHShopPayTypeBuyLMB) {
         
         if (! self.changeRate) {
-            
             return;
-      
         }
         
        long long value = [textField.text floatValue]*1000/[self.changeRate floatValue];
        self.priceLbl.text = [@(value) convertToRealMoney];
        return;
+    }
+    
+    //
+    if (self.shopPayType == ZHShopPayTypeDefaultO2O ) {
+        
+         __block BOOL isLMB = NO;
+        [self.pays enumerateObjectsUsingBlock:^(ZHPayFuncModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if (obj.isSelected && obj.payType == ZHPayTypeLMB) {
+                
+                if (! self.changeRate) {
+                    
+                    return;
+                    
+                }
+                isLMB = YES;
+                long long value = [textField.text floatValue]*1000*[self.changeRate floatValue];
+                self.priceLbl.text = [@(value) convertToRealMoney];
+                *stop = YES;
+                
+            }
+            
+        }];
+        
+        if (isLMB) {
+            return;
+        }
+ 
     }
     
     
@@ -155,6 +181,21 @@
             
         }];
     
+    } else {
+    
+        TLNetworking *convertHttp = [TLNetworking new];
+        convertHttp.code = @"002051";
+        convertHttp.parameters[@"fromCurrency"] = kFRB;
+        convertHttp.parameters[@"toCurrency"] = kLMB;
+        [convertHttp postWithSuccess:^(id responseObject) {
+            
+            self.changeRate =  responseObject[@"data"][@"rate"];
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
+    
     }
     
 }
@@ -207,11 +248,11 @@
             self.title = @"支付";
             if ([self.shop.payCurrency isEqualToString:@"1"]) {
                 
-                payNames  = @[@"分润",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"分润",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
                 
             } else {
                 
-                payNames  = @[@"余额",@"联盟券",@"微信支付",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"余额",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
                 
             }
             imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
@@ -242,8 +283,8 @@
             
         case ZHShopPayTypeBuyGiftB: {
             
-            self.title = @"购买礼品券";
-            payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+            self.title = @"支付";
+            payNames  = @[@"分润",@"微信",@"支付宝"]; //余额(可用100)
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO)];
@@ -257,8 +298,8 @@
             
         case ZHShopPayTypeBuyLMB: {
             
-            self.title = @"购买联盟券";
-            payNames  = @[@"分润",@"微信支付",@"支付宝"]; //余额(可用100)
+            self.title = @"支付";
+            payNames  = @[@"分润",@"微信",@"支付宝"]; //余额(可用100)
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
             payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO)];
@@ -366,7 +407,7 @@
     
     if (![self.amountTf.text valid]) {
         
-        [TLAlert alertWithInfo:@"请输入消费金额"];
+        [TLAlert alertWithInfo:self.paySceneManager.placeholderStr];
         return;
         
     }
@@ -568,7 +609,7 @@
                 return;
                 
             }
-        
+            
             
             if ([payType isEqualToString: kZHWXTypeCode]) {
                 
@@ -578,7 +619,6 @@
             
                 [self aliPayWithInfo:responseObject[@"data"]];
                 
-            
             } else {
                 
                 [TLAlert alertWithHUDText:@"支付成功"];
@@ -644,8 +684,35 @@
             return;
         }
         
+        
+        if (self.shopPayType == ZHShopPayTypeDefaultO2O) {
+            
+            //
+            ZHPayFuncCell *convertCell = (ZHPayFuncCell *)cell;
+            if (convertCell.pay.payType == ZHPayTypeLMB) {
+                
+                if (!self.changeRate) {
+                    
+                    return;
+                    
+                }
+                
+                long long value = [self.amountTf.text floatValue]*1000*[self.changeRate floatValue];
+                self.priceLbl.text = [@(value) convertToRealMoney];
+                
+            } else {
+                
+                long long value = [self.amountTf.text floatValue]*1000;
+                self.priceLbl.text = [@(value) convertToRealMoney];
+                
+            }
+            
+        }
+      
+    
+        
        [[NSNotificationCenter defaultCenter] postNotificationName:@"PAY_TYPE_CHANGE_NOTIFICATION" object:nil userInfo:@{@"sender" : cell}];
-   
+       
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

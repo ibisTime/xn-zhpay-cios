@@ -16,13 +16,19 @@
 
 @property (nonatomic,strong) TLTextField *nameTf;
 @property (nonatomic,strong) TLTextField *mobileTf;
+
 @property (nonatomic,strong) TLTextField *proviceTf;
-@property (nonatomic,strong) TLTextField *cityTf;
-@property (nonatomic,strong) TLTextField *areaTf;
+
+//@property (nonatomic,strong) TLTextField *cityTf;
+//@property (nonatomic,strong) TLTextField *areaTf;
 
 @property (nonatomic,strong) TLTextField *detailAddressTf;
 
 @property (nonatomic,strong) AddressPickerView *addressPicker;
+
+@property (nonatomic, copy) NSString *province;
+@property (nonatomic, copy) NSString *city;
+@property (nonatomic, copy) NSString *area;
 
 @end
 
@@ -51,21 +57,21 @@
     [bgScrollview addSubview:self.mobileTf];
     
     //省市区
-    self.proviceTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.mobileTf.yy + margin, SCREEN_WIDTH, 50) leftTitle:@"省份" titleWidth:leftW placeholder:@"请选择省份"];
+    self.proviceTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.mobileTf.yy + margin, SCREEN_WIDTH, 50) leftTitle:@"省市区" titleWidth:leftW placeholder:@"请选择省市区"];
     [bgScrollview addSubview:self.proviceTf];
     
-    self.cityTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.proviceTf.yy + margin, SCREEN_WIDTH, 50) leftTitle:@"城市" titleWidth:leftW placeholder:@"请选择城市"];
-    [bgScrollview addSubview:self.cityTf];
+//    self.cityTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.proviceTf.yy + margin, SCREEN_WIDTH, 50) leftTitle:@"城市" titleWidth:leftW placeholder:@"请选择城市"];
+//    [bgScrollview addSubview:self.cityTf];
+//    
+//    self.areaTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.cityTf.yy + margin, SCREEN_WIDTH, 50) leftTitle:@"区县" titleWidth:leftW placeholder:@"请选择城市区县"];
+//    [bgScrollview addSubview:self.areaTf];
     
-    self.areaTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.cityTf.yy + margin, SCREEN_WIDTH, 50) leftTitle:@"区县" titleWidth:leftW placeholder:@"请选择城市区县"];
-    [bgScrollview addSubview:self.areaTf];
-    
-    UIButton *maskBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.proviceTf.y, SCREEN_WIDTH, self.areaTf.yy - self.proviceTf.y)];
+    UIButton *maskBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.proviceTf.y, SCREEN_WIDTH, self.proviceTf.yy)];
     [maskBtn addTarget:self action:@selector(chooseAddr) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollview addSubview:maskBtn];
     
     //
-    self.detailAddressTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.areaTf.yy + margin + 10, SCREEN_WIDTH, 50) leftTitle:@"详细地址" titleWidth:leftW placeholder:@"请输入详细地址"];
+    self.detailAddressTf = [[TLTextField alloc] initWithframe:CGRectMake(0, self.proviceTf.yy + margin + 10, SCREEN_WIDTH, 50) leftTitle:@"详细地址" titleWidth:leftW placeholder:@"请输入详细地址"];
     [bgScrollview addSubview:self.detailAddressTf];
     
     //btn
@@ -83,9 +89,9 @@
     if (self.address) {
         self.nameTf.text = self.address.addressee;
         self.mobileTf.text = self.address.mobile;;
-        self.proviceTf.text = self.address.province;
-        self.cityTf.text = self.address.city;
-        self.areaTf.text = self.address.district;
+        self.proviceTf.text = [NSString stringWithFormat:@"%@%@%@",self.address.province,self.address.city,self.address.district];
+//      self.cityTf.text = self.address.city;
+//      self.areaTf.text = self.address.district;
         self.detailAddressTf.text = self.address.detailAddress;
     }
     
@@ -101,9 +107,13 @@
         __weak typeof(self) weakSelf = self;
         _addressPicker.confirm = ^(NSString *province,NSString *city,NSString *area){
             
-            weakSelf.cityTf.text = city;
-            weakSelf.proviceTf.text = province;
-            weakSelf.areaTf.text = area;
+            weakSelf.province = province;
+            weakSelf.city = city;
+            weakSelf.area = area;
+            
+            weakSelf.proviceTf.text = [NSString stringWithFormat:@"%@%@%@",province,city,area];
+//            weakSelf.proviceTf.text = province;
+//            weakSelf.areaTf.text = area;
 
         };
         
@@ -166,9 +176,9 @@
     http.parameters[@"token"] = [ZHUser user].token;
     http.parameters[@"addressee"] = self.nameTf.text;
     http.parameters[@"mobile"] = self.mobileTf.text;
-    http.parameters[@"province"] = self.proviceTf.text;
-    http.parameters[@"city"] = self.cityTf.text;
-    http.parameters[@"district"] = self.areaTf.text;
+    http.parameters[@"province"] = self.province;
+    http.parameters[@"city"] = self.city;
+    http.parameters[@"district"] = self.area;
     http.parameters[@"detailAddress"] = self.detailAddressTf.text;
     
     [http postWithSuccess:^(id responseObject) {
@@ -182,10 +192,10 @@
                 ZHReceivingAddress *address = [ZHReceivingAddress new];
                 address.addressee = self.nameTf.text;
                 address.mobile = self.mobileTf.text;
-                address.province = self.proviceTf.text;
+                address.province = self.province;
                 
-                address.city  = self.cityTf.text;
-                address.district = self.areaTf.text;
+                address.city  = self.city;
+                address.district = self.area;
                 address.detailAddress = self.detailAddressTf.text;
                 address.isSelected = YES;
                 self.addAddress(address);
@@ -201,9 +211,9 @@
                 address.code = self.address.code;
                 address.addressee = self.nameTf.text;
                 address.mobile = self.mobileTf.text;
-                address.province = self.proviceTf.text;
-                address.city  = self.cityTf.text;
-                address.district = self.areaTf.text;
+                address.province = self.province;
+                address.city  = self.city;
+                address.district = self.area;
                 address.detailAddress = self.detailAddressTf.text;
                 address.isSelected = YES;
                 self.editSuccess(address);
