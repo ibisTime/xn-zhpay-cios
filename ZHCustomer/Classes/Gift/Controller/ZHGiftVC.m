@@ -93,7 +93,6 @@
             
         }];
         
-        
     }];
     
     
@@ -120,7 +119,7 @@
     
     [TLProgressHUD showWithStatus:nil];
     [[TLLocationService service] startService];
-
+    
 }
 
 - (void)tl_placeholderOperation {

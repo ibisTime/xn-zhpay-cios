@@ -112,7 +112,7 @@
     [self setUpSearchView];
     
     //先读取上次城市名称
-    NSString *cityName =  [[NSUserDefaults standardUserDefaults] objectForKey:USER_CITY_NAME_KEY];
+    NSString *cityName = [[NSUserDefaults standardUserDefaults] objectForKey:USER_CITY_NAME_KEY];
     if (cityName) {
         
         self.cityLbl.text = cityName;
@@ -158,7 +158,6 @@
     [helper modelClass:[ZHShop class]];
     
     self.pageDataHelper = helper;
-    
     [self.shopTableView addRefreshAction:^{
         
         //公告

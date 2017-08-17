@@ -46,12 +46,14 @@
 //规格价格，和规格名称
 @property (nonatomic, copy) NSString *productSpecsName;
 @property (nonatomic, strong) NSNumber *price1;
-//@property (nonatomic, strong) NSNumber *price2;
-//@property (nonatomic, strong) NSNumber *price3;
 
 @property (nonatomic, strong) NSNumber *amount1;
-//@property (nonatomic, strong) NSNumber *amount2;
-//@property (nonatomic, strong) NSNumber *amount3;
+
+
+/**
+ 订单支付完成才有值，包含邮费 和 商品总价
+ */
+@property (nonatomic, strong) NSNumber *payAmount1;
 
 - (NSString *)getStatusName;
 

@@ -59,7 +59,6 @@
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
-//    [self tl_placeholderOperation];
     //
     ZHSegmentView *segmentView =  [[ZHSegmentView alloc] initWithFrame:CGRectMake(0, 0.5, SCREEN_WIDTH, 45)];
     [self.view addSubview:segmentView];

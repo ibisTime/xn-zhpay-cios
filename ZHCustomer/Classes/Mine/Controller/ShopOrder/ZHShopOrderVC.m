@@ -70,7 +70,6 @@
         
         [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
-            
             weakSelf.shopOrders = objs;
             [weakSelf.shopOrderTableV reloadData_tl];
             

@@ -47,6 +47,7 @@
     [super viewDidLoad];
     self.isFirst = YES;
     
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     TLTableView *tableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 40) delegate:self dataSource:self];
     [self.view addSubview:tableView];
     tableView.rowHeight = 100;
@@ -96,11 +97,13 @@
         
         [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
+            [weakSelf removePlaceholderView];
             weakSelf.orderGroups = objs;
             [weakSelf.shoppingListTableV reloadData_tl];
             
         } failure:^(NSError *error) {
             
+            [weakSelf addPlaceholderView];
             
         }];
         

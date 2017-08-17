@@ -18,6 +18,7 @@
 //@property (nonatomic,copy) NSString *storeCode;
 //@property (nonatomic,copy) NSString *systemCode;
 
+@property (nonatomic,strong) NSNumber *payAmount1;
 @property (nonatomic,strong) NSNumber *payAmount2;
 @property (nonatomic,strong) NSNumber *payAmount3;
 

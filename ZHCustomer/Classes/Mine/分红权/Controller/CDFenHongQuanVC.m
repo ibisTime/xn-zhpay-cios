@@ -114,34 +114,34 @@
     [TLProgressHUD showWithStatus:nil];
     __block NSInteger successCount = 0;
     
-    dispatch_group_enter(_group);
-    //资金池查询
-    TLNetworking *poolhttp = [TLNetworking new];
-    poolhttp.code = @"802503";
-    poolhttp.parameters[@"userId"] = @"USER_POOL_ZHPAY";
-    poolhttp.parameters[@"accountNumber"] = @"A2017100000000000001";
-    poolhttp.parameters[@"token"] = [ZHUser user].token;
-    
-    [poolhttp postWithSuccess:^(id responseObject) {
-        
-        NSArray *arr = responseObject[@"data"];
-        if (arr.count > 0) {
-            
-          ZHCurrencyModel *currencyModel = [ZHCurrencyModel tl_objectWithDictionary:arr[0]];
-            
-         self.poolMoneyView.topLbl.text = [currencyModel.amount convertToRealMoney];
-         self.poolMoneyView.bottomLbl.text = @"商家补贴额度(元)";
-            
-        }
-        
-        successCount ++;
-        dispatch_group_leave(_group);
-        
-    } failure:^(NSError *error) {
-        
-        dispatch_group_leave(_group);
-        
-    }];
+//    dispatch_group_enter(_group);
+//    //资金池查询
+//    TLNetworking *poolhttp = [TLNetworking new];
+//    poolhttp.code = @"802503";
+//    poolhttp.parameters[@"userId"] = @"USER_POOL_ZHPAY";
+//    poolhttp.parameters[@"accountNumber"] = @"A2017100000000000001";
+//    poolhttp.parameters[@"token"] = [ZHUser user].token;
+//    
+//    [poolhttp postWithSuccess:^(id responseObject) {
+//        
+//        NSArray *arr = responseObject[@"data"];
+//        if (arr.count > 0) {
+//            
+//          ZHCurrencyModel *currencyModel = [ZHCurrencyModel tl_objectWithDictionary:arr[0]];
+//            
+//         self.poolMoneyView.topLbl.text = [currencyModel.amount convertToRealMoney];
+//         self.poolMoneyView.bottomLbl.text = @"商家补贴额度(元)";
+//            
+//        }
+//        
+//        successCount ++;
+//        dispatch_group_leave(_group);
+//        
+//    } failure:^(NSError *error) {
+//        
+//        dispatch_group_leave(_group);
+//        
+//    }];
     
     
     //我的分红权查询
@@ -164,22 +164,24 @@
         
         //计算待领取的收益
         __block long long totalWillGetSysMoney = 0;
+        __block long long haveGetSysMoney = 0;
         
         [self.earningModels enumerateObjectsUsingBlock:^(ZHEarningModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-   
+            
             totalWillGetSysMoney += ([obj.profitAmount longLongValue] - [obj.backAmount longLongValue]);
-
-//            
+            haveGetSysMoney += [obj.backAmount longLongValue];
+            
+            //
         }];
         self.willGetMoneyView.topLbl.text = [@(totalWillGetSysMoney) convertToRealMoney];
         self.willGetMoneyView.bottomLbl.text = @"待领取的收益(元)";
-
-
+        
+        self.poolMoneyView.topLbl.text = [@(haveGetSysMoney) convertToRealMoney];
+        self.poolMoneyView.bottomLbl.text = @"已领取收益(元)";
+        
         //
         dispatch_group_leave(_group);
         successCount ++;
-        
-        
     } failure:^(NSError *error) {
         
         dispatch_group_leave(_group);
@@ -240,7 +242,7 @@
         
         [TLProgressHUD dismiss];
         
-        if (successCount == 3) {
+        if (successCount == 2) {
             //所有请求成功
             [self removePlaceholderView];
             

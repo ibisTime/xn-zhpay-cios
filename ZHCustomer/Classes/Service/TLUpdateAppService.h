@@ -12,4 +12,8 @@
 
 + (void)updateAppWithVC:(UIViewController *)currentVC;
 
+//app 标识
+@property (nonatomic, copy) NSString *appVersion;
+
+
 @end

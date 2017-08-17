@@ -30,17 +30,43 @@
 - (NSAttributedString *)displayPayStr {
 
     
-    NSString *str = [NSString stringWithFormat:@"%@%@",[self priceUnit], [self.price convertToRealMoney]];
+    //实际支付
+    NSNumber *payAmount = self.price;
     
+    if ([self.payType isEqualToString: kZHWXTypeCode]) {
+        
+        payAmount = self.price;
+        
+    } else if([self.payType isEqualToString:kZHAliPayTypeCode]) {
+    
+        payAmount = self.price;
+
+    } else if([self.payType isEqualToString:kZHGiftPayTypeCode]) {
+    
+        payAmount = self.payAmount1;
+
+    } else if([self.payType isEqualToString:kZHLMBPayTypeCode]) {
+        
+        payAmount = self.payAmount1;
+
+    } else if([self.payType isEqualToString:kZHDefaultPayTypeCode]) {
+    
+        payAmount = self.price;
+        
+    } else {
+        
+        payAmount = self.price;
+        
+    }
+    
+    //
+    NSString *str = [NSString stringWithFormat:@"%@%@",[self priceUnit], [payAmount convertToRealMoney]];
+    //
     NSMutableAttributedString *attrPr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"消费：%@",str]];
     [attrPr addAttribute:NSForegroundColorAttributeName value:[UIColor textColor] range:NSMakeRange(0, 3)];
-    
+    //
     return attrPr;
-
     
-
-    
-
 }
 
 - (NSString *)priceUnit {
