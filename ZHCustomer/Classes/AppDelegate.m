@@ -23,6 +23,7 @@
 #import "TLHeader.h"
 #import "ZHUser.h"
 #import "UIColor+theme.h"
+#import "TLUpdateVC.h"
 
 
 @interface AppDelegate ()<WXApiDelegate>
@@ -36,7 +37,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvTest;
     
     //请求定位权限
     [[TLLocationService service].locationManager requestWhenInUseAuthorization];
@@ -83,7 +84,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    self.window.rootViewController = [[ZHTabBarController alloc] init];
+    self.window.rootViewController = [[TLUpdateVC alloc] init];
     //获取商品的分类，
         
     //友盟异常捕获
@@ -274,25 +275,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 
 
-//- (void)userLoginOutCancleLocation {
-//
-//    
-//    if (![ZHUser user].userId) {
-//        return;
-//    }
-//    
-//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-//    dict[@"placholder"] = @"placeholder";
-//    dict[@"userId"] = [ZHUser user].userId;
-//    dict[@"token"] = [ZHUser user].token;
-//    
-//    [TLNetworking POST:[NSString stringWithFormat:@"%@/forward-service%@",[[AppConfig config] addr],@"/user/logOut"] parameters:dict success:^(id responseObject) {
-//        
-//    }  failure:^(NSError *error) {
-//        
-//    }];
-//
-//}
+
 
 
 @end

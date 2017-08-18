@@ -9,7 +9,7 @@
 #import "ZHGiftVC.h"
 #import "ZHShop.h"
 #import <CoreLocation/CoreLocation.h>
-#import "TLUpdateAppService.h"
+//#import "TLUpdateAppService.h"
 #import "ZHShopCell.h"
 #import "ZHShopDetailVC.h"
 #import "TLLocationService.h"
@@ -72,6 +72,12 @@
     helper.code = @"808217";
     helper.parameters[@"type"] = @"G01";
     helper.parameters[@"kind"] = @"f3";
+    helper.parameters[@"kind"] = @"f3";
+    helper.parameters[@"orderColumn"] = @"ui_order";
+    helper.parameters[@"orderDir"] = @"asc";
+
+    
+//    uiOrder
     helper.tableView = self.shopTableView;
     [helper modelClass:[ZHShop class]];
     
@@ -115,7 +121,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationFailure) name:kLocationServiceFailureNotification object:nil];
     
-    [TLUpdateAppService updateAppWithVC:self];
+//    [TLUpdateAppService updateAppWithVC:self];
     
     [TLProgressHUD showWithStatus:nil];
     [[TLLocationService service] startService];

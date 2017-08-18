@@ -156,6 +156,8 @@
     helper.parameters[@"uiLocation"] = @"1";
     helper.tableView = self.shopTableView;
     [helper modelClass:[ZHShop class]];
+    helper.parameters[@"orderColumn"] = @"ui_order";
+    helper.parameters[@"orderDir"] = @"asc";
     
     self.pageDataHelper = helper;
     [self.shopTableView addRefreshAction:^{

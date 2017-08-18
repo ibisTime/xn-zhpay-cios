@@ -11,6 +11,7 @@
 		2E01F6AF1ECAB76B0078ABF8 /* introduce.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E01F6AE1ECAB76B0078ABF8 /* introduce.txt */; };
 		2E01F6F81ECAE94F0078ABF8 /* TLProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E01F6F71ECAE94F0078ABF8 /* TLProgressHUD.m */; };
 		2E08258A1F2ECFED00141645 /* ZHShopGoodsListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0825891F2ECFED00141645 /* ZHShopGoodsListVC.m */; };
+		2E0A3EC01F45D76600A210C8 /* TLUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A3EBF1F45D76600A210C8 /* TLUpdateVC.m */; };
 		2E1762A11E23286300CAE489 /* FCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E17629E1E23286300CAE489 /* FCUUID.m */; };
 		2E1762A21E23286300CAE489 /* UIDevice+FCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1762A01E23286300CAE489 /* UIDevice+FCUUID.m */; };
 		2E1762A41E2328AE00CAE489 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E1762A31E2328AE00CAE489 /* Security.framework */; };
@@ -278,6 +279,8 @@
 		2E01F6F71ECAE94F0078ABF8 /* TLProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLProgressHUD.m; sourceTree = "<group>"; };
 		2E0825881F2ECFED00141645 /* ZHShopGoodsListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHShopGoodsListVC.h; sourceTree = "<group>"; };
 		2E0825891F2ECFED00141645 /* ZHShopGoodsListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHShopGoodsListVC.m; sourceTree = "<group>"; };
+		2E0A3EBE1F45D76600A210C8 /* TLUpdateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUpdateVC.h; sourceTree = "<group>"; };
+		2E0A3EBF1F45D76600A210C8 /* TLUpdateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUpdateVC.m; sourceTree = "<group>"; };
 		2E17629D1E23286300CAE489 /* FCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCUUID.h; sourceTree = "<group>"; };
 		2E17629E1E23286300CAE489 /* FCUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCUUID.m; sourceTree = "<group>"; };
 		2E17629F1E23286300CAE489 /* UIDevice+FCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+FCUUID.h"; sourceTree = "<group>"; };
@@ -1357,6 +1360,8 @@
 			children = (
 				2EC2ABA51E0CC8BF003EF503 /* AppDelegate.h */,
 				2EC2ABA61E0CC8BF003EF503 /* AppDelegate.m */,
+				2E0A3EBE1F45D76600A210C8 /* TLUpdateVC.h */,
+				2E0A3EBF1F45D76600A210C8 /* TLUpdateVC.m */,
 				2E01F6AE1ECAB76B0078ABF8 /* introduce.txt */,
 				2EEF8D4E1EE15A0B00453109 /* Modules */,
 				2EC2ABB31E0CC8BF003EF503 /* Shop */,
@@ -2254,6 +2259,7 @@
 				2EEF8E611EE5639900453109 /* ZHAddressChooseView.m in Sources */,
 				2EC2ABBB1E0CC946003EF503 /* ZHTabBarController.m in Sources */,
 				2EEA7C301F3AAA8B00ADF543 /* CDFenHongQuanVC.m in Sources */,
+				2E0A3EC01F45D76600A210C8 /* TLUpdateVC.m in Sources */,
 				2E6E486A1E1B4D3800FD2CA7 /* ZHMsg.m in Sources */,
 				2E202FE91EE954C500E38656 /* ZHBank.m in Sources */,
 				2E9086991F1C4C0D002374F4 /* ZHTextDetailCell.m in Sources */,
