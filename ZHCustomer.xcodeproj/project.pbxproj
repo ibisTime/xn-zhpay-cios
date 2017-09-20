@@ -216,6 +216,7 @@
 		2EEA7C381F3AAA8B00ADF543 /* ZHEarningFlowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C2F1F3AAA8B00ADF543 /* ZHEarningFlowCell.m */; };
 		2EEA7C3B1F3AABB600ADF543 /* CDChooseTimeIntervalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C3A1F3AABB600ADF543 /* CDChooseTimeIntervalView.m */; };
 		2EEA7C411F3BFA0F00ADF543 /* RecommendMerchantVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C401F3BFA0F00ADF543 /* RecommendMerchantVC.m */; };
+		2EEC28A21F725F9100EEC3F3 /* ZHBuTieDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEC28A11F725F9100EEC3F3 /* ZHBuTieDetailVC.m */; };
 		2EEF8D941EE15A0B00453109 /* ZHNewPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D751EE15A0B00453109 /* ZHNewPayVC.m */; };
 		2EEF8D951EE15A0B00453109 /* ZHPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D771EE15A0B00453109 /* ZHPayVC.m */; };
 		2EEF8D961EE15A0B00453109 /* ZHPayFuncModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D7A1EE15A0B00453109 /* ZHPayFuncModel.m */; };
@@ -654,6 +655,8 @@
 		2EEA7C3A1F3AABB600ADF543 /* CDChooseTimeIntervalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDChooseTimeIntervalView.m; sourceTree = "<group>"; };
 		2EEA7C3F1F3BFA0F00ADF543 /* RecommendMerchantVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendMerchantVC.h; sourceTree = "<group>"; };
 		2EEA7C401F3BFA0F00ADF543 /* RecommendMerchantVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendMerchantVC.m; sourceTree = "<group>"; };
+		2EEC28A01F725F9100EEC3F3 /* ZHBuTieDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZHBuTieDetailVC.h; sourceTree = "<group>"; };
+		2EEC28A11F725F9100EEC3F3 /* ZHBuTieDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZHBuTieDetailVC.m; sourceTree = "<group>"; };
 		2EEF8D741EE15A0B00453109 /* ZHNewPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHNewPayVC.h; sourceTree = "<group>"; };
 		2EEF8D751EE15A0B00453109 /* ZHNewPayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHNewPayVC.m; sourceTree = "<group>"; };
 		2EEF8D761EE15A0B00453109 /* ZHPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayVC.h; sourceTree = "<group>"; };
@@ -1380,6 +1383,7 @@
 			children = (
 				2E9086B01F1C4FAB002374F4 /* ZHMineViewCtrl.h */,
 				2E9086B11F1C4FAB002374F4 /* ZHMineViewCtrl.m */,
+				2EEC289F1F725F7400EEC3F3 /* 补贴 */,
 				2E9086E01F1C52A5002374F4 /* 推荐关系 */,
 				2E9086B31F1C5060002374F4 /* 账户 */,
 				2E202FD91EE954C500E38656 /* bankCard */,
@@ -1802,6 +1806,15 @@
 				2EEA7C2F1F3AAA8B00ADF543 /* ZHEarningFlowCell.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		2EEC289F1F725F7400EEC3F3 /* 补贴 */ = {
+			isa = PBXGroup;
+			children = (
+				2EEC28A01F725F9100EEC3F3 /* ZHBuTieDetailVC.h */,
+				2EEC28A11F725F9100EEC3F3 /* ZHBuTieDetailVC.m */,
+			);
+			path = "补贴";
 			sourceTree = "<group>";
 		};
 		2EEF8D4E1EE15A0B00453109 /* Modules */ = {
@@ -2237,6 +2250,7 @@
 				2EC6027F1E5EE2E40066C197 /* ZHNumberCell.m in Sources */,
 				2EEF8E571EE5639900453109 /* ZHGoodsDetailVC.m in Sources */,
 				2EC2AE6A1E0CF5B3003EF503 /* ZHAccountBaseVC.m in Sources */,
+				2EEC28A21F725F9100EEC3F3 /* ZHBuTieDetailVC.m in Sources */,
 				2E2267571E50B26000C7126E /* AppConfig.m in Sources */,
 				2E9086E81F1C52A5002374F4 /* CDUserReleationListVC.m in Sources */,
 				2EC2AE6E1E0CF5B3003EF503 /* ZHUser.m in Sources */,

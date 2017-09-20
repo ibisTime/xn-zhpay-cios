@@ -30,6 +30,8 @@
 @property (nonatomic,assign) BOOL isFirst;
 
 @property (nonatomic,copy)  void(^rightAciton)();
+@property (nonatomic,copy)  void(^leftAciton)();
+
 @property (nonatomic, strong) ZHCurrencyConvertView *currencyConvertView;
 
 @end
@@ -70,31 +72,22 @@
 
 }
 
-- (void)lookHistoryBill {
-
-    CDBillHistoryVC *vc = [[CDBillHistoryVC alloc] init];
-    vc.accountNumber = self.currencyModel.accountNumber;
-    
-    //摇摇红包业绩 发发红包业绩使用
-    vc.bizType = self.bizType;
-    [self.navigationController pushViewController:vc animated:YES];
-
-
-}
-
-//
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;
     
+    if (!self.currencyModel) {
+        
+        [TLAlert alertWithInfo:@"请传入币种模型"];
+        
+        return;
+        
+    }
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史账单" style:0 target:self action:@selector(lookHistoryBill)];
     
-//    if (!self.currencyModel || !(self.currency && self.bizType)) {
-//        [TLAlert alertWithHUDText:@"无模型数据"];
-//        return;
-//    }
+
     
-//    self.title = @"消费记录";
     TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
                                                        delegate:self
                                                      dataSource:self];
@@ -114,16 +107,9 @@
 //    类型C=C端用户；B=B端用户；P=平台
     pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
     pageDataHelper.parameters[@"type"] = TERMINAL_TYPE;
-    
     pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
- 
     
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    formatter.dateFormat = @"yyyy-MM-dd";
-//    //
-//    pageDataHelper.parameters[@"dateStart"] = [formatter stringFromDate:[NSDate date]];
-//    pageDataHelper.parameters[@"dateEnd"] = [formatter stringFromDate:[NSDate date]];
-//
+
     
     //1=待对账，3=已对账且账已平，4=帐不平待调账审批 5=已对账且账不平 6=无需对账
     //pageDataHelper.parameters[@"status"] = [ZHUser user].token;
@@ -156,203 +142,139 @@
         }];
         
     }];
-    
-    
-    if ( self.bizType) {
-        
-        pageDataHelper.parameters[@"bizType"] = self.bizType;
-        //        pageDataHelper.parameters[@"currency"] = self.currency;
-        return;
-    }
 
-    
     ZHCurrencyConvertView *currencyConvertView = [[ZHCurrencyConvertView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
     billTableView.tableHeaderView = currencyConvertView;
     self.currencyConvertView = currencyConvertView;
 //    [currencyConvertView.leftBtn addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
     
-    [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
     
     currencyConvertView.typeLbl.text = [self.currencyModel getTypeName];
     currencyConvertView.moneyLbl.text = [self.currencyModel.amount convertToRealMoney];
-    
-    BOOL hiddenLeft = NO;
-    BOOL hiddenRight = NO;
-    NSString *rightTitle = @"";
-    
+
     
     __weak typeof(self) weakself = self;
-    //头部
-    if ([self.currencyModel.currency isEqualToString:kFRB]) { //只可以提现
-        
-        hiddenLeft = YES;
-        rightTitle = @"提现";
-        
-        [self howWithDraw];
-        
-        
-#pragma mark- 转贡献值
-        UIButton *zhuanZhangeBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"转账"];
-        [currencyConvertView addSubview:zhuanZhangeBtn];
-        [zhuanZhangeBtn addTarget:self action:@selector(zhuanZhangAction) forControlEvents:UIControlEventTouchUpInside];
-        [zhuanZhangeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.centerY.equalTo(currencyConvertView.mas_centerY);
-            make.width.equalTo(currencyConvertView.rightBtn.mas_width);
-            make.height.equalTo(currencyConvertView.rightBtn.mas_height);
-            make.right.equalTo(currencyConvertView.rightBtn.mas_left).offset(-20);
-            
-        }];
-
-        
-    } else if ([self.currencyModel.currency isEqualToString:kGXB]) {
     
     
-        hiddenLeft = YES;
-        rightTitle = @"消费";
-        hiddenRight = YES;
-        self.rightAciton = ^(){
-            [TLAlert alertWithHUDText:@"去消费"];
-        };
-        
-
-    
-    
-    } else if (
-               [self.currencyModel.currency isEqualToString:kQBB] ||
-               [self.currencyModel.currency isEqualToString:kGWB]) {//消费
-    
-        hiddenLeft = YES;
-        rightTitle = @"消费";
-        hiddenRight = YES;
-        self.rightAciton = ^(){
-            [TLAlert alertWithHUDText:@"去消费"];
-        };
-    
-    } else if ([self.currencyModel.currency isEqualToString:kHBB]) {//红包币转贡献值
-    
-        hiddenLeft = YES;
-        rightTitle = @"转贡献";
+    if ([self.currencyModel.currency isEqualToString:kFRB]) {
+        //分润 可提现，不可转账
+        currencyConvertView.leftBtn.hidden = YES;
+        [currencyConvertView.rightBtn setTitle:@"提现" forState:UIControlStateNormal];
+       [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
         
         self.rightAciton = ^(){
             
-            ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
-            vc.title = @"转贡献";
-            vc.type = ZHCurrencyConvertHBToGXJL;
-            vc.amount = weakself.currencyModel.amount;
-            
-            vc.success = ^(){
-                
-                [weakSelf.billTV beginRefreshing];
-
-            };
-            
-            [weakself.navigationController pushViewController:vc animated:YES];
-            
-        };
-        
-     
-        
-    } else if ([self.currencyModel.currency isEqualToString:kHBYJ]) {//转贡献
-    
-//        hiddenLeft = NO;
-//        leftTitle = @"转贡献";
-//        rightTitle = @"转分润";
-        
-        hiddenRight = NO;
-        rightTitle = @"转贡献";
-
-        self.rightAciton = ^(){
-        
-            //只可能 红包业绩转贡献
-            ZHHBConvertFRVC *vc = [[ZHHBConvertFRVC alloc] init];
-            vc.success = ^(){
-                
-                [weakSelf.billTV beginRefreshing];
-                
-            };
-            
-            vc.title = @"转贡献";
-            vc.type = ZHCurrencyConvertHBYJToGXJL;
-            
-            
-            //    vc.title = @"转分润";
-            //    vc.type = ZHCurrencyConvertHBYJToFR;
-            //
-            vc.amount = weakSelf.currencyModel.amount;
-            [weakSelf.navigationController pushViewController:vc animated:YES];
-            
-        };
-        
-        
-    } else if ([self.currencyModel.currency isEqualToString:kDigitalJF] || [self.currencyModel.currency isEqualToString:kGiftB]) {
-    
-        hiddenRight = YES;
-
-    } else if ([self.currencyModel.currency isEqualToString:kLMB]) {
-    
-        hiddenRight = YES;
-
-    }
-    
-    currencyConvertView.rightBtn.hidden = hiddenRight;
-    [currencyConvertView.rightBtn setTitle:rightTitle forState:UIControlStateNormal];
-    
-    if ([self.currencyModel.currency isEqualToString:kHBB] || [self.currencyModel.currency isEqualToString:kHBYJ]) {
-        
-        TLNetworking *masOpTimesHttp = [TLNetworking new];
-        masOpTimesHttp.showView = self.view;
-        masOpTimesHttp.code = @"802027";
-        masOpTimesHttp.parameters[@"key"] = @"EXCTIMES";
-        [masOpTimesHttp postWithSuccess:^(id responseObject) {
-            
-            currencyConvertView.topHintLbl.text =[NSString stringWithFormat:@"每人每月最多转换%@次",responseObject[@"data"][@"cvalue"]];
-            
-        } failure:^(NSError *error) {
-            
-            
-        }];
-        
-    }
-    
-    
-}
-
-- (void)howWithDraw {
-
-    __weak typeof(self) weakself = self;
-
-    self.rightAciton = ^(){
-        
-        //进行实名认真之后才能提现
-        if (![ZHUser user].realName) {
-            [TLAlert alertWithTitle:nil Message:@"您还未进行实名认证\n前往进行实名认证" confirmMsg:@"前往" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
-                
-            } confirm:^(UIAlertAction *action) {
-                
-                ZHRealNameAuthVC *authVC = [[ZHRealNameAuthVC alloc] init];
-                authVC.authSuccess = ^(){ //实名认证成功
+            //进行实名认真之后才能提现
+            if (![ZHUser user].realName) {
+                [TLAlert alertWithTitle:nil Message:@"您还未进行实名认证\n前往进行实名认证" confirmMsg:@"前往" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
                     
-                };
-                [weakself.navigationController pushViewController:authVC animated:YES];
+                } confirm:^(UIAlertAction *action) {
+                    
+                    ZHRealNameAuthVC *authVC = [[ZHRealNameAuthVC alloc] init];
+                    authVC.authSuccess = ^(){ //实名认证成功
+                        
+                    };
+                    [weakself.navigationController pushViewController:authVC animated:YES];
+                    
+                }];
                 
-            }];
+                return;
+            }
             
-            return;
-        }
-        
-        ZHWithdrawalVC *withdrawalVC = [[ZHWithdrawalVC alloc] init];
-        withdrawalVC.balance = weakself.currencyModel.amount;
-        withdrawalVC.accountNum = weakself.currencyModel.accountNumber;
-        withdrawalVC.success = ^(){
-            
+            ZHWithdrawalVC *withdrawalVC = [[ZHWithdrawalVC alloc] init];
+            withdrawalVC.accountNum = weakself.currencyModel.accountNumber;
+            withdrawalVC.success = ^(){
+                
+            };
+            [weakself.navigationController pushViewController:withdrawalVC animated:YES];
             
         };
-        [weakself.navigationController pushViewController:withdrawalVC animated:YES];
+       
         
-    };
+    } else if ([self.currencyModel.currency isEqualToString:kBTB]) {
+        //补贴币 ,可转账,可提现
+        
+        //分润 可提现，不可转账
+        [currencyConvertView.leftBtn setTitle:@"转账" forState:UIControlStateNormal];
+        [currencyConvertView.leftBtn addTarget:self action:@selector(leftAciton) forControlEvents:UIControlEventTouchUpInside];
+        
+        //
+        [currencyConvertView.rightBtn setTitle:@"提现" forState:UIControlStateNormal];
+        [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        //
+        [self setLeftAciton:^{
+            [TLAlert alertWithInfo:@"补贴 转账"];
+        }];
+        
+        //
+        self.rightAciton = ^(){
+            
+        };
+        
+    } else {
+        
+        //其它按钮隐藏
+        currencyConvertView.leftBtn.hidden = YES;
+        currencyConvertView.rightBtn.hidden = YES;
+  
+    }
+    
+    //头部
+//    if ([self.currencyModel.currency isEqualToString:kFRB]) { //只可以提现
+//        
+//        hiddenLeft = YES;
+//        rightTitle = @"提现";
+        
+//#pragma mark- 转贡献值
+//        UIButton *zhuanZhangeBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"转账"];
+//        [currencyConvertView addSubview:zhuanZhangeBtn];
+//        [zhuanZhangeBtn addTarget:self action:@selector(zhuanZhangAction) forControlEvents:UIControlEventTouchUpInside];
+//        [zhuanZhangeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//
+//            make.centerY.equalTo(currencyConvertView.mas_centerY);
+//            make.width.equalTo(currencyConvertView.rightBtn.mas_width);
+//            make.height.equalTo(currencyConvertView.rightBtn.mas_height);
+//            make.right.equalTo(currencyConvertView.rightBtn.mas_left).offset(-20);
+//
+//        }];
+
+        
+//    }
+    
+//    currencyConvertView.rightBtn.hidden = hiddenRight;
+//    [currencyConvertView.rightBtn setTitle:rightTitle forState:UIControlStateNormal];
+    
+//    if ([self.currencyModel.currency isEqualToString:kHBB] || [self.currencyModel.currency isEqualToString:kHBYJ]) {
+//
+//        TLNetworking *masOpTimesHttp = [TLNetworking new];
+//        masOpTimesHttp.showView = self.view;
+//        masOpTimesHttp.code = @"802027";
+//        masOpTimesHttp.parameters[@"key"] = @"EXCTIMES";
+//        [masOpTimesHttp postWithSuccess:^(id responseObject) {
+//
+//            currencyConvertView.topHintLbl.text =[NSString stringWithFormat:@"每人每月最多转换%@次",responseObject[@"data"][@"cvalue"]];
+//
+//        } failure:^(NSError *error) {
+//
+//
+//        }];
+//
+//    }
+    
+}
+
+
+- (void)lookHistoryBill {
+    
+    CDBillHistoryVC *vc = [[CDBillHistoryVC alloc] init];
+    vc.accountNumber = self.currencyModel.accountNumber;
+    [self.navigationController pushViewController:vc animated:YES];
 
 }
+
+//
+
 
 - (void)leftAction {
 

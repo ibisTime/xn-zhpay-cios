@@ -44,6 +44,9 @@
 
 @end
 
+
+
+FOUNDATION_EXTERN NSString *const kBTB;
 FOUNDATION_EXTERN NSString *const kGXB;
 FOUNDATION_EXTERN NSString *const kFRB;
 FOUNDATION_EXTERN NSString *const kQBB;

@@ -41,6 +41,7 @@
     tableView.dataSource = dataSource;
     tableView.backgroundColor = [UIColor clearColor];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    adjustsContentInsets(tableView);
     return tableView;
 
 }

@@ -8,6 +8,8 @@
 
 #import "ZHCurrencyModel.h"
 
+ NSString *const kBTB = @"BTB";
+
  NSString *const kFRB = @"FRB";
  NSString *const kGXB = @"GXJL";
  NSString *const kQBB = @"QBB";
@@ -35,7 +37,8 @@
                            kHBB : @"红包币",
                            kGiftB : @"礼品券",
                            kDigitalJF : @"数字积分",
-                           kLMB : @"联盟券"
+                           kLMB : @"联盟券",
+                           kBTB : @"补贴"
                            };
     
     return dict[self.currency];

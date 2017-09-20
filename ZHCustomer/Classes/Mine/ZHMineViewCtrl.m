@@ -27,6 +27,11 @@
 #import "CDFenHongQuanVC.h"
 #import "ZHUser.h"
 #import "UIColor+theme.h"
+#import "ZHBuTieDetailVC.h"
+
+
+
+
 
 @interface ZHMineViewCtrl ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -55,13 +60,15 @@
     [self.view addSubview:tableV];
     self.mineTableView = tableV;
     
+    adjustsContentInsets(tableV);
+    
     tableV.backgroundColor = [UIColor zh_backgroundColor];
     tableV.delegate = self;
     tableV.dataSource = self;
     tableV.rowHeight = 45;
     tableV.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.groups = @[[self group01],[self group02]];
+    self.groups = @[[self group01],[self relationGroup],[self group02],];
     
     //头部信息
     [self setUptableViewHeader];
@@ -104,9 +111,7 @@
     self.headerView.nameLbl.text = @"";
     self.headerView.mobileLbl.text = @"";
     self.headerView.avatarImageV.image = [UIImage imageNamed:@"user_placeholder"];
-    
-//    self.currencyRoom = nil;
-//    self.currencyDict = nil;
+
     
 }
 
@@ -227,13 +232,16 @@
 //    [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark- 推荐关系
-- (void)lookMineHZB {
-    
-    CDUserReleationVC *vc = [[CDUserReleationVC alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
-    
-}
+//#pragma mark- 推荐关系
+//- (void)lookMineHZB {
+//    
+////    CDUserReleationVC *vc = [[CDUserReleationVC alloc] init];
+////    [self.navigationController pushViewController:vc animated:YES];
+//    
+//    ZHNewMineWalletVC *vc = [ZHNewMineWalletVC new];
+//    [weakself.navigationController pushViewController:vc animated:YES];
+//    
+//}
 
 
 #pragma mark- 头部信息
@@ -261,16 +269,16 @@
     
     //我的收益 汇赚宝
     CGFloat w0 = (SCREEN_WIDTH - 1)/2.0;
-    UIButton *earningBtn = [self twoBtnWithFrame:CGRectMake(0, self.headerView.yy,w0, 50) title:@"我的收益" imagName:@"我的收益"];
+    UIButton *earningBtn = [self twoBtnWithFrame:CGRectMake(0, self.headerView.yy,w0, 50) title:@"补贴详情" imagName:@"我的收益"];
     
     [earningBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
-    [earningBtn addTarget:self action:@selector(lookMineEarnings) forControlEvents:UIControlEventTouchUpInside];
+    [earningBtn addTarget:self action:@selector(lookMineBuTie) forControlEvents:UIControlEventTouchUpInside];
 
     [headerView addSubview:earningBtn];
     
     //
-    UIButton *hzbBtn = [self twoBtnWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 50) title:@"推荐关系" imagName:@"汇赚宝"];
-    [hzbBtn addTarget:self action:@selector(lookMineHZB) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *hzbBtn = [self twoBtnWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 50) title:@"分红权详情" imagName:@"汇赚宝"];
+    [hzbBtn addTarget:self action:@selector(lookMineEarnings) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:hzbBtn];
     
     
@@ -284,13 +292,39 @@
     hzbBtn.titleLabel.font = FONT(14);
     [hzbBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
 
-    hzbBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    [hzbBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+//    hzbBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+//    [hzbBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 
     return hzbBtn;
 
 }
 
+- (void)lookMineBuTie {
+    
+    ZHBuTieDetailVC *vc = [[ZHBuTieDetailVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+
+- (ZHSettingGroup *)relationGroup {
+    __weak typeof(self) weakself = self;
+    
+    ZHSettingModel *item01 = [[ZHSettingModel alloc] init];
+    item01.imgName = @"推荐关系";
+    item01.text =  @"推荐关系";
+    
+    item01.action = ^(){
+        
+        CDUserReleationVC *vc = [[CDUserReleationVC alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    };
+    
+    ZHSettingGroup *group = [[ZHSettingGroup alloc] init];
+    group.items = @[item01];
+    return group;
+}
 
 - (ZHSettingGroup *)group02 {
     __weak typeof(self) weakself = self;
@@ -414,14 +448,22 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
     if (section == 1) {
-        return 10;
+        return 0.01;
     }
     return 0.1;
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
     return 0.1;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 20)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
 }
 
 @end

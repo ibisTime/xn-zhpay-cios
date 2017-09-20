@@ -28,7 +28,6 @@
 
 @interface AppDelegate ()<WXApiDelegate>
 
-
 @end
 
 
@@ -37,7 +36,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvTest;
+    [AppConfig config].runEnv = RunEnvDev;
     
     //请求定位权限
     [[TLLocationService service].locationManager requestWhenInUseAuthorization];

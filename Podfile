@@ -14,14 +14,14 @@ target 'ZHCustomer' do
   pod 'Masonry', '1.0.2'
   pod 'AFNetworking','3.1.0'
   pod 'SDWebImage','4.0.0'
-  pod 'IQKeyboardManager','4.0.10'
   #七牛云
   pod 'Qiniu','7.1.5'
   pod 'Realm','2.8.0'
   
   #错误分析
   pod 'UMengAnalytics-NO-IDFA', '4.2.5'
-  pod 'SVProgressHUD', '2.1.2'
   pod 'PodCool'
+  pod 'IQKeyboardManager','4.0.13'
+  pod 'SVProgressHUD', '2.2'
   
 end

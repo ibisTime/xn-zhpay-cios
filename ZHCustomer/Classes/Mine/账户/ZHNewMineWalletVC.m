@@ -65,6 +65,24 @@
 
     [self.bgScrollView.mj_header beginRefreshing];
 
+    
+}
+
+
+#pragma mark- 查看补贴流水
+- (void)looBuTieAction {
+    //查看补贴详情
+    ZHBillVC *buTieBillVC =[[ZHBillVC  alloc] init];
+    [self.currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.currency isEqualToString:kBTB]) {
+            
+            buTieBillVC.currencyModel = obj;
+
+        }
+    }];
+    [self.navigationController pushViewController:buTieBillVC animated:YES];
+    buTieBillVC.title = @"补贴流水";
+    
 }
 
 - (void)setUpUI {
@@ -76,10 +94,15 @@
     UIScrollView *bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 + 10)];
     [self.view addSubview:bgScrollView];
     self.bgScrollView = bgScrollView;
+    adjustsContentInsets(bgScrollView);
     
     //头部总额
     UIView *headerV = [self headerView];
     [bgScrollView addSubview:headerV];
+    
+    UITapGestureRecognizer *buTieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(looBuTieAction)];
+    [headerV addGestureRecognizer:buTieTap];
+    
     
     //钱包
     NSArray *typeNames =  @[@"贡献值", @"分润",@"礼品券",@"数字积分",@"钱包币",@"联盟券"];
@@ -155,7 +178,7 @@
             
             self.currencyDict[obj.currency] = obj;
             
-            if ([obj.currency isEqualToString:kFRB]) {
+            if ([obj.currency isEqualToString:kBTB]) {
                 
                   self.frozenLbl.text = [NSString stringWithFormat:@"提现中金额(含手续费)：%@",[obj.frozenAmount convertToRealMoney]];
                 
@@ -167,34 +190,28 @@
 //        [self refreshWalletInfo];
         
         //单个
-      __block  long long total = 0;
+//      __block  long long total = 0;
         
         [self.walletViews enumerateObjectsUsingBlock:^(ZHWalletView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             NSNumber *amount = self.currencyDict[obj.code].amount;
             obj.moneyLbl.text = [amount convertToRealMoney];
             
-            if ([obj.code isEqualToString:kFRB] || [obj.code isEqualToString:kGXB]) {
-                
-                total += [amount longLongValue];
-                
-            }
+      
             
-            if ([obj.code isEqualToString:kFRB]) {
+            if ([obj.code isEqualToString:kBTB]) {
                 
-                
+                self.balanceLbl.text = [NSString stringWithFormat:@"%@",[amount convertToRealMoney]];
+
             }
             
         }];
         
       
-        self.balanceLbl.text = [NSString stringWithFormat:@"%@",[@(total) convertToRealMoney]];
+//        self.balanceLbl.text = [NSString stringWithFormat:@"%@",[@(total) convertToRealMoney]];
         
     } failure:^(NSError *error) {
-        
-//        [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
-        //        [weakSelf.mineTableView endRefreshHeader];
-        
+                
         [self addPlaceholderView];
         
     }];
@@ -237,7 +254,7 @@
                            backgroundColor:[UIColor clearColor]
                                       font:FONT(12)
                                  textColor:[UIColor whiteColor]];
-    topLbl.text = @"可用余额（元）";
+    topLbl.text = @"补贴（元）";
     [bgV addSubview:topLbl];
     
     //

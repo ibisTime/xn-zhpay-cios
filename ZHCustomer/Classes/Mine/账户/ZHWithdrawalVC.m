@@ -13,6 +13,7 @@
 #import "TLHeader.h"
 #import "UIColor+theme.h"
 #import "ZHUser.h"
+#import "ZHCurrencyModel.h"
 
 #define WITHDRAW_RULE_MAX_KEY @"QXDBZDJE"
 #define WITHDRAW_RULE_MAX_COUNT_KEY @"CUSERMONTIMES"
@@ -43,6 +44,7 @@
 
 @property (nonatomic, assign) BOOL getBankCardSuccess;
 
+@property (nonatomic, strong) ZHCurrencyModel *currentCurrencyModel;
 
 
 @end
@@ -60,6 +62,19 @@
     _group = dispatch_group_create();
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+    
+    switch (self.withdrawType) {
+        case WithdrawTypeFRB: {
+            
+            
+            
+        } break;
+        case WithdrawTypeBTB: {
+            
+            
+            
+        } break;
+    }
     //
     [self beginLoad];
     
@@ -117,7 +132,6 @@
      
         dispatch_group_leave(_group);
         successCount ++;
-        
         NSArray *banks = responseObject[@"data"];
         self.banks = [ZHBankCard tl_objectArrayWithDictionaryArray:banks];
 
@@ -157,8 +171,7 @@
                 
                 
                 //余额进行初始化
-                self.balanceLbl.text = [@"可用余额：" add:[self.balance convertToRealMoney]];
-                
+                self.balanceLbl.text = [@"可用余额：" add:[self.currentCurrencyModel.amount convertToRealMoney]];
                 NSMutableParagraphStyle *paragraphyStyle = [[NSMutableParagraphStyle alloc] init];
                 paragraphyStyle.lineSpacing = 5;
                 
@@ -323,7 +336,7 @@
 
     
     //
-    if ([self.balance isEqual:@0]) {
+    if ([self.currentCurrencyModel.amount isEqual:@0]) {
        
         [TLAlert alertWithHUDText:@"余额不足"];
         return;
@@ -337,7 +350,7 @@
     }
     
     //
-    if ([self.moneyTf.text greaterThan:self.balance]) {
+    if ([self.moneyTf.text greaterThan:self.currentCurrencyModel.amount]) {
        
         [TLAlert alertWithHUDText:@"余额不足"];
         return;

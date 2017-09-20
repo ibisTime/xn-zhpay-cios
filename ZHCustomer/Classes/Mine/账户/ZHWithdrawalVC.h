@@ -8,14 +8,18 @@
 
 #import "TLBaseVC.h"
 
+typedef NS_ENUM(NSUInteger, WithdrawType) {
+    WithdrawTypeFRB,
+    WithdrawTypeBTB
+};
+
 @interface ZHWithdrawalVC : TLBaseVC
 
+@property (nonatomic, assign) WithdrawType withdrawType;
+
 //余额
-@property (nonatomic,strong) NSNumber *balance;
-
-//分润的账户编码
+//@property (nonatomic,strong) NSNumber *balance;
 @property (nonatomic,strong) NSString *accountNum;
-
 @property (nonatomic,strong) void (^success)();
 
 @end

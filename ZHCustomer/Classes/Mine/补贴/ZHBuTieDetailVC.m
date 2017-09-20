@@ -6,7 +6,8 @@
 //  Copyright © 2017年  tianlei. All rights reserved.
 //
 
-#import "CDFenHongQuanVC.h"
+#import "ZHBuTieDetailVC.h"
+
 #import "CDFHQTopBottomView.h"
 #import "ZHEarningModel.h"
 #import "ZHCurrencyModel.h"
@@ -16,10 +17,10 @@
 //#import "UserHeader.h"
 #import "TLHeader.h"
 #import "ZHUser.h"
-#import "UIColor+theme.h"
 
 
-@interface CDFenHongQuanVC ()<UITableViewDelegate,UITableViewDataSource>
+
+@interface ZHBuTieDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UILabel *hintLbl;
 //
@@ -29,12 +30,10 @@
 @property (nonatomic, strong) TLTableView *profitTableView;
 
 @property (nonatomic, copy) NSArray<ZHEarningModel *> *earningModels;
-@property (nonatomic, copy) ZHCurrencyModel *fenRunModel;
 
-@property (nonatomic, strong) UIButton *funRunBtn;
 @end
 
-@implementation CDFenHongQuanVC
+@implementation ZHBuTieDetailVC
 {
     dispatch_group_t _group;
     
@@ -47,92 +46,30 @@
     
 }
 
-- (void)getFenRun {
-    
-    //下部，钱包
-    TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
-    http.code = @"802503";
-    http.parameters[@"token"] = [ZHUser user].token;
-    http.parameters[@"userId"] = [ZHUser user].userId;
-    [http postWithSuccess:^(id responseObject) {
-        
-        //数据操作11
-        NSArray <ZHCurrencyModel *>*currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-        //把币种分开
-        [currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.currency isEqualToString:kFRB]) {
-                
-                [self.funRunBtn setTitle:[NSString stringWithFormat:@"分润：%@",[obj.amount convertToRealMoney]] forState:UIControlStateNormal];
-            }
-        }];
-        
-    } failure:^(NSError *error) {
-        
-        //        [TLAlert alertWithHUDText:@"获取用户账户信息失败"];
-        //        [weakSelf.mineTableView endRefreshHeader];
-        
-        
-    }];
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-  
+    
     //
-    self.title = @"分红权详情";
+    self.title = @"补贴详情";
     _group = dispatch_group_create();
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
-    //先获取分润
-
     //
-    UIView *topV = [[UIView alloc] initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 110)];
+    UIView *topV = [[UIView alloc] initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 70)];
     topV.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:topV];
     
-    //分润 提现
-    UIView *topBtnBGView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, topV.width, 40)];
-    [topV addSubview:topBtnBGView];
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, topBtnBGView.yy, SCREEN_WIDTH, 1)];
-    [topV addSubview:line];
-    line.backgroundColor = [UIColor backgroundColor];
-    
-    //
-    UIButton *fenRunBtn = [self topBtn];
-    [topBtnBGView addSubview:fenRunBtn];
-    [fenRunBtn setTitle:@"分润：--" forState:UIControlStateNormal];
-    self.funRunBtn = fenRunBtn;
-    
-    //
-    UIButton *withdrawBtn = [self topBtn];
-    [topBtnBGView addSubview:withdrawBtn];
-    [withdrawBtn setTitle:@"提现" forState:UIControlStateNormal];
-    [withdrawBtn addTarget:self action:@selector(withdrawAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    [fenRunBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(topBtnBGView.mas_left).offset(15);
-        make.top.bottom.equalTo(topBtnBGView);
-    }];
-    
-    [withdrawBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(fenRunBtn);
-        make.left.equalTo(fenRunBtn.mas_right).offset(15);
-    }];
-    
     //
     CGFloat w = SCREEN_WIDTH/3;
-    CGFloat h = topV.height - topBtnBGView.height;
-    self.poolMoneyView = [[CDFHQTopBottomView alloc] initWithFrame:CGRectMake(0, topBtnBGView.yy + 1, w, h)];
+    CGFloat h = topV.height;
+    self.poolMoneyView = [[CDFHQTopBottomView alloc] initWithFrame:CGRectMake(0, 0, w, h)];
     [topV addSubview:self.poolMoneyView];
-  
-    self.willGetMoneyView = [[CDFHQTopBottomView alloc] initWithFrame:CGRectMake(w, self.poolMoneyView.y, w, h)];
+    
+    self.willGetMoneyView = [[CDFHQTopBottomView alloc] initWithFrame:CGRectMake(w, 0, w, h)];
     [topV addSubview:self.willGetMoneyView];
     
-    self.profitCountView = [[CDFHQTopBottomView alloc] initWithFrame:CGRectMake(2*w, self.poolMoneyView.y, w, h)];
+    self.profitCountView = [[CDFHQTopBottomView alloc] initWithFrame:CGRectMake(2*w, 0, w, h)];
     [topV addSubview:self.profitCountView];
     
     //中部--友情提示
@@ -167,36 +104,21 @@
     tv.rowHeight = 70;
     [self.view addSubview:tv];
     self.profitTableView = tv;
-    tv.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无分红权"];
+    tv.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无补贴"];
     //
     
     
     [self getData];
-    [self getFenRun];
-}
-
-#pragma mark- 提现
-- (void)withdrawAction {
-    
-    
     
 }
 
-- (UIButton *)topBtn {
-    
-    UIButton *btn = [[UIButton alloc] init];
-    [btn setTitleColor:[UIColor shopThemeColor] forState:UIControlStateNormal];
-    btn.backgroundColor = [UIColor whiteColor];
-    btn.titleLabel.font = [UIFont systemFontOfSize:15];
-    return btn;
-}
 
 - (void)getData {
-
+    
     [TLProgressHUD showWithStatus:nil];
     __block NSInteger successCount = 0;
     __block NSInteger reqCount = 0;
-
+    
     
     //我的分红权查询
     reqCount ++;
@@ -215,7 +137,7 @@
         [self.profitTableView reloadData_tl];
         
         //
-
+        
     } failure:^(NSError *error) {
         
         dispatch_group_leave(_group);
@@ -224,11 +146,11 @@
     //
     
     
-
-
-
-
-
+    
+    
+    
+    
+    
     //
     reqCount ++;
     dispatch_group_enter(_group);
@@ -244,30 +166,30 @@
         NSNumber *backProfitAmount =  responseObject[@"data"][@"backProfitAmount"];//已领取
         NSNumber *unbackProfitAmount =  responseObject[@"data"][@"unbackProfitAmount"];//未领取
         self.willGetMoneyView.topLbl.text = [unbackProfitAmount convertToRealMoney];
-        self.willGetMoneyView.bottomLbl.text = @"待领取的收益(元)";
+        self.willGetMoneyView.bottomLbl.text = @"待领取的补贴(元)";
         
         
-            self.poolMoneyView.topLbl.text = [backProfitAmount convertToRealMoney];
-            self.poolMoneyView.bottomLbl.text = @"已领取收益(元)";
-            
-     
-   
-
+        self.poolMoneyView.topLbl.text = [backProfitAmount convertToRealMoney];
+        self.poolMoneyView.bottomLbl.text = @"已领取收益(元)";
+        
+        
+        
+        
         self.profitCountView.topLbl.text = [NSString stringWithFormat:@"%@",stockCount];
-        self.profitCountView.bottomLbl.text = @"分红权(个)";
-//        backProfitAmount = 49000;
-//        stockCount = 1;
-//        todayProfitAmount = 4000;
-//        todayStockCount = 1;
-//        unbackProfitAmount = 446000;
+        self.profitCountView.bottomLbl.text = @"补贴名额(个)";
+        //        backProfitAmount = 49000;
+        //        stockCount = 1;
+        //        todayProfitAmount = 4000;
+        //        todayStockCount = 1;
+        //        unbackProfitAmount = 446000;
         
     } failure:^(NSError *error) {
         
         dispatch_group_leave(_group);
-
+        
         
     }];
-
+    
     //我的下一个分红权查询
     reqCount ++;
     dispatch_group_enter(_group);
@@ -283,8 +205,8 @@
         
         NSNumber *costAmount =  responseObject[@"data"][@"costAmount"];
         CGFloat needMoney =  500 - [costAmount longLongValue]/1000.0;
-        self.hintLbl.text = [NSString stringWithFormat:@"友情提示：消费还差%.2f元，就可再获得一个分红权",needMoney];
-
+        self.hintLbl.text = [NSString stringWithFormat:@"友情提示：消费还差%.2f元，就可再获得一个补贴名额",needMoney];
+        
         //
         successCount ++;
         dispatch_group_leave(_group);
@@ -316,7 +238,7 @@
                     
                     return ;
                 }
-
+                
                 //资金池查询
                 TLNetworking *poolhttp = [TLNetworking new];
                 poolhttp.code = @"802503";
@@ -332,7 +254,7 @@
                         ZHCurrencyModel *currencyModel = [ZHCurrencyModel tl_objectWithDictionary:arr[0]];
                         
                         self.poolMoneyView.topLbl.text = [currencyModel.amount convertToRealMoney];
-                        self.poolMoneyView.bottomLbl.text = @"消费者池中金额(元)";
+                        self.poolMoneyView.bottomLbl.text = @"消费者补贴总额(元)";
                     }
                     
                 } failure:^(NSError *error) {
@@ -343,8 +265,8 @@
             } failure:^(NSError *error) {
                 
             }];
-
-    
+            
+            
             
         } else {
             //所有请求失败
@@ -353,12 +275,12 @@
         }
         
     });
-
+    
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     ZHSingleProfitFlowVC *vc = [[ZHSingleProfitFlowVC alloc] init];
     vc.earnModel = self.earningModels[indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
@@ -389,3 +311,4 @@
 }
 
 @end
+

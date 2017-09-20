@@ -14,7 +14,7 @@
 @property (nonatomic,strong) UILabel *typeLbl;
 @property (nonatomic,strong) UILabel *moneyLbl;
 
-//@property (nonatomic,strong) UIButton *leftBtn;
+@property (nonatomic,strong) UIButton *leftBtn;
 @property (nonatomic,strong) UIButton *rightBtn;
 
 
