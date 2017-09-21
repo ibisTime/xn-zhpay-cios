@@ -35,13 +35,15 @@
 
 //推荐人
 @property (nonatomic, copy) NSString *userRefereeName;
-
 @property (nonatomic, copy) NSString *remark;
 @property (nonatomic, copy) NSString *totalFansNum;
 @property (nonatomic, copy) NSString *totalFollowNum;
 @property (nonatomic, copy) NSString *updateDatetime;
 @property (nonatomic, copy) NSString *updater;
 @property (nonatomic, strong) ZHUserExt *userExt;
+
+@property (nonatomic, copy) NSString *isGxz;
+- (BOOL)canGongXianZhiXiaoFei;
 
 
 //实名认证的 --- 临时参数

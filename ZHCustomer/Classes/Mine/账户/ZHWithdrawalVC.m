@@ -15,11 +15,17 @@
 #import "ZHUser.h"
 #import "ZHCurrencyModel.h"
 
-#define WITHDRAW_RULE_MAX_KEY @"QXDBZDJE"
-#define WITHDRAW_RULE_MAX_COUNT_KEY @"CUSERMONTIMES"
-#define WITHDRAW_RULE_BEI_SHU_KEY @"CUSERQXBS"
-#define WITHDRAW_RULE_PROCEDURE_FEE_KEY @"CUSERQXFL"
+//#import <NBCDRequest/NBCDRequest.h>
 
+//#define WITHDRAW_RULE_MAX_KEY @"QXDBZDJE"
+//#define WITHDRAW_RULE_MAX_COUNT_KEY @"CUSERMONTIMES"
+//#define WITHDRAW_RULE_BEI_SHU_KEY @"CUSERQXBS"
+//#define WITHDRAW_RULE_PROCEDURE_FEE_KEY @"CUSERQXFL"
+
+#define WITHDRAW_RULE_MAX_KEY @"USER_QXDBZDJE"
+#define WITHDRAW_RULE_MAX_COUNT_KEY @"USER_MONTIMES"
+#define WITHDRAW_RULE_BEI_SHU_KEY @"USER_QXBS"
+#define WITHDRAW_RULE_PROCEDURE_FEE_KEY @"USER_QXFL"
 
 @interface ZHWithdrawalVC ()
 
@@ -27,9 +33,6 @@
 @property (nonatomic,strong) UILabel *balanceLbl;
 @property (nonatomic,strong) UILabel *procedureFeeLbl;
 
-
-//--//
-//@property (nonatomic,strong) UILabel *hinLbl;
 @property (nonatomic, strong) UILabel *withdrawRuleLbl;
 @property (nonatomic, strong) UIButton *setPwdBtn;
 
@@ -63,20 +66,27 @@
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
-    switch (self.withdrawType) {
-        case WithdrawTypeFRB: {
-            
-            
-            
-        } break;
-        case WithdrawTypeBTB: {
-            
-            
-            
-        } break;
-    }
-    //
-    [self beginLoad];
+    //先查询账户
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"802502";
+    http.parameters[@"accountNumber"] = self.accountNum;
+    http.parameters[@"token"] = [ZHUser user].token;
+    [http postWithSuccess:^(id responseObject) {
+        
+        //获取币种
+        self.currentCurrencyModel = [ZHCurrencyModel tl_objectWithDictionary:responseObject[@"data"]];
+        //
+        [self beginLoad];
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+
+    
+ 
+
     
 }
 
@@ -100,11 +110,7 @@
     dispatch_group_enter(_group);
     TLNetworking *ruleHttp = [TLNetworking new];
     ruleHttp.code = @"802028";
-    ruleHttp.parameters[@"keyList"] = @[WITHDRAW_RULE_MAX_KEY,
-                                        WITHDRAW_RULE_MAX_COUNT_KEY,
-                                        WITHDRAW_RULE_BEI_SHU_KEY,
-                                        WITHDRAW_RULE_PROCEDURE_FEE_KEY];
-    
+    ruleHttp.parameters[@"type"] = @"C_RMB";
     [ruleHttp postWithSuccess:^(id responseObject) {
         
         dispatch_group_leave(_group);
@@ -112,7 +118,6 @@
         
         self.beiShu = responseObject[@"data"][WITHDRAW_RULE_BEI_SHU_KEY];
         self.maxCount = responseObject[@"data"][WITHDRAW_RULE_MAX_COUNT_KEY];
-        
         self.maxMoney = responseObject[@"data"][WITHDRAW_RULE_MAX_KEY];
         self.produceFee = responseObject[@"data"][WITHDRAW_RULE_PROCEDURE_FEE_KEY];
         
@@ -122,7 +127,7 @@
 
     }];
 
-    //
+    //获取银行卡
     dispatch_group_enter(_group);
     TLNetworking *http = [TLNetworking new];
     http.code = @"802016";
@@ -179,8 +184,6 @@
                 
                 NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"取现规则：\n1.每月最大取现次数：%@\n2.提现金额必须是%@的倍数，单笔最高%@\n3.取现手续费率 %@%%",self.maxCount,self.beiShu,self.maxMoney,flStr ]attributes:@{NSParagraphStyleAttributeName : paragraphyStyle}];
                 
-                
-                
                 //
                 self.withdrawRuleLbl.attributedText = attr;
                 
@@ -197,8 +200,7 @@
 
         }
         
-    });;
-
+    });
     
 }
 
@@ -394,18 +396,6 @@
         }
     }];
 
-
-    
-//    //银行卡号
-//    http.parameters[@"bankcardCode"] = self.bankPickTf.text; //实体账户编号,
-//    //    正数表示实体转虚拟；负数表示虚拟转实体
-//
-//    //批量虚拟账户
-//    http.parameters[@"accountNumberList"] = @[self.accountNum];
-////    11 充值 -11取现；19 红冲 -19 蓝补；
-//    http.parameters[@"bizType"] = @"-11"; //虚拟账户
-//    http.parameters[@"bizNote"] = @"1"; //虚拟账户
-
     [http postWithSuccess:^(id responseObject) {
         
         [TLAlert alertWithHUDText:@"提现成功,我们将会对该交易进行审核"];
@@ -418,15 +408,6 @@
         
     }];
     
-//    "bankcardCode": "1",
-//    "transAmount": "1",
-//    "accountNumber": "1",
-//    "bizType": "1",
-//    "bizNote": "1",
-//    "channelTypeList": [
-//                        "1",
-//                        "2"
-//                        ]
 
 
 

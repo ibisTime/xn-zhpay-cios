@@ -6,15 +6,16 @@
 //  Copyright © 2017年  tianlei. All rights reserved.
 //
 
-#import "ZHFRBToOtherPeopleVC.h"
+#import "ZHCurrencyToOtherPeopleVC.h"
 #import "ZHPwdRelatedVC.h"
 #import "TLHeader.h"
 #import "ZHUser.h"
 #import "ZHCurrencyHelper.h"
 #import "UIColor+theme.h"
+#import "ZHCurrencyModel.h"
 
 
-@interface ZHFRBToOtherPeopleVC()
+@interface ZHCurrencyToOtherPeopleVC()
 
 @property (nonatomic, strong) UIScrollView *bgSV;
 
@@ -26,9 +27,12 @@
 //
 @property (nonatomic, strong) UITextField *moneyTf;
 
+//
+@property (nonatomic, strong) ZHCurrencyModel *currentCurrencyModel;
+
 @end
 
-@implementation ZHFRBToOtherPeopleVC
+@implementation ZHCurrencyToOtherPeopleVC
 
 - (void)viewDidLoad {
 
@@ -36,41 +40,59 @@
     
     self.title = @"转账";
     
-    if (!self.sysMoney) {
-        [TLAlert alertWithError:@"传入 余额"];
+    if (!self.accountNumber) {
+        [TLAlert alertWithError:@"传入 账户编号"];
         return;
     }
     
-#pragma mark- 检测是否设置了交易密码
-    if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
-        
-        
-        [self setPlaceholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
-        [self addPlaceholderView];
-        
-    } else {//
-        
-        [self setUpUI];
-        
-    }
     
+    [self tl_placeholderOperation];
     
-
-
     
 }
 
 - (void)tl_placeholderOperation {
     
-    ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
-    [pwdAboutVC setSuccess:^{
+    
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"802502";
+    http.parameters[@"accountNumber"] = self.accountNumber;
+    http.parameters[@"token"] = [ZHUser user].token;
+    [http postWithSuccess:^(id responseObject) {
         
-        [self removePlaceholderView];
-        [self setUpUI];
+        //获取币种
+        self.currentCurrencyModel = [ZHCurrencyModel tl_objectWithDictionary:responseObject[@"data"]];
+        
+#pragma mark- 检测是否设置了交易密码
+        if (![[ZHUser user].tradepwdFlag isEqualToString:@"1"]) {
+            
+            
+            [self setPlaceholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
+            [self addPlaceholderView];
+            
+        } else {//
+            
+            [self setUpUI];
+            
+        }
+        
+        //
+//        ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
+//        [pwdAboutVC setSuccess:^{
+//
+//            [self removePlaceholderView];
+//            [self setUpUI];
+//
+//        }];
+//
+//        [self.navigationController pushViewController:pwdAboutVC animated:YES];
+        
+    } failure:^(NSError *error) {
+        
         
     }];
-    
-    [self.navigationController pushViewController:pwdAboutVC animated:YES];
+  
     
     
     
@@ -112,7 +134,8 @@
     [self.bgSV addSubview:hintLbl];
     hintLbl.numberOfLines = 0;
     //    => 100*n
-    hintLbl.text = [NSString stringWithFormat:@"可转账余额：%@",[self.sysMoney convertToRealMoney]];
+    
+    hintLbl.text = [NSString stringWithFormat:@"可转账余额：%@",[self.currentCurrencyModel.amount convertToRealMoney]];
     
     //
     self.tradePwdTf = [[TLTextField alloc] initWithframe:CGRectMake(0, hintLbl.yy + 1, SCREEN_WIDTH, 45)
@@ -265,8 +288,10 @@
 
       [self.navigationController popViewControllerAnimated:YES];
         if (self.success) {
-            NSNumber *currentNum = @([self.sysMoney longLongValue] - [self.moneyTf.text longLongValue]*1000);
+            
+            NSNumber *currentNum = @([self.currentCurrencyModel.amount longLongValue] - [self.moneyTf.text longLongValue]*1000);
             self.success(currentNum);
+            
         }
         
         

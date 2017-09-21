@@ -14,12 +14,19 @@
 //#define PAY_TYPE_WX_PAY_CODE @"2"
 //#define PAY_TYPE_ALI_PAY_CODE @"3"
 
+//payType 支付方式增加 ZH_BT("22", "补贴"), ZH_GXZ("23","贡献值");
+
 NSString *const kZHAliPayTypeCode = @"3";
 NSString *const kZHWXTypeCode = @"2";
+
 NSString *const kZHDefaultPayTypeCode = @"1";
+NSString *const kZHBTBPayTypeCode = @"22";
+NSString *const kZHGXZPayTypeCode = @"23";
+
 
 NSString *const kZHGiftPayTypeCode = @"20";
 NSString *const kZHLMBPayTypeCode = @"21";
+
 
 
 

@@ -56,7 +56,6 @@
         NSLog(@"模型传进来");
         return;
     }
-    self.title = @"分红权收益详情";
     
     //
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史详情" style:0 target:self action:@selector(lookHistory)];
@@ -72,7 +71,24 @@
     
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808425";
+    
+    switch (self.type) {
+        case ZHSingleProfitFlowVCTypeFenHongQuan :  {
+            
+            helper.code = @"808425";
+            self.title = @"分红权收益详情";
+
+        } break;
+            
+        case ZHSingleProfitFlowVCTypeBuTie : {
+            //
+            helper.code = @"808465";
+            self.title = @"补贴收益详情";
+
+        } break;
+            
+    }
+    
     helper.parameters[@"fundCode"] = self.earnModel.fundCode;
     helper.parameters[@"stockCode"] = self.earnModel.code;
     helper.parameters[@"toUser"] = [ZHUser user].userId;

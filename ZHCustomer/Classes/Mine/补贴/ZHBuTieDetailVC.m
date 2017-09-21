@@ -30,6 +30,8 @@
 @property (nonatomic, strong) TLTableView *profitTableView;
 
 @property (nonatomic, copy) NSArray<ZHEarningModel *> *earningModels;
+@property (nonatomic, assign) BOOL isFirst;
+
 
 @end
 
@@ -39,6 +41,18 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    if (self.isFirst) {
+        
+        [self.profitTableView beginRefreshing];
+        self.isFirst = NO;
+    }
+    
+    
+}
 
 - (void)tl_placeholderOperation {
     
@@ -46,14 +60,8 @@
     
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)setUpUI {
     
-    
-    //
-    self.title = @"补贴详情";
-    _group = dispatch_group_create();
-    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
     //
     UIView *topV = [[UIView alloc] initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 70)];
@@ -105,9 +113,61 @@
     [self.view addSubview:tv];
     self.profitTableView = tv;
     tv.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无补贴"];
+    
+    //补贴分页查
+    TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
+    helper.code = @"808455";
+    helper.parameters[@"userId"] = [ZHUser user].userId;
+    helper.tableView = self.profitTableView;
+    [helper modelClass:[ZHEarningModel class]];
+    
     //
+    __weak typeof(self) weakSelf = self;
+    [self.profitTableView addRefreshAction:^{
+        
+        [helper refresh:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            
+            weakSelf.earningModels = objs;
+            [weakSelf.profitTableView reloadData_tl];
+            
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
+        
+    }];
+    
+    [self.profitTableView addLoadMoreAction:^{
+        
+        [helper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            weakSelf.earningModels = objs;
+            [weakSelf.profitTableView reloadData_tl];
+            
+        } failure:^(NSError *error) {
+            
+            
+        }];
+        
+    }];
     
     
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.isFirst = YES;
+    
+    //
+    self.title = @"补贴详情";
+    _group = dispatch_group_create();
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+    [self setUpUI];
+    
+    //
     [self getData];
     
 }
@@ -118,44 +178,12 @@
     [TLProgressHUD showWithStatus:nil];
     __block NSInteger successCount = 0;
     __block NSInteger reqCount = 0;
-    
-    
-    //我的分红权查询
-    reqCount ++;
-    dispatch_group_enter(_group);
-    TLNetworking *http = [TLNetworking new];
-    http.code = @"808417";
-    http.parameters[@"userId"] = [ZHUser user].userId;
-    http.parameters[@"token"] = [ZHUser user].token;
-    [http postWithSuccess:^(id responseObject) {
-        
-        dispatch_group_leave(_group);
-        successCount ++;
-        //创建UI
-        NSArray *arr = [ZHEarningModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-        self.earningModels = arr;
-        [self.profitTableView reloadData_tl];
-        
-        //
-        
-    } failure:^(NSError *error) {
-        
-        dispatch_group_leave(_group);
-        
-    }];
-    //
-    
-    
-    
-    
-    
-    
-    
+
     //
     reqCount ++;
     dispatch_group_enter(_group);
     TLNetworking *myFHQHttp = [TLNetworking new];
-    myFHQHttp.code = @"808419";
+    myFHQHttp.code = @"808459";
     myFHQHttp.parameters[@"userId"] = [ZHUser user].userId;
     [myFHQHttp postWithSuccess:^(id responseObject) {
         
@@ -165,18 +193,19 @@
         NSNumber *stockCount = responseObject[@"data"][@"stockCount"];//个数
         NSNumber *backProfitAmount =  responseObject[@"data"][@"backProfitAmount"];//已领取
         NSNumber *unbackProfitAmount =  responseObject[@"data"][@"unbackProfitAmount"];//未领取
+        
+        NSNumber *poolAmount =  responseObject[@"data"][@"poolAmount"];//未领取
+
         self.willGetMoneyView.topLbl.text = [unbackProfitAmount convertToRealMoney];
         self.willGetMoneyView.bottomLbl.text = @"待领取的补贴(元)";
-        
-        
-        self.poolMoneyView.topLbl.text = [backProfitAmount convertToRealMoney];
-        self.poolMoneyView.bottomLbl.text = @"已领取收益(元)";
-        
-        
-        
-        
+
         self.profitCountView.topLbl.text = [NSString stringWithFormat:@"%@",stockCount];
         self.profitCountView.bottomLbl.text = @"补贴名额(个)";
+        
+        //池金额
+        self.poolMoneyView.topLbl.text = [poolAmount convertToRealMoney];
+        self.poolMoneyView.bottomLbl.text = @"消费者补贴总额(元)";
+        
         //        backProfitAmount = 49000;
         //        stockCount = 1;
         //        todayProfitAmount = 4000;
@@ -194,7 +223,7 @@
     reqCount ++;
     dispatch_group_enter(_group);
     TLNetworking *nextHttp = [TLNetworking new];
-    nextHttp.code = @"808418";
+    nextHttp.code = @"808458";
     nextHttp.parameters[@"userId"] = [ZHUser user].userId;
     [nextHttp postWithSuccess:^(id responseObject) {
         
@@ -226,45 +255,66 @@
             [self removePlaceholderView];
             
             //
+            //资金池查询
+            TLNetworking *poolhttp = [TLNetworking new];
+            poolhttp.code = @"802503";
+            poolhttp.parameters[@"userId"] = @"BT_USER_POOL_ZHPAY";
+            poolhttp.parameters[@"accountNumber"] = @"A2017100000000000004";
+            poolhttp.parameters[@"token"] = [ZHUser user].token;
             
-            TLNetworking *visiableHttp = [TLNetworking new];
-            visiableHttp.code = @"808917";
-            visiableHttp.parameters[@"key"] = @"POOL_VISUAL";
-            visiableHttp.parameters[@"token"] = [ZHUser user].token;
-            [visiableHttp postWithSuccess:^(id responseObject) {
+            [poolhttp postWithSuccess:^(id responseObject) {
                 
-                id cValue = responseObject[@"data"][@"cvalue"];
-                if ([cValue isEqualToString:@"0"]) {
+                NSArray *arr = responseObject[@"data"];
+                if (arr.count > 0) {
                     
-                    return ;
+                    ZHCurrencyModel *currencyModel = [ZHCurrencyModel tl_objectWithDictionary:arr[0]];
+                    
+                    self.poolMoneyView.topLbl.text = [currencyModel.amount convertToRealMoney];
+                    self.poolMoneyView.bottomLbl.text = @"消费者补贴总额(元)";
                 }
-                
-                //资金池查询
-                TLNetworking *poolhttp = [TLNetworking new];
-                poolhttp.code = @"802503";
-                poolhttp.parameters[@"userId"] = @"USER_POOL_ZHPAY";
-                poolhttp.parameters[@"accountNumber"] = @"A2017100000000000001";
-                poolhttp.parameters[@"token"] = [ZHUser user].token;
-                
-                [poolhttp postWithSuccess:^(id responseObject) {
-                    
-                    NSArray *arr = responseObject[@"data"];
-                    if (arr.count > 0) {
-                        
-                        ZHCurrencyModel *currencyModel = [ZHCurrencyModel tl_objectWithDictionary:arr[0]];
-                        
-                        self.poolMoneyView.topLbl.text = [currencyModel.amount convertToRealMoney];
-                        self.poolMoneyView.bottomLbl.text = @"消费者补贴总额(元)";
-                    }
-                    
-                } failure:^(NSError *error) {
-                    
-                    
-                }];
                 
             } failure:^(NSError *error) {
                 
+                
             }];
+//            TLNetworking *visiableHttp = [TLNetworking new];
+//            visiableHttp.code = @"808917";
+//            visiableHttp.parameters[@"key"] = @"POOL_VISUAL";
+//            visiableHttp.parameters[@"token"] = [ZHUser user].token;
+//            [visiableHttp postWithSuccess:^(id responseObject) {
+//
+//                id cValue = responseObject[@"data"][@"cvalue"];
+//                if ([cValue isEqualToString:@"0"]) {
+//
+//                    return ;
+//                }
+//
+//                //资金池查询
+//                TLNetworking *poolhttp = [TLNetworking new];
+//                poolhttp.code = @"802503";
+//                poolhttp.parameters[@"userId"] = @"USER_POOL_ZHPAY";
+//                poolhttp.parameters[@"accountNumber"] = @"A2017100000000000001";
+//                poolhttp.parameters[@"token"] = [ZHUser user].token;
+//
+//                [poolhttp postWithSuccess:^(id responseObject) {
+//
+//                    NSArray *arr = responseObject[@"data"];
+//                    if (arr.count > 0) {
+//
+//                        ZHCurrencyModel *currencyModel = [ZHCurrencyModel tl_objectWithDictionary:arr[0]];
+//
+//                        self.poolMoneyView.topLbl.text = [currencyModel.amount convertToRealMoney];
+//                        self.poolMoneyView.bottomLbl.text = @"消费者补贴总额(元)";
+//                    }
+//
+//                } failure:^(NSError *error) {
+//
+//
+//                }];
+//
+//            } failure:^(NSError *error) {
+//
+//            }];
             
             
             
@@ -282,6 +332,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ZHSingleProfitFlowVC *vc = [[ZHSingleProfitFlowVC alloc] init];
+    vc.type = ZHSingleProfitFlowVCTypeBuTie;
     vc.earnModel = self.earningModels[indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
     

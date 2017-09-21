@@ -20,7 +20,6 @@
     self.navigationBar.backIndicatorImage = [UIImage imageNamed:@"返回"];
     self.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"返回"];
 
-    
 }
 
 

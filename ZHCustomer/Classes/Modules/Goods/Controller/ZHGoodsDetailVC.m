@@ -417,6 +417,7 @@
     self.goodsDetailTypeScrollView.backgroundColor = [UIColor zh_backgroundColor];
     self.goodsDetailTypeScrollView.delegate = self;
     self.goodsDetailTypeScrollView.contentSize = CGSizeMake(self.goodsDetailTypeScrollView.width*3, self.goodsDetailTypeScrollView.height);
+    adjustsContentInsets(self.goodsDetailTypeScrollView);
     
     //商品信息背景 ，加在左右切换的背景上
     self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)];

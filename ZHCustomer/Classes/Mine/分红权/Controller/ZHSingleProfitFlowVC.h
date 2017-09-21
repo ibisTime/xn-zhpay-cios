@@ -9,8 +9,18 @@
 #import "TLBaseVC.h"
 @class ZHEarningModel;
 
+typedef NS_ENUM(NSUInteger, ZHSingleProfitFlowVCType) {
+    
+    ZHSingleProfitFlowVCTypeFenHongQuan,
+    ZHSingleProfitFlowVCTypeBuTie
+    
+};
+
 @interface ZHSingleProfitFlowVC : TLBaseVC
 
 @property (nonatomic, strong) ZHEarningModel *earnModel;
+
+@property (nonatomic, assign) ZHSingleProfitFlowVCType type;
+
 
 @end

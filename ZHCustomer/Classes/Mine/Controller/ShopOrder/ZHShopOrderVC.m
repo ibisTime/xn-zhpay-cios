@@ -116,9 +116,20 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.1;
+    return 0.01;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
 
 #pragma mark- dasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

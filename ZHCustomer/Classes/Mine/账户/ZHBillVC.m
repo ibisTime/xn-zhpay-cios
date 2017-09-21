@@ -14,7 +14,7 @@
 #import "ZHRealNameAuthVC.h"
 #import "ZHWithdrawalVC.h"
 #import "ZHHBConvertFRVC.h"
-#import "ZHFRBToOtherPeopleVC.h"
+#import "ZHCurrencyToOtherPeopleVC.h"
 #import "CDBillHistoryVC.h"
 #import  "ZHCMacro.h"
 #import "TLHeader.h"
@@ -29,8 +29,8 @@
 
 @property (nonatomic,assign) BOOL isFirst;
 
-@property (nonatomic,copy)  void(^rightAciton)();
-@property (nonatomic,copy)  void(^leftAciton)();
+@property (nonatomic,copy)  void(^rightActionBlock)();
+@property (nonatomic,copy)  void(^leftAcitonBlock)();
 
 @property (nonatomic, strong) ZHCurrencyConvertView *currencyConvertView;
 
@@ -59,8 +59,8 @@
 
 - (void)zhuanZhangAction {
 
-    ZHFRBToOtherPeopleVC *vc = [[ZHFRBToOtherPeopleVC alloc] init];
-    vc.sysMoney = self.currencyModel.amount;
+    ZHCurrencyToOtherPeopleVC *vc = [[ZHCurrencyToOtherPeopleVC alloc] init];
+    vc.accountNumber = self.currencyModel.accountNumber;
     [vc setSuccess:^(NSNumber *frbSysMoney){
         
         //修改
@@ -146,9 +146,6 @@
     ZHCurrencyConvertView *currencyConvertView = [[ZHCurrencyConvertView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
     billTableView.tableHeaderView = currencyConvertView;
     self.currencyConvertView = currencyConvertView;
-//    [currencyConvertView.leftBtn addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    
     currencyConvertView.typeLbl.text = [self.currencyModel getTypeName];
     currencyConvertView.moneyLbl.text = [self.currencyModel.amount convertToRealMoney];
 
@@ -162,7 +159,7 @@
         [currencyConvertView.rightBtn setTitle:@"提现" forState:UIControlStateNormal];
        [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
         
-        self.rightAciton = ^(){
+        self.rightActionBlock = ^(){
             
             //进行实名认真之后才能提现
             if (![ZHUser user].realName) {
@@ -196,20 +193,44 @@
         
         //分润 可提现，不可转账
         [currencyConvertView.leftBtn setTitle:@"转账" forState:UIControlStateNormal];
-        [currencyConvertView.leftBtn addTarget:self action:@selector(leftAciton) forControlEvents:UIControlEventTouchUpInside];
+        [currencyConvertView.leftBtn addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
         
         //
         [currencyConvertView.rightBtn setTitle:@"提现" forState:UIControlStateNormal];
         [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
         
         //
-        [self setLeftAciton:^{
-            [TLAlert alertWithInfo:@"补贴 转账"];
+        [self setLeftAcitonBlock:^{
+            
+            [weakSelf zhuanZhangAction];
         }];
         
         //
-        self.rightAciton = ^(){
+        self.rightActionBlock = ^(){
             
+            //进行实名认真之后才能提现
+            if (![ZHUser user].realName) {
+                [TLAlert alertWithTitle:nil Message:@"您还未进行实名认证\n前往进行实名认证" confirmMsg:@"前往" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
+                    
+                } confirm:^(UIAlertAction *action) {
+                    
+                    ZHRealNameAuthVC *authVC = [[ZHRealNameAuthVC alloc] init];
+                    authVC.authSuccess = ^(){ //实名认证成功
+                        
+                    };
+                    [weakself.navigationController pushViewController:authVC animated:YES];
+                    
+                }];
+                
+                return;
+            }
+            
+            ZHWithdrawalVC *withdrawalVC = [[ZHWithdrawalVC alloc] init];
+            withdrawalVC.accountNum = weakself.currencyModel.accountNumber;
+            withdrawalVC.success = ^(){
+                
+            };
+            [weakself.navigationController pushViewController:withdrawalVC animated:YES];
         };
         
     } else {
@@ -278,15 +299,15 @@
 
 - (void)leftAction {
 
-
- 
-    
+    if (self.leftAcitonBlock) {
+        self.leftAcitonBlock();
+    }
 }
 
 - (void)rightAction {
 
-    if (self.rightAciton) {
-        self.rightAciton();
+    if (self.rightActionBlock) {
+        self.rightActionBlock();
     }
     
 //    if ([self.currencyModel.type isEqualToString:kFRB]) { //只可以提现

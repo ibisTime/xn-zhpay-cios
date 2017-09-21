@@ -181,6 +181,7 @@
             if ([obj.currency isEqualToString:kBTB]) {
                 
                   self.frozenLbl.text = [NSString stringWithFormat:@"提现中金额(含手续费)：%@",[obj.frozenAmount convertToRealMoney]];
+                   self.balanceLbl.text = [NSString stringWithFormat:@"%@",[obj.amount convertToRealMoney]];
                 
             }
             
@@ -188,27 +189,18 @@
         
         //刷新界面信息
 //        [self refreshWalletInfo];
-        
-        //单个
-//      __block  long long total = 0;
+
         
         [self.walletViews enumerateObjectsUsingBlock:^(ZHWalletView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
+
             NSNumber *amount = self.currencyDict[obj.code].amount;
             obj.moneyLbl.text = [amount convertToRealMoney];
-            
-      
-            
-            if ([obj.code isEqualToString:kBTB]) {
-                
-                self.balanceLbl.text = [NSString stringWithFormat:@"%@",[amount convertToRealMoney]];
 
-            }
-            
+
+
+
         }];
-        
-      
-//        self.balanceLbl.text = [NSString stringWithFormat:@"%@",[@(total) convertToRealMoney]];
+
         
     } failure:^(NSError *error) {
                 

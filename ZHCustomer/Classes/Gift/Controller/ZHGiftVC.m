@@ -22,6 +22,8 @@
 @property (nonatomic,strong) NSMutableArray <ZHShop *>*shops;
 @property (nonatomic, strong) NSDate *lastLocationSuccessDate;
 
+@property (nonatomic, assign) BOOL isFirst;
+
 @end
 
 //
@@ -50,13 +52,17 @@
         return;
     }
     //
+    if (self.isFirst) {
+        [self.shopTableView beginRefreshing];
+        self.isFirst = NO;
+    }
     
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"购物中心";
-    
+    self.isFirst = YES;
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)
@@ -72,9 +78,18 @@
     helper.code = @"808217";
     helper.parameters[@"type"] = @"G01";
     helper.parameters[@"kind"] = @"f3";
-    helper.parameters[@"kind"] = @"f3";
     helper.parameters[@"orderColumn"] = @"ui_order";
     helper.parameters[@"orderDir"] = @"asc";
+    
+    CLLocation *location = [TLLocationService service].locationManager.location;
+    if (location) {
+        
+        self.pageDataHelper.parameters[@"longitude"] = [NSString stringWithFormat:@"%.10f",location.coordinate.longitude];
+        
+        //
+        self.pageDataHelper.parameters[@"latitude"] = [NSString stringWithFormat:@"%.10f",location.coordinate.latitude];
+        
+    }
 
     
 //    uiOrder
@@ -123,8 +138,9 @@
     
 //    [TLUpdateAppService updateAppWithVC:self];
     
-    [TLProgressHUD showWithStatus:nil];
+//    [TLProgressHUD showWithStatus:nil];
     [[TLLocationService service] startService];
+    
     
 }
 

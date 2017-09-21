@@ -42,7 +42,8 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
 /**
  商品购买 显示分润还是余额
  */
-@property (nonatomic, assign) BOOL isFRBAndGXZ;
+@property (nonatomic, copy) NSString *payCurrency;
 
+//@property (nonatomic, assign) BOOL isFRBAndGXZ;
 
 @end

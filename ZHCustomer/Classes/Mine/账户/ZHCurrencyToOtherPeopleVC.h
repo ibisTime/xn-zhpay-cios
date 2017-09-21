@@ -8,9 +8,11 @@
 
 #import "TLBaseVC.h"
 
-@interface ZHFRBToOtherPeopleVC : TLBaseVC
+@interface ZHCurrencyToOtherPeopleVC : TLBaseVC
 
-@property (nonatomic, strong) NSNumber *sysMoney;
+//@property (nonatomic, strong) NSNumber *sysMoney;
+
+@property (nonatomic, copy) NSString *accountNumber;
 @property (nonatomic, copy) void(^success)(NSNumber *sysMoney);
 
 @end

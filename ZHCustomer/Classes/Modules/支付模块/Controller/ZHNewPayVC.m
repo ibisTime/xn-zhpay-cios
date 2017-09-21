@@ -145,20 +145,41 @@
     switch (self.type) {
             
         case ZHPayViewCtrlTypeNewGoods: { //普通商品支付
+          
             
-            payType = @[@(ZHPayTypeOther),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-            status = @[@(YES),@(NO),@(NO),@(NO)];
-            
-            if (self.isFRBAndGXZ) {
+            if ([self.payCurrency isEqualToString:@"2"]) {
                 
-                payNames  = @[@"余额",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+                if([[ZHUser user] canGongXianZhiXiaoFei]) {
+                    
+                    payNames  = @[@"补贴",@"贡献值",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+                    imgs = @[@"zh_pay",@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+                    payType = @[@(ZHPayTypeBTB),@(ZHPayTypeGXZ),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                    status = @[@(YES),@(NO),@(NO),@(NO),@(NO)];
+                    
+                } else {
+                    
+                    payNames  = @[@"补贴",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+                    imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+                    payType = @[@(ZHPayTypeBTB),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                    status = @[@(YES),@(NO),@(NO),@(NO)];
+                    
+                }
                 
-            } else {
+//                payNames  = @[@"余额",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+//
+//                payType = @[@(ZHPayTypeOther),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+//                status = @[@(YES),@(NO),@(NO),@(NO)];
+//                imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+
+            } else if([self.payCurrency isEqualToString:@"1"]) {
                 
-                payNames  = @[@"分润",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"补贴",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
                 
+                payType = @[@(ZHPayTypeBTB),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                status = @[@(YES),@(NO),@(NO),@(NO)];
+                imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+
             }
-            imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
             
             //隐藏掉支付宝
             NSInteger count = payNames.count;
@@ -324,10 +345,16 @@
         }
         break;
             
-        case ZHPayTypeOther: {
+        case ZHPayTypeBTB: {
+            
+            payTypeCode = kZHBTBPayTypeCode;
+            
+        } break;
+            
+        case ZHPayTypeGXZ: {
             
             
-            payTypeCode = kZHDefaultPayTypeCode;
+            payTypeCode = kZHGXZPayTypeCode;
         }
         break;
     }
@@ -595,7 +622,7 @@
         
             long long value = [self.totalPrice longLongValue];
             self.priceLbl.text = [@(value) convertToRealMoney];
-        
+            
         }
         
     

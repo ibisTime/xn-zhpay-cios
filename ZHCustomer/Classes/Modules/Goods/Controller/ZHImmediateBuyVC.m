@@ -139,7 +139,8 @@
             //商品购买
             ZHNewPayVC *payVC = [[ZHNewPayVC alloc] init];
             payVC.goodsCodeList = @[orderCode];
-            payVC.isFRBAndGXZ = [self.goodsRoom[0].payCurrency isEqualToString:@"2"];
+            
+            payVC.payCurrency = self.goodsRoom[0].payCurrency ;
         
             
             //加上邮费的价格

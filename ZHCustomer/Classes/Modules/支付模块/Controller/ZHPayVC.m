@@ -155,14 +155,11 @@
         convertHttp.code = @"002051";
         convertHttp.parameters[@"fromCurrency"] = kFRB;
         convertHttp.parameters[@"toCurrency"] = kGiftB;
-//      convertHttp.parameters[@"fromCurrency"] =  kGiftB;
-//      convertHttp.parameters[@"toCurrency"] = kFRB;
         [convertHttp postWithSuccess:^(id responseObject) {
             
             self.changeRate =  responseObject[@"data"][@"rate"];
             
         } failure:^(NSError *error) {
-            
             
         }];
 
@@ -248,16 +245,31 @@
             self.title = @"支付";
             if ([self.shop.payCurrency isEqualToString:@"1"]) {
                 
-                payNames  = @[@"分润",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+                payNames  = @[@"补贴",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+                imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+                payType = @[@(ZHPayTypeBTB),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                status = @[@(YES),@(NO),@(NO),@(NO)];
                 
-            } else {
+            } else if([self.shop.payCurrency isEqualToString:@"2"]) {
                 
-                payNames  = @[@"余额",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
-                
+                if([[ZHUser user] canGongXianZhiXiaoFei]) {
+                    
+                    payNames  = @[@"补贴",@"贡献值",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+                    imgs = @[@"zh_pay",@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+                    payType = @[@(ZHPayTypeBTB),@(ZHPayTypeGXZ),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                    status = @[@(YES),@(NO),@(NO),@(NO),@(NO)];
+                    
+                } else {
+                    
+                    payNames  = @[@"补贴",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
+                    imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+                    payType = @[@(ZHPayTypeBTB),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                    status = @[@(YES),@(NO),@(NO),@(NO)];
+                    
+                }
+        
             }
-            imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
-            payType = @[@(ZHPayTypeOther),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-            status = @[@(YES),@(NO),@(NO),@(NO)];
+    
             
             self.paySceneManager.leftTitleStr = @"消费金额";
             self.paySceneManager.placeholderStr = @"请输入消费金额";
@@ -284,9 +296,9 @@
         case ZHShopPayTypeBuyGiftB: {
             
             self.title = @"支付";
-            payNames  = @[@"分润",@"微信",@"支付宝"]; //余额(可用100)
+            payNames  = @[@"补贴",@"微信",@"支付宝"]; //余额(可用100)
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            payType = @[@(ZHPayTypeBTB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO)];
             self.paySceneManager.leftTitleStr = @"购买数量";
             self.paySceneManager.placeholderStr = @"请输入礼品券数量";
@@ -299,9 +311,9 @@
         case ZHShopPayTypeBuyLMB: {
             
             self.title = @"支付";
-            payNames  = @[@"分润",@"微信",@"支付宝"]; //余额(可用100)
+            payNames  = @[@"补贴",@"微信",@"支付宝"]; //余额(可用100)
             imgs = @[@"zh_pay",@"we_chat",@"alipay"];
-            payType = @[@(ZHPayTypeOther),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+            payType = @[@(ZHPayTypeBTB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
             status = @[@(YES),@(NO),@(NO)];
             self.paySceneManager.leftTitleStr = @"购买数量";
             self.paySceneManager.placeholderStr = @"请输入联盟券数量";
@@ -426,12 +438,18 @@
         }
             break;
             
-        case ZHPayTypeOther: {
+        case ZHPayTypeGXZ: {
             
-            payType = kZHDefaultPayTypeCode;
+            payType = kZHGXZPayTypeCode;
         }
         break;
+        
+        case ZHPayTypeBTB : {
             
+            payType = kZHBTBPayTypeCode;
+
+        }
+        break;
             
         case ZHPayTypeGiftB: {
             
@@ -453,7 +471,7 @@
     //买B
     if(self.shopPayType == ZHShopPayTypeBuyGiftB) {
     
-        if (type == ZHPayTypeOther) {
+        if (type == ZHPayTypeBTB) {
         
             UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
             [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
@@ -498,7 +516,7 @@
     
     if(self.shopPayType == ZHShopPayTypeBuyLMB) {
         
-        if (type == ZHPayTypeOther) {
+        if (type == ZHPayTypeBTB) {
             
             UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:nil message:@"请输入支付密码" preferredStyle:UIAlertControllerStyleAlert];
             [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {

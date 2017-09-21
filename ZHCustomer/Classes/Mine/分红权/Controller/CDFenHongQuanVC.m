@@ -17,6 +17,8 @@
 #import "TLHeader.h"
 #import "ZHUser.h"
 #import "UIColor+theme.h"
+#import "ZHRealNameAuthVC.h"
+#import "ZHWithdrawalVC.h"
 
 
 @interface CDFenHongQuanVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -29,9 +31,11 @@
 @property (nonatomic, strong) TLTableView *profitTableView;
 
 @property (nonatomic, copy) NSArray<ZHEarningModel *> *earningModels;
-@property (nonatomic, copy) ZHCurrencyModel *fenRunModel;
+//@property (nonatomic, strong) ZHCurrencyModel *fenRunModel;
 
 @property (nonatomic, strong) UIButton *funRunBtn;
+@property (nonatomic, strong) ZHCurrencyModel *fenRunCurrencyModel;
+
 @end
 
 @implementation CDFenHongQuanVC
@@ -63,6 +67,7 @@
         [currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj.currency isEqualToString:kFRB]) {
                 
+                self.fenRunCurrencyModel = obj;
                 [self.funRunBtn setTitle:[NSString stringWithFormat:@"分润：%@",[obj.amount convertToRealMoney]] forState:UIControlStateNormal];
             }
         }];
@@ -80,12 +85,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-  
     //
     self.title = @"分红权详情";
     _group = dispatch_group_create();
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
-    
     //先获取分润
 
     //
@@ -178,6 +181,30 @@
 #pragma mark- 提现
 - (void)withdrawAction {
     
+    __weak typeof(self) weakself = self;
+    //进行实名认真之后才能提现
+    if (![ZHUser user].realName) {
+        [TLAlert alertWithTitle:nil Message:@"您还未进行实名认证\n前往进行实名认证" confirmMsg:@"前往" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
+            
+        } confirm:^(UIAlertAction *action) {
+            
+            ZHRealNameAuthVC *authVC = [[ZHRealNameAuthVC alloc] init];
+            authVC.authSuccess = ^(){ //实名认证成功
+                
+            };
+            [weakself.navigationController pushViewController:authVC animated:YES];
+            
+        }];
+        
+        return;
+    }
+    
+    ZHWithdrawalVC *withdrawalVC = [[ZHWithdrawalVC alloc] init];
+    withdrawalVC.accountNum = weakself.fenRunCurrencyModel.accountNumber;
+    withdrawalVC.success = ^(){
+        
+    };
+    [weakself.navigationController pushViewController:withdrawalVC animated:YES];
     
     
 }
@@ -360,6 +387,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     ZHSingleProfitFlowVC *vc = [[ZHSingleProfitFlowVC alloc] init];
+    vc.type = ZHSingleProfitFlowVCTypeFenHongQuan;
     vc.earnModel = self.earningModels[indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
     

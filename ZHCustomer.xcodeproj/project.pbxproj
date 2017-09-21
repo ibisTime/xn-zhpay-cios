@@ -110,7 +110,7 @@
 		2E9086B21F1C4FAB002374F4 /* ZHMineViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086B11F1C4FAB002374F4 /* ZHMineViewCtrl.m */; };
 		2E9086C01F1C5060002374F4 /* CDBillHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086B51F1C5060002374F4 /* CDBillHistoryVC.m */; };
 		2E9086C11F1C5060002374F4 /* ZHBillVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086B71F1C5060002374F4 /* ZHBillVC.m */; };
-		2E9086C21F1C5060002374F4 /* ZHFRBToOtherPeopleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086B91F1C5060002374F4 /* ZHFRBToOtherPeopleVC.m */; };
+		2E9086C21F1C5060002374F4 /* ZHCurrencyToOtherPeopleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086B91F1C5060002374F4 /* ZHCurrencyToOtherPeopleVC.m */; };
 		2E9086C31F1C5060002374F4 /* ZHHBConvertFRVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086BB1F1C5060002374F4 /* ZHHBConvertFRVC.m */; };
 		2E9086C41F1C5060002374F4 /* ZHNewMineWalletVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086BD1F1C5060002374F4 /* ZHNewMineWalletVC.m */; };
 		2E9086C51F1C5060002374F4 /* ZHWithdrawalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9086BF1F1C5060002374F4 /* ZHWithdrawalVC.m */; };
@@ -217,6 +217,7 @@
 		2EEA7C3B1F3AABB600ADF543 /* CDChooseTimeIntervalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C3A1F3AABB600ADF543 /* CDChooseTimeIntervalView.m */; };
 		2EEA7C411F3BFA0F00ADF543 /* RecommendMerchantVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7C401F3BFA0F00ADF543 /* RecommendMerchantVC.m */; };
 		2EEC28A21F725F9100EEC3F3 /* ZHBuTieDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEC28A11F725F9100EEC3F3 /* ZHBuTieDetailVC.m */; };
+		2EEC28A81F73898800EEC3F3 /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEC28A71F73898800EEC3F3 /* DeviceUtil.m */; };
 		2EEF8D941EE15A0B00453109 /* ZHNewPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D751EE15A0B00453109 /* ZHNewPayVC.m */; };
 		2EEF8D951EE15A0B00453109 /* ZHPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D771EE15A0B00453109 /* ZHPayVC.m */; };
 		2EEF8D961EE15A0B00453109 /* ZHPayFuncModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEF8D7A1EE15A0B00453109 /* ZHPayFuncModel.m */; };
@@ -457,8 +458,8 @@
 		2E9086B51F1C5060002374F4 /* CDBillHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBillHistoryVC.m; sourceTree = "<group>"; };
 		2E9086B61F1C5060002374F4 /* ZHBillVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHBillVC.h; sourceTree = "<group>"; };
 		2E9086B71F1C5060002374F4 /* ZHBillVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHBillVC.m; sourceTree = "<group>"; };
-		2E9086B81F1C5060002374F4 /* ZHFRBToOtherPeopleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHFRBToOtherPeopleVC.h; sourceTree = "<group>"; };
-		2E9086B91F1C5060002374F4 /* ZHFRBToOtherPeopleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHFRBToOtherPeopleVC.m; sourceTree = "<group>"; };
+		2E9086B81F1C5060002374F4 /* ZHCurrencyToOtherPeopleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHCurrencyToOtherPeopleVC.h; sourceTree = "<group>"; };
+		2E9086B91F1C5060002374F4 /* ZHCurrencyToOtherPeopleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHCurrencyToOtherPeopleVC.m; sourceTree = "<group>"; };
 		2E9086BA1F1C5060002374F4 /* ZHHBConvertFRVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHHBConvertFRVC.h; sourceTree = "<group>"; };
 		2E9086BB1F1C5060002374F4 /* ZHHBConvertFRVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHHBConvertFRVC.m; sourceTree = "<group>"; };
 		2E9086BC1F1C5060002374F4 /* ZHNewMineWalletVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHNewMineWalletVC.h; sourceTree = "<group>"; };
@@ -657,6 +658,8 @@
 		2EEA7C401F3BFA0F00ADF543 /* RecommendMerchantVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendMerchantVC.m; sourceTree = "<group>"; };
 		2EEC28A01F725F9100EEC3F3 /* ZHBuTieDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZHBuTieDetailVC.h; sourceTree = "<group>"; };
 		2EEC28A11F725F9100EEC3F3 /* ZHBuTieDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZHBuTieDetailVC.m; sourceTree = "<group>"; };
+		2EEC28A61F73898800EEC3F3 /* DeviceUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceUtil.h; sourceTree = "<group>"; };
+		2EEC28A71F73898800EEC3F3 /* DeviceUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceUtil.m; sourceTree = "<group>"; };
 		2EEF8D741EE15A0B00453109 /* ZHNewPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHNewPayVC.h; sourceTree = "<group>"; };
 		2EEF8D751EE15A0B00453109 /* ZHNewPayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHNewPayVC.m; sourceTree = "<group>"; };
 		2EEF8D761EE15A0B00453109 /* ZHPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPayVC.h; sourceTree = "<group>"; };
@@ -1182,8 +1185,8 @@
 				2E9086B51F1C5060002374F4 /* CDBillHistoryVC.m */,
 				2E9086B61F1C5060002374F4 /* ZHBillVC.h */,
 				2E9086B71F1C5060002374F4 /* ZHBillVC.m */,
-				2E9086B81F1C5060002374F4 /* ZHFRBToOtherPeopleVC.h */,
-				2E9086B91F1C5060002374F4 /* ZHFRBToOtherPeopleVC.m */,
+				2E9086B81F1C5060002374F4 /* ZHCurrencyToOtherPeopleVC.h */,
+				2E9086B91F1C5060002374F4 /* ZHCurrencyToOtherPeopleVC.m */,
 				2E9086BA1F1C5060002374F4 /* ZHHBConvertFRVC.h */,
 				2E9086BB1F1C5060002374F4 /* ZHHBConvertFRVC.m */,
 				2E9086BE1F1C5060002374F4 /* ZHWithdrawalVC.h */,
@@ -1495,6 +1498,8 @@
 				2EC2ADA51E0CF55A003EF503 /* TLHeader.h */,
 				2EC2ADA81E0CF55A003EF503 /* View */,
 				2EC2ADC21E0CF55A003EF503 /* Warn */,
+				2EEC28A61F73898800EEC3F3 /* DeviceUtil.h */,
+				2EEC28A71F73898800EEC3F3 /* DeviceUtil.m */,
 			);
 			path = Expand;
 			sourceTree = "<group>";
@@ -2197,7 +2202,7 @@
 				2E9086971F1C4C0D002374F4 /* ZHImageCell.m in Sources */,
 				2E6E47E71E13BD1200FD2CA7 /* ZHAccountSecurityVC.m in Sources */,
 				2EF9DC081E1CC98B005E2943 /* ZHShopOrderCell.m in Sources */,
-				2E9086C21F1C5060002374F4 /* ZHFRBToOtherPeopleVC.m in Sources */,
+				2E9086C21F1C5060002374F4 /* ZHCurrencyToOtherPeopleVC.m in Sources */,
 				2E9086E91F1C52A5002374F4 /* CDUserReleationVC.m in Sources */,
 				2E5945551E28687E00331BAF /* SGScanningQRCodeView.m in Sources */,
 				2EF892A41E51C0A80068CE16 /* ZHAboutUsVC.m in Sources */,
@@ -2249,6 +2254,7 @@
 				2EF9DC021E1CC877005E2943 /* ZHShopOrderVC.m in Sources */,
 				2EC6027F1E5EE2E40066C197 /* ZHNumberCell.m in Sources */,
 				2EEF8E571EE5639900453109 /* ZHGoodsDetailVC.m in Sources */,
+				2EEC28A81F73898800EEC3F3 /* DeviceUtil.m in Sources */,
 				2EC2AE6A1E0CF5B3003EF503 /* ZHAccountBaseVC.m in Sources */,
 				2EEC28A21F725F9100EEC3F3 /* ZHBuTieDetailVC.m in Sources */,
 				2E2267571E50B26000C7126E /* AppConfig.m in Sources */,

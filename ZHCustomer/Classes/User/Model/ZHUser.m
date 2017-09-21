@@ -94,12 +94,12 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     self.nickname = nil;
     self.userExt = nil;
     self.tradepwdFlag = nil;
+    self.isGxz = nil;
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_ID_KEY];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:TOKEN_ID_KEY];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_INFO_DICT_KEY];
 
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"user_login_out_notification" object:nil];
 }
 
 
@@ -141,6 +141,13 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
 
 }
 
+- (BOOL)canGongXianZhiXiaoFei {
+    
+    return [self.isGxz isEqualToString:@"1"];
+    
+}
+
+
 
 - (void)setUserInfoWithDict:(NSDictionary *)dict {
 
@@ -151,7 +158,7 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     self.tradepwdFlag = dict[@"tradepwdFlag"];
     self.userRefereeName = dict[@"userRefereeName"];
     self.createDatetime = dict[@"createDatetime"];
-    
+    self.isGxz = dict[@"isGxz"];
     NSDictionary *userExt = dict[@"userExt"];
     if (userExt) {
         if (userExt[@"photo"]) {

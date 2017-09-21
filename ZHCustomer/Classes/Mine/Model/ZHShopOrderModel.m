@@ -49,7 +49,7 @@
         
         payAmount = self.payAmount1;
 
-    } else if([self.payType isEqualToString:kZHDefaultPayTypeCode]) {
+    } else if([self.payType isEqualToString:kZHGXZPayTypeCode]) {
     
         payAmount = self.price;
         
