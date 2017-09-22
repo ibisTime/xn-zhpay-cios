@@ -177,7 +177,7 @@
     //http.parameters[@"isDefault"] = @"0"; //是否为默认收货地址
     [http postWithSuccess:^(id responseObject) {
         
-        self.tableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
+        self.tableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49]) delegate:self dataSource:self];
         [self.view addSubview:self.tableV];
         self.tableV.tableFooterView = [self footerView];
 //
@@ -359,7 +359,7 @@
     
     //无地址
     postage = @0;
-    long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
+//    long long totalPrice = [postage longLongValue] + [goods.currentParameterPriceRMB longLongValue]*goods.currentCount;
 //    NSString *totalPriceStr = [NSString stringWithFormat:@"￥%@", [@(totalPrice) convertToRealMoney]];
     self.totalPriceLbl.text = [NSString stringWithFormat:@"%@", [@([goods.currentParameterPriceRMB longLongValue]*goods.currentCount) convertToRealMoney]];
 
@@ -384,6 +384,18 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 10;
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
+
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

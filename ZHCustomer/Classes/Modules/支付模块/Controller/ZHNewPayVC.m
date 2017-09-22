@@ -641,7 +641,7 @@
 - (void)setUpUI {
     
     //
-    UITableView *payTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) style:UITableViewStyleGrouped];
+    UITableView *payTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49]) style:UITableViewStyleGrouped];
     [self.view addSubview:payTableView];
     self.payTableView = payTableView;
     payTableView.showsVerticalScrollIndicator = NO;

@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UITableView *goodsDetailTV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) style:UITableViewStylePlain];
+    UITableView *goodsDetailTV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49]) style:UITableViewStylePlain];
     goodsDetailTV.delegate = self;
     goodsDetailTV.dataSource = self;
     goodsDetailTV.separatorStyle = UITableViewCellSeparatorStyleNone;

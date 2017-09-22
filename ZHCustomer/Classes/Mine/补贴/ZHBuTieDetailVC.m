@@ -116,7 +116,8 @@
     
     //补贴分页查
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808455";
+//    helper.code = @"808455";
+    helper.code = @"808457";
     helper.parameters[@"userId"] = [ZHUser user].userId;
     helper.tableView = self.profitTableView;
     [helper modelClass:[ZHEarningModel class]];

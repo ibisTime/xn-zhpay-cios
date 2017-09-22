@@ -42,13 +42,16 @@
     
 }
 
-
+- (void)viewDidLayoutSubviews {
+    
+    self.shoppingListTableV.frame = self.view.bounds;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
-    TLTableView *tableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 40) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 0) delegate:self dataSource:self];
     [self.view addSubview:tableView];
     tableView.rowHeight = 100;
     

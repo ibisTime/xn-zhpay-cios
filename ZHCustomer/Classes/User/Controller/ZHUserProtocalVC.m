@@ -12,9 +12,16 @@
 
 @interface ZHUserProtocalVC ()<WKNavigationDelegate>
 
+@property (nonatomic, strong) WKWebView *webView;
+
 @end
 
 @implementation ZHUserProtocalVC
+
+//- (void)viewDidLayoutSubviews {
+//
+//    self.webView.frame = self.view.bounds;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,9 +37,16 @@
     [http postWithSuccess:^(id responseObject) {
         
         WKWebViewConfiguration *webConfig = [[WKWebViewConfiguration alloc] init];
-        
-        WKWebView *webV = [[WKWebView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64) configuration:webConfig];
+        // 创建设置对象
+        WKPreferences *preference = [[WKPreferences alloc]init];
+        // 设置字体大小(最小的字体大小)
+        preference.minimumFontSize = 30;
+        // 设置偏好设置对象
+        webConfig.preferences = preference;
+    
+        WKWebView *webV = [[WKWebView alloc] initWithFrame:CGRectMake(0, [DeviceUtil top64], SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64]) configuration:webConfig];
         [self.view addSubview:webV];
+        self.webView = webV;
         webV.navigationDelegate = self;
         [webV loadHTMLString:responseObject[@"data"][@"note"] baseURL:nil];
         

@@ -181,7 +181,7 @@
         dshjVC.smallCategories = [ZHGoodsCategoryManager manager].dshjCategories;
         
         [self.view addSubview:dshjVC.view];
-        self.view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
+        self.view.frame = CGRectMake(0, [DeviceUtil top64], SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49]);
         
     }
     

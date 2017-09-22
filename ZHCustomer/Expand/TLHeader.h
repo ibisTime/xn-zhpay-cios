@@ -31,12 +31,13 @@
 #import "TLBaseVC.h"
 
 #import "TLNetworking.h"
-#import "UIView+Frame.h"
+#import <CDCommon/UIView+Frame.h>
+//#import "UIView+Frame.h"
 #import "UIColor+Extension.h"
 #import "Foundation+Log.m"
 //#import "MBProgressHUD+add.h"
 #import "UIImageView+WebCache.h"
-
+#import "UIScrollView+TLAdd.h"
 
 #import "UILable+convience.h"
 #import "UIButton+convience.h"
@@ -48,7 +49,7 @@
 
 #import "NSObject+convert.h"
 #import "Foundation+Log.m"
-
+#import "DeviceUtil.h"
 #import "UIFont+UI.h"
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width

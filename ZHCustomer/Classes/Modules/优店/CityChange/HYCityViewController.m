@@ -78,7 +78,7 @@
 
 -(void)initTableView
 {
-    self.cityTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreen_width, kScreen_height - 64) style:UITableViewStylePlain];
+    self.cityTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreen_width, kScreen_height - [DeviceUtil top64]) style:UITableViewStylePlain];
     self.cityTableView.dataSource = self;
     self.cityTableView.delegate = self;
     self.cityTableView.sectionIndexColor = [UIColor zh_textColor];

@@ -38,19 +38,24 @@
 
 @implementation ZHOrderDetailVC
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"订单详情";
     
-    UITableView *tableV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
+    UITableView *tableV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT- [DeviceUtil top64] ) style:UITableViewStylePlain];
     tableV.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableV.dataSource = self;
     tableV.delegate = self;
     [self.view addSubview:tableV];
     self.orderDetailTableView = tableV;
+    [tableV adjustsContentInsets];
     //
     tableV.backgroundColor = [UIColor zh_backgroundColor];
     tableV.rowHeight = [ZHOrderGoodsCell rowHeight];
+    
+   
     
     //创建headerView
     [self orderHeaderView];
@@ -81,7 +86,7 @@
         if ([self.order.status isEqualToString:@"3"]) {
             
             //收货按钮
-            tableV.height = tableV.height - 49;
+            tableV.height = tableV.height -  DeviceUtil.bottom49;
             UIButton *shBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, tableV.yy, SCREEN_WIDTH, 49) title:@"收货" backgroundColor:[UIColor zh_themeColor]];
             [self.view addSubview:shBtn];
             [shBtn addTarget:self action:@selector(confirmReceive) forControlEvents:UIControlEventTouchUpInside];

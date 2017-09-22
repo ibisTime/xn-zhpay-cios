@@ -71,12 +71,14 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UITableView *shopDetailTV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60) style:UITableViewStyleGrouped];
+    UITableView *shopDetailTV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - 60 - DeviceUtil.bottomInsetHeight) style:UITableViewStyleGrouped];
     shopDetailTV.delegate = self;
     shopDetailTV.dataSource = self;
     shopDetailTV.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:shopDetailTV];
+    [shopDetailTV adjustsContentInsets];
     
+    //设置头部
     UIImageView *coverImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*0.6)];
     shopDetailTV.tableHeaderView = coverImgView;
     coverImgView.clipsToBounds = YES;
@@ -97,14 +99,13 @@
     
     [self.view addSubview:buyBtn];
     
-    
     [buyBtn addTarget:self action:@selector(buyAction) forControlEvents:UIControlEventTouchUpInside];
     
     //左边购买
     [buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.height.mas_equalTo(40);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-10);
+        make.top.equalTo(shopDetailTV.mas_bottom).offset(10);
         make.left.equalTo(self.view.mas_left).offset(15);
         make.width.equalTo(btn.mas_width);
         
@@ -114,7 +115,7 @@
     [btn mas_makeConstraints:^(MASConstraintMaker *make) {
 
         make.height.mas_equalTo(40);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-10);
+        make.top.equalTo(buyBtn.mas_top);
         make.width.equalTo(buyBtn.mas_width);
         make.left.equalTo(buyBtn.mas_right).offset(15);
         make.right.equalTo(self.view.mas_right).offset(-15);
@@ -228,6 +229,14 @@
 
 #pragma mark- 购买B
 - (void)buyAction {
+    
+    if (![ZHUser user].isLogin) {
+        
+        ZHUserLoginVC *loginVC = [[ZHUserLoginVC alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        [self  presentViewController:nav animated:YES completion:nil];
+        return;
+    }
     
     if (!self.shop.isOpen) {
         [TLAlert alertWithMsg:@"店铺未营业"];
@@ -480,42 +489,11 @@
                                      textColor:[UIColor zh_textColor]];
     [headView addSubview:self.shopNameLbl];
     self.shopNameLbl.text = self.shop.name;
-//
-//    UIButton *btn = [UIButton zhBtnWithFrame:CGRectMake(0, 10, 80, 29) title:@"支付"];
-//    [headView addSubview:btn];
-//    [btn addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    //
-//    UIButton *buyBtn = [UIButton zhBtnWithFrame:CGRectMake(0, btn.y, btn.width
-//                                ,btn.height) title:@"购买"];
-//    
-//    [headView addSubview:buyBtn];
-//    
-//    [buyBtn addTarget:self action:@selector(buyGiftBAction) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.width.mas_equalTo(60);
-//        make.height.mas_equalTo(29);
-//        make.right.mas_equalTo(headView.mas_right).offset(-15);
-//        make.top.equalTo(headView.mas_top).offset(10);
-//        
-//    }];
-//    
-//    [buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.width.height.top.equalTo(btn);
-//        make.right.equalTo(btn.mas_left).offset(-10);
-//        
-//        
-//    }];
-    
+
     [self.shopNameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(headView.mas_left).offset(15);
         make.top.equalTo(headView.mas_centerY);
-//        make.centerY.equalTo(buyBtn.mas_centerY);
-//        make.right.lessThanOrEqualTo(buyBtn.mas_left);
         
     }];
     

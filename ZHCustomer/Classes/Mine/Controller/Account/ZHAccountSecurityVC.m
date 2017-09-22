@@ -19,6 +19,7 @@
 #import "TLHeader.h"
 #import "ZHUser.h"
 #import "UIColor+theme.h"
+#import <CDCommon/UIView+Frame.h>
 
 #define LEFT_W 100
 @interface ZHAccountSecurityVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -42,12 +43,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"设置";
-    UITableView *tableV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49 - 64) style:UITableViewStyleGrouped];
+    UITableView *tableV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49 - [DeviceUtil top64]) style:UITableViewStyleGrouped];
     [self.view addSubview:tableV];
     tableV.delegate = self;
     tableV.dataSource = self;
     tableV.backgroundColor = [UIColor zh_backgroundColor];
+    [tableV adjustsContentInsets];
     
+    //
     self.names = @[@"昵称",@"手机号",@"实名认证",@"修改登录密码",@"修改支付密码",@"银行卡",@"系统公告",@"收货地址",@"关于我们"];
     
     self.nameLbl.text = [ZHUser user].nickname;
@@ -225,7 +228,7 @@
                          backgroundColor:[UIColor whiteColor]
                                     font:FONT(15)
                                textColor:[UIColor zh_textColor2]];
-    lbl.xx_size = SCREEN_WIDTH - 35;
+    lbl.right = SCREEN_WIDTH - 35;
 
     return lbl;
 }

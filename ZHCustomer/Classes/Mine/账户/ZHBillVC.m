@@ -241,47 +241,7 @@
   
     }
     
-    //头部
-//    if ([self.currencyModel.currency isEqualToString:kFRB]) { //只可以提现
-//        
-//        hiddenLeft = YES;
-//        rightTitle = @"提现";
-        
-//#pragma mark- 转贡献值
-//        UIButton *zhuanZhangeBtn = [UIButton zhBtnWithFrame:CGRectZero title:@"转账"];
-//        [currencyConvertView addSubview:zhuanZhangeBtn];
-//        [zhuanZhangeBtn addTarget:self action:@selector(zhuanZhangAction) forControlEvents:UIControlEventTouchUpInside];
-//        [zhuanZhangeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//
-//            make.centerY.equalTo(currencyConvertView.mas_centerY);
-//            make.width.equalTo(currencyConvertView.rightBtn.mas_width);
-//            make.height.equalTo(currencyConvertView.rightBtn.mas_height);
-//            make.right.equalTo(currencyConvertView.rightBtn.mas_left).offset(-20);
-//
-//        }];
 
-        
-//    }
-    
-//    currencyConvertView.rightBtn.hidden = hiddenRight;
-//    [currencyConvertView.rightBtn setTitle:rightTitle forState:UIControlStateNormal];
-    
-//    if ([self.currencyModel.currency isEqualToString:kHBB] || [self.currencyModel.currency isEqualToString:kHBYJ]) {
-//
-//        TLNetworking *masOpTimesHttp = [TLNetworking new];
-//        masOpTimesHttp.showView = self.view;
-//        masOpTimesHttp.code = @"802027";
-//        masOpTimesHttp.parameters[@"key"] = @"EXCTIMES";
-//        [masOpTimesHttp postWithSuccess:^(id responseObject) {
-//
-//            currencyConvertView.topHintLbl.text =[NSString stringWithFormat:@"每人每月最多转换%@次",responseObject[@"data"][@"cvalue"]];
-//
-//        } failure:^(NSError *error) {
-//
-//
-//        }];
-//
-//    }
     
 }
 
@@ -310,24 +270,6 @@
         self.rightActionBlock();
     }
     
-//    if ([self.currencyModel.type isEqualToString:kFRB]) { //只可以提现
-//        
-//
-//        
-//    } else if ([self.currencyModel.type isEqualToString:kGXB] || [self.currencyModel.type isEqualToString:kQBB] || [self.currencyModel.type isEqualToString:kGWB]) {//消费
-//        
-//    
-//    } else if ([self.currencyModel.type isEqualToString:kHBB]) {//红包币转分润
-//        
-//   
-//        
-//    } else if ([self.currencyModel.type isEqualToString:kHBYJ]) {//转贡献，或者分润
-//        
-//        hiddenLeft = NO;
-//        leftTitle = @"转贡献";
-//        rightTitle = @"转分润";
-//        
-//    }
 
 }
 
@@ -350,10 +292,11 @@
 }
 
 
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    
-//
-//}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

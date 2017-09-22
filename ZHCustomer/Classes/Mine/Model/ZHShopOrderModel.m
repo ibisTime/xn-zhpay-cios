@@ -78,9 +78,18 @@
     
         return @"联盟券";
         
-    } else {
+    } else if([self.payType isEqualToString:kZHGXZPayTypeCode]) {
     
+        return @"贡献值";
+        
+    } else if([self.payType isEqualToString:kZHBTBPayTypeCode]) {
+        
+        return @"补贴";
+        
+    } else {
+        
         return @"￥";
+
     }
 
 }

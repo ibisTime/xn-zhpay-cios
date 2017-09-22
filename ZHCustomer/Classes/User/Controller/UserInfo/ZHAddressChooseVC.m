@@ -42,7 +42,7 @@ NSString *const kEditCurrentChooseAddressSuccess = @"kEditCurrentChooseAddressSu
     [super viewDidLoad];
     
     self.title = @"收货地址";
-    TLTableView *addressTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
+    TLTableView *addressTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - 49) delegate:self dataSource:self];
     [self.view addSubview:addressTableView];
     self.addressTableView = addressTableView;
     addressTableView.rowHeight = 140;

@@ -47,7 +47,7 @@
                                backgroundColor:[UIColor clearColor]
                                           font:[UIFont secondFont]
                                      textColor:[UIColor zh_textColor2]];
-        self.timeLbl.xx_size = SCREEN_WIDTH - 15;
+        self.timeLbl.right = SCREEN_WIDTH - 15;
         [self  addSubview:self.timeLbl];
         
         [self.timeLbl mas_makeConstraints:^(MASConstraintMaker *make) {

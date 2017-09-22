@@ -84,7 +84,7 @@
         UIButton *deleteBtn = [self btnWithFrame:CGRectMake(SCREEN_WIDTH - w, 110, w, 30) imageName:@"delete" title:@"删除"];
         [deleteBtn addTarget:self action:@selector(delete) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:deleteBtn];
-        deleteBtn.xx_size = SCREEN_WIDTH - 10;
+        deleteBtn.right = SCREEN_WIDTH - 10;
 //        [deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.left.equalTo(self.mas_right).offset(10);
 //            make.top.mas_equalTo(@100);
@@ -94,7 +94,7 @@
         //编辑按钮
         UIButton *editBtn = [self btnWithFrame:CGRectMake(0, 110, w, deleteBtn.height) imageName:@"edit" title:@"编辑"];
         [editBtn addTarget:self action:@selector(edit) forControlEvents:UIControlEventTouchUpInside];
-        editBtn.xx_size = deleteBtn.x - 15;
+        editBtn.right = deleteBtn.x - 15;
         [self addSubview:editBtn];
         
      

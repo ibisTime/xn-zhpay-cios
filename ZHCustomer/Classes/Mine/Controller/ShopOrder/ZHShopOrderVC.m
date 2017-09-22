@@ -46,7 +46,7 @@
     self.isFirst = YES;
     
     
-    self.shopOrderTableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) delegate:self dataSource:self];
+    self.shopOrderTableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64]) delegate:self dataSource:self];
     [self.view addSubview:self.shopOrderTableV];
     self.shopOrderTableV.rowHeight = [ZHShopOrderCell rowHeight];
     self.shopOrderTableV.placeHolderView =

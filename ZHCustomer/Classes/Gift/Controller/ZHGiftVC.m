@@ -59,13 +59,20 @@
     
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    self.shopTableView.frame = self.view.bounds;
+    
+}
+
+//
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"购物中心";
     self.isFirst = YES;
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49)
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0,0, SCREEN_WIDTH, 0)
                                                     delegate:self
                                                   dataSource:self];
     [self.view addSubview:tableView];
@@ -75,6 +82,8 @@
     
 #pragma mark- 店铺列表
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
+    self.pageDataHelper = helper;
+
     helper.code = @"808217";
     helper.parameters[@"type"] = @"G01";
     helper.parameters[@"kind"] = @"f3";
@@ -96,7 +105,6 @@
     helper.tableView = self.shopTableView;
     [helper modelClass:[ZHShop class]];
     
-    self.pageDataHelper = helper;
     __weak typeof(self) weakSelf = self;
     
     [self.shopTableView addRefreshAction:^{

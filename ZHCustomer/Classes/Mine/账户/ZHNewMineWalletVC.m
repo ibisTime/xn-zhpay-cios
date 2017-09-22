@@ -236,10 +236,16 @@
     UIImageView *bgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 120)];
     bgV.image = [UIImage imageNamed:@"我的钱包背景"];
     bgV.userInteractionEnabled = YES;
-    
-    //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lookAllBill)];
-    
     bgV.contentMode = UIViewContentModeScaleAspectFill;
+
+    //右侧箭头
+    UIImageView *rightArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"白色返回"]];
+    [bgV addSubview:rightArrow];
+    rightArrow.transform = CGAffineTransformMakeRotation(M_PI);
+    [rightArrow mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(bgV.mas_right).offset(-20);
+        make.centerY.equalTo(bgV.mas_centerY);
+    }];
     
     UILabel *topLbl = [UILabel labelWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, [FONT(12) lineHeight])
                               textAligment:NSTextAlignmentCenter

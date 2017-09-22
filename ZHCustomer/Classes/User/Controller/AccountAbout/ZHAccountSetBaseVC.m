@@ -20,11 +20,13 @@
     
     self.bgSV = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     _bgSV.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-    self.bgSV.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT - 64 + 1);
+    self.bgSV.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] + 1);
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
     [self.bgSV addGestureRecognizer:tap];
     [self.view addSubview:_bgSV];
     
+    [self.bgSV adjustsContentInsets];
+
     
 //    [self.navigationController.navigationBar setTitleTextAttributes:@{
 //                                     NSForegroundColorAttributeName : [UIColor whiteColor]

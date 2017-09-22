@@ -121,11 +121,13 @@
     }
     
     //
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0,64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0,[DeviceUtil top64], SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49]) delegate:self dataSource:self];
     [self.view addSubview:tableView];
     tableView.rowHeight = [ZHShopCell rowHeight];
     self.shopTableView = tableView;
+    [tableView adjustsContentInsets];
     
+    //
     __weak typeof(self) weakSelf = self;
     //顶部 banner 和 店铺类型选择
     [self setUpTableViewHeader];
@@ -533,7 +535,7 @@
 
 - (void)setUpSearchView {
 
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, [DeviceUtil top64])];
     [self.view addSubview:topView];
     topView.backgroundColor = [UIColor whiteColor];
     
@@ -548,7 +550,7 @@
     self.cityLbl = cityNameLbl;
     [cityNameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(topView.mas_left).offset(15);
-        make.top.equalTo(topView.mas_top).offset(28);
+        make.bottom.equalTo(topView.mas_bottom).offset(-5);
         make.height.mas_equalTo(@30);
     }];
     
@@ -581,9 +583,9 @@
     [topView addSubview:searchBgView];
     
     [searchBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
         make.top.equalTo(cityNameLbl.mas_top);
         make.left.equalTo(arrowImageV.mas_right).offset(12);
-        
         make.right.equalTo(topView.mas_right).offset(-15);
         make.height.mas_equalTo(@30);
     }];

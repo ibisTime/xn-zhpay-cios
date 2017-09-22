@@ -51,12 +51,17 @@
 
 @implementation ZHMineViewCtrl
 
+- (void)viewDidLayoutSubviews {
+    
+    self.mineTableView.frame = self.view.bounds;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的";
     self.isFist = YES;
     
-    TLTableView *tableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49 - 64) delegate:self dataSource:self];
+    TLTableView *tableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 0) delegate:self dataSource:self];
     [self.view addSubview:tableV];
     self.mineTableView = tableV;
     

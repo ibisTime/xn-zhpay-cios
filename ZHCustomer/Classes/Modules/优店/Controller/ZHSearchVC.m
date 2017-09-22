@@ -25,9 +25,6 @@
 //普通商品搜索
 @property (nonatomic,strong) NSMutableArray <ZHGoodsModel *>*goods;
 
-//一元夺宝搜索
-//@property (nonatomic,strong) NSMutableArray <ZHTreasureModel *>*treasures;
-
 @property (nonatomic,strong) TLTableView *searchTableView;
 
 @end
@@ -72,7 +69,7 @@
     [searchBar becomeFirstResponder];
     
     //
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 40, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 40) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 40, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - 40) delegate:self dataSource:self];
     [self.view addSubview:tableView];
 //    tableView.backgroundColor = [UIColor whiteColor];
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无结果"];

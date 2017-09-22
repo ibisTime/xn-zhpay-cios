@@ -55,13 +55,19 @@
     }
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    self.shopTableView.frame = self.view.bounds;
+    
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     self.isFirst  = YES;
     
     self.title = self.shopTypeName;
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 0) delegate:self dataSource:self];
     [self.view addSubview:tableView];
     tableView.rowHeight = [ZHShopCell rowHeight];
     self.shopTableView = tableView;

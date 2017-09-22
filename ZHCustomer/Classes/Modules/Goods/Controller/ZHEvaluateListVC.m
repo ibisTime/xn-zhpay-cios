@@ -57,7 +57,7 @@
     self.isFirst = NO;
     
 //
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - 49) delegate:self dataSource:self];
     [self.view addSubview:tableView];
     self.evaluateTableView = tableView;
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无评价" topMargin:50];

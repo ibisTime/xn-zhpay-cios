@@ -109,6 +109,10 @@
     billTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录"];
     self.billTV = billTableView;
     
+    [billTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.endTimeTf.mas_bottom).offset(5);
+        make.bottom.left.right.equalTo(self.view);
+    }];
     
     
     //
@@ -131,7 +135,7 @@
     self.beginTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.minimumDate];
     self.endTimeTf.text = [formatter stringFromDate:self.datePicker.datePicker.maximumDate];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         [self beginSearch];
 
