@@ -46,8 +46,6 @@
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartCountChange) name:kShoopingCartCountChangeNotification object:nil];
     
- 
-    
 }
 
 - (void)tl_placeholderOperation {

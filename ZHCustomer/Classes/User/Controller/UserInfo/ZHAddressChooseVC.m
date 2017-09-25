@@ -19,12 +19,11 @@ NSString *const kEditCurrentChooseAddressSuccess = @"kEditCurrentChooseAddressSu
 
 @interface ZHAddressChooseVC ()<UITableViewDelegate,UITableViewDataSource>
 
-
 @property (nonatomic,strong) TLTableView *addressTableView;
 @property (nonatomic,strong) NSMutableArray <ZHReceivingAddress *>*addressRoom;
 
-
 @end
+
 
 @implementation ZHAddressChooseVC
 
@@ -153,7 +152,17 @@ NSString *const kEditCurrentChooseAddressSuccess = @"kEditCurrentChooseAddressSu
     
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     

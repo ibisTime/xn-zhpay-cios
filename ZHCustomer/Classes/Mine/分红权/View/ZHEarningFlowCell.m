@@ -74,14 +74,23 @@
                            kQBB : @"钱包币",
                            kGWB : @"购物币",
                            kHBYJ : @"红包业绩",
-                           kHBB : @"红包币"
+                           kHBB : @"红包币",
+                           kBTB : @"补贴"
                            };
     
+    NSString *markTitle = @"";
+    if ([flowModel.toCurrency isEqualToString:kFRB]) {
+        markTitle = @"分红";
+    } else if ([flowModel.toCurrency isEqualToString:kBTB]) {
+        markTitle = @"补贴";
+    }
     
-    self.backMoneyLbl.text = [NSString stringWithFormat:@"分红金额%@%@",[_flowModel.toAmount convertToRealMoney],dict[_flowModel.toCurrency]];
-    self.backTimeLbl.text = [NSString stringWithFormat:@"分红时间:%@",[_flowModel.createDatetime convertToDetailDate]];
+    
+    self.backMoneyLbl.text = [NSString stringWithFormat:@"%@金额%@%@",markTitle,[_flowModel.toAmount convertToRealMoney],dict[_flowModel.toCurrency]];
+    self.backTimeLbl.text = [NSString stringWithFormat:@"%@时间:%@",markTitle,[_flowModel.createDatetime convertToDetailDate]];
     
 }
+
 
 - (NSString *)detailMoneyWithMoney:(NSNumber *)money {
     
@@ -89,10 +98,12 @@
     return [NSString stringWithFormat:@"%.3lf",[money longLongValue]/1000.0];
 }
 
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 }
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

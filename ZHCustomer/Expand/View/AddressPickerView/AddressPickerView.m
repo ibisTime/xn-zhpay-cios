@@ -191,13 +191,13 @@ static CGFloat const TITLEBUTTONWIDTH = 75.0;
             
             City *city = [[City alloc] init];
             city.cityName = obj[@"-name"];
-            if ([city.cityName hasSuffix:@"自治州"]) {
-                NSLog(@"%@",city.cityName);
-            } if ([city.cityName hasSuffix:@"盟"]) {
-                NSLog(@"%@",city.cityName);
-            } if ([city.cityName hasSuffix:@"地区"]) {
-                NSLog(@"%@",city.cityName);
-            }
+//            if ([city.cityName hasSuffix:@"自治州"]) {
+//                NSLog(@"%@",city.cityName);
+//            } if ([city.cityName hasSuffix:@"盟"]) {
+//                NSLog(@"%@",city.cityName);
+//            } if ([city.cityName hasSuffix:@"地区"]) {
+//                NSLog(@"%@",city.cityName);
+//            }
             
             NSMutableArray <NSString *>*areaStrs = [[NSMutableArray alloc] init];
             

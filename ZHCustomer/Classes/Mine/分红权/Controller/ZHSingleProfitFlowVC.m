@@ -130,13 +130,6 @@
     
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    ZHSingleProfitFlowVC *singleProfitVC = [[ZHSingleProfitFlowVC alloc] init];
-//    [self.navigationController pushViewController:singleProfitVC animated:YES];
-//    
-//}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
    return  indexPath.section != 0 ? 40 :  [CDProfitCell rowHeight];
@@ -173,19 +166,20 @@
         }
         cell.isSimpleUI = YES;
         cell.earningModel = self.earnModel;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
     }
     
     
     ZHEarningFlowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZHEarningFlowCellID"];
-    
     if (!cell) {
         
         cell = [[ZHEarningFlowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ZHEarningFlowCellID"];
         
     }
     cell.flowModel = self.flowModels[indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
     
 }

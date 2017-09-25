@@ -65,7 +65,7 @@
     
     //
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808217";
+    helper.code = @"808222";
     helper.parameters[@"userReferee"] = [ZHUser user].userId;
     
     helper.tableView = self.shopTableView;

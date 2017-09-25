@@ -109,8 +109,7 @@ NSString *const kGoodsTypeGift = @"FL201700000000000101";
     [http postWithSuccess:^(id responseObject) {
         
         NSArray *category = responseObject[@"data"];
-        
-     self.dshjCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:category];
+       self.dshjCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:category];
         
     } failure:^(NSError *error) {
         

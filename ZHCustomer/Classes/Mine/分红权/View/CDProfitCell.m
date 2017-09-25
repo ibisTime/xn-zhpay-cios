@@ -11,6 +11,7 @@
 //#import "UIHeader.h"
 #import "TLHeader.h"
 #import "UIColor+theme.h"
+#import "ZHCurrencyModel.h"
 
 @interface CDProfitCell()
 
@@ -36,8 +37,18 @@
     
     _earningModel = earningModel;
     
+    NSString *idPrefix = @"";
+    
+    if ([earningModel.profitCurrency isEqualToString:kBTB]) {
+        
+        idPrefix = @"BTID";
+        
+    } else if([earningModel.profitCurrency isEqualToString:kFRB]) {
+        idPrefix = @"FHQID";
+    }
+    
     NSString *idCodeStr = [_earningModel.code substringFromIndex:_earningModel.code.length - 6];
-    self.idLbl.text = [NSString stringWithFormat:@"FHQID%@",idCodeStr];
+    self.idLbl.text = [NSString stringWithFormat:@"%@%@",idPrefix,idCodeStr];
     
     NSNumber *willGetNum = @([_earningModel.profitAmount longLongValue] - [_earningModel.backAmount longLongValue]);
     
@@ -56,7 +67,7 @@
         
         //
         self.hasGetLbl.text = [NSString stringWithFormat: @"已领取：%@",[_earningModel.backAmount convertToRealMoney]];
-           self.willGetLbl.text = [NSString stringWithFormat: @"未领取：%@",[willGetNum convertToRealMoney]];
+        self.willGetLbl.text = [NSString stringWithFormat: @"未领取：%@",[willGetNum convertToRealMoney]];
         
         return;
     }
@@ -70,9 +81,6 @@
     //未领取
     self.willGetLbl.attributedText= [self attrWithString:[NSString stringWithFormat: @"未领取：%@",[willGetNum convertToRealMoney]] contentStr:nil len:4];
     
-    
-
-       
 }
 
 - (NSString *)detailMoneyWithMoney:(NSNumber *)money {
@@ -179,6 +187,19 @@
             make.centerY.equalTo(self.timeLbl.mas_centerY);
             make.right.equalTo(self.contentView.mas_right).offset(-15);
             
+        }];
+        
+        
+        //
+        
+        UIView *line = [[UIView alloc] init];
+        line.backgroundColor = [UIColor lineColor];
+        [self.contentView addSubview:line];
+        [line mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.mas_left);
+            make.right.equalTo(self.contentView.mas_right);
+            make.height.mas_equalTo(0.7);
+            make.bottom.equalTo(self.mas_bottom);
         }];
         
         

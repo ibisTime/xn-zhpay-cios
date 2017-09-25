@@ -93,6 +93,10 @@
 //      self.cityTf.text = self.address.city;
 //      self.areaTf.text = self.address.district;
         self.detailAddressTf.text = self.address.detailAddress;
+        //
+        self.city = self.address.city;
+        self.province = self.address.province;
+        self.area = self.address.district;
     }
     
 }
@@ -163,6 +167,7 @@
     http.showView = self.view;
     
     if (self.address) { //修改
+        
         http.code = @"805162";
         http.parameters[@"code"] = self.address.code;
         
@@ -231,11 +236,5 @@
     
 }
 
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//
-//    [self.view endEditing:YES];
-//
-//}
 
 @end
