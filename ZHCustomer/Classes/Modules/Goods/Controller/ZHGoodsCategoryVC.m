@@ -53,7 +53,7 @@
     self.smallChooseScrollView.delegate = self;
     
     //下部
-    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.smallChooseScrollView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49] - smallChooseView.yy)];
+    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.smallChooseScrollView.yy + 1, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49] - smallChooseView.yy - 1)];
     [self.view addSubview:self.switchScrollView];
     self.switchScrollView.showsHorizontalScrollIndicator = NO;
     self.switchScrollView.pagingEnabled = YES;

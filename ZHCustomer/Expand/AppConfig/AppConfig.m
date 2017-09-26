@@ -85,6 +85,19 @@ void TLLog(NSString *format, ...) {
     
 } 
 
+- (NSString *)systemCode {
+    
+    return @"CD-CZH000001";
+    
+}
+
+//
+- (NSString *)companyCode {
+    
+    return @"CD-CZH000001";
+}
+
+//
 - (NSString *)pushKey {
 
     return @"552c967a30325e9374a6ea2a";

@@ -37,5 +37,9 @@ FOUNDATION_EXPORT void TLLog(NSString *format, ...);
 @property (nonatomic, copy, readonly) NSString *aliMapKey;
 @property (nonatomic, copy, readonly) NSString *qiNiuKey;
 
+@property (nonatomic, copy) NSString *systemCode;
+@property (nonatomic, copy) NSString *companyCode;
+
+
 
 @end

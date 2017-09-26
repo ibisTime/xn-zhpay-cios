@@ -46,6 +46,13 @@
     
     self.shoppingListTableV.frame = self.view.bounds;
 }
+
+- (void)tl_placeholderOperation {
+    
+    [self.shoppingListTableV beginRefreshing];
+}
+
+//
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;

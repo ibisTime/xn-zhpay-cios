@@ -10,7 +10,7 @@
 #import "TLHeader.h"
 #import "ZHUser.h"
 #import "UIColor+theme.h"
-
+#import "AccountBizTypeManager.h"
 @interface ZHBillCell()
 
 @property (nonatomic,strong) UILabel *nameLbl;
@@ -92,7 +92,9 @@
 
     _billModel = billModel;
 
-    self.nameLbl.text = [_billModel getBizName] ? : _billModel.bizType;
+    self.nameLbl.text = [[AccountBizTypeManager manager] getBizNameByType:_billModel.bizType];
+    
+//    [_billModel getBizName] ? : _billModel.bizType;
     
     long long money = [_billModel.transAmount longLongValue];
     if (money > 0) {

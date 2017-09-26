@@ -174,23 +174,33 @@
         self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
         //把币种分开
         self.currencyDict = [[NSMutableDictionary alloc] initWithCapacity:self.currencyRoom.count];
+        
+        //统计体系那种金额
+        __block long long tiXianZhongJinEr = 0;
+        
         [self.currencyRoom  enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             self.currencyDict[obj.currency] = obj;
             
             if ([obj.currency isEqualToString:kBTB]) {
                 
-                  self.frozenLbl.text = [NSString stringWithFormat:@"提现中金额(含手续费)：%@",[obj.frozenAmount convertToRealMoney]];
                    self.balanceLbl.text = [NSString stringWithFormat:@"%@",[obj.amount convertToRealMoney]];
                 
             }
             
+            if ([obj.currency isEqualToString:kBTB] || [obj.currency isEqualToString:kFRB]) {
+                
+                tiXianZhongJinEr += [obj.frozenAmount longLongValue];
+
+            }
+            
         }];
+        
+        self.frozenLbl.text = [NSString stringWithFormat:@"提现中金额(含手续费)：%@",[@(tiXianZhongJinEr) convertToRealMoney]];
+
         
         //刷新界面信息
 //        [self refreshWalletInfo];
-
-        
         [self.walletViews enumerateObjectsUsingBlock:^(ZHWalletView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 
             NSNumber *amount = self.currencyDict[obj.code].amount;

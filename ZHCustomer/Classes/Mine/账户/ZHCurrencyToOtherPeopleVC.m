@@ -13,6 +13,7 @@
 #import "ZHCurrencyHelper.h"
 #import "UIColor+theme.h"
 #import "ZHCurrencyModel.h"
+#import "AppConfig.h"
 
 
 @interface ZHCurrencyToOtherPeopleVC()
@@ -51,6 +52,26 @@
     
 }
 
+- (void)getBeiShu {
+    
+    //
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"802027";
+    http.parameters[@"companyCode"] = [AppConfig config].companyCode;
+    http.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    http.parameters[@"key"] = @"TRANSAMOUNTBS";
+    http.parameters[@"type"] = @"TR";
+    [http postWithSuccess:^(id responseObject) {
+        
+        self.moneyTf.placeholder = [NSString stringWithFormat:@"转账金额必须为 %@ 的整倍数",responseObject[@"data"][@"cvalue"]];
+        
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
+}
+
 - (void)tl_placeholderOperation {
     
     
@@ -70,23 +91,26 @@
             
             [self setPlaceholderViewTitle:@"您还未设置支付密码" operationTitle:@"前往设置"];
             [self addPlaceholderView];
+            //
+                    ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
+                    [pwdAboutVC setSuccess:^{
             
+                        [self removePlaceholderView];
+                        [self setUpUI];
+                        [self getBeiShu];
+                        
+                    }];
+            
+                    [self.navigationController pushViewController:pwdAboutVC animated:YES];
         } else {//
             
             [self setUpUI];
-            
+            [self getBeiShu];
+
         }
-        
-        //
-//        ZHPwdRelatedVC *pwdAboutVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
-//        [pwdAboutVC setSuccess:^{
-//
-//            [self removePlaceholderView];
-//            [self setUpUI];
-//
-//        }];
-//
-//        [self.navigationController pushViewController:pwdAboutVC animated:YES];
+     
+
+
         
     } failure:^(NSError *error) {
         
@@ -122,7 +146,7 @@
     self.moneyTf = [[TLTextField alloc] initWithframe:CGRectMake(0, phoneTf.yy + 1, SCREEN_WIDTH, 45)
                                                     leftTitle:@"转账金额"
                                                    titleWidth:leftW
-                                                  placeholder:@"转账金额必须为 100 的整倍数"];
+                                                  placeholder:@"转账金额必须为 -- 的整倍数"];
     [self.bgSV addSubview:self.moneyTf];
     self.moneyTf.keyboardType = UIKeyboardTypeNumberPad;
     //
@@ -154,6 +178,7 @@
     
 }
 
+#pragma mark- 转账第一步
 - (void)firstStepAction {
     
     
@@ -164,8 +189,8 @@
     }
     
     //
-    if (![self.moneyTf.text valid]) {
-        [TLAlert alertWithInfo:@"请输入转账金额"];
+    if (![self.moneyTf.text valid] || [self.moneyTf.text floatValue] <= 0) {
+        [TLAlert alertWithInfo:@"转账金额需大于0"];
         return;
     }
     

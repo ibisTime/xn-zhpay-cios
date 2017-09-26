@@ -22,9 +22,7 @@
 @property (nonatomic,strong) ZHShoppingListCategoryVC *willPayVC;
 @property (nonatomic,strong) ZHShoppingListCategoryVC *didPayVC;
 @property (nonatomic,strong) ZHShoppingListCategoryVC *willSendVC;
-
 @property (nonatomic,strong) ZHShoppingListCategoryVC *didFinishVC;
-
 
 @property (nonatomic,strong) NSMutableArray *isAdd;
 

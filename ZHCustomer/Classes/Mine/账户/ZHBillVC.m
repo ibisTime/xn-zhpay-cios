@@ -20,7 +20,7 @@
 #import "TLHeader.h"
 #import "UIColor+theme.h"
 #import "ZHUser.h"
-
+#import "AccountBizTypeManager.h"
 
 @interface ZHBillVC ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -44,14 +44,14 @@
 
     [super viewWillAppear:animated];
     
-    if (self.isFirst) {
+    if (self.isFirst && self.billTV) {
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
             [self.billTV beginRefreshing];
             self.isFirst = NO;
             
-        });
+//        });
      
     }
 
@@ -72,6 +72,22 @@
 
 }
 
+- (void)tl_placeholderOperation {
+    
+    [TLProgressHUD showWithStatus:nil];
+    [[AccountBizTypeManager manager] getDataSuccess:^{
+        [TLProgressHUD dismiss];
+        
+        [self removePlaceholderView];
+        [self setUpUI];
+        
+    } failure:^{
+        [TLProgressHUD dismiss];
+        [self addPlaceholderView];
+    }];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;
@@ -84,15 +100,24 @@
         
     }
     
+ 
+    [self tl_placeholderOperation];
+
+    
+}
+
+
+- (void)setUpUI {
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"历史账单" style:0 target:self action:@selector(lookHistoryBill)];
     
-
+    
     
     TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
-                                                       delegate:self
-                                                     dataSource:self];
+                                                        delegate:self
+                                                      dataSource:self];
     [self.view addSubview:billTableView];
-
+    
     billTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     billTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无记录" topMargin:100];
     self.billTV = billTableView;
@@ -104,12 +129,12 @@
     pageDataHelper.tableView = billTableView;
     pageDataHelper.limit = 10;
     pageDataHelper.parameters[@"token"] = [ZHUser user].token;
-//    类型C=C端用户；B=B端用户；P=平台
+    //    类型C=C端用户；B=B端用户；P=平台
     pageDataHelper.parameters[@"userId"] = [ZHUser user].userId;
     pageDataHelper.parameters[@"type"] = TERMINAL_TYPE;
     pageDataHelper.parameters[@"accountNumber"] = self.currencyModel.accountNumber ? : nil;
     
-
+    
     
     //1=待对账，3=已对账且账已平，4=帐不平待调账审批 5=已对账且账不平 6=无需对账
     //pageDataHelper.parameters[@"status"] = [ZHUser user].token;
@@ -135,20 +160,20 @@
             
             weakSelf.bills = objs;
             [weakSelf.billTV reloadData_tl];
-   
+            
         } failure:^(NSError *error) {
             
             
         }];
         
     }];
-
+    
     ZHCurrencyConvertView *currencyConvertView = [[ZHCurrencyConvertView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
     billTableView.tableHeaderView = currencyConvertView;
     self.currencyConvertView = currencyConvertView;
     currencyConvertView.typeLbl.text = [self.currencyModel getTypeName];
     currencyConvertView.moneyLbl.text = [self.currencyModel.amount convertToRealMoney];
-
+    
     
     __weak typeof(self) weakself = self;
     
@@ -157,7 +182,7 @@
         //分润 可提现，不可转账
         currencyConvertView.leftBtn.hidden = YES;
         [currencyConvertView.rightBtn setTitle:@"提现" forState:UIControlStateNormal];
-       [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
+        [currencyConvertView.rightBtn addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
         
         self.rightActionBlock = ^(){
             
@@ -186,7 +211,7 @@
             [weakself.navigationController pushViewController:withdrawalVC animated:YES];
             
         };
-       
+        
         
     } else if ([self.currencyModel.currency isEqualToString:kBTB]) {
         //补贴币 ,可转账,可提现
@@ -238,10 +263,11 @@
         //其它按钮隐藏
         currencyConvertView.leftBtn.hidden = YES;
         currencyConvertView.rightBtn.hidden = YES;
-  
+        
     }
     
-
+    [self.billTV beginRefreshing];
+    
     
 }
 

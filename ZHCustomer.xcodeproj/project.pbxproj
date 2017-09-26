@@ -54,6 +54,7 @@
 		2E59455D1E2871D600331BAF /* QRCodeTopLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E59455C1E2871D600331BAF /* QRCodeTopLeft@2x.png */; };
 		2E59455F1E2871F700331BAF /* QRCodebottomRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E59455E1E2871F700331BAF /* QRCodebottomRight@2x.png */; };
 		2E5983C71E667B5800DE8F3C /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5983C61E667B5800DE8F3C /* UIViewController+Extension.m */; };
+		2E6741671F79F15C001CA790 /* AccountBizTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6741651F79F15B001CA790 /* AccountBizTypeManager.m */; };
 		2E6908881E5AC476003D3C69 /* ZHUserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6908871E5AC476003D3C69 /* ZHUserHeaderView.m */; };
 		2E6C3E031E2C60AB006A7AA2 /* TLImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C3E021E2C60AB006A7AA2 /* TLImagePicker.m */; };
 		2E6E47861E10B49800FD2CA7 /* NSAttributedString+add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6E47851E10B49800FD2CA7 /* NSAttributedString+add.m */; };
@@ -345,6 +346,8 @@
 		2E59455C1E2871D600331BAF /* QRCodeTopLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodeTopLeft@2x.png"; sourceTree = "<group>"; };
 		2E59455E1E2871F700331BAF /* QRCodebottomRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodebottomRight@2x.png"; sourceTree = "<group>"; };
 		2E5983C61E667B5800DE8F3C /* UIViewController+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Extension.m"; sourceTree = "<group>"; };
+		2E6741651F79F15B001CA790 /* AccountBizTypeManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccountBizTypeManager.m; sourceTree = "<group>"; };
+		2E6741661F79F15C001CA790 /* AccountBizTypeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccountBizTypeManager.h; sourceTree = "<group>"; };
 		2E6908861E5AC476003D3C69 /* ZHUserHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHUserHeaderView.h; sourceTree = "<group>"; };
 		2E6908871E5AC476003D3C69 /* ZHUserHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHUserHeaderView.m; sourceTree = "<group>"; };
 		2E6C3E001E2B2127006A7AA2 /* UIViewController+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
@@ -1261,6 +1264,8 @@
 		2E9086F01F1C5B13002374F4 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				2E6741661F79F15C001CA790 /* AccountBizTypeManager.h */,
+				2E6741651F79F15B001CA790 /* AccountBizTypeManager.m */,
 				2E4044871F27421D0095257C /* ZHGoodsCategoryManager.h */,
 				2E4044881F27421D0095257C /* ZHGoodsCategoryManager.m */,
 				2E9086F11F1C5B40002374F4 /* NBRealNameService.h */,
@@ -2297,6 +2302,7 @@
 				2EC2ADD91E0CF55A003EF503 /* UIButton+convience.m in Sources */,
 				2E6E48101E14F87200FD2CA7 /* ZHAddressChooseVC.m in Sources */,
 				2EC2AE4A1E0CF55A003EF503 /* TLBannerView.m in Sources */,
+				2E6741671F79F15C001CA790 /* AccountBizTypeManager.m in Sources */,
 				2EEF8E651EE5639900453109 /* ZHOrderGoodsCell.m in Sources */,
 				2EC2AE551E0CF55A003EF503 /* TLAlert.m in Sources */,
 				2EF8240E1EFBA4CC0017EDC1 /* TLMarqueeView.m in Sources */,

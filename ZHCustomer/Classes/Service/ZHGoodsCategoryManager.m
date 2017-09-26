@@ -118,23 +118,23 @@ NSString *const kGoodsTypeGift = @"FL201700000000000101";
 
 }
 
-- (void)getZeroBuyCategory {
-    
-    TLNetworking *http = [TLNetworking new];
-    http.code = @"808006";
-    http.isShowMsg = NO;
-    http.parameters[@"parentCode"] = @"FL201600000000000003";
-    [http postWithSuccess:^(id responseObject) {
-        
-        NSArray *category = responseObject[@"data"];
-        
-        self.lysgCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:category];
-        
-    } failure:^(NSError *error) {
-        
-        
-    }];
-    
-}
+//- (void)getZeroBuyCategory {
+//    
+//    TLNetworking *http = [TLNetworking new];
+//    http.code = @"808006";
+//    http.isShowMsg = NO;
+//    http.parameters[@"parentCode"] = @"FL201600000000000003";
+//    [http postWithSuccess:^(id responseObject) {
+//        
+//        NSArray *category = responseObject[@"data"];
+//        
+//        self.lysgCategories = [ZHCategoryModel tl_objectArrayWithDictionaryArray:category];
+//        
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
+//    
+//}
 
 @end
