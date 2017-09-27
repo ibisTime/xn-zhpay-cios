@@ -14,6 +14,7 @@
 #import "TLHeader.h"
 #import "ZHUser.h"
 #import "UIColor+theme.h"
+#import "ZHPayService.h"
 
 
 @interface ZHOrderDetailVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -80,7 +81,14 @@
         tableV.tableFooterView = [self footerView];
         self.expressCodeLbl.text = [@"快递单号：" add:self.order.logisticsCode];
         self.expressNameLbl.text = [@"快递公司：" add:self.order.logisticsCompany];
-        self.orderTotalPrice.text = [NSString stringWithFormat:@"订单总额：%@",[self.order.payAmount1 convertToRealMoney]];
+        if ([self.order.payType isEqualToString:kZHGXZPayTypeCode]) {
+            
+               self.orderTotalPrice.text = [NSString stringWithFormat:@"订单总额：%@",[self.order.payAmount11 convertToRealMoney]];
+            
+        } else {
+               self.orderTotalPrice.text = [NSString stringWithFormat:@"订单总额：%@",[self.order.payAmount1 convertToRealMoney]];
+        }
+     
         if ([self.order.status isEqualToString:@"3"]) {
             
             //收货按钮

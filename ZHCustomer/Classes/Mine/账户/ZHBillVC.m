@@ -43,17 +43,17 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
-    
-    if (self.isFirst && self.billTV) {
-        
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-            [self.billTV beginRefreshing];
-            self.isFirst = NO;
-            
-//        });
-     
-    }
+//    
+//    if (self.isFirst && self.billTV) {
+//        
+////        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        
+//            [self.billTV beginRefreshing];
+//            self.isFirst = NO;
+//            
+////        });
+//     
+//    }
 
 }
 

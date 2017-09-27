@@ -54,6 +54,7 @@
  订单支付完成才有值，包含邮费 和 商品总价
  */
 @property (nonatomic, strong) NSNumber *payAmount1;
+@property (nonatomic, strong) NSNumber *payAmount11;
 
 - (NSString *)getStatusName;
 
