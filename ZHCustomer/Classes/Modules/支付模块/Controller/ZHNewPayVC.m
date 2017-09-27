@@ -693,6 +693,17 @@
     payAmountLbl.numberOfLines = 0;
     self.priceLbl = payAmountLbl;
     
+    //
+    UIView *line = [[UIView alloc] init];
+    line.backgroundColor = [UIColor lineColor];
+    [payView addSubview:line];
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(payView.mas_top);
+        make.left.equalTo(payView.mas_left);
+        make.right.equalTo(payBtn.mas_left);
+        make.height.equalTo(@0.75);
+    }];
+    
 }
 
 #pragma mark- dataSource

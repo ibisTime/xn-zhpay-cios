@@ -55,8 +55,6 @@
     tableV.backgroundColor = [UIColor zh_backgroundColor];
     tableV.rowHeight = [ZHOrderGoodsCell rowHeight];
     
-   
-    
     //创建headerView
     [self orderHeaderView];
     
@@ -417,6 +415,7 @@
         make.left.right.equalTo(headerView);
         make.top.equalTo(lineV.mas_bottom);
         make.height.equalTo(@89);
+        
     }];
     
 
@@ -455,23 +454,35 @@
     return 10;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+    
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     return 10;
 }
 
 
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
-    UITableViewHeaderFooterView *hfV = (UITableViewHeaderFooterView *)view;
-    hfV.contentView.backgroundColor = [UIColor zh_backgroundColor];
-    
-}
+//- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+//    UITableViewHeaderFooterView *hfV = (UITableViewHeaderFooterView *)view;
+//    hfV.contentView.backgroundColor = [UIColor zh_backgroundColor];
+//
+//}
 
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-
-    UITableViewHeaderFooterView *hfV = (UITableViewHeaderFooterView *)view;
-    hfV.contentView.backgroundColor = [UIColor zh_backgroundColor];
-    
-}
+//- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+//
+//    UITableViewHeaderFooterView *hfV = (UITableViewHeaderFooterView *)view;
+//    hfV.contentView.backgroundColor = [UIColor zh_backgroundColor];
+//    
+//}
 
 @end
