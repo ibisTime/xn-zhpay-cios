@@ -109,7 +109,7 @@
     
     dispatch_group_enter(_group);
     TLNetworking *ruleHttp = [TLNetworking new];
-    ruleHttp.code = @"802028";
+    ruleHttp.code = @"802029";
     ruleHttp.parameters[@"type"] = @"C_RMB";
     [ruleHttp postWithSuccess:^(id responseObject) {
         
