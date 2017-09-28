@@ -60,7 +60,7 @@
         NSString *note = responseObject[@"data"][@"note"];
         NSString *forceUpdate = responseObject[@"data"][@"forceUpdate"];
         NSString *checking = responseObject[@"data"][@"checked"]; // 是否在审核 1.是 0否
-
+        
         if ([checking isEqualToString:@"1"]) {
             //审核中
             [self setRootVC];
