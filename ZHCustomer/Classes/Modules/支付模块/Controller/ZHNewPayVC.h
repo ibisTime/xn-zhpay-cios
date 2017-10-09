@@ -16,7 +16,8 @@ typedef NS_ENUM(NSInteger,ZHPayViewCtrlType){
     //各种都有
     ZHPayViewCtrlTypeNewGoods = 0,//购物车支付 和 单个商品支付
     
-    ZHPayViewCtrlTypeBuyGift//礼品购买
+    ZHPayViewCtrlTypeBuyGift = 1,//礼品购买,
+    ZHPayViewCtrlTypeQBBBuy //钱包币购买
     
 };
 

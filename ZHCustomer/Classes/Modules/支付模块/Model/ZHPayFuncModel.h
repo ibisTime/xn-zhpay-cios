@@ -14,6 +14,7 @@ typedef NS_ENUM(NSInteger,ZHPayType){
     ZHPayTypeWeChat,
     ZHPayTypeGiftB,
     ZHPayTypeLMB,
+    ZHPayTypeQBB,
     ZHPayTypeBTB,
     ZHPayTypeGXZ
 };

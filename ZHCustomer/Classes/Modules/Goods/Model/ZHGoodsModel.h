@@ -8,8 +8,14 @@
 
 #import "TLBaseModel.h"
 #import "ZHCurrencyProtocol.h"
+
 #import "CDGoodsParameterModel.h"
+
+//@class CDGoodsParameterModel;
 #import "ZHShop.h"
+
+#define RMB_CURRENCY @"2"
+#define QBB_CURRENCY @"4"
 
 @interface ZHGoodsModel : TLBaseModel<ZHCurrencyProtocol>
 

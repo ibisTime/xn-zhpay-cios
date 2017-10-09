@@ -88,6 +88,12 @@
         [self removePlaceholderView];
         
         self.parameterModelArr = [CDGoodsParameterModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+        [self.parameterModelArr enumerateObjectsUsingBlock:^(CDGoodsParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            //
+            obj.masterGoodsModel = self.goods;
+            
+        }];
         
         [self setUpUI];
         [self addEvent];

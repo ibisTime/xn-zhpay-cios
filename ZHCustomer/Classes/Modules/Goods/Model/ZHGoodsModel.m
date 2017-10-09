@@ -106,8 +106,27 @@
 
 - (NSString *)priceUnit {
 
+    NSString *priceUnit = nil;
     
-    return [self isGift] ? @"礼品券":@"￥" ;
+    if ([self isGift]) {
+        
+        priceUnit = @"礼品券";
+        
+    } else {
+        
+        NSDictionary *dict = @{
+                               RMB_CURRENCY : @"￥",
+                               QBB_CURRENCY : @"钱包币",
+                               
+                               };
+        
+        //
+        priceUnit = dict[self.payCurrency];
+        //
+        
+    }
+    
+    return priceUnit;
 
 }
 

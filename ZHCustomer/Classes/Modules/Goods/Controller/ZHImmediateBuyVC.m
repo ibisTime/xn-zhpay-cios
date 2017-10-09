@@ -152,8 +152,26 @@
                [self.navigationController popViewControllerAnimated:YES];
                     
             };
-            payVC.type = [goods isGift] ? ZHPayViewCtrlTypeBuyGift : ZHPayViewCtrlTypeNewGoods;
+            //
+            if ([goods isGift]) {
                 
+                payVC.type = ZHPayViewCtrlTypeBuyGift;
+                
+            } else {
+                
+                if ([self.goodsRoom[0].payCurrency isEqualToString:RMB_CURRENCY]) {
+                    
+                    payVC.type = ZHPayViewCtrlTypeNewGoods;
+
+                } else {
+                    
+                    payVC.type = ZHPayViewCtrlTypeQBBBuy;
+
+                    
+                }
+
+            }
+            
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
             [self presentViewController:nav animated:YES completion:nil];
             

@@ -7,6 +7,7 @@
 //
 
 #import "TLBaseModel.h"
+@class ZHGoodsModel;
 
 @interface CDGoodsParameterModel : TLBaseModel
 
@@ -26,6 +27,11 @@
 
 @property (nonatomic, assign) BOOL isGift;
 
+@property (nonatomic, strong) ZHGoodsModel *masterGoodsModel;
+
+//@property (nonatomic, strong) ZHGoodsModel *masterGoodsModel;
+
+
 - (NSDictionary *)toDictionry;
 
 - (NSString *)getDetailText;
@@ -37,6 +43,8 @@
 
 
 - (NSString *)diplayPriceStr;
+
+
 
 
 

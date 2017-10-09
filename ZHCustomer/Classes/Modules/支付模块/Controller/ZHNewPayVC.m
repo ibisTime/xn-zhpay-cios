@@ -155,7 +155,7 @@
                     imgs = @[@"zh_pay",@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
                     payType = @[@(ZHPayTypeBTB),@(ZHPayTypeGXZ),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
                     status = @[@(YES),@(NO),@(NO),@(NO),@(NO)];
-                    
+
                 } else {
                     
                     payNames  = @[@"补贴",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
@@ -211,6 +211,45 @@
             self.priceInfoView.contentLbl.text = [self.totalPrice convertToRealMoney];
 
  
+        } break;
+            
+        //钱包币购买
+        case ZHPayViewCtrlTypeQBBBuy: {
+            
+            payType = @[@(ZHPayTypeQBB)];
+            payNames  = @[@"钱包币"]; //余额(可用100)
+            imgs = @[@"zh_pay"];
+            status = @[@(YES)];
+            
+            //隐藏掉支付宝
+            NSInteger count = payNames.count;
+            
+            //只创建可以支付的支付方式，， 一元夺宝只有 余额支付 就显示余额
+            for (NSInteger i = 0; i < count; i ++) {
+                
+                ZHPayFuncModel *zhPay = [[ZHPayFuncModel alloc] init];
+                zhPay.payImgName = imgs[i];
+                zhPay.payName = payNames[i];
+                zhPay.isSelected = [status[i] boolValue];
+                zhPay.payType = [payType[i] integerValue];
+                [self.pays addObject:zhPay];
+                
+            }
+            
+            self.paySceneManager.isInitiative = NO;
+            
+            //2.支付
+            ZHPaySceneUIItem *payFuncItem = [[ZHPaySceneUIItem alloc] init];
+            payFuncItem.headerHeight = 30.0;
+            payFuncItem.footerHeight = 0.1;
+            payFuncItem.rowNum = self.pays.count;
+            self.paySceneManager.groupItems = @[payFuncItem];
+            [self setUpUI];
+            
+            self.priceLbl.text = [self.totalPrice convertToRealMoney];
+            self.priceInfoView.contentLbl.text = [self.totalPrice convertToRealMoney];
+            
+            
         } break;
             
         //礼品购买
@@ -355,6 +394,12 @@
             
             
             payTypeCode = kZHGXZPayTypeCode;
+        }break ;
+            
+        case ZHPayTypeQBB: {
+            
+            payTypeCode = kZHQBBPayTypeCode;
+
         }
         break;
     }
@@ -399,7 +444,14 @@
         if (self.type == ZHPayViewCtrlTypeNewGoods) {
             
             [self goodsPay:payTypeCode payPwd:nil];
+            
         }
+//        else if (self.type == ZHPayViewCtrlTypeQBBBuy) {
+//
+//            //钱包币购买
+//            [self goodsPay:payTypeCode payPwd:nil];
+//
+//        }
 
     }
     

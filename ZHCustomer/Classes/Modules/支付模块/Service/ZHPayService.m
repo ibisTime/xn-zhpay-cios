@@ -22,6 +22,9 @@ NSString *const kZHWXTypeCode = @"2";
 NSString *const kZHDefaultPayTypeCode = @"1";
 NSString *const kZHBTBPayTypeCode = @"22";
 NSString *const kZHGXZPayTypeCode = @"23";
+NSString *const kZHQBBPayTypeCode = @"24";
+
+
 
 
 NSString *const kZHGiftPayTypeCode = @"20";

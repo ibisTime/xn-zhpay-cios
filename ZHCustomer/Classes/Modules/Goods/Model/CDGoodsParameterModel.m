@@ -8,6 +8,7 @@
 
 #import "CDGoodsParameterModel.h"
 #import "TLHeader.h"
+#import "ZHGoodsModel.h"
 
 @implementation CDGoodsParameterModel
 
@@ -28,6 +29,11 @@
 - (NSString *)diplayPriceStr {
 
 
+    if (self.masterGoodsModel) {
+        
+        return [NSString stringWithFormat:@"%@ %@",[self.masterGoodsModel priceUnit],[[self price1] convertToRealMoney]];
+        
+    }
     
     if (self.isGift) {
         

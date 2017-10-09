@@ -38,7 +38,7 @@
     //管理端
     //http://106.15.49.68:5508/main.html
     //设置应用环境
-    [AppConfig config].runEnv = RunEnvRelease;
+    [AppConfig config].runEnv = RunEnvDev;
     
     //请求定位权限
     [[TLLocationService service].locationManager requestWhenInUseAuthorization];
