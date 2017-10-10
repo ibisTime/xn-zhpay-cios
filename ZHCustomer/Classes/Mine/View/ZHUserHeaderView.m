@@ -84,11 +84,42 @@
         }];
         
         
-
+        //礼包
+        
+        UIButton *goLiBaoBtn = [[UIButton alloc] init];
+        [self addSubview:goLiBaoBtn];
+        self.goLiBaoBtn = goLiBaoBtn;
+        goLiBaoBtn.titleLabel.font = FONT(15);
+        [goLiBaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"礼包" attributes:@{
+                                  
+                                                                
+                                                                                                    NSUnderlineStyleAttributeName : @1,
+                                                                                                    NSFontAttributeName : [UIFont systemFontOfSize:15],
+                                                                                                    NSForegroundColorAttributeName :[UIColor whiteColor]
+                                                                                                    
+                                                                                                    }];
+        [goLiBaoBtn setAttributedTitle:attrStr forState:UIControlStateNormal];
+        [goLiBaoBtn addTarget:self action:@selector(goLiBao) forControlEvents:UIControlEventTouchUpInside];
+        [goLiBaoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_right);
+            make.width.greaterThanOrEqualTo(@60);
+            make.height.mas_equalTo(50);
+            make.centerY.equalTo(self.mobileLbl.mas_centerY);
+        }];
         
         
     }
     return self;
+    
+}
+
+//
+- (void)goLiBao {
+    
+    if (self.goLiBaoAction) {
+        self.goLiBaoAction();
+    }
     
 }
 

@@ -70,10 +70,6 @@
     self.addressView.addressLbl.text = [@"收货地址：" add:self.order.reAddress];
     //********headerView 数据
     
-    
-
-    
-    
     //底部数据
     if ([self.order.status isEqualToString:@"3"] || [self.order.status isEqualToString:@"4"]) {// 已发货
         
@@ -197,13 +193,12 @@
     http.code = @"808057";
     http.parameters[@"code"] = self.order.code;
     http.parameters[@"updater"] = [ZHUser user].userId;
-    http.parameters[@"remark"] = @"确认收货";
+    http.parameters[@"remark"] = @"iOS_确认收货";
     http.parameters[@"token"] = [ZHUser user].token;
 
     [http postWithSuccess:^(id responseObject) {
         
 //        [TLAlert alertWithHUDText:@"确认收货成功"];
-
         [self goCommentWithCode:nil];
     } failure:^(NSError *error) {
         

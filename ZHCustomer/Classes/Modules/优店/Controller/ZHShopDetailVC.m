@@ -181,7 +181,7 @@
         
     };
     
-    shareView.title = @"正汇钱包";
+    shareView.title = @"花米宝";
     shareView.content = self.shop.name;
     shareView.shareUrl = [NSString stringWithFormat:@"%@/share/store.html?code=%@",[AppConfig config].shareBaseUrl,self.shop.code];
     [shareView show];

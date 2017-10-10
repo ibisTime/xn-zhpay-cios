@@ -279,7 +279,7 @@
     };
     
 //     http://121.43.101.148:5603/share/share-product.html?code=CP201704071617018969
-    shareView.title = @"正汇钱包";
+    shareView.title = @"花米宝";
     shareView.content = self.goods.name;
     shareView.shareUrl = [NSString stringWithFormat:@"%@/share/share-product.html?code=%@",[AppConfig config].shareBaseUrl,self.goods.code];
     

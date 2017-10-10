@@ -28,7 +28,8 @@
 #import "ZHUser.h"
 #import "UIColor+theme.h"
 #import "ZHBuTieDetailVC.h"
-
+#import <SafariServices/SafariServices.h>
+#import "ZHLiBaoWebVC.h"
 
 
 
@@ -43,6 +44,8 @@
 @property (nonatomic,strong) ZHUserHeaderView *headerView;
 
 @property (nonatomic,strong) TLImagePicker *imagePicker;
+@property (nonatomic, copy) NSString *liBaoWebUrl;
+
 
 @property (nonatomic,assign) BOOL isFist;
 
@@ -60,6 +63,39 @@
     [super viewDidLoad];
     self.title = @"我的";
     self.isFist = YES;
+    
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+
+    [self tl_placeholderOperation];
+    
+}
+
+- (void)tl_placeholderOperation {
+    
+    TLNetworking *http = [TLNetworking new];
+    http.showView = self.view;
+    http.code = @"807718";
+    http.parameters[@"type"] = @"h5_site";
+    [http postWithSuccess:^(id responseObject) {
+        
+        [self removePlaceholderView];
+        [self setUpUIAndAction];
+        [self changeInfo];
+
+
+        //
+        self.headerView.goLiBaoBtn.hidden = ![responseObject[@"data"][@"is_open"] isEqual:@"1"];
+        self.liBaoWebUrl = responseObject[@"data"][@"web_url"];
+     
+        
+    } failure:^(NSError *error) {
+        
+        [self addPlaceholderView];
+
+    }];
+    
+}
+- (void)setUpUIAndAction {
     
     TLTableView *tableV = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 0) delegate:self dataSource:self];
     [self.view addSubview:tableV];
@@ -83,7 +119,7 @@
     __weak typeof(self) weakSelf = self;
     [tableV addRefreshAction:^{
         
-
+        
         [weakSelf.mineTableView endRefreshHeader];
         [[ZHUser user] updateUserInfo];
         
@@ -95,7 +131,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeInfo) name:kUserLoginNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginOut) name:kUserLoginOutNotification object:nil];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -205,6 +240,16 @@
     
 }
 
+#pragma mark- 寻找礼包
+- (void)goLiBao {
+    
+    ZHLiBaoWebVC *webVC = [[ZHLiBaoWebVC alloc] init];
+    webVC.urlStr = self.liBaoWebUrl;
+    [self.navigationController pushViewController:webVC animated:YES];
+    
+
+}
+
 #pragma mark- 分享出去
 - (void)shareToWX {
     
@@ -270,6 +315,12 @@
     
         [weakself shareToWX];
         
+    };
+    
+    self.headerView.goLiBaoAction = ^() {
+        
+        [weakself goLiBao];
+
     };
     
     //我的收益 汇赚宝

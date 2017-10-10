@@ -86,7 +86,7 @@
 
     } else {
     
-        priceUnit = @"￥";
+        priceUnit = [self.product priceUnit];
     }
     
     

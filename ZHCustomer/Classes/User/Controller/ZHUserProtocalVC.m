@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"正汇钱包用户协议";
+    self.title = @"花米宝用户协议";
     
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
