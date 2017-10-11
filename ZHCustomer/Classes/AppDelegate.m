@@ -80,6 +80,11 @@
     manager.enableAutoToolbar = YES;
     [manager.disabledToolbarClasses addObject:[ZHUserLoginVC class]];
     [manager.disabledToolbarClasses addObject:[ZHUserRegistVC class]];
+    if (NSClassFromString(@"SFSafariViewController")) {
+        [manager.disabledToolbarClasses addObject:NSClassFromString(@"SFSafariViewController")];
+
+    }
+
 
     //
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

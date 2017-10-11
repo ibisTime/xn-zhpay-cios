@@ -32,7 +32,7 @@
     [self.view addSubview:bgIV];
     bgIV.contentMode = UIViewContentModeScaleAspectFill;
     
-    bgIV.image = [UIImage imageNamed:@"newLanch"];
+    bgIV.image = [UIImage imageNamed:@"newLanch2"];
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     

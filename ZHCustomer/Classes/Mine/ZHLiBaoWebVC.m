@@ -9,6 +9,7 @@
 #import "ZHLiBaoWebVC.h"
 #import <WebKit/WebKit.h>
 #import "TLProgressHUD.h"
+#import "AppConfig.h"
 
 @interface ZHLiBaoWebVC ()<WKNavigationDelegate>
 
@@ -26,16 +27,63 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"礼包";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(refresh)];
+    
+    //
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+    //
+    
+   UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)]];
+    
+    //
+    UIBarButtonItem *closeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(close)];
+
+    self.navigationItem.leftBarButtonItems = @[backButtonItem,spaceItem,closeButtonItem];
+    
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     
     WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) configuration:config];
     [self.view addSubview:webView];
+    webView.allowsBackForwardNavigationGestures = YES;
     self.webView = webView;
     webView.navigationDelegate = self;
     
 //    self.urlStr = @"http://www.baidu.com";
+    if ([AppConfig config].runEnv == RunEnvDev) {
+        
+        self.urlStr = @"http://lb.zhenghuijituan.com";
+        
+    }
+    //
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.urlStr]];
     [webView loadRequest:req];
+    
+    //
+}
+- (void)back {
+    
+    if ([self.webView canGoBack]) {
+        
+        [self.webView goBack];
+        
+    } else {
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }
+}
+
+- (void)close {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
+//
+- (void)refresh {
+    
+    [self.webView reload];
     
 }
 

@@ -246,8 +246,20 @@
     ZHLiBaoWebVC *webVC = [[ZHLiBaoWebVC alloc] init];
     webVC.urlStr = self.liBaoWebUrl;
     [self.navigationController pushViewController:webVC animated:YES];
-    
 
+    
+    
+    
+//    if ([AppConfig config].runEnv == RunEnvDev) {
+//        
+//        self.liBaoWebUrl = @"http://lb.zhenghuijituan.com";
+//        
+//    }
+//    //
+//    SFSafariViewController *safariVC = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:self.liBaoWebUrl]];
+//    [self presentViewController:safariVC animated:YES completion:nil];
+//    //
+    
 }
 
 #pragma mark- 分享出去
@@ -512,12 +524,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    return 0.1;
+    return 10;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 20)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 10)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 10)];
     view.backgroundColor = [UIColor clearColor];
     return view;
 }
