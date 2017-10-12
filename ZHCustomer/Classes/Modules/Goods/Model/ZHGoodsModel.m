@@ -98,6 +98,18 @@
 //}
 
 
+- (GoodsPayCurrencyType)goodsPayCurrencyType {
+    
+    if ([self isGift]) {
+        return GoodsPayCurrencyTypeGiftB;
+    } else if ([self.payCurrency isEqualToString:QBB_CURRENCY]) {
+        return GoodsPayCurrencyTypeQBB;
+    } else {
+        return GoodsPayCurrencyTypeRMB;
+    }
+        
+}
+
 - (BOOL)isGift {
 
     return [self.type isEqualToString:kGoodsTypeGift];
@@ -115,7 +127,8 @@
     } else {
         
         NSDictionary *dict = @{
-                               RMB_CURRENCY : @"￥",
+                               RMB_CURRENCY_1 : @"￥",
+                               RMB_CURRENCY_2 : @"￥",
                                QBB_CURRENCY : @"钱包币",
                                
                                };
@@ -126,7 +139,7 @@
         
     }
     
-    return priceUnit;
+    return priceUnit ? priceUnit : @"￥";
 
 }
 

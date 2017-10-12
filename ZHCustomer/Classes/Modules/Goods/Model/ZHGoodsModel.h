@@ -14,8 +14,17 @@
 //@class CDGoodsParameterModel;
 #import "ZHShop.h"
 
-#define RMB_CURRENCY @"2"
+#define RMB_CURRENCY_1 @"1"
+#define RMB_CURRENCY_2 @"2"
 #define QBB_CURRENCY @"4"
+
+typedef NS_ENUM(NSUInteger, GoodsPayCurrencyType) {
+    
+    GoodsPayCurrencyTypeGiftB,
+    GoodsPayCurrencyTypeQBB,
+    GoodsPayCurrencyTypeRMB
+
+};
 
 @interface ZHGoodsModel : TLBaseModel<ZHCurrencyProtocol>
 
@@ -44,8 +53,7 @@
 
 @property (nonatomic, copy) NSString *payCurrency;
 @property (nonatomic, copy) NSString *payType;
-
-
+@property (nonatomic, assign, readonly) GoodsPayCurrencyType goodsPayCurrencyType;
 
 //由pic1 转化成的 数组,eg: http://wwwa.dfdsf.dcom
 @property (nonatomic,copy) NSArray *pics;

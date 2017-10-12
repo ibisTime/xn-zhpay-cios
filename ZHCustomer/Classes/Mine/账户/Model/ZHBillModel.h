@@ -30,7 +30,7 @@
 @property (nonatomic,copy) NSString *workDate; //工作日期
 
 
-- (NSString *)getBizName;
+//- (NSString *)getBizName;
 - (CGFloat)dHeightValue;
 
 @end

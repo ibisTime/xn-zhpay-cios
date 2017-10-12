@@ -125,7 +125,44 @@
     
     
     ZHNewPayVC *newPayVC = [[ZHNewPayVC alloc] init];
-    newPayVC.type = [self.order.product isGift] ? ZHPayViewCtrlTypeBuyGift :ZHPayViewCtrlTypeNewGoods;
+    
+    switch (self.order.product.goodsPayCurrencyType) {
+        case GoodsPayCurrencyTypeGiftB: {
+            
+            newPayVC.type =  ZHPayViewCtrlTypeBuyGift;
+
+        } break;
+            
+            //
+        case GoodsPayCurrencyTypeQBB: {
+            
+             newPayVC.type =  ZHPayViewCtrlTypeQBBBuy;
+            
+        } break;
+            //
+        case GoodsPayCurrencyTypeRMB: {
+            
+               newPayVC.type =  ZHPayViewCtrlTypeNewGoods;
+            
+        } break;
+
+    }
+    newPayVC.payCurrency = self.order.product.payCurrency;
+//    if ([self.order.product isGift]) {
+//
+//
+//    } else if ([self.order.product.payCurrency isEqualToString:QBB_CURRENCY]) {
+//
+//        newPayVC.type =  ZHPayViewCtrlTypeQBBBuy;
+//
+//    } else {
+//
+//        newPayVC.type =  ZHPayViewCtrlTypeNewGoods;
+//
+//
+//    }
+    
+    //
     newPayVC.goodsCodeList = @[self.order.code];
     
     NSNumber *totalPrice = @([self.order.amount1 longLongValue] + [self.order.yunfei longLongValue]);

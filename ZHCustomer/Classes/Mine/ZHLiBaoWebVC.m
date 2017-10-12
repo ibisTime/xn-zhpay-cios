@@ -10,10 +10,12 @@
 #import <WebKit/WebKit.h>
 #import "TLProgressHUD.h"
 #import "AppConfig.h"
+#import "ZHUser.h"
 
 @interface ZHLiBaoWebVC ()<WKNavigationDelegate>
 
 @property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, assign) BOOL isFirst;
 
 @end
 
@@ -28,6 +30,7 @@
     [super viewDidLoad];
     
     self.title = @"礼包";
+    self.isFirst = YES;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(refresh)];
     
     //
@@ -56,6 +59,7 @@
         
     }
     //
+    self.urlStr = [NSString stringWithFormat:@"%@?userId=%@&token=%@",self.urlStr,[ZHUser user].userId,[ZHUser user].token];
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.urlStr]];
     [webView loadRequest:req];
     
@@ -89,7 +93,12 @@
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     
-    [TLProgressHUD showWithStatus:nil];
+    if ([self isFirst]) {
+        
+        [TLProgressHUD showWithStatus:nil];
+        self.isFirst = NO;
+
+    }
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {

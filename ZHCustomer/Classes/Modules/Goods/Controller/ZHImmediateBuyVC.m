@@ -153,24 +153,29 @@
                     
             };
             //
-            if ([goods isGift]) {
-                
-                payVC.type = ZHPayViewCtrlTypeBuyGift;
-                
-            } else {
-                
-                if ([self.goodsRoom[0].payCurrency isEqualToString:RMB_CURRENCY]) {
+            switch (goods.goodsPayCurrencyType) {
+                    //
+                case GoodsPayCurrencyTypeGiftB: {
                     
-                    payVC.type = ZHPayViewCtrlTypeNewGoods;
+                    payVC.type = ZHPayViewCtrlTypeBuyGift;
 
-                } else {
+                }  break;
+                    //
+                case GoodsPayCurrencyTypeQBB: {
                     
                     payVC.type = ZHPayViewCtrlTypeQBBBuy;
 
+                }  break;
+                    //
+                case GoodsPayCurrencyTypeRMB: {
                     
-                }
+                    payVC.type = ZHPayViewCtrlTypeNewGoods;
 
+                    
+                }  break;
+                    
             }
+       
             
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:payVC];
             [self presentViewController:nav animated:YES completion:nil];
