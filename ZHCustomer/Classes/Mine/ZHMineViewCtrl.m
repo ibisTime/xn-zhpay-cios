@@ -336,21 +336,21 @@
     };
     
     //我的收益 汇赚宝
-    CGFloat w0 = (SCREEN_WIDTH - 1)/2.0;
-    UIButton *earningBtn = [self twoBtnWithFrame:CGRectMake(0, self.headerView.yy,w0, 50) title:@"补贴详情" imagName:@"我的收益"];
+//    CGFloat w0 = (SCREEN_WIDTH - 1)/2.0;
+//    UIButton *earningBtn = [self twoBtnWithFrame:CGRectMake(0, self.headerView.yy,w0, 50) title:@"补贴详情" imagName:@"我的收益"];
+//
+//    [earningBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
+//    [earningBtn addTarget:self action:@selector(lookMineBuTie) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [headerView addSubview:earningBtn];
+//
+//    //
+//    UIButton *hzbBtn = [self twoBtnWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 50) title:@"分红权详情" imagName:@"汇赚宝"];
+//    [hzbBtn addTarget:self action:@selector(lookMineEarnings) forControlEvents:UIControlEventTouchUpInside];
+//    [headerView addSubview:hzbBtn];
     
-    [earningBtn setTitleColor:[UIColor zh_textColor] forState:UIControlStateNormal];
-    [earningBtn addTarget:self action:@selector(lookMineBuTie) forControlEvents:UIControlEventTouchUpInside];
-
-    [headerView addSubview:earningBtn];
     
-    //
-    UIButton *hzbBtn = [self twoBtnWithFrame:CGRectMake(earningBtn.xx  + 1, self.headerView.yy,w0, 50) title:@"分红权详情" imagName:@"汇赚宝"];
-    [hzbBtn addTarget:self action:@selector(lookMineEarnings) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:hzbBtn];
-    
-    
-    self.mineTableView.tableHeaderView.height = hzbBtn.yy + 10;
+    self.mineTableView.tableHeaderView.height = self.headerView.yy + 10;
 
 }
 
@@ -418,6 +418,18 @@
     
     __weak typeof(self) weakself = self;
     
+    //
+    ZHSettingModel *buTie = [[ZHSettingModel alloc] init];
+    buTie.imgName = @"补贴详情";
+    buTie.text = @"补贴详情";
+    buTie.action = ^(){
+        //
+        
+        ZHBuTieDetailVC *vc = [[ZHBuTieDetailVC alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    };
+    
     //钱包
     ZHSettingModel *mineWallet = [[ZHSettingModel alloc] init];
     mineWallet.imgName = @"我的钱包";
@@ -456,7 +468,7 @@
     
 
     ZHSettingGroup *group01 = [[ZHSettingGroup alloc] init];
-    group01.items = @[mineWallet,shopDetail,goodsDetail];
+    group01.items = @[buTie,mineWallet,shopDetail,goodsDetail];
     return group01;
 }
 

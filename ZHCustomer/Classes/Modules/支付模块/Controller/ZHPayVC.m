@@ -245,26 +245,26 @@
             self.title = @"支付";
             if ([self.shop.payCurrency isEqualToString:@"1"]) {
                 
-                payNames  = @[@"补贴",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
-                imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
-                payType = @[@(ZHPayTypeBTB),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-                status = @[@(YES),@(NO),@(NO),@(NO)];
+                payNames  = @[@"补贴",@"微信",@"支付宝"]; //余额(可用100)
+                imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+                payType = @[@(ZHPayTypeBTB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                status = @[@(YES),@(NO),@(NO)];
                 
             } else if([self.shop.payCurrency isEqualToString:@"2"]) {
                 
                 if([[ZHUser user] canGongXianZhiXiaoFei]) {
                     
-                    payNames  = @[@"补贴",@"贡献值",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
-                    imgs = @[@"zh_pay",@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
-                    payType = @[@(ZHPayTypeBTB),@(ZHPayTypeGXZ),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-                    status = @[@(YES),@(NO),@(NO),@(NO),@(NO)];
+                    payNames  = @[@"补贴",@"贡献值",@"微信",@"支付宝"]; //余额(可用100)
+                    imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
+                    payType = @[@(ZHPayTypeBTB),@(ZHPayTypeGXZ),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                    status = @[@(YES),@(NO),@(NO),@(NO)];
                     
                 } else {
                     
-                    payNames  = @[@"补贴",@"联盟券",@"微信",@"支付宝"]; //余额(可用100)
-                    imgs = @[@"zh_pay",@"zh_pay",@"we_chat",@"alipay"];
-                    payType = @[@(ZHPayTypeBTB),@(ZHPayTypeLMB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
-                    status = @[@(YES),@(NO),@(NO),@(NO)];
+                    payNames  = @[@"补贴",@"微信",@"支付宝"]; //余额(可用100)
+                    imgs = @[@"zh_pay",@"we_chat",@"alipay"];
+                    payType = @[@(ZHPayTypeBTB),@(ZHPayTypeWeChat),@(ZHPayTypeAlipay)];
+                    status = @[@(YES),@(NO),@(NO)];
                     
                 }
         
@@ -458,12 +458,12 @@
         }
         break;
             
-        case ZHPayTypeLMB : {
-        
-            payType = kZHLMBPayTypeCode;
-
-        }
-            break;
+//        case ZHPayTypeLMB : {
+//
+//            payType = kZHLMBPayTypeCode;
+//
+//        }
+//            break;
 
             
     }
@@ -707,23 +707,23 @@
             
             //
             ZHPayFuncCell *convertCell = (ZHPayFuncCell *)cell;
-            if (convertCell.pay.payType == ZHPayTypeLMB) {
-                
-                if (!self.changeRate) {
-                    
-                    return;
-                    
-                }
-                
-                long long value = [self.amountTf.text floatValue]*1000*[self.changeRate floatValue];
-                self.priceLbl.text = [@(value) convertToRealMoney];
-                
-            } else {
-                
+//            if (convertCell.pay.payType == ZHPayTypeLMB) {
+//
+//                if (!self.changeRate) {
+//
+//                    return;
+//
+//                }
+//
+//                long long value = [self.amountTf.text floatValue]*1000*[self.changeRate floatValue];
+//                self.priceLbl.text = [@(value) convertToRealMoney];
+//
+//            } else {
+            
                 long long value = [self.amountTf.text floatValue]*1000;
                 self.priceLbl.text = [@(value) convertToRealMoney];
                 
-            }
+//            }
             
         }
       
